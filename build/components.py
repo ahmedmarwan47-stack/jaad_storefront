@@ -553,16 +553,19 @@ def qty_stepper(cart_bound=False):
 def accordion(items, multi=False):
     """items: [(heading, inner_html)] — first is open."""
     rows = "".join(f"""
-                <div class="accordion-item border-neutral-divider border-b{' is-open' if i == 0 else ''}">
-                  <button type="button" class="accordion-trigger flex justify-between items-center gap-4 py-4 w-full text-start">
-                    <span class="font-bold text-[#003616] text-base">{e(heading)}</span>
-                    <span class="accordion-chevron text-cta">{ICON['chevron']}</span>
+                <div class="faq-card accordion-item rounded-2xl overflow-hidden{' is-open' if i == 0 else ''}">
+                  <button type="button" class="accordion-trigger flex justify-between items-center gap-4 p-6 w-full text-start">
+                    <span class="faq-q text-lg leading-snug">{e(heading)}</span>
+                    <span class="place-items-center grid size-6 text-[#006328] shrink-0">
+                      <span class="faq-plus w-5 h-5">{ICON['plus']}</span>
+                      <span class="faq-minus w-5 h-5">{ICON['minus']}</span>
+                    </span>
                   </button>
                   <div class="accordion-panel">
-                    <div class="pb-4 text-neutral-800 text-sm leading-7">{body}</div>
+                    <div class="px-6 pb-6 text-[#4b5563] text-[15px] leading-[1.6]">{body}</div>
                   </div>
                 </div>""" for i, (heading, body) in enumerate(items))
-    return f'<div data-accordion{" data-accordion-multi" if multi else ""}>{rows}\n              </div>'
+    return f'<div class="flex flex-col gap-3" data-accordion{" data-accordion-multi" if multi else ""}>{rows}\n              </div>'
 
 
 def product_gallery(images, alt, p=None):
@@ -1583,6 +1586,26 @@ def radio_card(name, value, heading, sub="", icon="", checked=False, accent=Fals
 # --------------------------------------------------------------------------
 # Cart
 # --------------------------------------------------------------------------
+def price_sticker(price, size="md"):
+    """The JAAD price sticker (Figma 9946:16778) — deep-green badge with the
+    lime offset shadow and asymmetric corners, split EGP / whole / .dec. One
+    badge everywhere a price shows. `size`: sm (cart rows, bundle, upsell) |
+    md (product cards) | lg (product page)."""
+    price = float(price or 0)
+    whole = int(price)
+    dec = f"{round((price - whole) * 100):02d}"
+    variants = {
+        "sm": ("px-1.5", "rounded-tl-[14px] rounded-br-[14px]", "shadow-[2px_3px_0px_#98CA55]", "text-[11px]", "text-[16px]"),
+        "md": ("px-2", "rounded-tl-[20px] rounded-br-[20px]", "shadow-[3px_5px_0px_#98CA55]", "text-[15px]", "text-[24px]"),
+        "lg": ("px-3 py-1", "rounded-tl-[22px] rounded-br-[22px]", "shadow-[3px_5px_0px_#98CA55]", "text-[19px]", "text-[32px]"),
+    }
+    pad, rad, sh, egp, wh = variants.get(size, variants["md"])
+    return (f'<span class="inline-flex items-end gap-0.5 shrink-0 bg-[#006328] {sh} {pad} {rad} font-bold text-white latin">'
+            f'<span class="{egp} leading-[1.4]">EGP</span>'
+            f'<span class="{wh} leading-none">{whole}</span>'
+            f'<span class="{egp} leading-[1.4]">.{dec}</span></span>')
+
+
 def cart_line(p, qty=1, weight="250 جم"):
     from catalog import money, title as _title
     return f"""
@@ -1606,7 +1629,7 @@ def cart_line(p, qty=1, weight="250 جم"):
                   <span data-qty class="min-w-[2ch] font-semibold text-[#003616] text-sm text-center latin">{qty}</span>
                   <button type="button" data-step="1" class="place-items-center grid size-9 bg-cta hover:bg-cta-hover text-white transition-colors rounded-full" aria-label="زيادة"><span class="w-4 h-4">{ICON['plus']}</span></button>
                 </div>
-                <span class="bg-accent-yellow px-2 py-0.5 rounded font-bold text-[#003616] text-sm latin shrink-0">EGP {money(p['price'])}</span>
+                {price_sticker(p['price'], "sm")}
               </article>"""
 
 
@@ -1702,7 +1725,7 @@ def bundle_item(p, checked=True):
                   <input type="checkbox" data-bundle-check{' checked' if checked else ''} class="accent-[#00451C] shrink-0 rounded w-5 h-5" />
                   <img src="{e(p['image'])}" alt="" class="bg-interaction-base shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
                   <span class="flex-1 min-w-0 text-[#003616] text-sm leading-5 line-clamp-2">{e(_title(p))}</span>
-                  <span class="bg-accent-yellow px-2 py-0.5 rounded font-bold text-[#003616] text-xs latin shrink-0">EGP {money(p['price'])}</span>
+                  {price_sticker(p['price'], "sm")}
                 </label>"""
 
 
@@ -1761,10 +1784,10 @@ def product_widget(p, sale=None, slide=True, cat=None):
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-white transition-colors">
+                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
                   <span class="w-[22px] h-[22px]">{ICON['cart']}</span>
                 </button>
-                <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full h-10 text-white flex">
+                <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full h-10 text-[#003616] flex">
                   <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4">{ICON['minus']}</span></button>
                   <span data-card-qty class="min-w-[1.5ch] font-semibold text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4">{ICON['plus']}</span></button>
