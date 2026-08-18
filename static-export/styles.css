@@ -1,0 +1,2882 @@
+/* =====================================================================
+   styles.css — custom (non-utility) styles for the Jaad static build.
+
+   Tailwind utility classes are provided at runtime by the Play CDN
+   (see tw-config.js). This file ports the project's original
+   src/app/globals.css @layer/component rules almost verbatim, wires up
+   the font-family CSS variables the config references, and adds the
+   vanilla-JS carousel / drawer / modal styles that replace Swiper and
+   the various React overlay components.
+
+   The document is Arabic-first and renders RTL (see <html dir="rtl">).
+   Prefer logical properties (margin-inline, padding-inline, inset-inline)
+   over left/right so both directions stay correct.
+   ===================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap");
+
+/* Aeonik — the Figma Latin typeface, self-hosted from static-export/fonts/aeonik.
+   English mode renders in Aeonik; Arabic keeps Baloo Bhaijaan 2. The design
+   (Jaad Figma) sets every English heading and body run in Aeonik. */
+@font-face { font-family: "Aeonik"; font-weight: 300; font-style: normal; font-display: swap; src: url("fonts/aeonik/Aeonik-Light.ttf") format("truetype"); }
+@font-face { font-family: "Aeonik"; font-weight: 400; font-style: normal; font-display: swap; src: url("fonts/aeonik/Aeonik-Regular.ttf") format("truetype"); }
+@font-face { font-family: "Aeonik"; font-weight: 500; font-style: normal; font-display: swap; src: url("fonts/aeonik/Aeonik-Medium.ttf") format("truetype"); }
+@font-face { font-family: "Aeonik"; font-weight: 700; font-style: normal; font-display: swap; src: url("fonts/aeonik/Aeonik-Bold.ttf") format("truetype"); }
+@font-face { font-family: "Aeonik"; font-weight: 900; font-style: normal; font-display: swap; src: url("fonts/aeonik/Aeonik-Black.ttf") format("truetype"); }
+
+/* Font variables referenced by the Tailwind fontFamily tokens. */
+:root {
+  --font-arabic: "Baloo Bhaijaan 2", system-ui, sans-serif;
+  --font-latin: "Aeonik", "Inter", system-ui, sans-serif;
+  /* Back-compat aliases for markup not yet rebuilt. */
+  --font-dm-sans: var(--font-arabic);
+  --font-caveat: var(--font-arabic);
+}
+
+/* English mode renders the whole page in Aeonik (the Figma typeface). */
+html[lang="en"] body { font-family: var(--font-latin); }
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-arabic);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  color: #2c3340;
+  /* Site-wide rule (Ahmed, 2026-07-29): never leave a single orphan word
+     alone on the last line of wrapped copy. `text-wrap` is an inherited
+     property, so setting it here reaches every paragraph, heading, list
+     item and button label without per-component classes. Unsupported
+     browsers just keep today's plain wrap — this is additive, not a
+     dependency. */
+  text-wrap: pretty;
+}
+
+/* Latin runs (prices, SKUs, codes) inside Arabic copy. */
+.font-latin,
+[dir="rtl"] .latin {
+  font-family: var(--font-latin);
+}
+
+/* Numerals read as Latin digits even inside Arabic text. */
+.tabular {
+  font-family: var(--font-latin);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- ported from globals.css @layer utilities ---------------------- */
+
+.container {
+  margin-inline: auto;
+  padding-inline: 1rem;
+  width: 100%;
+  max-width: 1400px;
+}
+@media (min-width: 768px) {
+  .container {
+    padding-inline: 3.5rem;
+  }
+}
+
+.disabled:not(label) {
+  opacity: 0.5;
+  pointer-events: none;
+}
+label.disabled {
+  pointer-events: none;
+}
+
+label,
+.label {
+  display: inline-block;
+  font-weight: 500;
+  color: #2b2525;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+/* `white-space: nowrap` is scoped to `.label` — the short stacked caption it
+   was written for — and NOT to every <label> on the site.
+
+   It arrived on the bare element selector in the original static export and
+   was inherited by everything a label wraps, which here includes the
+   checkout order-type cards: a whole sentence of body copy that physically
+   could not wrap, at any width, in any language. It was invisible while the
+   copy was Arabic and short enough to fit; in English "Send this order as a
+   gift to someone you love" ran 31px past the card and the page's
+   `overflow-x-hidden` ate it.
+
+   A caption may reasonably refuse to wrap. A label that CONTAINS layout must
+   not decide that for its contents. */
+.label {
+  white-space: nowrap;
+}
+
+/* `.label` is a stacked field caption: it sits above its control, which only
+   works if it owns its line. As inline-block it shared a line box with the
+   following <select>, displacing the field past the sheet edge on mobile.
+   Bare <label> keeps inline-block, for controls labelled beside them. */
+.label {
+  display: block;
+}
+
+.corporate-container {
+  background: linear-gradient(180deg, #e3f0ff 0%, #fefbfa 30.03%);
+  padding-top: 3.5rem;
+  padding-bottom: 5rem;
+}
+.corporate-container:not(.centered) {
+  padding-top: 2.75rem;
+  padding-bottom: 8rem;
+}
+
+.beforeUnderline {
+  position: relative;
+}
+.beforeUnderline::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0.5rem;
+  height: 2px;
+  background-color: #969696;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+.beforeUnderline:hover::before {
+  bottom: -0.125rem;
+  opacity: 1;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.para-tagline {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 140%;
+}
+.heading4 {
+  font-size: 20px;
+  text-wrap: pretty;
+}
+@media (min-width: 1024px) {
+  .heading4 {
+    font-size: 32px;
+  }
+}
+
+img {
+  max-width: 100%;
+  user-select: none;
+}
+
+input,
+select,
+textarea {
+  outline: none;
+  width: 100%;
+  border-radius: 0.5rem;
+  caret-color: #ab7c5f;
+}
+
+select {
+  border: 1px solid #d5dad1;
+  cursor: pointer;
+}
+
+/* Custom select chevrons (ported) */
+.label-select {
+  background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2225%22%20viewBox%3D%220%200%2024%2025%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M19%209.5L12%2016.5L5%209.5%22%20stroke%3D%22%23111827%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 20px) center;
+  -moz-appearance: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+.product-card-shadow {
+  box-shadow: 0px 0px 6px 0px #00000026;
+}
+
+.direction-ltr,
+.dir-ltr {
+  direction: ltr !important;
+}
+
+/* Hide scrollbar helpers (ported) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Plain horizontal drag-to-scroll rows that are NOT a carousel (the shop
+   listing's category filter chips) — see initDragScroll in scripts.js for
+   the full story. Touch scrolls this NATIVELY, same as the carousel and the
+   home-page review row: the browser disambiguates the axis (`auto`), so a
+   horizontal swipe pans the chips and a vertical one scrolls the page, with
+   momentum and no mid-drag stall. `overscroll-behavior-x: contain` stops a
+   fling off the end from chaining into a browser back-navigation. The
+   pointer-drag in initDragScroll is mouse-only and does not touch this. */
+[data-drag-scroll] {
+  touch-action: auto;
+  overscroll-behavior-x: contain;
+}
+
+.styled-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  margin-top: 1rem;
+}
+.styled-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #2c3340;
+}
+.styled-scrollbar::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 0.25rem;
+}
+
+/* The ported .wysiwyg / .wysiwyg-blog / .wysiwyg-product block was removed
+   here (2026-07-22). It was residue from the original source export: unused
+   by all 130 pages, and it carried both a missing asset
+   (images/icons/check@2x.svg, which does not exist and would have 404'd on
+   every list bullet the moment anyone used the class) and #5c3f7f, a purple
+   belonging to no Jaad palette. Product copy uses .desc-rich instead. If
+   rich-text styling is ever needed again, build it on the palette rather
+   than restoring this. */
+
+.have-points li {
+  display: flex;
+  align-items: center;
+}
+.have-points li::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 100%;
+  display: inline-block;
+  background-color: #f7f2ea;
+  vertical-align: middle;
+  margin: 0 8px;
+  flex: none;
+}
+
+/* Slide up / down (ported) */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes slideDownSheet {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+.animate-slide-down {
+  animation: slideDownSheet 0.3s ease-out;
+}
+
+/* =====================================================================
+   Vanilla carousel — replaces Swiper.
+   Markup: .carousel > .carousel-track > .carousel-slide*, plus optional
+   .carousel-prev / .carousel-next buttons and a .carousel-dots container.
+   Behaviour is driven by scripts.js (scroll-snap + arrow/dot controls).
+   ===================================================================== */
+.carousel {
+  position: relative;
+}
+.carousel-track {
+  display: flex;
+  gap: var(--carousel-gap, 16px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  /* Native touch scrolling, and why `auto` and not `pan-x`.
+
+     A rail is a horizontal scroll container with `scroll-snap-type: x
+     mandatory`, and the home page stacks several of them. Two failures have
+     been chased here:
+
+       1. A vertical thumb drag STARTING on a rail did not scroll the page — it
+          froze. The first fix was `touch-action: pan-x` + a JS pointer-drag
+          driving scrollLeft by hand.
+       2. That JS drag then "swiped oddly": no momentum, no fling, and a
+          slightly-diagonal swipe stalled — unlike the home-page review row,
+          a plain native scroller that always felt right.
+
+     `auto` fixes both. The browser disambiguates the axis: a horizontal swipe
+     pans the rail (with native momentum), a vertical one scrolls the page.
+     `pan-x` caused (1) because it forbids vertical panning ON the element,
+     which WebKit failed to hand back to the page; `auto` allows vertical, so it
+     passes straight through — the review row is the proof, being `auto` and
+     never freezing. So the rails scroll natively on touch and initCarousel's
+     pointer-drag is mouse-only (see the drag-to-scroll block in scripts.js).
+     `overscroll-behavior-x` stops a fling off the end of a rail from chaining
+     into page-level horizontal scroll or a browser back-navigation. */
+  touch-action: auto;
+  overscroll-behavior-x: contain;
+
+  /* Room for the slides' shadows INSIDE the clip region.
+
+     A scroll container clips both axes, not just the one it scrolls: per spec,
+     when overflow-x is `auto` an overflow-y of `visible` computes to `auto`
+     too. So this element was cropping every product card's shadow flat against
+     its own edges, and taking the 4px hover lift with it — the cards looked
+     sliced off along the bottom.
+
+     The padding is sized to what actually overhangs: --lift-shadow reaches
+     ~14px below a card and ~4px to each side, `shadow-custom4` another ~3px
+     all round, and :hover lifts the card 4px up. The negative margin then
+     cancels the padding, so the track occupies exactly the same box as before
+     and nothing below it moves — this buys clip room, it does not add spacing.
+
+     Keep the two in step. Changing the padding alone silently re-spaces every
+     rail on the site. The bottom margin is 16 against 20px of padding on
+     purpose: it preserves the 4px the track carried before this change, so the
+     spacing delta here is exactly zero and this is purely clip room.
+
+     VERTICAL ONLY, deliberately. The same trick on the inline axis pushes the
+     track 8px past its parent's content box on each side, and the sweep
+     immediately caught it as an 8px overflow on `.carousel` and `.tab-panel`
+     at 320. It bleeds into the section gutter so it looks harmless, but it
+     turns a clean overflow baseline into one with known noise in it, which
+     costs more than it buys: the horizontal shadow spread is ~4px and only
+     shows at the very start and end of a rail. Left clipped on purpose. */
+  padding-block: 10px 20px;
+  margin-block: -10px -16px;
+}
+/* Smooth scrolling is the arrows' and dots' animation, so it belongs behind
+   the motion preference like every other animation on this site. It was set
+   unconditionally, which also meant a reduced-motion visitor got an animated
+   slide on every arrow press. Only programmatic scrollLeft writes are
+   affected — a user drag is never smoothed by this property. */
+@media (prefers-reduced-motion: no-preference) {
+  .carousel-track {
+    scroll-behavior: smooth;
+  }
+}
+/* While a pointer-drag is in progress the rail scrolls freely and instantly.
+   scroll-snap would fight each frame's scrollLeft write, snapping the position
+   back under the finger; `scroll-behavior: smooth` (above) would animate every
+   write into lag. Both are suspended for the drag — endDrag() removes this
+   class and then setPos() snaps to the nearest slide. The 0,2,0 selector beats
+   the smooth rule regardless of the media query. See the drag-to-scroll block
+   in scripts.js, and the `pan-y` note above for why the rail drags in JS. */
+.carousel-track.is-dragging {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+  cursor: grabbing;
+}
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+.carousel-slide {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+}
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0px 2px 3px rgba(84, 34, 5, 0.2);
+  color: #774d32;
+  transition:
+    opacity 0.2s ease,
+    background 0.2s ease;
+}
+.carousel-btn:hover {
+  background: #f7f2ea;
+}
+.carousel-btn.is-disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+/* Rail arrows are the default 44px (size-11); their centre sits ON the track's
+   side border, straddling it, rather than tucked inside — -22px = half the
+   circle (Ahmed, 2026-07-29, same call as the hero arrows). This governs the
+   rails on source order over the inline -start/-end utility, which is the exact
+   tie CLAUDE.md documents, so the offset lives here, not on the button. */
+.carousel-prev {
+  inset-inline-start: -22px;
+}
+.carousel-next {
+  inset-inline-end: -22px;
+}
+/* Hero arrows are 64px and Ahmed wants their centre ON the banner's side
+   border, straddling it, rather than tucked inside. -32px = half the circle.
+   Scoped to .hero-banners (0,2,0) so it beats the global .carousel-prev
+   (0,1,0) default above without disturbing the smaller rail arrows. */
+.hero-banners .carousel-prev {
+  inset-inline-start: -32px;
+}
+.hero-banners .carousel-next {
+  inset-inline-end: -32px;
+}
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  /*
+   * WCAG 2.2 SC 2.5.8's spacing exception is what governs this number, and
+   * it constrains the dot CENTRES, not the gap: undersized targets pass only
+   * if a 24px circle on each clears its neighbour's, i.e.
+   *
+   *     dot width + gap >= 24
+   *
+   * That budget can be spent either way round. It was first paid entirely
+   * out of the gap (10px dot + 14px gap), which read far too airy — Ahmed
+   * pushed back on exactly that. Paying it out of the dot instead
+   * (14px dot + 10px gap) keeps the same 24px centres and compliance, and
+   * brings the gap back near the original 8px feel.
+   *
+   * So: DO NOT tighten this gap without widening the dot by the same amount.
+   * The two numbers are one decision.
+   */
+  gap: 10px;
+  margin-top: 20px;
+}
+/* Carousel dots: idle dots are the brand beige/cream; the current one
+   stretches into a CTA-green pill, so position is carried by shape as well
+   as colour — visible even to a colour-blind shopper. Width, not transform:
+   the neighbours slide over as it grows, which is the point of the motion. */
+/* 14px, was 10. The extra 4px is what buys the tighter gap above — see the
+   `dot width + gap >= 24` note there; the pair has to move together.
+
+   The *control* is still bigger than the paint: a transparent ::before takes
+   it to 24x44, because the dot itself is under the 24px floor. An overlay
+   rather than padding, so growing the target does not shift the dots down. */
+.carousel-dot {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background-color: #dcc498;
+  transition: width 0.28s var(--ease-out), background-color 0.2s var(--ease-out);
+  cursor: pointer;
+}
+.carousel-dot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* 14 + 10 = the same 24px minimum the spacing rule wants. */
+  width: calc(100% + 10px);
+  height: 44px;
+  border-radius: 9999px;
+}
+.carousel-dot.is-active {
+  width: 28px;
+  background-color: #00451C;
+}
+@media (prefers-reduced-motion: reduce) {
+  .carousel-dot {
+    transition: none;
+  }
+}
+[dir="rtl"] .carousel-btn svg {
+  transform: scaleX(-1);
+}
+
+/* =====================================================================
+   Drawers / overlays — cart drawer, mobile menu, bottom sheet, modals.
+   Toggled by adding/removing `.is-open` (see scripts.js).
+   ===================================================================== */
+.overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+.overlay-backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Side drawer (cart / mobile menu) */
+.side-drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+  width: min(420px, 90vw);
+  max-width: 90vw;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+.side-drawer--right {
+  inset-inline-end: 0;
+  transform: translateX(110%);
+}
+.side-drawer--left {
+  inset-inline-start: 0;
+  width: min(340px, 88vw);
+  transform: translateX(-110%);
+}
+.side-drawer.is-open {
+  transform: translateX(0);
+}
+[dir="rtl"] .side-drawer--right {
+  transform: translateX(-110%);
+}
+[dir="rtl"] .side-drawer--left {
+  transform: translateX(110%);
+}
+[dir="rtl"] .side-drawer.is-open {
+  transform: translateX(0);
+}
+
+/* Cart-drawer close button, floated OUTSIDE the panel on its inner edge (the
+   one facing the page, away from the screen edge the drawer is docked to) in a
+   white circle (Ahmed, 2026-08-02). It is a child of the drawer, so it slides
+   in and out with it and only shows while open. The drawer sets no overflow,
+   so the negative inline offset is free to spill over the backdrop. On a very
+   narrow screen the offset tucks the circle onto the panel's own corner so it
+   never leaves the viewport. */
+.side-drawer .drawer-close {
+  position: absolute;
+  top: 14px;
+  z-index: 2;
+  /* Only visible while the drawer is open — the button sits OUTSIDE the panel,
+     so without this it leaked onto the screen edge when the panel was off-screen
+     (Ahmed, 2026-08-02). */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.side-drawer.is-open .drawer-close {
+  opacity: 1;
+  pointer-events: auto;
+}
+/* On the panel's INNER edge (the side facing the page). Which physical side
+   that is depends on where the drawer docks: the cart (--right, docked at the
+   inline-end / left in RTL) floats its X on the inline-start / right; the order
+   drawer (--left, docked at the inline-start / right in RTL) floats its X on the
+   inline-end / left — so the two open from opposite sides with the X always
+   over the backdrop, never on the screen edge behind the panel. */
+.side-drawer--right .drawer-close {
+  inset-inline-start: -44px;
+}
+.side-drawer--left .drawer-close {
+  inset-inline-end: -44px;
+}
+/* The order drawer is a wide detail panel, not the 340px menu the --left
+   variant is sized for. */
+[data-drawer="order"] {
+  width: min(420px, 90vw);
+}
+@media (max-width: 380px) {
+  .side-drawer .drawer-close {
+    top: 12px;
+  }
+  .side-drawer--right .drawer-close {
+    inset-inline-start: 8px;
+  }
+  .side-drawer--left .drawer-close {
+    inset-inline-end: 8px;
+  }
+}
+
+/* Filter chips, inactive state.
+   The mobile Collection frame (350:17805) fills these with interaction-base
+   and drops the outline; desktop keeps white-on-outline. Expressed here rather
+   than as `bg-interaction-base xl:bg-white` because the Play CDN did not apply
+   the xl: variant to these anchors at all — verified against computed styles,
+   where an identical probe element resolved to white at 1440 while the chips
+   stayed filled. `a.chip-filter` (0,1,1) outranks Tailwind's `.bg-white`
+   (0,1,0), so this wins regardless of the CDN's emit order. */
+@media (max-width: 1279.98px) {
+  a.chip-filter {
+    background-color: #FDF8F1;
+    border-color: transparent;
+  }
+}
+
+/* Bottom sheet (mobile location) */
+.bottom-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: #fff;
+  border-radius: 22px 22px 0 0;
+  padding: 20px 16px 28px;
+  transform: translateY(110%);
+  transition: transform 0.3s ease;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+.bottom-sheet.is-open {
+  transform: translateY(0);
+}
+
+/* From xl, `--modal` sheets become a centred dialog instead. Centring uses
+   inset-inline + margin-inline rather than left/right so it holds in RTL. The
+   open/close transition switches from a slide to a fade-and-scale, because a
+   dialog sliding up from the bottom edge is the thing we are getting away
+   from. */
+@media (min-width: 1280px) {
+  .bottom-sheet--modal {
+    top: 50%;
+    bottom: auto;
+    inset-inline: 0;
+    margin-inline: auto;
+    width: min(420px, calc(100vw - 2rem));
+    max-height: 80vh;
+    border-radius: 22px;
+    padding: 24px;
+    transform: translateY(-50%) scale(0.97);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      visibility 0.2s;
+  }
+  .bottom-sheet--modal.is-open {
+    transform: translateY(-50%) scale(1);
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* Centered modal (search / generic) */
+.modal-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 8vh 16px 16px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.25s ease,
+    visibility 0.25s ease;
+}
+.modal-shell.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* Home FAQ cards (Figma 9967:21115). Closed rows are a warm grey; the open row
+   is a lime tint with a bold green question and a −-in-a-white-chip toggle.
+   Reuses the .accordion-item / .is-open contract initAccordions drives. */
+.faq-card {
+  background: #f5f2ed;
+  transition: background 0.25s ease;
+}
+.faq-card.is-open {
+  background: rgba(138, 204, 62, 0.15);
+}
+/* Weight stays constant open/closed — only the colour changes — so the
+   question never reflows (no jump). */
+.faq-q {
+  color: #111827;
+  font-weight: 600;
+}
+.faq-card.is-open .faq-q {
+  color: #006328;
+}
+/* Plus and minus share one fixed-size slot; only the glyph swaps, so the
+   toggle never moves or resizes (no jump). */
+.faq-plus {
+  display: block;
+}
+.faq-minus {
+  display: none;
+}
+.faq-card.is-open .faq-plus {
+  display: none;
+}
+.faq-card.is-open .faq-minus {
+  display: block;
+}
+
+/* Decorative leaves drift with the cursor (initLeafWind) — the mouse acts like
+   wind. Base rotation lives in --lr; the JS layers --wx/--wy/--wr on top, and
+   the eased transition makes each leaf float toward the new spot, not snap. */
+.leaf-wind {
+  transform: translate3d(var(--wx, 0px), var(--wy, 0px), 0)
+    rotate(calc(var(--lr, 0deg) + var(--wr, 0deg)));
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .leaf-wind {
+    transition: none;
+  }
+}
+
+/* Accordion (FAQ) */
+.accordion-item .accordion-panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.35s ease;
+}
+.accordion-item.is-open .accordion-panel {
+  max-height: 600px;
+}
+.accordion-item .accordion-chevron {
+  transition: transform 0.3s ease;
+}
+.accordion-item.is-open .accordion-chevron {
+  transform: rotate(180deg);
+}
+/* The between-items hairline is a separator, so the last item does not get
+   one — after it there is nothing to separate, and on the product page the
+   stray line read as a divider to content that never came (Ahmed,
+   2026-07-22). Two classes deep to outrank the markup's single-class
+   border-b utility. */
+[data-accordion] .accordion-item:last-child {
+  border-bottom-width: 0;
+}
+
+/* The client's own Arabic benefit copy (catalog `descHtmlAr`, rendered into
+   the product accordion as .desc-rich) arrives as bare WordPress markup —
+   strong/ul/li with no classes. Restore the same list treatment the hero's
+   hand-written accordion body carries inline, and let its panel open past the
+   FAQ cap: some products' lists run well past 600px on a phone, and a
+   max-height clip hides them without a trace. */
+.desc-rich ul,
+.desc-rich ol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.25rem 0 0.75rem;
+  padding-inline-start: 1.25rem;
+  list-style: disc;
+}
+.desc-rich ol {
+  list-style: decimal;
+}
+.desc-rich strong,
+.desc-rich b {
+  display: block;
+  margin-top: 0.5rem;
+  color: #003616;
+  font-weight: 700;
+}
+.desc-rich p {
+  margin: 0.25rem 0;
+}
+.accordion-item.is-open .accordion-panel:has(.desc-rich) {
+  max-height: 4000px;
+}
+
+/* Tabs */
+/*
+ * Tab state is driven by .is-active (toggled in initTabs) rather than by
+ * per-button utility classes, so switching tabs actually restyles them.
+ * The underline is a transparent border at rest so nothing shifts on change.
+ */
+/*
+ * The underline is drawn by a pseudo-element that scales on its own axis, not
+ * by the border colour, so it can WIPE outward from the centre instead of
+ * simply appearing. The border is kept as a transparent 3px reservation so the
+ * row still occupies the same height and nothing shifts on hover or when the
+ * active tab changes.
+ *
+ * transform, not width: animating width relayouts the button on every frame
+ * and drags its neighbours with it. A scaled transform is composited.
+ */
+.tab-btn {
+  position: relative;
+  cursor: pointer;
+  /* Matches the `neutral.secondary` token; #5F5F5F measured 4.48:1 on white. */
+  color: #5f5f5f;
+  border-bottom: 3px solid transparent;
+  transition: color 0.2s ease;
+}
+.tab-btn::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: -3px;
+  height: 3px;
+  border-radius: 3px;
+  background: #006328;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.28s var(--ease-out);
+}
+.tab-btn:hover {
+  color: #006328;
+}
+.tab-btn:hover::after,
+.tab-btn.is-active::after {
+  transform: scaleX(1);
+}
+.tab-btn.is-active {
+  color: #003616;
+}
+.tab-panel[hidden] {
+  display: none;
+}
+
+/* Perfect Picks segmented tabs (Figma 9946:16773) — pill buttons on a light
+   green track; the active one is a white pill with a soft shadow and an
+   uppercase label. Reuses the .tab-btn / .is-active contract that initTabs
+   drives, so no extra JS. */
+.pp-tabs {
+  position: relative;
+}
+/* The active pill is a single element that SLIDES between chips (initTabs sizes
+   and positions it), so the label font/size never changes — no reflow jump. */
+.pp-tabs [data-tab-indicator] {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 0;
+  width: 0;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.08);
+  transform: translateX(0);
+  transition:
+    transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+  pointer-events: none;
+}
+.pp-tabs .tab-btn {
+  position: relative;
+  z-index: 1;
+  border-bottom: 0;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  color: #333;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+.pp-tabs .tab-btn::after {
+  display: none;
+}
+.pp-tabs .tab-btn:hover {
+  color: #212121;
+}
+.pp-tabs .tab-btn.is-active {
+  color: #212121;
+}
+
+/* The `hidden` attribute only sets display:none via the UA stylesheet, so any
+   author display rule beats it — an element carrying both `hidden` and
+   Tailwind's `.flex` stays visible. This bit the mega-panel's sub-category
+   lists, which rendered all eight at once. */
+[hidden] {
+  display: none !important;
+}
+
+/* A <fieldset> carries a UA `min-inline-size: min-content`, which OUTRANKS
+   the `min-width: auto` every other flex/grid child gets and cannot be
+   cancelled by a `min-w-0` utility on the element — the utility sets
+   min-width, the UA rule sets min-inline-size, and the logical property wins.
+
+   So a fieldset silently refuses to shrink below the widest unbreakable run
+   of its contents, and pushes its parent out with it. Caught on checkout at
+   375 in English: the نوع الطلب fieldset held the form at 359px inside a
+   328px track, 31px of copy clipped away by the page's `overflow-x-hidden`
+   where no scrolling could reach it. Arabic never showed it, because
+   "أرسل الطلب كهدية لشخص تحبه" has a narrower min-content than "Send this
+   order as a gift to someone you love" — the bug was always there, and only
+   became visible once the site actually translated.
+
+   Site-wide rather than on the one fieldset: every fieldset on the site is a
+   layout container inside a constrained column, and none of them wants this
+   behaviour. This is the `min-w-0` rule from CLAUDE.md, in the one place a
+   `min-w-0` class cannot express it. */
+fieldset {
+  min-inline-size: 0;
+}
+
+/* Branches governorate filters render as pills below xl (Figma 426:33692).
+   Scoped to `.tabs-chips` so the product page's tabs, which stay underlined
+   at every width, are untouched. */
+@media (max-width: 1279.98px) {
+  .tabs-chips {
+    gap: 0.5rem;
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  .tabs-chips .tab-btn {
+    background-color: #FDF8F1;
+    border-bottom: 0;
+    border-radius: 9999px;
+    padding: 0.5rem 1.25rem;
+    color: #003616;
+    white-space: nowrap;
+  }
+  /* These are pills here, not underlined tabs — without this the wipe bar
+     hangs off the bottom of every chip. */
+  .tabs-chips .tab-btn::after {
+    display: none;
+  }
+  .tabs-chips .tab-btn.is-active {
+    background-color: #00451C;
+    color: #fff;
+  }
+}
+
+/* Header sticky-nav animation (ported keyframe usage) */
+@keyframes slideDown {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.animate-slideDown {
+  animation: slideDown 0.35s ease-out forwards;
+}
+@keyframes customBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10%);
+  }
+}
+.animate-customBounce {
+  animation: customBounce 3s ease-in-out infinite;
+}
+
+/* Toast (replaces react-toastify) */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  inset-inline-end: 20px;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  color: #2c3340;
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.16);
+  font-size: 14px;
+  font-weight: 500;
+  border-inline-start: 4px solid #16bb55;
+  max-width: min(360px, calc(100vw - 40px));
+  animation: slideUp 0.25s ease-out;
+}
+/* The glyph rides in a soft tinted disc coloured to the toast's accent, so the
+   action (credit / spend / undo / error) is legible before the text is read. */
+.toast__icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+  color: #16bb55;
+  background: rgba(22, 187, 85, 0.14);
+}
+.toast__icon > svg {
+  width: 18px;
+  height: 18px;
+}
+.toast__msg {
+  min-width: 0;
+  line-height: 1.4;
+}
+/* Success (default) is the green above. The rest re-tint both the border and
+   the icon disc as ONE decision per action. */
+.toast--error {
+  border-color: #a8200d;
+}
+.toast--error .toast__icon {
+  color: #a8200d;
+  background: rgba(168, 32, 13, 0.12);
+}
+/* Wallet CREDIT — money landing in the wallet. Brand green, the "good money"
+   colour the wallet card and discount chips already use. */
+.toast--wallet {
+  border-color: #00451C;
+}
+.toast--wallet .toast__icon {
+  color: #00451C;
+  background: rgba(22, 51, 0, 0.12);
+}
+/* Wallet SPEND — the balance applied against a bill. Accent gold, this site's
+   price/amount colour, so a spend reads as an amount moving, not a win. */
+.toast--spend {
+  border-color: #b8860b;
+}
+.toast--spend .toast__icon {
+  color: #916400;
+  background: rgba(184, 134, 11, 0.14);
+}
+/* Neutral INFO / undo — a cancel or a removal, nothing gained or spent. */
+.toast--info {
+  border-color: #6b7280;
+}
+.toast--info .toast__icon {
+  color: #4b5563;
+  background: rgba(107, 114, 128, 0.14);
+}
+.toast--cart {
+  border-color: #00451C;
+}
+.toast--cart .toast__icon {
+  color: #00451C;
+  background: rgba(22, 51, 0, 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   Favourite heart
+
+   The button ships both glyphs and `aria-pressed` picks which one paints, so
+   the accessible state and the visual state are the same attribute and cannot
+   drift out of sync.
+
+   Deliberately NOT the `hidden` attribute: `[hidden]` is forced with
+   `!important` further up this file, so an element toggled that way could
+   never be shown again by a plain rule. Same trap that stacked the mega-menu
+   sub-lists — see CLAUDE.md.
+   -------------------------------------------------------------------------- */
+.fav-btn > svg:nth-of-type(2) {
+  display: none;
+}
+.fav-btn[aria-pressed="true"] > svg:nth-of-type(1) {
+  display: none;
+}
+.fav-btn[aria-pressed="true"] > svg:nth-of-type(2) {
+  display: block;
+}
+
+/* Saved heart is solid pink, not the brand CTA green `.fav-btn` paints by
+   default (Ahmed, 2026-07-29) — a deliberate one-off outside the design
+   system's palette, flagged in DESIGN-NOTES §3. `heart_full`'s path is
+   already a solid fill (`fill="currentColor"`, no stroke), so only the
+   colour needs overriding here; the attribute selector outranks the
+   `.text-cta` utility `.fav-btn` also carries, so this wins regardless of
+   stylesheet order (same trick as the sticky-nav and mega-cat selectors
+   noted in CLAUDE.md). */
+.fav-btn[aria-pressed="true"] {
+  color: #e11d48;
+}
+
+/* --------------------------------------------------------------------------
+   Sticky nav
+
+   The nav bar ships with `relative` in its base class list, and initStickyNav
+   used to add Tailwind's `fixed` on top. Both are single-class selectors, so
+   specificity ties and SOURCE ORDER decides — Tailwind emits `.relative`
+   after `.fixed`, so `.relative` won and the bar never actually stuck. The
+   classes were being added correctly the whole time; they just lost the
+   cascade. (Same family as the `[hidden]` and `xl:` CDN traps above: when a
+   utility silently loses, author the rule here with a selector that wins.)
+
+   [data-navbar][data-stuck="true"] is (0,2,0) and beats `.relative` (0,1,0)
+   regardless of emit order. inset-inline rather than left/right so it holds
+   in RTL.
+   -------------------------------------------------------------------------- */
+[data-navbar][data-stuck="true"] {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 100;
+}
+
+/* The slide-in starts at translateY(-100%), i.e. fully off-screen. If the
+   animation never advances, the bar is stuck there and invisible — worse
+   than not sticking at all. Honour reduced-motion by skipping straight to
+   the resting position rather than animating into it. */
+@media (prefers-reduced-motion: reduce) {
+  [data-navbar][data-stuck="true"].animate-slideDown {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   Interaction system
+
+   The brief was "the website is old" — the hover work below is deliberately
+   restrained: short durations, small distances, and a single shared easing so
+   the whole site feels like one product rather than a pile of effects.
+
+   `--ease-out` is a decelerating curve: fast to start, settling at the end.
+   That reads as responsive. Motion is 120-220ms — long enough to be seen,
+   short enough never to be waited on.
+   ========================================================================== */
+:root {
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --lift-shadow: 0 10px 24px -8px rgba(6, 42, 28, 0.28), 0 3px 8px -4px rgba(6, 42, 28, 0.16);
+  --lift-shadow-sm: 0 6px 16px -6px rgba(6, 42, 28, 0.26), 0 2px 5px -3px rgba(6, 42, 28, 0.14);
+}
+
+/* --- Chevrons ------------------------------------------------------------
+   One class for every chevron. The mega-menu caret used to be flipped with an
+   inline `style.transform`, which competed with the `transition-transform`
+   utility and snapped instead of easing. */
+.chevron {
+  display: inline-grid;
+  place-items: center;
+  transition: transform 0.22s var(--ease-out);
+  transform-origin: 50% 50%;
+}
+.chevron--open,
+[aria-expanded="true"] > .chevron,
+.group\/mega:hover .chevron {
+  transform: rotate(180deg);
+}
+
+/* --- Products mega-panel: rail + preview stage --------------------------
+   Redesign (2026-08-03). A rail of category LINKS (each with a photo) on the
+   right opens a preview stage on the left, in place. The old three-column reach
+   is gone, and initMegaMenu's hover-intent stops a sibling row from stealing
+   the panel while the pointer crosses toward the stage.
+
+   Selected vs hover MUST stay different (rule 8 — reported four times on this
+   very column). Selection carries a leading brand bar, ink, and a ring on the
+   thumbnail — persistent, structural marks. Hover is a faint, transient wash
+   meaning only "the pointer is here now". A row that is both shows both; a row
+   that is merely selected never looks stuck under a pointer that has left. */
+.mega-cat {
+  position: relative;
+  background: transparent;
+  transition: background-color 0.18s var(--ease-out), color 0.18s var(--ease-out);
+}
+/* Hover and selection both speak the masthead's dark green (Ahmed): a faint
+   green wash, an ink shift, and a dark-green ring on the thumbnail. The old
+   leading marker bar (.mega-cat::before) and the brighter leaf-green ring were
+   removed at his request — no stroke on the start edge, and the accent is the
+   brand green, not a lighter one. */
+.mega-cat:hover {
+  background: rgba(24, 80, 57, 0.06);
+}
+.mega-cat:hover,
+.mega-cat[data-active="true"] {
+  color: #00451C;
+}
+.mega-cat__thumb {
+  transition: box-shadow 0.2s var(--ease-out);
+}
+.mega-cat__thumb img {
+  /* Square photos fill the square thumb and ignore this; the one portrait
+     montage (العروض) has its products low, so a lower focus crops to them
+     instead of the transparent top that read as a blank tile. */
+  object-position: center 78%;
+  transition: transform 0.35s var(--ease-out);
+}
+.mega-cat:hover .mega-cat__thumb,
+.mega-cat[data-active="true"] .mega-cat__thumb {
+  box-shadow: 0 0 0 2px #006328;
+}
+.mega-cat:hover .mega-cat__thumb img,
+.mega-cat[data-active="true"] .mega-cat__thumb img {
+  transform: scale(1.06);
+}
+/* Opacity only: the glyph carries rtl:scale-flip (a Tailwind scale transform),
+   so a competing CSS translate here would fight it — the exact transform clash
+   this repo has been bitten by. A fade is enough to reveal it. */
+.mega-cat__arrow {
+  opacity: 0;
+  transition: opacity 0.18s var(--ease-out);
+}
+.mega-cat:hover .mega-cat__arrow,
+.mega-cat[data-active="true"] .mega-cat__arrow {
+  opacity: 1;
+}
+
+/* The panel drops in on open; each incoming category settles up as it is
+   shown. Both animations run off display:none→block, so switching category
+   replays only the stage, not the whole panel. */
+@media (min-width: 1024px) {
+  #mega-panel {
+    animation: megaPanelIn 0.2s var(--ease-out);
+  }
+}
+@keyframes megaPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.mega-stage {
+  animation: megaStageIn 0.22s var(--ease-out);
+}
+@keyframes megaStageIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sub-category tiles — big, quiet targets set right beside the rail so the
+   likeliest next click barely moves. Hover lifts and brightens; the "all" tile
+   carries the CTA ink so "shop everything here" stays one glance away. */
+.mega-tile {
+  background: #f6f2ea; /* beige-100 */
+  border: 1px solid transparent;
+  transition: background-color 0.18s var(--ease-out), border-color 0.18s var(--ease-out),
+    transform 0.18s var(--ease-out);
+}
+.mega-tile:hover {
+  background: #fff;
+  border-color: rgba(6, 42, 28, 0.12);
+  transform: translateY(-1px);
+}
+.mega-tile--all {
+  background: #FDF8F1; /* interaction-base */
+}
+.mega-tile--all:hover {
+  background: #e4e9e2;
+}
+.mega-tile__arrow {
+  opacity: 0;
+  transition: opacity 0.18s var(--ease-out);
+}
+.mega-tile:hover .mega-tile__arrow {
+  opacity: 1;
+}
+
+/* Photo hero: a deep-green gradient floor so white text keeps AA over any
+   photograph, however light. */
+.mega-hero__scrim {
+  background: linear-gradient(
+    to top,
+    rgba(6, 42, 28, 0.86) 0%,
+    rgba(6, 42, 28, 0.5) 28%,
+    rgba(6, 42, 28, 0) 60%
+  );
+}
+
+/* --- المنتجات (products/categories) pill in the masthead ------------------
+   Same disease as the mega-panel column and the nav underline, third organ:
+   the pill shipped with bg-cta baked in, so it sat solid green forever and
+   read as a tab stuck under a pointer. The fill is now state-driven:
+
+     rest   — no fill; a hairline keeps it legible as a control on the
+              masthead without pretending anything is happening
+     hover  — a faint white wash, transient, "the pointer is here"
+     open   — the full CTA fill. Solid means the panel is open and only that,
+              so it can never be mistaken for the hover wash.
+
+   Lives here rather than in the markup because three states on one element
+   is a component decision, and utilities can only paint the first two. */
+.mega-toggle {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  transition: background-color 0.18s var(--ease-out), border-color 0.18s var(--ease-out);
+}
+.mega-toggle:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+.mega-toggle[aria-expanded="true"] {
+  background: #00451C;
+  border-color: #00451C;
+}
+
+/* --- Search + cart, elevated and along for the ride ----------------------
+   Desktop only: the mobile masthead has its own controls and stays in flow.
+   Parked under the 48px sticky nav, aligned to the same content edge the rest
+   of the chrome uses.
+
+   The plate is OPAQUE. It used to be rgba(255,255,255,.92) over a
+   backdrop-filter: blur(10px), which is the single most expensive thing this
+   site did while scrolling: a blurred backdrop on a position:fixed element
+   has to re-read and re-rasterise whatever is behind it on every frame, and
+   because this pill sticks the moment you pass 150px it was doing that for
+   the entire scrolled length of every page. The mobile rule below already
+   dropped the blur for exactly this reason; Ahmed reported the same lag on
+   desktop (2026-07-22), and it is the same cause.
+
+   Nothing is lost. Opaque #fff is strictly more contrast than 92% white over
+   unknown content, so the glyph pairings underneath stay valid without
+   re-verifying, and at 8px padding behind a pill of controls the blur was
+   never legible as an effect - it was paying a per-frame cost for a texture
+   you could only see by looking for it. */
+@media (min-width: 768px) {
+  /* Abu Auf-style parked pill: on scroll, search + cart detach into a small
+     rounded container at the top-right. Green (not white) so the header's white
+     icons stay visible; top:16px because the header now scrolls fully away —
+     nothing stays docked above it. Aligned to the content box's right edge. */
+  [data-sticky-actions][data-stuck="true"] {
+    position: fixed;
+    top: 16px;
+    inset-inline-end: max(16px, calc((100% - 1512px) / 2 + 16px));
+    z-index: 90;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 9999px;
+    background: #29612f;
+    box-shadow: var(--lift-shadow);
+    animation: actionsDrop 0.28s var(--ease-out) both;
+    transition: top 0.32s var(--ease-out);
+  }
+}
+/* When the product page's sticky buy bar is up, it and the pill share the top
+   edge on desktop (the bar is top-docked only at lg). Drop the pill beneath the
+   bar so they stop overlapping — the value clears the bar's own height. Scoped
+   to lg because below it the bar docks at the bottom instead and there is no
+   clash. */
+@media (min-width: 1024px) {
+  html.buybar-shown [data-sticky-actions][data-stuck="true"] {
+    top: 140px;
+  }
+}
+/* Mobile gets the same ride-along, on its own terms.
+
+   Two things differ from the desktop rule above, both deliberate:
+
+   - It parks at the top edge, not under a nav. The 48px nav bar lives in the
+     `hidden md:block` desktop header, so at this width there is nothing to sit
+     beneath and `top: 60px` would leave it floating in dead space.
+
+   - The plate is brand green, not a translucent white blur. The mobile search
+     button is a bare glyph with no fill of its own and icon-search.svg is
+     WHITE - on the desktop rule's rgba(255,255,255,.92) plate it would vanish
+     completely. Desktop gets away with white because its search button carries
+     bg-cta underneath. Reusing the header's own green keeps both glyphs on
+     exactly the colour pairing they already pass AA against, so this adds no
+     new contrast surface to verify. Dropping the backdrop-filter is a bonus:
+     blurring live backdrop pixels on a fixed element re-rasterises every frame
+     of every scroll, which is the same cost this pass just removed from the
+     product cards. */
+@media (max-width: 767px) {
+  [data-sticky-actions][data-stuck="true"] {
+    position: fixed;
+    top: 8px;
+    /* Was a flat 8px, which parked the pill 8px proud of the site's px-4 gutter
+       — it "escaped the grid" (Ahmed, 2026-08-02). Same container-aligned inset
+       as the desktop rule; below 1536 it floors at the 16px gutter, so the pill
+       lines up with the content edge on every phone. */
+    inset-inline-end: max(16px, calc((100% - 1536px) / 2 + 16px));
+    z-index: 90;
+    flex: none;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 9999px;
+    background: #006328;
+    box-shadow: var(--lift-shadow);
+    animation: actionsDrop 0.28s var(--ease-out) both;
+  }
+}
+@keyframes actionsDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Once the actions park on scroll, the count badge sheds its masthead-green
+   ring (Ahmed, 2026-08-02). The ring existed to blend the badge INTO the green
+   masthead; on the parked pill — white on desktop, green on mobile — a green
+   ring instead reads as a hard outline cropped into the button corner. Drop it
+   only while stuck; in the navbar the ring stays. */
+[data-sticky-actions][data-stuck="true"] [data-cart-count] {
+  box-shadow: none;
+  --tw-ring-shadow: 0 0 #0000;
+}
+
+/* --- Buttons -------------------------------------------------------------
+   A 1px rise plus a shadow. The press state returns to 0 so the button feels
+   physically clicked rather than merely recoloured. */
+.btn-elevate {
+  transition: background-color 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out),
+    transform 0.18s var(--ease-out);
+}
+.btn-elevate:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--lift-shadow-sm);
+}
+.btn-elevate:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* --- Product cards -------------------------------------------------------
+   The card lifts, the image grows very slightly inside its plate, and the
+   quick-look chip fades up. `overflow: hidden` on the plate keeps the zoom
+   from escaping its rounded corner.
+
+   Every :hover here is gated behind (hover: hover). Two reasons, both
+   measured on this site rather than assumed:
+
+   1. `will-change: transform` used to sit unconditionally on
+      .product-card__frame, so EVERY card on the page held a permanently
+      promoted compositing layer whether or not it was ever pointed at —
+      35 of them on the home page, 99 on shop.html, counted in the browser.
+      That is precisely the case MDN warns against, and on a phone it is
+      paid as scroll jank and memory pressure in exchange for priming a
+      transform a touch device can never fire. Dropped outright: the
+      transition below is short and the compositor promotes for the
+      duration of a transform transition on its own, so the hint was
+      buying nothing even on desktop.
+   2. On touch, :hover latches after a tap and stays latched until you tap
+      elsewhere — so a tapped card sat lifted and zoomed, looking stuck
+      under a pointer that was never there. That is the same failure the
+      selected-vs-hover rule in CLAUDE.md exists to prevent, reached from
+      the other direction.
+
+   :focus-within is deliberately NOT gated — keyboard focus must still
+   reveal the quick-look chip on a touchscreen laptop, where (hover: hover)
+   may not match. */
+.product-card__frame {
+  transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out);
+}
+.product-card__media {
+  overflow: hidden;
+}
+.product-card__media img {
+  transition: transform 0.35s var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .product-card:hover .product-card__frame {
+    transform: translateY(-4px);
+    box-shadow: var(--lift-shadow);
+  }
+  .product-card:hover .product-card__media img {
+    transform: scale(1.05);
+  }
+}
+
+/* Category tiles already scale; give them a shadow to match the cards. */
+.tile-lift {
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+.tile-lift:hover {
+  /* --lift-shadow-sm, not --lift-shadow: Ahmed asked for a softer lift on the
+     round category tiles specifically (2026-07-29). */
+  box-shadow: var(--lift-shadow-sm);
+}
+
+/* Product-page sticky buy bar. Rests off-screen and slides in from its own
+   edge only when initStickyBuyBar adds .is-visible — bottom on mobile, top on
+   desktop. Kept out of flow always, so it never reserves layout space. */
+.sticky-buybar {
+  transform: translateY(110%);
+  opacity: 0;
+  pointer-events: none;
+  /* Shadow lifts UP from the bottom-docked bar on mobile. */
+  box-shadow: 0 -8px 24px -12px rgba(6, 42, 28, 0.25);
+  transition: transform 0.32s var(--ease-out), opacity 0.32s var(--ease-out);
+}
+@media (min-width: 1024px) {
+  .sticky-buybar {
+    transform: translateY(-110%);
+    /* Docked at the top on desktop, so the shadow falls DOWN. */
+    box-shadow: 0 8px 24px -12px rgba(6, 42, 28, 0.25);
+  }
+}
+.sticky-buybar.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sticky-buybar {
+    transition: opacity 0.2s linear;
+  }
+}
+
+/* Underlined text links: sweep in from the leading edge. */
+.link-sweep {
+  position: relative;
+}
+.link-sweep::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: -2px;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: var(--sweep-origin, left);
+  transition: transform 0.22s var(--ease-out);
+}
+[dir="rtl"] .link-sweep::after {
+  --sweep-origin: right;
+}
+.link-sweep:hover::after {
+  transform: scaleX(1);
+}
+
+/* Nobody should be made motion-sick by chrome. */
+@media (prefers-reduced-motion: reduce) {
+  .chevron,
+  .mega-cat,
+  .mega-cat::before,
+  .mega-cat__arrow,
+  .mega-cat__thumb,
+  .mega-cat__thumb img,
+  .mega-tile,
+  .mega-tile__arrow,
+  .btn-elevate,
+  .product-card__frame,
+  .product-card__media img,
+  .tile-lift,
+  .link-sweep::after {
+    transition: none;
+  }
+  #mega-panel,
+  .mega-stage,
+  [data-sticky-actions][data-stuck="true"] {
+    animation: none;
+  }
+  .mega-cat__thumb img,
+  .mega-tile:hover {
+    transform: none;
+  }
+  .product-card:hover .product-card__frame,
+  .btn-elevate:hover {
+    transform: none;
+  }
+  .product-card:hover .product-card__media img {
+    transform: none;
+  }
+}
+
+/* --- Scroll reveal -------------------------------------------------------
+   Sections rise into place the first time they are seen. Kept small (14px)
+   and quick — a big travel distance reads as a slideshow, not as polish.
+   The default state is the *hidden* one, so JS only ever has to flip the
+   attribute forward.
+
+   Gated on .js-reveal, which scripts.js puts on <html> the moment it runs.
+   Without that gate a JS failure would leave every revealed section stuck at
+   opacity 0 — content invisible is a far worse outcome than content that
+   simply does not animate. */
+.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+}
+.js-reveal [data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Fly-to-target ghost -------------------------------------------------
+   The clone is decorative and must never intercept a click or contribute a
+   scrollbar while it is crossing the page.
+
+   Two nodes, because the flight is two stages (see flyTo in scripts.js): the
+   ghost travels, the plate inside it pops. Clipping therefore lives on the
+   plate — putting `overflow: hidden` on the ghost would crop the very scale-up
+   the pick-up stage exists to show. */
+.fly-ghost {
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.fly-ghost__plate {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  transform-origin: center;
+  transition: transform 0.23s var(--ease-out), box-shadow 0.23s var(--ease-out);
+}
+.fly-ghost__plate img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* The card variant: on pick-up the product condenses INTO a small white
+   rounded tile with a shadow, and only then is thrown. Shrinking rather than
+   growing is the point — the item visibly becomes something pocket-sized and
+   throwable, so the flight that follows reads as a consequence of the gather
+   rather than a separate event. The plate keeps this scale for the whole
+   flight; it must not spring back, or the ghost would swell mid-air. */
+.fly-ghost--card .fly-ghost__plate {
+  padding: 6px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(6, 42, 28, 0.16);
+}
+.fly-ghost--card.is-picked .fly-ghost__plate {
+  transform: scale(0.78);
+  box-shadow: 0 14px 32px rgba(6, 42, 28, 0.28);
+}
+
+/* "+1" riding on the tile. Logical inset so it sits at the leading top corner
+   in both directions. */
+.fly-ghost__tag {
+  position: absolute;
+  top: -8px;
+  inset-inline-end: -8px;
+  display: grid;
+  place-items: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #4aa948;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 4px 10px rgba(6, 42, 28, 0.28);
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 0.2s var(--ease-out), transform 0.23s var(--ease-out);
+}
+.fly-ghost.is-picked .fly-ghost__tag {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* --- Selects --------------------------------------------------------------
+   The native dropdown arrow ignores the field's padding entirely and sits
+   flush against the inline edge — glaring on the checkout selects next to
+   inputs whose content respects the 16px inset (Ahmed, 2026-07-22).
+   appearance:none and our own chevron, drawn at the same inset the field's
+   text gets, with enough end padding that a long value never runs under the
+   glyph. background-position has no logical-property form, hence the [dir]
+   pair. */
+select.select-control {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='m6 9 6 6 6-6' stroke='%23003616' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 18px 18px;
+  background-position: left 16px center;
+  padding-inline-end: 44px;
+}
+[dir="ltr"] select.select-control {
+  background-position: right 16px center;
+}
+
+/* Telephone inputs render `direction: ltr` under Chromium even inside an RTL
+   document, so the phone field's digits sat start-aligned to the LEFT while
+   every other field aligned right (Ahmed, 2026-08-03). Force rtl to match:
+   European digits are still an LTR run, so the number reads correctly — it
+   just aligns to the start (right) like the name and email fields beside it. */
+input[type="tel"] {
+  direction: rtl;
+}
+
+/* --- Radio cards and radio rows ------------------------------------------
+   The visible indicator for a hidden radio input: an outlined circle whose
+   inner dot springs in when the input before the card face is checked. It
+   replaced a chevron on the checkout cards — a chevron promises navigation,
+   a dot says "one of these" — and the locale popup reuses it, so every
+   pick-one control on the site points at the same glyph. The input is
+   `.peer sr-only` immediately before the face span, hence `input:checked +
+   span` rather than a class hook. */
+.radio-dot {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d5dad1;
+  border-radius: 9999px;
+  display: grid;
+  place-items: center;
+  transition: border-color 0.15s var(--ease-out);
+}
+.radio-dot::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: #00451C;
+  transform: scale(0);
+  transition: transform 0.18s var(--ease-out);
+}
+input:checked + span .radio-dot {
+  border-color: #00451C;
+}
+input:checked + span .radio-dot::after {
+  transform: scale(1);
+}
+/* The gift card's checked wash — warm, not another green. A literal hex
+   because the Play CDN's opacity-modified arbitrary colours are unreliable
+   (see CLAUDE.md); this is accent-yellow at roughly 15% over white. */
+input:checked + .radio-card-accent {
+  background: #fdf7e6;
+}
+
+/* --- Wallet toggle ---------------------------------------------------------
+   Replaced the two-tier points button (Ahmed, 2026-07-26: make it a toggle,
+   show the wallet balance, celebrate when it goes on).
+
+   FIXED HEIGHT, not min-height. The card carries two captions stacked in one
+   grid cell and only one is visible at a time; without a reserved height the
+   block resized on toggle and shunted the order summary up under the cursor,
+   which is the exact bug the banner before it was fixed for. A fixed height
+   works here where a min-height did not on the banner, because these two
+   captions are one line each at every width the card is used at — verified at
+   320 and at 1440, in both languages.
+
+   The switch is painted on a span; the real control is a visually-hidden
+   checkbox beside it. Everything keys off :checked, so the accessible state
+   and the painted state cannot drift — the same contract the favourites heart
+   uses with aria-pressed.
+
+   The card is #E9F3E6 (see wallet_toggle). The off-state track is the brand
+   ink at 22% on that tint, which reads as a recess rather than a second
+   colour; the on-state is solid #00451C, the same "active" ink the rest of the
+   site uses, and NOT a green — next to a green card and a green balance, a
+   green switch would stop reading as state and start reading as decoration. */
+/* Minimised to a single row (Ahmed, 2026-08-04): title + balance on one line.
+   min-height, not a fixed height, so the row can grow if the balance wraps
+   under the title on a very narrow card instead of clipping. The idle/used
+   captions still share one grid cell, so a toggle never changes the height. */
+.wallet-toggle {
+  min-height: 56px;
+}
+
+/* --- The switch, shared -----------------------------------------------------
+   ONE switch for the whole site, keyed off `[data-switch]`. The wallet toggle
+   and the checkout gift toggle both use it; anything else that needs an on/off
+   should too, rather than growing a third painted switch that drifts from
+   these two by a pixel and a transition curve. Callers add their own
+   `data-*-switch` hook for behaviour and leave the paint to this. */
+.switch {
+  position: relative;
+  display: block;
+  width: 46px;
+  height: 26px;
+  border-radius: 9999px;
+  background: rgba(22, 51, 0, 0.22);
+  transition: background 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.switch__knob {
+  position: absolute;
+  top: 3px;
+  inset-inline-start: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(6, 42, 28, 0.35);
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+/* Two shapes are supported, because the two callers genuinely need different
+   ones: the wallet card wraps its input in the <label> (so the switch is a
+   direct sibling), while the gift card keeps the input OUTSIDE the label so a
+   revealed panel can be a sibling too (so the switch is a grandchild). The
+   `~ * .switch` half covers the second — without it the gift switch stays
+   painted "off" while the checkbox is genuinely on, which is the accessible
+   state and the painted state drifting apart, exactly what this pattern is
+   meant to prevent. */
+[data-switch]:checked ~ .switch,
+[data-switch]:checked ~ * .switch {
+  background: #00451C;
+}
+/* The knob is positioned with `inset-inline-start`, so it starts on the
+   correct edge in both directions; only the travel needs mirroring. */
+[data-switch]:checked ~ .switch .switch__knob,
+[data-switch]:checked ~ * .switch .switch__knob {
+  transform: translateX(20px);
+}
+[dir="rtl"] [data-switch]:checked ~ .switch .switch__knob,
+[dir="rtl"] [data-switch]:checked ~ * .switch .switch__knob {
+  transform: translateX(-20px);
+}
+/* The input is sr-only, so the global focus ring has nothing visible to land
+   on. Re-arm it on the painted switch instead, or the control is unusable by
+   keyboard for anyone who cannot see where focus is. */
+[data-switch]:focus-visible ~ .switch,
+[data-switch]:focus-visible ~ * .switch {
+  outline: 2px solid #00451C;
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .switch,
+  .switch__knob {
+    transition: none;
+  }
+}
+
+/* --- Gift order (checkout) ------------------------------------------------
+   The panel is revealed by the toggle, not by a page change, so it animates
+   open rather than appearing — a block of fields materialising under the
+   cursor with no transition reads as a layout bug.
+
+   `grid-template-rows: 0fr -> 1fr` is the only way to transition to a height
+   the content decides for itself; `height: auto` is not animatable, and a
+   fixed max-height either clips the panel or leaves dead space below it. The
+   inner element needs `min-height: 0` and `overflow: hidden` or the 0fr row
+   refuses to collapse — a grid item's implicit minimum is its content. */
+.gift-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.gift-panel > * {
+  min-height: 0;
+  overflow: hidden;
+}
+[data-gift-switch]:checked ~ .gift-panel {
+  grid-template-rows: 1fr;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gift-panel {
+    transition: none;
+  }
+}
+
+/* A choice the current state has ruled out. Non-interactive, but still IN the
+   layout and still readable: removing it would leave the shopper wondering
+   where pickup went, which is the question the note answers.
+
+   The opacity is on the option's OWN content only — never on the whole card,
+   and never on the note. Opacity composites against the backdrop, so a note at
+   #5F5F5F under a 0.55 ancestor renders as roughly #A7A7A7 on white, which
+   measures about 2.4:1 and fails AA outright. Dimming the thing you are asking
+   someone to read is the wrong half of the card to dim: the option is what has
+   been ruled out, the reason is what they now need most. At full strength the
+   note keeps #5F5F5F's own 6.39:1. */
+.option-blocked {
+  pointer-events: none;
+}
+.option-blocked .radio-card__body {
+  opacity: 0.5;
+}
+/* The dot and the reason occupy the same slot and swap — the indicator is
+   meaningless while the option cannot be chosen, so the space it was using is
+   exactly where the explanation belongs. Driven purely off `.option-blocked`,
+   so nothing in JS can leave both showing. */
+.blocked-note {
+  display: none;
+  max-width: 11ch;
+}
+
+/* --- Option-row status text ------------------------------------------------
+   Two states carrying different meanings, so they are painted differently.
+
+   `.is-prompt` is an unfinished choice — "اختر الفرع" — and reads as a call to
+   action in the CTA green. `.is-resolved` is the answer and drops to ordinary
+   ink, because once it says "فرع الزهور" it is information, not an invitation.
+   Painting both the same is how a picked branch ends up still looking like a
+   button nobody pressed. */
+.opt-meta {
+  max-width: 14ch;
+}
+.opt-meta.is-prompt {
+  color: #00451C;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.opt-meta.is-resolved {
+  color: #003616;
+  font-weight: 600;
+}
+/* A blocked row's prompt is no longer an invitation — it is the reason, and
+   the reason is the note, so the meta gets out of the way entirely. */
+.option-blocked .opt-meta {
+  display: none;
+}
+
+/* --- Picker chips (store list, schedule days + slots) ---------------------
+   Selected = green border + tinted plate, matching the radio cards rather than
+   inventing a third selected look. Ahmed kept Jaad's green while the
+   site-wide selection style is still open, so these follow it and will move
+   with it when that decision lands. */
+.store-option:hover,
+.sched-chip:hover {
+  border-color: #00451C;
+}
+.store-option.is-active,
+.sched-chip.is-active {
+  border-color: #00451C;
+  background: #e9f3e6;
+}
+.sched-chip {
+  border-color: #d9d9d9;
+  color: #003616;
+}
+
+/* Day-strip arrows. Greyed rather than hidden at the ends: an arrow that
+   disappears makes the strip jump sideways as the row re-flows, and the
+   shopper loses the target they were aiming at. `pointer-events: none` on top
+   of `disabled` so a press cannot sneak through the icon child. */
+.sched-arrow:hover:not(.is-disabled) {
+  border-color: #00451C;
+  background: #e9f3e6;
+}
+.sched-arrow.is-disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+.option-blocked .radio-dot {
+  display: none;
+}
+.option-blocked .blocked-note {
+  display: block;
+}
+@media (prefers-reduced-motion: reduce) {
+  .radio-dot,
+  .radio-dot::after {
+    transition: none;
+  }
+}
+
+/* --- Card quantity stepper ----------------------------------------------
+   Replaces the add button once the product is in the cart. Sized to the add
+   button it stands in for (h-11), so the card does not resize on the swap.
+
+   Restyled to the product page's counter language (Ahmed, 2026-07-22): white
+   surface, quiet −, and the + carrying the CTA fill — the "more" affordance
+   is the loud one, everything else settles. One deliberate difference from
+   the product-page counter: NO padding between container and buttons. The
+   control is locked to h-11 so the card never resizes on the swap, and inner
+   padding could only come out of the buttons' 44px tap height, which is an
+   audited floor. Colour lives here rather than in the markup because it is
+   one decision about one component, and the Play CDN makes opacity-modified
+   arbitrary colours unreliable. */
+.card-stepper {
+  background: #ffffff;
+  border: 1px solid #d5dad1;
+  color: #00451C;
+}
+
+/* --- Quantity steppers always read − … + , left to right ------------------
+   Ahmed, 2026-07-26: + on the right, − on the left, everywhere.
+
+   Every stepper's DOM order is already `− , qty , +`, which lays out correctly
+   in LTR and MIRRORS in RTL — so Arabic, the default, was drawing + on the
+   left. The fix is to stop this one control mirroring, not to reorder four
+   sets of markup: a stepper is not bidirectional text. It is a numeric control
+   whose axis means "less ← → more", and that axis is conventional, not
+   linguistic — the same reason phone numbers and prices are not mirrored.
+
+   `direction: ltr` on the container flips only the flex main axis, so the
+   markup, the JS hooks and the aria-labels are all untouched, and English mode
+   — which was already correct — does not move a pixel. Reordering the DOM
+   instead would have fixed Arabic by breaking English.
+
+   Four containers, because these are four genuinely different components, not
+   four copies: the product page counter and the static cart line (both
+   [data-stepper], build/components.py), the product card's swap-in stepper
+   ([data-card-stepper], same file), and the runtime cart line
+   ([data-cart-stepper], cartLineHTML in scripts.js) which renders into every
+   [data-cart-lines] host — the drawer, the cart page and the checkout summary.
+   Listing them here keeps it one decision rather than four.
+
+   Only the container is turned; nothing inside inherits a layout change,
+   because no stepper child uses a logical inline property. */
+[data-stepper],
+[data-card-stepper],
+[data-cart-stepper] {
+  direction: ltr;
+}
+/* All paint goes on the inner .stepper-face, never the button: the face is
+   the 36px circle that shows the 4px inset the other counters get from real
+   container padding, while the button behind it keeps the full 44px hit
+   area. Painting the button would draw the fill edge-to-edge and the inset
+   would vanish. */
+.card-stepper .stepper-face {
+  transition: background-color 0.16s var(--ease-out);
+}
+.card-stepper button:hover .stepper-face {
+  background: rgba(22, 51, 0, 0.08);
+}
+.card-stepper [data-card-step="1"] .stepper-face {
+  background: #00451C;
+  color: #ffffff;
+}
+.card-stepper [data-card-step="1"]:hover .stepper-face {
+  background: #006328;
+}
+.card-stepper [data-card-qty] {
+  color: #003616;
+  transform-origin: center;
+}
+.card-stepper button {
+  transition: transform 0.16s var(--ease-out);
+}
+.card-stepper button:active {
+  transform: scale(0.9);
+}
+
+/* --- Primary nav underline ----------------------------------------------
+   Two states that must not look alike.
+
+   `is-current` is the page you are on. It is painted for as long as you are
+   there, so it has to say "you are here" rather than "something is under the
+   pointer" — solid brand beige, full width.
+
+   Hover is transient and says only "the pointer is here": it GROWS from the
+   tab's centre to full width (Ahmed asked for the increasing-width motion,
+   2026-07-22), in the brand accent yellow (#8ACC3E, Ahmed 2026-07-30) rather
+   than the brand beige. The growth is the tell — the current-page bar is
+   simply there, never seen arriving — and the colour keeps the two states
+   apart even in a still screenshot, so neither can be mistaken for the other
+   (beige current vs yellow hover). That confusion is the bug Ahmed reported
+   three times.
+
+   Hovering the current tab keeps the current treatment — it is still the page
+   you are on, and downgrading it under the pointer would be a step backwards.
+   `transform`, not `width`, so nothing relayouts on hover; the markup's
+   origin-center is what makes the bar grow outward from the middle. */
+.nav-underline {
+  background: #dcc498;
+  transform: scaleX(0);
+  opacity: 0;
+  transition: transform 0.3s var(--ease-out), opacity 0.2s var(--ease-out);
+}
+/* Keyframes, not a transition: Ahmed wants full opacity to land only when
+   the sweep completes, and that needs a mid-state (grow at ~half opacity,
+   arrive at 1) that a two-endpoint transition cannot express. The bar still
+   cannot be confused with the current-page bar — it is yellow against the
+   current tab's beige, and the very fact you watched it arrive is the tell.
+   :not(.is-current) matters: without it the current tab's bar would re-run
+   the entrance on every hover, and the rule below that pins is-current can
+   only override properties, not cancel a running animation. */
+.group:hover > .nav-underline:not(.is-current) {
+  background: #8ACC3E;
+  animation: navUnderlineIn 0.3s var(--ease-out) forwards;
+}
+@keyframes navUnderlineIn {
+  0% {
+    transform: scaleX(0);
+    opacity: 0.35;
+  }
+  75% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+.nav-underline.is-current,
+.group:hover > .nav-underline.is-current {
+  background: #dcc498;
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-underline {
+    transition: none;
+  }
+  /* No sweep — the hover state simply IS its end state. */
+  .group:hover > .nav-underline:not(.is-current) {
+    animation: none;
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* --- Rating marks --------------------------------------------------------
+   A partially-filled mark is one glyph stacked on another and clipped by
+   width, so the empty and full states are guaranteed the same shape. The clip
+   is `inset-inline-start: 0` + a width, not `left`, so 4.8 fills from the
+   right in RTL — the direction the row is read in. */
+.rating-marks {
+  gap: 1px;
+}
+.rating-mark {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 1rem;
+  height: 1rem;
+  /* The unfilled remainder. Light enough to read as "not earned", dark enough
+     to still be visible as a mark: 1.9:1 against white, which is fine for a
+     decorative shape whose value is also printed as text beside it. */
+  color: #e4d9b4;
+}
+.rating-mark.is-full {
+  color: #8ACC3E;
+}
+.rating-mark__fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: #8ACC3E;
+}
+/* The inner glyph must keep the FULL mark's width and simply be cropped —
+   without this it squashes to the clip width and draws a thin sliver. */
+.rating-mark__fill > svg {
+  width: 1rem;
+  height: 1rem;
+  max-width: none;
+}
+
+/* --- Product gallery -----------------------------------------------------
+   Selected thumbnail is expressed by aria-pressed alone, the same contract the
+   favourites heart uses, so the accessible state and the painted state cannot
+   drift.
+
+   OUTLINE, not the inset box-shadow this used to be. Inset shadows paint
+   below an element's children, and the photo thumbnails fill the whole
+   button with their <img> — so the selected ring was being drawn and then
+   entirely hidden behind the photograph. Ahmed reported the gallery as
+   having no selected state at all; it had one nobody could see. An outline
+   paints in the topmost layer, over descendants, and with a negative offset
+   it hugs the same edge the old ring did without touching layout. The
+   unselected thumbs also sit at reduced opacity, so the chosen one reads as
+   lit rather than merely ringed. */
+.gallery-thumb {
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  opacity: 0.72;
+  transition: outline-color 0.18s var(--ease-out), opacity 0.18s var(--ease-out),
+    transform 0.18s var(--ease-out);
+}
+.gallery-thumb:hover {
+  outline-color: #d9d9d9;
+  opacity: 1;
+}
+.gallery-thumb[aria-pressed="true"] {
+  outline-color: #00451C;
+  opacity: 1;
+}
+.gallery-thumb:active {
+  transform: scale(0.96);
+}
+/* The main image cross-fades when a thumbnail is chosen; scripts.js flips
+   data-swapping for one frame either side of changing the src. */
+[data-gallery-main] {
+  transition: opacity 0.18s var(--ease-out);
+}
+[data-gallery-main][data-swapping="true"] {
+  opacity: 0;
+}
+
+/* Two fill modes on one box.
+
+   `contain` is for the background-isolated main shot: it is a cut-out with no
+   backdrop of its own, so it needs the plate's colour around it and padding to
+   sit in. `cover` is for the gallery photographs, which arrive as finished
+   images with their own backgrounds — contained, those float in a letterboxed
+   ring of #FDF8F1, which is the odd look Ahmed flagged. The padding lives here
+   rather than as a utility class precisely so it can switch with the mode
+   without the box ever changing size. */
+.gallery-plate[data-fill="contain"] {
+  padding: 1.5rem;
+}
+.gallery-plate[data-fill="contain"] [data-gallery-main] {
+  object-fit: contain;
+  max-width: 520px;
+}
+.gallery-plate[data-fill="cover"] {
+  padding: 0;
+}
+.gallery-plate[data-fill="cover"] [data-gallery-main] {
+  object-fit: cover;
+  max-width: none;
+}
+@media (min-width: 1280px) {
+  .gallery-plate[data-fill="contain"] {
+    padding: 2.5rem;
+  }
+}
+
+/* --- Carousel arrows -----------------------------------------------------
+   Same lift language as the buttons, so the whole page shares one idea of
+   what "interactive" feels like. */
+.carousel-btn {
+  transition: background-color 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out),
+    transform 0.18s var(--ease-out), opacity 0.18s var(--ease-out);
+}
+.carousel-btn:hover:not(.is-disabled) {
+  transform: translateY(-1px) scale(1.06);
+  box-shadow: var(--lift-shadow-sm);
+}
+.carousel-btn:active:not(.is-disabled) {
+  transform: translateY(0) scale(0.97);
+}
+
+/* --- Counter badges ------------------------------------------------------
+   Both badges animate via the Web Animations API on landing (see pulse()),
+   so all that is needed here is a transform origin that keeps the pulse
+   centred on the badge rather than the corner it is pinned to. */
+[data-cart-count],
+/* --- Empty cart --------------------------------------------------------
+   The glyph tile settles in and the copy rises behind it. Short and small:
+   an empty state is a dead end being softened, not an event — anything
+   longer reads as the page still loading. `both` fill, so the reduced-motion
+   block at the foot of this file has to reset opacity/transform as well as
+   killing the animation, or these would stay stuck on their 0% keyframe. */
+.cart-empty__badge {
+  animation: cart-empty-pop 0.42s var(--ease-out) both;
+}
+.cart-empty > p,
+.cart-empty > a {
+  animation: cart-empty-rise 0.4s var(--ease-out) both;
+}
+.cart-empty > p:nth-of-type(1) {
+  animation-delay: 0.06s;
+}
+.cart-empty > p:nth-of-type(2) {
+  animation-delay: 0.1s;
+}
+.cart-empty > a {
+  animation-delay: 0.15s;
+}
+@keyframes cart-empty-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes cart-empty-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Skip link ---------------------------------------------------------
+   Off-screen until focused, then parked at the top of the page. Uses inset
+   -inline-start rather than left so it lands on the correct side in RTL. */
+.skip-link {
+  position: absolute;
+  z-index: 100;
+  inset-inline-start: 16px;
+  top: -100px;
+  padding: 12px 20px;
+  border-radius: 0 0 12px 12px;
+  background-color: #00451C;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  transition: top 0.18s var(--ease-out);
+}
+.skip-link:focus {
+  top: 0;
+}
+/* The main landmark takes focus programmatically when the skip link is
+   followed; it must never paint a ring for that. */
+#main:focus {
+  outline: none;
+}
+
+/* --- Focus -------------------------------------------------------------
+   A single visible focus ring for keyboard users across the whole site.
+   :focus-visible, so it never appears on a mouse click.
+
+   NOTE the :where() is deliberately zero-specificity so components can opt
+   out — but that also means Tailwind's `outline-none` (0,1,0) beats it, and
+   two controls carry outline-none re-armed below on selectors that outrank a
+   single utility class: the search box and the listing sort select. Any new
+   `outline-none` needs the same treatment or it is invisible to a keyboard —
+   unless the control keeps a permanent visible border of its own and opts out
+   deliberately, as the footer newsletter field does (see its note below). */
+/* The ring is the brand's own ink (#00451C), not the #4aa948 it used to be —
+   a bright mid-green that appears NOWHERE in the Jaad palette (not in
+   tailwind.config.js, not in JAAD-BRAND-STYLES.md) and was left over from
+   the OrderBase template. Ahmed: too bright, make it darker.
+
+   The white halo is not decoration, it is what makes the dark ring legal.
+   Focus indicators need 3:1 against what they sit on (WCAG 2.2, 1.4.11), and
+   this ring lands on wildly different surfaces:
+
+       on white          #00451C alone   15.9:1   fine
+       on brand green    #00451C alone    1.63:1  INVISIBLE
+       on the yellow cart button          8.6:1   fine
+
+   So a flat dark ring would have traded a garish ring for an unusable one on
+   the green chrome, which is exactly where the header's buttons live. The
+   box-shadow paints white into the 2px offset gap, so the dark ring is always
+   separated from whatever is behind it by a light band: on white the halo is
+   invisible and the ring does the work, on green and yellow the halo does.
+   One rule, correct on every surface, instead of per-background overrides
+   that someone has to remember to extend.
+
+   The outline is kept as the outline (not folded into the box-shadow) because
+   an `overflow: hidden` ancestor clips box-shadows but never outlines — worst
+   case the halo is lost and a legible dark ring survives.
+
+   NO border-radius here (Ahmed, 2026-08-03: a forced 6px used to sit here,
+   overriding every focused element's OWN radius — a rounded-full pill button
+   visibly squared off to a 6px rectangle the instant it was focused, and a
+   rounded-xl field did the same. Outline follows the element's own
+   border-radius automatically in every current browser, so leaving this
+   property out keeps a pill a pill and a 12px field a 12px field, focused or
+   not, without hand-listing every radius in use across the site. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid #00451C;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #ffffff;
+}
+
+/* Bordered text fields (inputs, textareas, selects carrying focus:border-cta)
+   darken their OWN resting border on focus instead of ALSO drawing the global
+   ring above — with both active a field showed two borders: its own (turned
+   cta-green) plus the ring's 2px-offset outline and white halo sitting just
+   outside it. The colour change alone (#D9D9D9 -> #00451C) already satisfies
+   1.4.11 non-text contrast, so the ring is redundant here and reads as a
+   second border. Matched on the shared `focus:border-cta` utility rather than
+   a new class, so every field using that utility is covered without touching
+   markup in the half-dozen files that define one; specificity (0,2,0) beats
+   both `.outline-none` (0,1,0) and the global :where(...):focus-visible
+   (0,1,0), the same margin the search-row exception below uses. Toggle
+   controls with no border box of their own (radio, checkbox, the switch) are
+   untouched and keep the ring — they have nothing to darken. */
+[class*="focus:border-cta"]:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* The footer newsletter field shows only its own default border in the active
+   state — no focus ring, on either the form or the input inside it (Ahmed,
+   2026-08-03: the active state was drawing TWO rings, an outer one on the form
+   and an inner one hugging the placeholder text; both had to go).
+
+   The OUTER ring was `.newsletter-row:focus-within` (now deleted). The INNER
+   one is subtler: the input carries Tailwind's `outline-none`, but that is
+   `outline: 2px solid transparent` at specificity (0,1,0) and the global
+   :where(...):focus-visible ring below is ALSO (0,1,0) — the `:focus-visible`
+   pseudo-class carries the weight, `:where()` zeroes its own contents — so
+   they TIE and the global rule, emitted later, wins. On a real focus-visible
+   focus (a click or Tab, NOT a programmatic .focus()) the input therefore drew
+   the #00451C outline + white halo INSIDE the field's border. `outline-none`
+   silently lost that tie; this rule wins it back at (0,1,1) and kills the
+   box-shadow too, the same move [class*="focus:border-cta"] and the search
+   field make. The field keeps its permanent `border-2`, so it is never
+   unbordered — only the on-focus ring is dropped. */
+[data-newsletter] input:focus,
+[data-newsletter] input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* The search field shows NO border or focus ring when activated (Ahmed,
+   2026-08-02). The resting bottom border is already transparent (markup), the
+   focus-within no longer greens it, and this rule strips the green
+   :focus-visible outline the field would otherwise inherit from the global
+   ring below. The 0,3,0 specificity is deliberate — it has to beat BOTH
+   .outline-none (0,1,0) and :where(...):focus-visible (0,1,0). The modal is a
+   self-contained focus context (its close button and the result links keep the
+   global ring, and the caret + placeholder mark the active field), so the bare
+   field does not strand keyboard users. */
+.search-row [data-search-input]:focus,
+.search-row [data-search-input]:focus-visible {
+  outline: none;
+}
+
+/* The site search field is `type=search` for the semantics, but WebKit/iOS
+   paint that with their own rounded field border and a native "×" clear
+   button — off-brand chrome that hugged the input (icon and close sitting
+   outside it) and duplicated the modal's own close. Reset it so the only
+   focus indicator is the .search-row ring above. Chromium desktop never drew
+   this, which is why it only showed on iOS. */
+[data-search-input] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+[data-search-input]::-webkit-search-cancel-button,
+[data-search-input]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Custom sort dropdown (initFancySelect). The check marks the selected row;
+   unselected rows keep the glyph's slot (opacity, not display) so the labels
+   never shift as selection moves. */
+[data-fancy-check] {
+  opacity: 0;
+}
+[data-fancy-opt][aria-selected="true"] [data-fancy-check] {
+  opacity: 1;
+}
+
+/* The sort control shows no focus ring in its active state — the same call as
+   the newsletter and search fields (Ahmed, 2026-08-03: the ring read as a
+   border around the sort label). Covers both the native <select> (the mobile
+   control + no-JS fallback) and the desktop custom trigger button, so the
+   control is ring-free at every width. The specificity (0,3,0) clears the
+   global :where(...):focus-visible ring (0,1,0) that the trigger would
+   otherwise inherit. NOTE: this drops the keyboard focus indicator on the
+   sort control; the open dropdown and the hover wash carry the interaction,
+   matching the two fields above. */
+[data-fancy-select] select.select-sort:focus,
+[data-fancy-select] select.select-sort:focus-visible,
+[data-fancy-select] [data-fancy-trigger]:focus,
+[data-fancy-select] [data-fancy-trigger]:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .carousel-btn {
+    transition: none;
+  }
+  .carousel-btn:hover:not(.is-disabled),
+  .carousel-btn:active:not(.is-disabled) {
+    transform: none;
+  }
+  /* flyTo() bails out entirely here, so the ghost rules never come into
+     play — these are the ones that can still be seen. */
+  .card-stepper button {
+    transition: none;
+  }
+  .card-stepper button:active {
+    transform: none;
+  }
+  .tab-btn::after {
+    transition: none;
+  }
+  .gallery-thumb,
+  [data-gallery-main] {
+    transition: none;
+  }
+  .gallery-thumb:active {
+    transform: none;
+  }
+  /* `both` fill means these must be neutralised, not just un-animated: with
+     the animation cancelled and no override the elements would keep the 0%
+     keyframe and the empty state would sit there invisible. */
+  .cart-empty__badge,
+  .cart-empty > p,
+  .cart-empty > a {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ===============================================================
+   Membership tier badge — an actively shining metallic pill
+   (Ahmed, 2026-08-04). Silver / gold / platinum; a gloss sweeps
+   across on a loop, and each metal keeps a legible AA ink.
+   =============================================================== */
+.tier-badge {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35), 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+.tier-badge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.7) 48%,
+    rgba(255, 255, 255, 0.15) 56%,
+    transparent 70%
+  );
+  transform: translateX(-130%);
+  animation: tierShine 3.6s var(--ease-out) infinite;
+}
+[dir="rtl"] .tier-badge::after {
+  animation-name: tierShineRtl;
+}
+@keyframes tierShine {
+  0% { transform: translateX(-130%); }
+  55%, 100% { transform: translateX(130%); }
+}
+@keyframes tierShineRtl {
+  0% { transform: translateX(130%); }
+  55%, 100% { transform: translateX(-130%); }
+}
+.tier-badge--gold {
+  background: linear-gradient(135deg, #f6e6a6 0%, #8ACC3E 45%, #d4a72c 100%);
+  color: #4a3708;
+}
+.tier-badge--silver {
+  background: linear-gradient(135deg, #eef1f5 0%, #cbd2db 48%, #a7b0bd 100%);
+  color: #343a44;
+}
+.tier-badge--platinum {
+  background: linear-gradient(135deg, #f7f9fc 0%, #dfe6ef 45%, #c3cdda 100%);
+  color: #2b3442;
+  box-shadow: inset 0 0 0 1px rgba(120, 140, 170, 0.4), 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+/* Wallet balance "pop" — a soft bounce while the number counts up after a
+   voucher activation or points redemption (Ahmed, 2026-08-04). inline-block so
+   the scale takes; skipped under reduced motion (JS also bails). */
+.wallet-pop {
+  display: inline-block;
+  animation: walletPop 0.6s var(--ease-out);
+  transform-origin: center;
+}
+@keyframes walletPop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.18); }
+  60% { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wallet-pop { animation: none; }
+}
+
+/* Wallet CARD credit glow — the whole balance panel pulses a green ring and
+   lifts when money lands in it, so a top-up reads at panel scale, not just on
+   the digits (Ahmed, 2026-08-05). Paired with walletCreditFX() in scripts.js;
+   applied to [data-wallet-card]. */
+.wallet-card-glow {
+  animation: walletCardGlow 1.4s var(--ease-out);
+}
+@keyframes walletCardGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(22, 51, 0, 0), 0px 4px 24px rgba(0, 0, 0, 0.08);
+    transform: translateY(0);
+  }
+  22% {
+    box-shadow: 0 0 0 4px rgba(52, 104, 83, 0.45), 0px 12px 34px rgba(22, 51, 0, 0.22);
+    transform: translateY(-4px);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(22, 51, 0, 0), 0px 4px 24px rgba(0, 0, 0, 0.08);
+    transform: translateY(0);
+  }
+}
+
+/* The "+EGP N" chip that rises off the balance as it counts up. Fixed-position
+   like the fly-to-cart ghost so no card overflow can clip it; positioned and
+   animated in JS, removed on finish. */
+.wallet-delta-chip {
+  position: fixed;
+  z-index: 130;
+  pointer-events: none;
+  transform: translate(-50%, 0);
+  background: #00451C;
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 1;
+  padding: 7px 12px;
+  border-radius: 9999px;
+  box-shadow: 0px 6px 16px rgba(22, 51, 0, 0.35);
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wallet-card-glow { animation: none; }
+}
+
+/* Membership tier cards (points page). The current tier is inked + ringed; the
+   rest muted. `data-current` is toggled by scripts.js as the balance changes,
+   so a selected state never reads like a hover (CLAUDE.md). */
+.tier-card {
+  background: #fff;
+  border-color: #e5e7e0;
+  color: #6b6b6b;
+}
+.tier-card[data-current] {
+  background: #FDF8F1;
+  border-color: #00451C;
+  box-shadow: inset 0 0 0 1px #00451C;
+  color: #003616;
+}
+.tier-card__dot {
+  background: #cfd3cb;
+}
+.tier-card[data-current] .tier-card__dot {
+  background: #00451C;
+}
+
+/* ===============================================================
+   Order tracker — animated stepper (Ahmed, 2026-08-04). Each step
+   carries a visual; the connector up to the reached step fills, the
+   one entering the current step flows, and the current bubble pulses
+   and bobs so the status reads as live.
+   =============================================================== */
+.order-track {
+  display: flex;
+  align-items: flex-start;
+}
+.track-step {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+/* Connector between two bubbles. Three SEPARATE segments (one per gap, not one
+   line threading through the circles) with a clear gap at each end so the line
+   never touches a circle (Ahmed, 2026-08-04): it spans center→center then insets
+   40px each side (circle radius 34 + ~6 breathing room). `top` centres it on the
+   68px bubble; taller (6px) so the flow/shimmer reads. */
+.track-step__conn {
+  position: absolute;
+  top: 31px;
+  inset-inline-start: calc(-50% + 40px);
+  width: calc(100% - 80px);
+  height: 6px;
+  border-radius: 9999px;
+  background: #e5e7e0;
+  z-index: 0;
+}
+.track-step__conn.is-filled {
+  background: #00451C;
+}
+.track-step__conn.is-active {
+  background: linear-gradient(90deg, #00451C 0%, #00451C 38%, #4c9a2a 50%, #00451C 62%, #00451C 100%);
+  background-size: 250% 100%;
+  animation: trackFlow 1.4s linear infinite;
+}
+.track-step__art {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  border-radius: 9999px;
+  line-height: 1;
+  background: #f1f1ee;
+  box-shadow: inset 0 0 0 2px #e5e7e0;
+  transition: box-shadow 0.2s var(--ease-out), background 0.2s var(--ease-out);
+}
+.track-step.is-todo .track-step__art {
+  filter: grayscale(0.5);
+  opacity: 0.7;
+}
+.track-step.is-done .track-step__art {
+  background: #e9f3e6;
+  box-shadow: inset 0 0 0 2px #bfe0b8;
+}
+.track-step.is-now .track-step__art {
+  background: #e9f3e6;
+  box-shadow: inset 0 0 0 2px #bfe0b8;
+}
+/* Spinning loader ring around the CURRENT step (Ahmed, 2026-08-04). A masked
+   conic gradient is the arc — only the outer band shows, so the bubble face
+   stays clean — and it rotates to read as "in progress / loading". */
+.track-step.is-now .track-step__art::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  background: conic-gradient(from 0deg, rgba(22, 51, 0, 0) 0deg 200deg, #4c9a2a 320deg, #00451C 360deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
+          mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
+  animation: trackSpin 0.9s linear infinite;
+}
+/* The 3D icon sways gently left↔right inside the spinner so the live step
+   feels alive without bobbing the whole bubble. */
+.track-step.is-now .track-step__art img {
+  animation: trackSway 1.9s ease-in-out infinite;
+}
+.track-step__check {
+  position: absolute;
+  inset-block-start: -2px;
+  inset-inline-end: -2px;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  padding: 3px;
+  border-radius: 9999px;
+  background: #00451C;
+  color: #fff;
+  box-shadow: 0 0 0 2px #fff;
+}
+.track-step__label {
+  font-size: 11px;
+  line-height: 1.3;
+  color: #003616;
+}
+.track-step.is-todo .track-step__label {
+  color: #6b6b6b;
+}
+.track-step.is-now .track-step__label {
+  font-weight: 700;
+}
+/* Optional per-step subtitle (thank-you page). Hidden on mobile so a 4-step
+   horizontal row does not cramp; shown from 640px up. */
+.track-step__sub {
+  display: none;
+  max-width: 16ch;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #6b6b6b;
+}
+@media (min-width: 640px) {
+  .track-step__sub {
+    display: block;
+  }
+}
+@keyframes trackFlow {
+  0% { background-position: 150% 0; }
+  100% { background-position: -150% 0; }
+}
+@keyframes trackSpin {
+  to { transform: rotate(360deg); }
+}
+@keyframes trackSway {
+  0%, 100% { transform: translateX(-2.5px); }
+  50% { transform: translateX(2.5px); }
+}
+
+/* Small chevrons that flow along the ACTIVE connector toward the current step,
+   fading in and out (Ahmed, 2026-08-04). They live inside the connector, which
+   in RTL runs from the previous step (start/right) to the current one, so the
+   travel is toward the inline END. Three of them, staggered, read as motion
+   heading into the spinner. */
+.track-conn__arrows {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  pointer-events: none;
+}
+.track-conn__arrows b {
+  width: 5px;
+  height: 5px;
+  /* physical left+bottom borders rotated 45° → a chevron pointing LEFT, i.e.
+     toward the current step (which sits to the connector's left in RTL). */
+  border-left: 2px solid #eafbe3;
+  border-bottom: 2px solid #eafbe3;
+  transform: rotate(45deg);
+  opacity: 0;
+  animation: trackArrow 1.4s ease-in-out infinite;
+}
+.track-conn__arrows b:nth-child(2) { animation-delay: 0.18s; }
+.track-conn__arrows b:nth-child(3) { animation-delay: 0.36s; }
+@keyframes trackArrow {
+  0% { opacity: 0; transform: translateX(5px) rotate(45deg); }
+  45% { opacity: 0.95; }
+  100% { opacity: 0; transform: translateX(-6px) rotate(45deg); }
+}
+/* Worst case is a plain, correct stepper: kill the spinner, sway, shimmer and
+   arrows, and leave the current step's ring static. */
+@media (prefers-reduced-motion: reduce) {
+  .track-step.is-now .track-step__art::before,
+  .track-step.is-now .track-step__art img,
+  .track-step__conn.is-active,
+  .track-conn__arrows b {
+    animation: none;
+  }
+  .track-conn__arrows { display: none; }
+}
+
+/* Live status dot — a pulsing ripple for an in-progress order. currentColor,
+   so it takes the badge's own ink. */
+.status-live-dot {
+  position: relative;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.status-live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: statusPing 1.6s var(--ease-out) infinite;
+}
+@keyframes statusPing {
+  0% { transform: scale(1); opacity: 0.55; }
+  70%, 100% { transform: scale(2.6); opacity: 0; }
+}
+
+/* Filled order note reads as editable: hover arms the border + a faint wash,
+   so a shopper knows clicking it reopens the editor (Ahmed, 2026-08-04). */
+.note-filled {
+  cursor: pointer;
+}
+.note-filled:hover {
+  border-color: #00451C;
+  background: #fafcf9;
+}
+
+/* OTP boxes — an EMPTY box reads inactive (greyed); focus or a filled digit
+   turns it active (white + brand border). `.is-filled` is toggled by the OTP
+   handler in scripts.js (more reliable than :placeholder-shown with the demo
+   autofill, which sets values programmatically). */
+.otp-box {
+  background: #f4f5f2;
+  border: 2px solid #e5e7e0;
+  outline: none;
+  transition: background 0.15s var(--ease-out), border-color 0.15s var(--ease-out);
+}
+.otp-box:focus,
+.otp-box.is-filled {
+  background: #fff;
+  border-color: #00451C;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tier-badge::after,
+  .track-step__conn.is-active,
+  .track-step.is-now .track-step__art,
+  .status-live-dot::after {
+    animation: none;
+  }
+  .track-step.is-now .track-step__art {
+    transform: none;
+    box-shadow: inset 0 0 0 2px #00451C;
+  }
+}

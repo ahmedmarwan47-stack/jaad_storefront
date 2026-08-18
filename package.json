@@ -1,0 +1,14 @@
+{
+  "name": "jaad-storefront",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Jaad static storefront — Tailwind build step. Everything else is plain HTML/CSS/JS with no toolchain.",
+  "scripts": {
+    "css": "tailwindcss -c tailwind.config.js -i build/tailwind/input.css -o static-export/tailwind.css --minify",
+    "css:watch": "tailwindcss -c tailwind.config.js -i build/tailwind/input.css -o static-export/tailwind.css --watch",
+    "build": "python3 build/build.py && npm run css"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

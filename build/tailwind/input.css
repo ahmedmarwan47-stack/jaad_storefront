@@ -1,0 +1,18 @@
+/*
+ * Tailwind entry point. Compiled to static-export/tailwind.css by
+ * `npm run css` (see package.json), which build/build.py runs for you.
+ *
+ * This file is deliberately only the three directives. All hand-written CSS
+ * lives in static-export/styles.css, which is a RUNTIME file — editing it
+ * needs no rebuild, and that property is worth keeping. Pulling it in here
+ * would make every style change require a Tailwind run.
+ *
+ * Load order in the page shell matters and is: tailwind.css, then styles.css.
+ * styles.css has to win, because several of its rules exist specifically to
+ * beat a utility — [hidden] { display: none !important }, the focus ring
+ * re-armed over `outline-none`, and the sticky-nav rule that outranks a
+ * single class. Swap the order and those silently stop working.
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
