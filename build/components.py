@@ -616,7 +616,10 @@ def product_gallery(images, alt, p=None):
     # frame edge to edge instead. `fetch_galleries.py` puts gallery shots in
     # their own directory, which is exactly the signal for which is which.
     def _is_photo(path):
-        return "/gallery/" in path
+        # products-styled/ holds full beige-linen scene photos (JAAD gallery
+        # shots), so they fill the plate edge-to-edge like the /gallery/ ones
+        # rather than sitting padded inside it as cut-outs (Ahmed, 2026-08-18).
+        return "/gallery/" in path or "/products-styled/" in path
 
     if len(images) == 1:
         strip = ""
@@ -665,7 +668,7 @@ def product_gallery(images, alt, p=None):
                  would shrink the column by the padding it just dropped, and
                  the whole page would jump on every thumbnail click. The height
                  is also what the thumbnail strip is capped to. -->
-            <div data-gallery-plate data-fill="{'cover' if '/gallery/' in main_img else 'contain'}"
+            <div data-gallery-plate data-fill="{'cover' if _is_photo(main_img) else 'contain'}"
                  class="gallery-plate relative flex-1 bg-interaction-base rounded-[20px] min-w-0 overflow-hidden
                         h-[348px] xl:h-[520px]">
               <img data-gallery-main src="{e(main_img)}" alt="{e(alt)}"

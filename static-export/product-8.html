@@ -95,6 +95,30 @@
                The wrapper owns `lg:self-start lg:sticky lg:top-[60px]`; this
                only works because <main> is `overflow-x-clip` (see page()). -->
           <div data-gallery class="flex md:flex-row flex-col-reverse gap-4 min-w-0">
+            <div class="flex md:flex-col gap-3 md:max-h-[348px] xl:max-h-[520px]
+                        overflow-x-auto md:overflow-x-hidden md:overflow-y-auto no-scrollbar shrink-0">
+                <button type="button" data-gallery-thumb aria-pressed="true"
+                        aria-label="عرض الصورة 1 من 3"
+                        data-fill="cover"
+                        class="gallery-thumb bg-interaction-base rounded-xl w-20 h-20 shrink-0 overflow-hidden">
+                  <img src="images/jaad/products-styled/8.jpg" alt=""
+                       class="w-full h-full object-cover" loading="lazy" />
+                </button>
+                <button type="button" data-gallery-thumb aria-pressed="false"
+                        aria-label="عرض الصورة 2 من 3"
+                        data-fill="cover"
+                        class="gallery-thumb bg-interaction-base rounded-xl w-20 h-20 shrink-0 overflow-hidden">
+                  <img src="images/jaad/products-styled/8-b.jpg" alt=""
+                       class="w-full h-full object-cover" loading="lazy" />
+                </button>
+                <button type="button" data-gallery-thumb aria-pressed="false"
+                        aria-label="عرض الصورة 3 من 3"
+                        data-fill="cover"
+                        class="gallery-thumb bg-interaction-base rounded-xl w-20 h-20 shrink-0 overflow-hidden">
+                  <img src="images/jaad/products-styled/8-c.jpg" alt=""
+                       class="w-full h-full object-cover" loading="lazy" />
+                </button>
+            </div>
             <!-- The plate keeps its own padding for the cut-out main shot;
                  scripts.js swaps data-fill to "cover" for the photographs,
                  which drops the padding and lets them bleed to the rounded
@@ -106,16 +130,16 @@
                  would shrink the column by the padding it just dropped, and
                  the whole page would jump on every thumbnail click. The height
                  is also what the thumbnail strip is capped to. -->
-            <div data-gallery-plate data-fill="contain"
+            <div data-gallery-plate data-fill="cover"
                  class="gallery-plate relative flex-1 bg-interaction-base rounded-[20px] min-w-0 overflow-hidden
                         h-[348px] xl:h-[520px]">
-              <img data-gallery-main src="images/jaad/products/nuts-cashew.png" alt="كاجو"
+              <img data-gallery-main src="images/jaad/products-styled/8.jpg" alt="كاجو"
                    class="mx-auto w-full h-full" />
               <button type="button" data-fav-toggle aria-pressed="false" aria-label="أضف إلى المفضلة" data-product data-id="8" data-name="كاجو" data-price="85.0" data-image="images/jaad/products/nuts-cashew.png" class="fav-btn btn-elevate absolute top-4 end-4 z-10 place-items-center grid bg-white/90 hover:bg-white shadow-custom4 rounded-full text-cta size-11"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5"><path d="M12 20.5s-7.5-4.6-7.5-9.6a4.4 4.4 0 0 1 7.5-3.1 4.4 4.4 0 0 1 7.5 3.1c0 5-7.5 9.6-7.5 9.6Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 20.5s-7.5-4.6-7.5-9.6a4.4 4.4 0 0 1 7.5-3.1 4.4 4.4 0 0 1 7.5 3.1c0 5-7.5 9.6-7.5 9.6Z"/></svg></button>
             </div>
           </div>
           <div class="hidden lg:block">
-          <div data-bundle class="flex flex-col bg-white shadow-custom4 p-4 xl:p-5 rounded-[20px]">
+          <div data-bundle class="flex flex-col bg-white shadow-custom4 p-4 xl:p-5 rounded-[20px] md:ms-[96px]">
             <h2 class="mb-1 px-2 font-bold text-[#003616] text-base xl:text-lg">قد يعجبك أيضاً</h2>
             <div class="flex flex-col">
                 <label data-product data-bundle-item
@@ -374,7 +398,7 @@
                the HTML. `lg:hidden` removes it from the grid at lg entirely,
                so it adds no row/track there. -->
           <div class="lg:hidden">
-          <div data-bundle class="flex flex-col bg-white shadow-custom4 p-4 xl:p-5 rounded-[20px]">
+          <div data-bundle class="flex flex-col bg-white shadow-custom4 p-4 xl:p-5 rounded-[20px] md:ms-[96px]">
             <h2 class="mb-1 px-2 font-bold text-[#003616] text-base xl:text-lg">قد يعجبك أيضاً</h2>
             <div class="flex flex-col">
                 <label data-product data-bundle-item
