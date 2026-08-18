@@ -9,7 +9,9 @@
       "price": 45.0,
       "image": "images/jaad/products/coffee-light-plain.png",
       "images": [
-        "images/jaad/products/coffee-light-plain.png"
+        "images/jaad/products-styled/1.jpg",
+        "images/jaad/products-styled/1-b.jpg",
+        "images/jaad/products-styled/1-c.jpg"
       ]
     },
     {
@@ -21,7 +23,9 @@
       "price": 45.0,
       "image": "images/jaad/products/coffee-medium-plain.png",
       "images": [
-        "images/jaad/products/coffee-medium-plain.png"
+        "images/jaad/products-styled/2.jpg",
+        "images/jaad/products-styled/2-b.jpg",
+        "images/jaad/products-styled/2-c.jpg"
       ]
     },
     {
@@ -33,7 +37,9 @@
       "price": 45.0,
       "image": "images/jaad/products/coffee-dark-plain.png",
       "images": [
-        "images/jaad/products/coffee-dark-plain.png"
+        "images/jaad/products-styled/3.jpg",
+        "images/jaad/products-styled/3-b.jpg",
+        "images/jaad/products-styled/3-c.jpg"
       ]
     },
     {
@@ -45,7 +51,9 @@
       "price": 50.0,
       "image": "images/jaad/products/coffee-light-cardamom.png",
       "images": [
-        "images/jaad/products/coffee-light-cardamom.png"
+        "images/jaad/products-styled/4.jpg",
+        "images/jaad/products-styled/4-b.jpg",
+        "images/jaad/products-styled/4-c.jpg"
       ]
     },
     {
@@ -57,7 +65,9 @@
       "price": 50.0,
       "image": "images/jaad/products/coffee-medium-cardamom.png",
       "images": [
-        "images/jaad/products/coffee-medium-cardamom.png"
+        "images/jaad/products-styled/5.jpg",
+        "images/jaad/products-styled/5-b.jpg",
+        "images/jaad/products-styled/5-c.jpg"
       ]
     },
     {
@@ -69,7 +79,9 @@
       "price": 50.0,
       "image": "images/jaad/products/coffee-dark-cardamom.png",
       "images": [
-        "images/jaad/products/coffee-dark-cardamom.png"
+        "images/jaad/products-styled/6.jpg",
+        "images/jaad/products-styled/6-b.jpg",
+        "images/jaad/products-styled/6-c.jpg"
       ]
     },
     {
@@ -81,7 +93,9 @@
       "price": 65.0,
       "image": "images/jaad/products/coffee-espresso.png",
       "images": [
-        "images/jaad/products/coffee-espresso.png"
+        "images/jaad/products-styled/7.jpg",
+        "images/jaad/products-styled/7-b.jpg",
+        "images/jaad/products-styled/7-c.jpg"
       ]
     },
     {
@@ -93,7 +107,9 @@
       "price": 85.0,
       "image": "images/jaad/products/nuts-cashew.png",
       "images": [
-        "images/jaad/products/nuts-cashew.png"
+        "images/jaad/products-styled/8.jpg",
+        "images/jaad/products-styled/8-b.jpg",
+        "images/jaad/products-styled/8-c.jpg"
       ]
     },
     {
@@ -105,7 +121,9 @@
       "price": 80.0,
       "image": "images/jaad/products/nuts-hazelnut.png",
       "images": [
-        "images/jaad/products/nuts-hazelnut.png"
+        "images/jaad/products-styled/9.jpg",
+        "images/jaad/products-styled/9-b.jpg",
+        "images/jaad/products-styled/9-c.jpg"
       ]
     },
     {
@@ -117,7 +135,9 @@
       "price": 90.0,
       "image": "images/jaad/products/nuts-pistachio.png",
       "images": [
-        "images/jaad/products/nuts-pistachio.png"
+        "images/jaad/products-styled/10.jpg",
+        "images/jaad/products-styled/10-b.jpg",
+        "images/jaad/products-styled/10-c.jpg"
       ]
     },
     {
@@ -129,7 +149,9 @@
       "price": 85.0,
       "image": "images/jaad/products/nuts-almond.png",
       "images": [
-        "images/jaad/products/nuts-almond.png"
+        "images/jaad/products-styled/11.jpg",
+        "images/jaad/products-styled/11-b.jpg",
+        "images/jaad/products-styled/11-c.jpg"
       ]
     },
     {
@@ -141,7 +163,9 @@
       "price": 65.0,
       "image": "images/jaad/products/nuts-walnut.png",
       "images": [
-        "images/jaad/products/nuts-walnut.png"
+        "images/jaad/products-styled/12.jpg",
+        "images/jaad/products-styled/12-b.jpg",
+        "images/jaad/products-styled/12-c.jpg"
       ]
     },
     {
@@ -153,7 +177,9 @@
       "price": 35.0,
       "image": "images/jaad/products/spices-chili.png",
       "images": [
-        "images/jaad/products/spices-chili.png"
+        "images/jaad/products-styled/13.jpg",
+        "images/jaad/products-styled/13-b.jpg",
+        "images/jaad/products-styled/13-c.jpg"
       ]
     },
     {
@@ -165,7 +191,9 @@
       "price": 35.0,
       "image": "images/jaad/products/spices-turmeric.png",
       "images": [
-        "images/jaad/products/spices-turmeric.png"
+        "images/jaad/products-styled/14.jpg",
+        "images/jaad/products-styled/14-b.jpg",
+        "images/jaad/products-styled/14-c.jpg"
       ]
     },
     {
@@ -177,7 +205,9 @@
       "price": 35.0,
       "image": "images/jaad/products/spices-ginger.png",
       "images": [
-        "images/jaad/products/spices-ginger.png"
+        "images/jaad/products-styled/15.jpg",
+        "images/jaad/products-styled/15-b.jpg",
+        "images/jaad/products-styled/15-c.jpg"
       ]
     },
     {
@@ -189,7 +219,9 @@
       "price": 30.0,
       "image": "images/jaad/products/spices-coriander.png",
       "images": [
-        "images/jaad/products/spices-coriander.png"
+        "images/jaad/products-styled/16.jpg",
+        "images/jaad/products-styled/16-b.jpg",
+        "images/jaad/products-styled/16-c.jpg"
       ]
     },
     {
@@ -201,7 +233,9 @@
       "price": 40.0,
       "image": "images/jaad/products/spices-nutmeg.png",
       "images": [
-        "images/jaad/products/spices-nutmeg.png"
+        "images/jaad/products-styled/17.jpg",
+        "images/jaad/products-styled/17-b.jpg",
+        "images/jaad/products-styled/17-c.jpg"
       ]
     },
     {
@@ -213,7 +247,9 @@
       "price": 35.0,
       "image": "images/jaad/products/spices-cinnamon.png",
       "images": [
-        "images/jaad/products/spices-cinnamon.png"
+        "images/jaad/products-styled/18.jpg",
+        "images/jaad/products-styled/18-b.jpg",
+        "images/jaad/products-styled/18-c.jpg"
       ]
     },
     {
@@ -225,7 +261,9 @@
       "price": 35.0,
       "image": "images/jaad/products/spices-paprika.png",
       "images": [
-        "images/jaad/products/spices-paprika.png"
+        "images/jaad/products-styled/19.jpg",
+        "images/jaad/products-styled/19-b.jpg",
+        "images/jaad/products-styled/19-c.jpg"
       ]
     },
     {
@@ -237,7 +275,9 @@
       "price": 40.0,
       "image": "images/jaad/products/spices-black-pepper.png",
       "images": [
-        "images/jaad/products/spices-black-pepper.png"
+        "images/jaad/products-styled/20.jpg",
+        "images/jaad/products-styled/20-b.jpg",
+        "images/jaad/products-styled/20-c.jpg"
       ]
     },
     {
@@ -249,7 +289,9 @@
       "price": 55.0,
       "image": "images/jaad/products/spices-cardamom.png",
       "images": [
-        "images/jaad/products/spices-cardamom.png"
+        "images/jaad/products-styled/21.jpg",
+        "images/jaad/products-styled/21-b.jpg",
+        "images/jaad/products-styled/21-c.jpg"
       ]
     },
     {
@@ -261,7 +303,9 @@
       "price": 40.0,
       "image": "images/jaad/products/spices-cloves.png",
       "images": [
-        "images/jaad/products/spices-cloves.png"
+        "images/jaad/products-styled/22.jpg",
+        "images/jaad/products-styled/22-b.jpg",
+        "images/jaad/products-styled/22-c.jpg"
       ]
     },
     {
@@ -273,7 +317,9 @@
       "price": 35.0,
       "image": "images/jaad/products/spices-cumin.png",
       "images": [
-        "images/jaad/products/spices-cumin.png"
+        "images/jaad/products-styled/23.jpg",
+        "images/jaad/products-styled/23-b.jpg",
+        "images/jaad/products-styled/23-c.jpg"
       ]
     },
     {
@@ -285,7 +331,9 @@
       "price": 40.0,
       "image": "images/jaad/products/spices-meat.png",
       "images": [
-        "images/jaad/products/spices-meat.png"
+        "images/jaad/products-styled/24.jpg",
+        "images/jaad/products-styled/24-b.jpg",
+        "images/jaad/products-styled/24-c.jpg"
       ]
     },
     {
@@ -297,7 +345,9 @@
       "price": 40.0,
       "image": "images/jaad/products/spices-chicken.png",
       "images": [
-        "images/jaad/products/spices-chicken.png"
+        "images/jaad/products-styled/25.jpg",
+        "images/jaad/products-styled/25-b.jpg",
+        "images/jaad/products-styled/25-c.jpg"
       ]
     },
     {
@@ -309,7 +359,9 @@
       "price": 40.0,
       "image": "images/jaad/products/spices-fish.png",
       "images": [
-        "images/jaad/products/spices-fish.png"
+        "images/jaad/products-styled/26.jpg",
+        "images/jaad/products-styled/26-b.jpg",
+        "images/jaad/products-styled/26-c.jpg"
       ]
     }
   ],
