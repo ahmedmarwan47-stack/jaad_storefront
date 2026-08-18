@@ -85,7 +85,7 @@
                      you love". Latent until the site actually translated. -->
                 <label class="flex-1 min-w-0 cursor-pointer">
                   <input type="radio" name="payment-method" value="card" class="peer sr-only" />
-                  <span class="flex justify-between items-center gap-3 bg-white px-5 py-4 border-2 border-neutral-divider peer-checked:border-cta rounded-xl transition-colors h-full">
+                  <span class="flex justify-between items-center gap-3 bg-white px-5 py-4 border border-neutral-divider peer-checked:border-primary peer-checked:bg-primary-50 rounded-2xl transition-colors h-full">
                     <span class="radio-card__body flex items-center gap-3 min-w-0">
                       <span class="text-cta shrink-0"><span class="flex items-center gap-1.5 shrink-0"><img src="images/jaad/payments/pay-visa.svg" alt="" class="h-6 w-auto object-contain" /><img src="images/jaad/payments/pay-mastercard.svg" alt="" class="h-6 w-auto object-contain" /></span></span>
                       <span class="flex flex-col min-w-0">
@@ -120,7 +120,7 @@
                      you love". Latent until the site actually translated. -->
                 <label class="flex-1 min-w-0 cursor-pointer">
                   <input type="radio" name="payment-method" value="cod" class="peer sr-only" checked />
-                  <span class="flex justify-between items-center gap-3 bg-white px-5 py-4 border-2 border-neutral-divider peer-checked:border-cta rounded-xl transition-colors h-full">
+                  <span class="flex justify-between items-center gap-3 bg-white px-5 py-4 border border-neutral-divider peer-checked:border-primary peer-checked:bg-primary-50 rounded-2xl transition-colors h-full">
                     <span class="radio-card__body flex items-center gap-3 min-w-0">
                       <span class="text-cta shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-6 h-6"><rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.7"/><path d="M5 9.5v5M19 9.5v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
                       <span class="flex flex-col min-w-0">
@@ -148,7 +148,7 @@
                      you love". Latent until the site actually translated. -->
                 <label class="flex-1 min-w-0 cursor-pointer">
                   <input type="radio" name="payment-method" value="etisalat" class="peer sr-only" />
-                  <span class="flex justify-between items-center gap-3 bg-white px-5 py-4 border-2 border-neutral-divider peer-checked:border-cta rounded-xl transition-colors h-full">
+                  <span class="flex justify-between items-center gap-3 bg-white px-5 py-4 border border-neutral-divider peer-checked:border-primary peer-checked:bg-primary-50 rounded-2xl transition-colors h-full">
                     <span class="radio-card__body flex items-center gap-3 min-w-0">
                       <span class="text-cta shrink-0"><span class="flex items-center gap-1.5 shrink-0"><img src="images/jaad/payments/pay-etisalat-cash.png" alt="" class="h-6 w-auto object-contain" /></span></span>
                       <span class="flex flex-col min-w-0">
@@ -212,7 +212,7 @@
                   <!-- aria-label, not placeholder alone: a placeholder disappears
                        the moment you type, so it cannot be the accessible name. -->
                   <textarea rows="3" placeholder="أضف ملاحظة على طلبك" aria-label="ملاحظات على الطلب" data-order-note
-                            class="bg-white px-4 py-3 border-2 border-neutral-divider focus:border-cta rounded-xl outline-none w-full text-[#003616] text-sm transition-colors"></textarea>
+                            class="bg-white border border-neutral-divider rounded-2xl px-4 py-3 w-full text-[#003616] text-sm placeholder:text-neutral-secondary outline-none focus:border-primary focus:ring-2 focus:ring-[#98CA55] transition-colors"></textarea>
                   <!-- Compact buttons (Ahmed, 2026-08-04): the save was oversized
                        for a note editor. Padding-based height (~34px) — still well
                        above the 24px WCAG 2.5.8 floor. -->
@@ -224,7 +224,7 @@
                 <!-- Filled note: reads as a standard input. The flex-1 button is
                      the edit trigger (clicking the note text reopens the editor);
                      the X removes it. Hover cue lives on `.note-filled`. -->
-                <div data-note-view hidden class="note-filled flex items-center gap-2 bg-white px-3 py-2.5 border-2 border-neutral-divider rounded-xl transition-colors">
+                <div data-note-view hidden class="note-filled flex items-center gap-2 bg-white px-3 py-2.5 border border-neutral-divider rounded-2xl transition-colors">
                   <span class="shrink-0 text-primary"><span class="block w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><rect x="4" y="3.5" width="16" height="17" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="M8 8.5h8M8 12h8M8 15.5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span></span>
                   <button type="button" data-note-edit-btn class="flex-1 min-w-0 text-start text-[#003616] text-sm truncate" aria-label="تعديل الملاحظة"><span data-note-text></span></button>
                   <button type="button" data-note-remove class="place-items-center grid shrink-0 rounded-full size-6 text-neutral-secondary hover:text-accent-error hover:bg-interaction-base transition-colors" aria-label="حذف الملاحظة"><span class="w-3.5 h-3.5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span></button>

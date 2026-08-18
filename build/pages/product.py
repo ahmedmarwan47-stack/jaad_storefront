@@ -185,8 +185,66 @@ def _plain(text):
     return re.sub(r"\s+", " ", unescape(stripped)).strip()
 
 
+_STORY_ICONS = [
+    "images/jaad/icons/spec-leaf.png",
+    "images/jaad/icons/spec-bolt.png",
+    "images/jaad/icons/spec-shield.png",
+    "images/jaad/icons/spec-delivery.png",
+]
+
+
+def _story_html(p):
+    """White-image-mode scroll story (Ahmed, 2026-08-18) — prototype on the hero
+    product only. A pinned, scroll-scrubbed stage: the white-bg packshot locks to
+    screen-centre and drifts subtly (X/Y + a 2D-appropriate tilt, no 3D tumble)
+    while each of the four benefits reveals in turn — alternating sides, each
+    with its 3D icon, overlapping the image; the FAQ accordions close the story.
+    Driven by initProductStory in scripts.js. Shown only under html[data-img=
+    "plain"]; scene mode hides it and the normal in-panel benefits/FAQ take over
+    (see the [data-buy-extras] wrapper)."""
+    # White-bg packshot -> transparent cutout for the story, so the flying image
+    # reads as an isolated product over the page (no white box over the copy).
+    cutout = p["image"][:-4] + "-cutout.png"
+    # Four fixed slots around the centred image — alternating sides, descending
+    # so the panels ACCUMULATE (each stays once revealed) without colliding. The
+    # first starts below 15% so it never sits under the top sticky buy bar.
+    positions = [("is-right", "18%"), ("is-left", "38%"), ("is-right", "56%"), ("is-left", "72%")]
+    panels = ""
+    for i, (title_, desc_) in enumerate(_BENEFIT_ITEMS):
+        side, top = positions[i % len(positions)]
+        icon = _STORY_ICONS[i % len(_STORY_ICONS)]
+        panels += f"""
+            <div data-story-panel data-step="{i}" style="top:{top}" class="product-story__panel {side}">
+              <img src="{e(icon)}" alt="" class="product-story__ico" loading="lazy" />
+              <div class="min-w-0">
+                <p class="font-bold text-[#003616] text-sm sm:text-lg xl:text-xl leading-tight">{e(title_)}</p>
+                <p class="mt-0.5 sm:mt-1 text-neutral-secondary text-xs sm:text-sm leading-snug sm:leading-6">{e(desc_)}</p>
+              </div>
+            </div>"""
+    return f"""
+      <!-- ==================== WHITE-MODE SCROLL STORY ====================
+           Pinned + scroll-scrubbed. Only rendered on the hero product, only
+           shown in white-image mode (styles.css gates on html[data-img]).
+           initProductStory drives the image transform + the panel reveals. -->
+      <section data-story data-cutout="{e(cutout)}" class="product-story" aria-hidden="true">
+        <div data-story-stage class="product-story__stage">
+          <img data-story-img src="{e(cutout)}" alt="{e(title(p))}" class="product-story__img" />
+          {panels}
+        </div>
+      </section>
+      <section data-story-faq class="product-story-faq">
+        <div class="mx-auto px-4 max-w-[760px]">
+          <h2 class="mb-6 font-bold text-[#003616] text-2xl xl:text-3xl text-center">الأسئلة الشائعة</h2>
+          {accordion(FAQ_ITEMS)}
+        </div>
+      </section>"""
+
+
 def _render(p):
     hero = p["id"] == _hero()["id"]
+    story_on = True  # rolled out to every product (each SKU has its own cutout)
+    story_host_cls = " story-host" if story_on else ""
+    story_html = _story_html(p) if story_on else ""
     on_sale = p.get("sale") and p["sale"] < p["regular"]
     old_price = (
         f'<span class="text-neutral-secondary text-xl line-through latin">EGP {money(p["regular"])}</span>'
@@ -307,7 +365,7 @@ def _render(p):
           <!-- The white card is desktop-only (Ahmed, 2026-08-02): on mobile the
                info column drops its container so the content sits inline with
                the page grid, like the gallery beside it. lg+ keeps the card. -->
-          <div class="flex flex-col gap-5 lg:bg-white lg:shadow-custom4 lg:p-6 xl:p-8 lg:rounded-[20px]"
+          <div class="flex flex-col gap-5 lg:bg-white lg:shadow-custom4 lg:p-6 xl:p-8 lg:rounded-[20px]{story_host_cls}"
                data-product data-record-view data-id="{p.get('id', 0)}" data-name="{e(title(p))}"
                data-price="{p.get('sale') or p.get('price') or 0}" data-image="{e(p['image'])}">
             <div class="flex flex-col gap-3">
@@ -380,8 +438,12 @@ def _render(p):
               <button type="button" data-open="location" class="font-semibold text-cta text-sm underline">تغيير المنطقة</button>
             </div>
 
-            {acc_html}
-            {faq_html}
+            <!-- In white-image mode on the story product these give way to the
+                 scroll story below; scene mode keeps them here. -->
+            <div data-buy-extras class="flex flex-col gap-5">
+              {acc_html}
+              {faq_html}
+            </div>
           </div>
 
           <!-- Mobile-only related list — the counterpart to the `hidden
@@ -393,6 +455,8 @@ def _render(p):
           <div class="lg:hidden">{related_list}</div>
         </div>
       </section>
+
+      {story_html}
 
       <!-- =========================== MORE FROM US =========================== -->
       <section data-reveal class="py-12 xl:py-16">

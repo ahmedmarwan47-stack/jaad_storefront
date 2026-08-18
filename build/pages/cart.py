@@ -90,11 +90,11 @@ def build():
                   <span class="text-neutral-secondary">خصم المحفظة</span>
                   <!-- The green counterpart of the yellow price chip: a saving
                        is good news and should read as one at a glance. -->
-                  <span class="inline-flex items-center h-[13px] -me-2 bg-[#E9F3E6] px-2 rounded font-bold text-[#00451C] text-sm latin" data-cart-discount></span>
+                  <span class="inline-flex items-center -me-2 bg-[#E9F3E6] px-2 py-0.5 rounded-full font-bold text-[#00451C] text-sm latin" data-cart-discount></span>
                 </div>
                 <div class="flex justify-between items-center" data-cart-promo-row hidden>
                   <span class="text-neutral-secondary">خصم كود الخصم</span>
-                  <span class="inline-flex items-center h-[13px] -me-2 bg-[#E9F3E6] px-2 rounded font-bold text-[#00451C] text-sm latin" data-cart-promo-discount></span>
+                  <span class="inline-flex items-center -me-2 bg-[#E9F3E6] px-2 py-0.5 rounded-full font-bold text-[#00451C] text-sm latin" data-cart-promo-discount></span>
                 </div>
               </div>
               <div class="flex justify-between items-center pt-3 border-neutral-divider border-t">

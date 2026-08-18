@@ -1450,6 +1450,36 @@ fieldset {
   box-shadow: none;
 }
 
+/* --- Button component (mirrors components.button()) -----------------------
+   A real, reusable pill button. The Python helper emits these classes ALONGSIDE
+   the Tailwind utilities that already paint each button (bg-cta / border-cta /
+   rounded-full …). Those utilities are kept on purpose: they make the rendered
+   result byte-identical AND they are what the runtime data-btn="v2" toggle
+   matches on, so the green/orange A/B switch keeps working untouched. Each rule
+   here is therefore set to the SAME value as the utility it sits beside —
+   nothing repaints; these just give the component a semantic hook and a
+   no-Tailwind fallback. (V2's !important rules still win over all of these, so
+   the toggle is unaffected.)
+     .btn--primary   -> bg-cta green pill, white label
+     .btn--secondary -> neutral-divider hairline outline, dark-green label
+     .btn--accent    -> lime fill, dark-green label
+   The helper's legacy `secondary` variant (a cta-green outline) keeps its look
+   via its own utilities and carries the .btn base only. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.btn--primary { background-color: #00451C; color: #fff; }
+.btn--primary:hover { background-color: #006328; }
+.btn--secondary { border: 1px solid #D9D9D9; color: #003616; background-color: transparent; }
+.btn--secondary:hover { border-color: #006328; }
+.btn--accent { background-color: #8ACC3E; color: #003616; }
+.btn--accent:hover { background-color: #F89E34; }
+
 /* --- Product cards -------------------------------------------------------
    The card lifts, the image grows very slightly inside its plate, and the
    quick-look chip fades up. `overflow: hidden` on the plate keeps the zoom
@@ -2887,30 +2917,144 @@ input:checked + .radio-card-accent {
  * initBtnStyleSwitch() sets html[data-btn]; V2 repaints every primary
  * CTA (any <a>/<button> carrying the .bg-cta fill).
  * ACCESSIBILITY: white on #EA983E is only 2.3:1 (fails WCAG AA). So V2 keeps
- * the brand orange but uses DARK-GREEN labels (#003616) — 5.9:1, passes AA
+ * the brand orange but uses BLACK labels (#000) — 9.1:1, passes AA + AAA
  * (Ahmed's call). Icons inherit via currentColor.
  * ------------------------------------------------------------------ */
 html[data-btn="v2"] a.bg-cta,
 html[data-btn="v2"] button.bg-cta {
   background-color: #EA983E !important;
-  color: #003616 !important;
+  color: #000 !important;
   border-radius: 16px !important;
 }
 html[data-btn="v2"] a.bg-cta [class*="text-white"],
 html[data-btn="v2"] button.bg-cta [class*="text-white"],
 html[data-btn="v2"] a.bg-cta svg,
-html[data-btn="v2"] button.bg-cta svg { color: #003616 !important; }
+html[data-btn="v2"] button.bg-cta svg { color: #000 !important; }
 html[data-btn="v2"] .hover\:bg-cta-hover:hover { background-color: #d9852f !important; }
 html[data-btn="v2"] a.border-cta,
 html[data-btn="v2"] button.border-cta { border-radius: 16px !important; }
 
+/* Cart-count badge tracks the toggle. V1: lime. V2: the cart button itself
+   turns orange, so an orange badge would vanish into it — the badge instead
+   goes deep green (#006328, white text = 7.5:1), the complementary pop against
+   the orange button and a clear tell that the theme has switched. */
+html[data-btn="v2"] [data-cart-count] {
+  background-color: #006328 !important;
+  color: #fff !important;
+  --tw-ring-color: #fff !important;
+}
+
+/* --- V2 floating actions pill --------------------------------------------
+   The orange theme is not just a recolour of the button. The parked search+cart
+   pill takes a distinct identity: V1 is a green ROUND plate with a white search
+   glyph; V2 is a cream, SQUARED plate so the orange cart button and the deep-
+   green badge pop off it, and the search glyph flips to black (matching V2's
+   black-on-orange ink). Overrides both the desktop and mobile parked rules. */
+html[data-btn="v2"] [data-sticky-actions][data-stuck="true"] {
+  background: #FDF8F1 !important;
+  border-radius: 16px !important;
+}
+html[data-btn="v2"] [data-sticky-actions][data-stuck="true"] [data-open="search"] img {
+  filter: brightness(0) !important;
+}
+
+/* --- V2 corner-radius language, dynamic on the switch ---------------------
+   V2 steps every soft rectangle — cards, panels, inputs, tiles, price stickers
+   — down to a tighter scale, so the whole site sharpens when you flip to orange.
+   Genuine circles (avatars, icon buttons, the count badge) keep rounded-full and
+   stay round; the primary buttons already square to 16px above. */
+html[data-btn="v2"] .rounded-3xl { border-radius: 12px !important; }
+html[data-btn="v2"] .rounded-2xl { border-radius: 10px !important; }
+html[data-btn="v2"] .rounded-xl  { border-radius: 8px  !important; }
+html[data-btn="v2"] .rounded-lg  { border-radius: 6px  !important; }
+html[data-btn="v2"] .rounded-\[20px\]    { border-radius: 12px !important; }
+html[data-btn="v2"] .rounded-\[12px\]    { border-radius: 8px  !important; }
+html[data-btn="v2"] .rounded-\[8px\]     { border-radius: 6px  !important; }
+html[data-btn="v2"] .rounded-tl-\[20px\] { border-top-left-radius: 12px !important; }
+html[data-btn="v2"] .rounded-br-\[20px\] { border-bottom-right-radius: 12px !important; }
+html[data-btn="v2"] .rounded-tl-\[22px\] { border-top-left-radius: 12px !important; }
+html[data-btn="v2"] .rounded-br-\[22px\] { border-bottom-right-radius: 12px !important; }
+html[data-btn="v2"] .rounded-tl-\[14px\] { border-top-left-radius: 8px !important; }
+html[data-btn="v2"] .rounded-br-\[14px\] { border-bottom-right-radius: 8px !important; }
+/* Pills square too (Ahmed): every rounded-full pill steps to the 16px squared
+   radius. Small circles are self-correcting — a ≤32px badge/dot with a 16px
+   radius still exceeds its own half-dimension, so the browser clamps it back to
+   a circle; only elongated pills and larger buttons actually square. */
+html[data-btn="v2"] .rounded-full { border-radius: 16px !important; }
+
+/* Product image toggle: 'plain' shows the white-background originals. On the
+   cards these are cut-outs, so they sit contained on the card's white plate
+   instead of cover-cropping; on the product page the gallery keeps its
+   thumbnail strip (same as scene mode) and the plate simply switches to a
+   pure-white ground (below). */
+html[data-img="plain"] .product-widget img[data-img-scene] { object-fit: contain; padding: 8%; }
+/* The white-bg packshot sits on a pure-white plate in white mode (its cream
+   frame is dropped), so the product reads as a clean product-on-white shot
+   rather than a white cut-out floating in a cream box. */
+html[data-img="plain"] [data-gallery-plate] { background-color: #fff !important; }
+
+/* ===================== White-mode product scroll story =====================
+   Pinned + scroll-scrubbed, shown only in white-image mode on the hero product.
+   Scene mode hides it and the normal in-panel benefits/FAQ show instead. The
+   tall section provides the scroll distance; the stage pins inside it while
+   initProductStory drives the centred image + the staged panel reveals. */
+.product-story, .product-story-faq { display: none; }
+html[data-img="plain"] .product-story { display: block; height: 460vh; background: #fff; }
+html[data-img="plain"] .product-story-faq { display: block; padding: 2rem 0 4rem; }
+html[data-img="plain"] .story-host [data-buy-extras] { display: none; }
+
+/* The stage is a fixed, transparent viewport overlay. During the flight the
+   clone flies over the scrolling hero (so it reads as detaching FROM the
+   gallery); once the white spacer has scrolled in behind it, the product sits
+   on white. initProductStory sets opacity 0/1 and drives the clone + panels. */
+.product-story__stage {
+  position: fixed; inset: 0; z-index: 40;
+  pointer-events: none; opacity: 0;
+}
+/* The clone. Its left/top/width/height (the centred END rect) and its FLIP
+   transform (which maps that rect back onto the gallery image while flying) are
+   all set by JS; transform-origin must stay top-left for the FLIP math. */
+.product-story__img {
+  position: absolute; object-fit: contain;
+  will-change: transform; transform-origin: top left;
+}
+.product-story__panel {
+  position: absolute; width: min(38vw, 320px);
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #EFEADD; border-radius: 16px; padding: 14px 16px;
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.1);
+  opacity: 0; transform: translateY(20px);
+  will-change: opacity, transform; pointer-events: none;
+}
+/* Panels hug the centred image (each panel's `top` is set inline per slot). */
+.product-story__panel.is-right { left: calc(50% + 150px); }
+.product-story__panel.is-left { right: calc(50% + 150px); }
+.product-story__ico { width: 54px; height: 54px; object-fit: contain; flex-shrink: 0; }
+@media (max-width: 900px) {
+  .product-story__panel { width: min(46vw, 280px); }
+  .product-story__panel.is-right { left: calc(50% + 96px); }
+  .product-story__panel.is-left { right: calc(50% + 96px); }
+}
+@media (max-width: 640px) {
+  .product-story__img { width: 64vw; }
+  .product-story__panel {
+    width: min(52vw, 196px); gap: 9px; padding: 9px 11px; border-radius: 13px;
+  }
+  .product-story__panel.is-right { left: auto; right: 8px; }
+  .product-story__panel.is-left { right: auto; left: 8px; }
+  .product-story__ico { width: 34px; height: 34px; }
+}
+
 .btnswitch {
   position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
-  z-index: 2000; display: flex; align-items: center; gap: 10px;
-  background: #fff; border: 1px solid #E7E3D5; border-radius: 999px;
-  padding: 6px 8px 6px 16px; box-shadow: 0 10px 30px rgba(0,0,0,.14);
+  z-index: 2000; display: flex; flex-direction: column; gap: 8px;
+  background: #fff; border: 1px solid #E7E3D5; border-radius: 16px;
+  padding: 10px 12px; box-shadow: 0 10px 30px rgba(0,0,0,.14);
   font-family: Aeonik, system-ui, sans-serif;
 }
+.btnswitch__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.btnswitch__lbl { min-width: 96px; }
 .btnswitch__lbl { font-size: 12px; font-weight: 600; color: #5E6353; white-space: nowrap; }
 .btnswitch__seg { display: inline-flex; background: #F4EEE1; border-radius: 999px; padding: 3px; }
 .btnswitch__seg button {

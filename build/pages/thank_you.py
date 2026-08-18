@@ -81,8 +81,8 @@ def build():
           <p class="font-semibold text-[#003616] text-base">تم تقديم طلبك بنجاح</p>
           <p class="text-neutral-secondary text-sm leading-7">
             إذا كانت لديك أسئلة حول طلبك، يمكنك مراسلتنا عبر البريد الإلكتروني على
-            <a href="mailto:info@jad.com" class="font-semibold text-cta underline latin">INFO@JAD.COM</a>
-            أو الاتصال بنا على <a href="tel:19969" class="font-semibold text-cta underline latin">19969</a>
+            <a href="mailto:info@jad.com" class="font-semibold text-cta hover:text-primary underline transition-colors latin">INFO@JAD.COM</a>
+            أو الاتصال بنا على <a href="tel:19969" class="font-semibold text-cta hover:text-primary underline transition-colors latin">19969</a>
           </p>
         </div>
       </section>

@@ -42,6 +42,35 @@
  *
  * RTL: same as Abu Auf — logical-property utilities (ms/me/ps/pe/start/end),
  * no plugin required.
+ *
+ * ─────────────────────────────────────────────────────────────────────────
+ * JAAD TOKEN MAP (brand manual 2026)
+ *
+ * CANONICAL brand tokens — prefer these in all NEW markup:
+ *   primary        #006328  primary green (full 50–900 scale; DEFAULT/600)
+ *   primary.hover  #00451C   ·  primary.900 #003616 (deepest)
+ *   cta            #00451C  dark-green CTA button, hover #006328
+ *   lime           #8ACC3E  secondary accent / success / badges
+ *   orange         #F7931E  sale/highlight ONLY — DARK text (white fails, 2.3:1)
+ *   highlight      #EA983E  warm orange accent variant
+ *   cream          #FDF8F1  backgrounds / soft sections
+ *   ink            #003616 / #00451C  deepest greens (text on cream, chrome)
+ *   divider        #D9D9D9  hairlines / separators
+ *
+ * RADIUS scale (named): pill (9999px) · card (16px) · panel (20px).
+ * SHADOW scale: function-named tokens under boxShadow (cart-*, custom*, …).
+ *
+ * LEGACY Abu-Auf names are KEPT as ALIASES — they are still referenced across
+ * the generated markup, scripts.js and build/**​/*.py, so deleting them breaks
+ * the build. Each is tagged inline `// legacy Abu-Auf alias -> JAAD <name>`
+ * and resolves to a canonical value above; NO legacy value has been changed.
+ * A future pass can rename usages to the canonical tokens, then drop the
+ * aliases. Notable mappings:
+ *   accent.yellow / accent.green -> lime      interaction.base        -> cream
+ *   beige / neutral.cream        -> cream      neutral.divider         -> divider
+ *   interaction.primary          -> cta        neutral.secondary       -> gray
+ *   primaryColor/primaryDark/…   -> primary/ink   offWhite/lightBlue/…  -> cream
+ * ─────────────────────────────────────────────────────────────────────────
  */
 module.exports = {
   content: [
@@ -94,6 +123,21 @@ module.exports = {
         },
       },
       colors: {
+        /* ============================================================
+         * JAAD CANONICAL TOKENS (brand manual 2026) — clean names.
+         * Authoritative brand colors; prefer these in NEW markup. The
+         * legacy Abu-Auf names further down alias INTO these values.
+         * ============================================================ */
+        cream: "#FDF8F1", // JAAD cream — page/section backgrounds
+        orange: "#F7931E", // JAAD orange — sale/highlight ONLY, DARK text
+        highlight: "#EA983E", // JAAD highlight — warm orange accent variant
+        divider: "#D9D9D9", // JAAD divider — hairlines / separators
+        ink: {
+          // JAAD ink — deepest greens for text on cream & chrome.
+          DEFAULT: "#003616", // = primary.900
+          800: "#00451C", // = primary.800 / cta
+        },
+
         /* ---- JAAD core brand ------------------------------------------- */
         // Primary/Green — masthead, brand surfaces, section bands.
         // DEFAULT/600 = the manual's exact #006328.
@@ -115,6 +159,8 @@ module.exports = {
         // Interaction/Primary CTA — buttons. Hover resolves LIGHTER (same
         // pattern as Abu Auf): DEFAULT is the deep shade, hover eases toward
         // the manual's exact primary.
+        // JAAD cta (CANONICAL) — dark-green button, hover eases to primary.
+        // Kept name; legacy Abu-Auf markup also references it. values: ink/cream.
         cta: { DEFAULT: "#00451C", hover: "#006328", light: "#FDF8F1" },
         // Accent — orange, per the locked "green-led, orange sparingly"
         // decision. Reserve for sale/highlight pops only. TEXT ON ORANGE
@@ -125,14 +171,14 @@ module.exports = {
           error: "#A8200D",
           // Repurposed "accent green" bucket -> lime, Jaad's actual second
           // brand color (Abu Auf used a distinct yellow here; Jaad has none).
-          green: "#8ACC3E",
+          green: "#8ACC3E", // legacy Abu-Auf alias -> JAAD lime
           // `accent-yellow` is Abu Auf's general highlight class (price
           // badges, points balance, small tags — 21 call sites in the
           // inherited markup, NOT sale-specific). Re-pointed at lime rather
           // than orange: orange is reserved for sale/highlight pops only
           // (locked decision), and painting 21 everyday UI elements orange
           // would break that. Lime already clears 10.79:1 with dark text.
-          yellow: "#8ACC3E",
+          yellow: "#8ACC3E", // legacy Abu-Auf alias -> JAAD lime
           50: "#FFF9F2",
           100: "#FEF0E0",
           200: "#FDDFBC",
@@ -149,6 +195,7 @@ module.exports = {
         // Auf) — both `beige` and `neutral.cream` below point at it until a
         // distinct wash value is specified.
         beige: {
+          // legacy Abu-Auf alias -> JAAD cream
           DEFAULT: "#FDF8F1",
           50: "#FFFFFE",
           100: "#FFFEFD",
@@ -181,12 +228,12 @@ module.exports = {
            Generic UI grays/dividers — not brand hues, carried over from Abu
            Auf as-is; they were already neutral, not tuned to its palette. */
         interaction: {
-          primary: "#00451C",
-          hover: "#006328",
-          tertiary: "#FDF8F1",
+          primary: "#00451C", // legacy Abu-Auf alias -> JAAD cta / ink
+          hover: "#006328", // legacy Abu-Auf alias -> JAAD primary
+          tertiary: "#FDF8F1", // legacy Abu-Auf alias -> JAAD cream
           "tertiary-hover": "#E9ECE1",
-          base: "#FDF8F1",
-          divider: "#D9D9D9",
+          base: "#FDF8F1", // legacy Abu-Auf alias -> JAAD cream
+          divider: "#D9D9D9", // legacy Abu-Auf alias -> JAAD divider
           outline: "#868685",
           disabled: "#C6C6C6",
           "secondary-text": "#5F5F5F",
@@ -194,14 +241,14 @@ module.exports = {
         neutral: {
           black: "#000000",
           white: "#FFFFFF",
-          beige: "#FDF8F1",
-          cream: "#FDF8F1",
-          divider: "#D9D9D9",
+          beige: "#FDF8F1", // legacy Abu-Auf alias -> JAAD cream
+          cream: "#FDF8F1", // legacy Abu-Auf alias -> JAAD cream
+          divider: "#D9D9D9", // legacy Abu-Auf alias -> JAAD divider
           outline: "#868685",
           disabled: "#C6C6C6",
           // Same contrast fix as Abu Auf (#777777 failed 4.5:1 on white/beige) —
           // this token is a gray-on-light-surface fix, independent of brand hue.
-          secondary: "#5F5F5F",
+          secondary: "#5F5F5F", // legacy Abu-Auf alias -> JAAD gray (neutral, not brand)
           50: "#f9f9f9",
           100: "#f3f3f3",
           200: "#e5e5e5",
@@ -225,6 +272,7 @@ module.exports = {
         },
         // Secondary green ramp (Abu Auf kept a parallel "green" bucket
         // aliasing its own primary shades — mirrored here on Jaad's primary).
+        // legacy Abu-Auf alias -> JAAD primary
         green: {
           100: "#DBE9E1",
           200: "#B2D0BE",
@@ -261,30 +309,36 @@ module.exports = {
         onBeigeMuted: "#006328",
 
         /* ---- Semantic / legacy aliases ----------------------------------
-           Kept for any markup not yet rebuilt against the new token names. */
-        success: "#618F2B",
-        border: { light: "#D6D7D9" },
-        primaryDark: "#00451C",
-        primaryExtraDark: "#003616",
-        primaryColor: "#006328",
-        primaryLight: "#FDF8F1",
-        offWhite: "#FDF8F1",
+           Kept for any markup not yet rebuilt against the new token names.
+           Every name below is a legacy Abu-Auf alias -> a JAAD canonical
+           value (mapping noted inline). No value changed; rename later. */
+        success: "#618F2B", // legacy Abu-Auf alias -> JAAD lime.800
+        border: { light: "#D6D7D9" }, // legacy Abu-Auf alias -> gray.300 (neutral)
+        primaryDark: "#00451C", // legacy Abu-Auf alias -> JAAD ink.800 / cta
+        primaryExtraDark: "#003616", // legacy Abu-Auf alias -> JAAD ink
+        primaryColor: "#006328", // legacy Abu-Auf alias -> JAAD primary
+        primaryLight: "#FDF8F1", // legacy Abu-Auf alias -> JAAD cream
+        offWhite: "#FDF8F1", // legacy Abu-Auf alias -> JAAD cream
         // Sale/discount badge — Jaad's rule reserves orange for exactly this,
         // unlike Abu Auf's generic red. Badge TEXT must be dark (see note above).
-        cardbadgecolor: "#F7931E",
-        bordercolor: "#868685",
-        black900: "#00000090",
-        textSecondary: "#2C3340",
-        primaryText: "#969696",
-        secondaryText: "#757575",
-        blackText: "#2b2525",
-        customGray: "#EAEBEC",
-        customGrayMedium: "#979BA0",
-        ctaBackground: "#FDF8F1",
-        dividerText: "#C1C3C6",
-        lightBlue: "#FDF8F1",
-        backgroundLocationBar: "#FDF8F1",
+        cardbadgecolor: "#F7931E", // legacy Abu-Auf alias -> JAAD orange
+        bordercolor: "#868685", // legacy Abu-Auf alias -> neutral.outline
+        black900: "#00000090", // legacy Abu-Auf alias -> black @ 56% (overlay)
+        textSecondary: "#2C3340", // legacy Abu-Auf alias -> neutral (slate text)
+        primaryText: "#969696", // legacy Abu-Auf alias -> neutral (muted text)
+        secondaryText: "#757575", // legacy Abu-Auf alias -> neutral (muted text)
+        blackText: "#2b2525", // legacy Abu-Auf alias -> neutral (near-black text)
+        customGray: "#EAEBEC", // legacy Abu-Auf alias -> neutral (light gray)
+        customGrayMedium: "#979BA0", // legacy Abu-Auf alias -> neutral (mid gray)
+        ctaBackground: "#FDF8F1", // legacy Abu-Auf alias -> JAAD cream
+        dividerText: "#C1C3C6", // legacy Abu-Auf alias -> divider (muted)
+        lightBlue: "#FDF8F1", // legacy Abu-Auf alias -> JAAD cream
+        backgroundLocationBar: "#FDF8F1", // legacy Abu-Auf alias -> JAAD cream
       },
+      /* ---- JAAD shadow scale (named tokens) --------------------------
+         Function-named elevations carried over from Abu Auf; the green-tinted
+         cart-* shadows already read as JAAD (rgba/#hex based on primary green).
+         Kept as-is — no values changed. */
       boxShadow: {
         "cart-utility-box": "0px 0px 2px 1px #00000014",
         custom2: "0px 2px 3px rgba(0, 69, 28, 0.2)",
@@ -309,6 +363,10 @@ module.exports = {
         "3xl": "32px",
         full: "9999px",
         custom: "10px",
+        /* ---- JAAD radius scale (brand manual 2026) ------------------- */
+        pill: "9999px", // JAAD radius — pill / fully rounded (buttons, chips)
+        card: "16px", // JAAD radius — 16px (cards, inputs, 16px button variant)
+        panel: "20px", // JAAD radius — 20px (panels, larger surfaces)
       },
       /*
        * Type scale — carried over from Abu Auf's Figma-derived ramp as a

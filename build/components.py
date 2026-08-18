@@ -181,7 +181,27 @@ WALLET_BALANCE = 1200
 # Primitives
 # --------------------------------------------------------------------------
 def button(label, href="#", variant="primary", size="md", extra="", full_mobile=True):
-    """variant: primary | secondary | ghost
+    """The one pill-button component. variant: primary | secondary | accent | outline
+
+    Emits the shared `.btn` component classes (styles.css) ALONGSIDE the Tailwind
+    utilities that actually paint the button. The utilities are kept on purpose:
+    they keep the rendered result byte-identical AND they are what the runtime
+    `data-btn="v2"` A/B toggle matches on (`a.bg-cta` / `a.border-cta` /
+    `.rounded-full`), so the green/orange switch keeps working. Every `.btn--*`
+    rule is defined to the SAME value as the utility it sits beside, so nothing
+    repaints — the classes are just a semantic hook and a no-Tailwind fallback.
+
+    Variants:
+      primary   — bg-cta green pill, white label             (.btn--primary)
+      secondary — cta-green outline, green label; the legacy pattern the section
+                  headings and the rewards page use. Kept exactly as-is: it
+                  carries the `.btn` base only, its outline stays on the
+                  utilities, so the grey `.btn--secondary` rule never lands on it.
+      accent    — lime fill, dark-green label                (.btn--accent)
+      outline   — neutral-divider hairline, dark-green label (.btn--secondary)
+
+    `href=None` is accepted and treated as "#", for a button wired up in JS
+    rather than being a real link.
 
     `full_mobile` (default True): the button fills its container's width below
     `sm` and returns to content-width from 640px up (Ahmed, 2026-08-05) — the
@@ -190,6 +210,8 @@ def button(label, href="#", variant="primary", size="md", extra="", full_mobile=
     that must stay inline on a phone (the section-heading "view more" link, which
     rides on the heading's own row).
     """
+    if href is None:
+        href = "#"
     sizes = {
         "sm": "px-6 py-2.5 text-sm",
         "md": "px-8 py-3 text-base",
@@ -199,9 +221,18 @@ def button(label, href="#", variant="primary", size="md", extra="", full_mobile=
         "primary": "bg-cta hover:bg-cta-hover text-white",
         "secondary": "border border-cta text-cta hover:bg-interaction-base",
         "accent": "bg-accent-yellow hover:bg-accent-500 text-[#003616]",
+        "outline": "border border-neutral-divider hover:border-primary text-[#003616]",
+    }
+    # `.btn` component hook. The legacy green `secondary` keeps the base only, so
+    # the grey `.btn--secondary` rule (the `outline` look) never repaints it.
+    btn_hook = {
+        "primary": "btn btn--primary",
+        "secondary": "btn",
+        "accent": "btn btn--accent",
+        "outline": "btn btn--secondary",
     }
     width = "w-full sm:w-auto " if full_mobile else ""
-    return (f'<a href="{href}" class="inline-flex justify-center items-center rounded-full '
+    return (f'<a href="{href}" class="{btn_hook[variant]} inline-flex justify-center items-center rounded-full '
             f'font-semibold transition-colors {width}{sizes[size]} {variants[variant]} {extra}">{e(label)}</a>')
 
 
@@ -504,7 +535,8 @@ def qty_stepper(cart_bound=False):
     in this design system: circles rather than squares, the + carries the CTA
     fill (it is the "more" affordance, the louder of the two), the − stays
     quiet on a hairline. Buttons stay size-11: the reference's ~32px buttons
-    would regress the audited 44px tap-target floor.
+    would regress the audited 44px tap-target floor. THIS is the canonical
+    counter; the product cards adopt it (Ahmed, 2026-08-18), not the reverse.
 
     `cart_bound=True` adds `data-cart-bound`, which changes who owns the
     number. A plain stepper owns its own count and hands it to whatever reads
@@ -642,7 +674,7 @@ def product_gallery(images, alt, p=None):
         # ones worth having, broke the layout worst. The cap is the plate's own
         # box: p-6 + 300 at md, p-10 + 440 at xl.
         strip = f"""
-            <div class="flex md:flex-col gap-3 md:max-h-[348px] xl:max-h-[520px]
+            <div data-gallery-strip class="flex md:flex-col gap-3 md:max-h-[348px] xl:max-h-[520px]
                         overflow-x-auto md:overflow-x-hidden md:overflow-y-auto no-scrollbar shrink-0">{thumb_html}
             </div>"""
 
@@ -675,6 +707,7 @@ def product_gallery(images, alt, p=None):
                  class="gallery-plate relative flex-1 bg-interaction-base rounded-[20px] min-w-0 overflow-hidden
                         h-[348px] xl:h-[520px]">
               <img data-gallery-main src="{e(main_img)}" alt="{e(alt)}"
+                   data-img-scene="{e(main_img)}" data-img-plain="{e(p['image']) if p else e(main_img)}"
                    class="mx-auto w-full h-full" />
               {fav_btn}
             </div>
@@ -762,7 +795,7 @@ def best_seller_badge(p):
     # read the text as hugging the top. Measured with canvas actualBoundingBox
     # metrics, not eyeballed. `relative`, because transforms do not apply to
     # inline boxes.
-    return ('<span data-best-seller class="inline-flex self-start items-center bg-accent-yellow px-3 py-1.5 '
+    return ('<span data-best-seller class="inline-flex self-start items-center bg-[#8ACC3E] px-3 py-1.5 '
             'rounded-full font-bold text-[#003616] text-xs">'
             f'<span class="relative top-[2px] leading-none">{e(label)}</span></span>')
 
@@ -1081,7 +1114,7 @@ def field(label, name, type_="text", required=False, value="", placeholder="",
                   <label for="{e(name)}" class="font-medium text-neutral-secondary text-sm">{e(label)}{star}</label>
                   <input type="{e(type_)}" id="{e(name)}" name="{e(name)}"{' required' if required else ''}{hints}
                          value="{e(value)}" placeholder="{e(placeholder)}"
-                         class="bg-white px-4 py-3 border-2 border-neutral-divider focus:border-cta rounded-xl outline-none w-full text-[#003616] text-base transition-colors" />
+                         class="bg-white border border-neutral-divider rounded-2xl px-4 h-12 w-full text-[#003616] text-base placeholder:text-neutral-secondary outline-none focus:border-primary focus:ring-2 focus:ring-[#98CA55] transition-colors" />
                 </div>"""
 
 
@@ -1098,7 +1131,7 @@ def phone_field(label="رقم الموبايل", name="mobile", required=True, v
     return f"""
                 <div class="flex flex-col gap-1.5">
                   <label for="{e(name)}" class="font-medium text-neutral-secondary text-sm">{e(label)}{star}</label>
-                  <div dir="ltr" class="flex items-stretch bg-white border-2 border-neutral-divider focus-within:border-cta rounded-xl overflow-hidden transition-colors">
+                  <div dir="ltr" class="flex items-stretch bg-white border border-neutral-divider focus-within:border-primary focus-within:ring-2 focus-within:ring-[#98CA55] rounded-2xl overflow-hidden transition-colors">
                     <!-- Prefix sits on the SAME white as the number, NOT a filled
                          (bg-interaction-base) cell: the tinted chip read as a
                          nested compartment, and against the green focus border it
@@ -1131,7 +1164,7 @@ def select_field(label, name, options, required=False, wrap=""):
                 <div class="flex flex-col gap-1.5 {wrap}">
                   <label for="{e(name)}" class="font-medium text-neutral-secondary text-sm">{e(label)}{star}</label>
                   <select id="{e(name)}" name="{e(name)}"{' required' if required else ''}{hints}
-                          class="select-control bg-white px-4 py-3 border-2 border-neutral-divider focus:border-cta rounded-xl outline-none w-full text-[#003616] text-base transition-colors">
+                          class="select-control bg-white border border-neutral-divider rounded-2xl px-4 h-12 w-full text-[#003616] text-base placeholder:text-neutral-secondary outline-none focus:border-primary focus:ring-2 focus:ring-[#98CA55] transition-colors">
                     <option value="">اختر</option>{opts}
                   </select>
                 </div>"""
@@ -1398,7 +1431,7 @@ def promo_field(readonly=False):
                   <div class="flex items-center gap-2">
                     <input type="text" data-promo-input inputmode="latin" autocomplete="off"
                            placeholder="{e('أدخل كود الخصم')}"
-                           class="flex-1 bg-white px-3 py-2 border border-neutral-divider focus:border-cta rounded-xl outline-none min-w-0 text-[#003616] text-sm transition-colors latin" />
+                           class="flex-1 bg-white border border-neutral-divider rounded-2xl px-3 py-2 min-w-0 text-[#003616] text-sm placeholder:text-neutral-secondary outline-none focus:border-primary focus:ring-2 focus:ring-[#98CA55] transition-colors latin" />
                     <!-- Secondary (outline) button (Ahmed, 2026-08-05): the
                          Apply sits next to the primary green order CTA below, so
                          a second solid-green button competed with it for the
@@ -1452,7 +1485,7 @@ def order_notes(readonly=False):
         return f"""
               <div data-note data-note-readonly hidden class="flex flex-col gap-2">
                 <span class="font-semibold text-neutral-secondary text-xs">ملاحظة الطلب</span>
-                <div class="flex items-center gap-2 bg-interaction-base px-3 py-2.5 border border-neutral-divider rounded-xl">
+                <div class="flex items-center gap-2 bg-interaction-base px-3 py-2.5 border border-neutral-divider rounded-2xl">
                   <span class="shrink-0 text-primary"><span class="block w-4 h-4">{ICON['note']}</span></span>
                   <span class="flex-1 min-w-0 text-[#003616] text-sm" data-note-text></span>
                 </div>
@@ -1467,7 +1500,7 @@ def order_notes(readonly=False):
                   <!-- aria-label, not placeholder alone: a placeholder disappears
                        the moment you type, so it cannot be the accessible name. -->
                   <textarea rows="3" placeholder="أضف ملاحظة على طلبك" aria-label="ملاحظات على الطلب" data-order-note
-                            class="bg-white px-4 py-3 border-2 border-neutral-divider focus:border-cta rounded-xl outline-none w-full text-[#003616] text-sm transition-colors"></textarea>
+                            class="bg-white border border-neutral-divider rounded-2xl px-4 py-3 w-full text-[#003616] text-sm placeholder:text-neutral-secondary outline-none focus:border-primary focus:ring-2 focus:ring-[#98CA55] transition-colors"></textarea>
                   <!-- Compact buttons (Ahmed, 2026-08-04): the save was oversized
                        for a note editor. Padding-based height (~34px) — still well
                        above the 24px WCAG 2.5.8 floor. -->
@@ -1479,7 +1512,7 @@ def order_notes(readonly=False):
                 <!-- Filled note: reads as a standard input. The flex-1 button is
                      the edit trigger (clicking the note text reopens the editor);
                      the X removes it. Hover cue lives on `.note-filled`. -->
-                <div data-note-view hidden class="note-filled flex items-center gap-2 bg-white px-3 py-2.5 border-2 border-neutral-divider rounded-xl transition-colors">
+                <div data-note-view hidden class="note-filled flex items-center gap-2 bg-white px-3 py-2.5 border border-neutral-divider rounded-2xl transition-colors">
                   <span class="shrink-0 text-primary"><span class="block w-4 h-4">{ICON['note']}</span></span>
                   <button type="button" data-note-edit-btn class="flex-1 min-w-0 text-start text-[#003616] text-sm truncate" aria-label="تعديل الملاحظة"><span data-note-text></span></button>
                   <button type="button" data-note-remove class="place-items-center grid shrink-0 rounded-full size-6 text-neutral-secondary hover:text-accent-error hover:bg-interaction-base transition-colors" aria-label="حذف الملاحظة"><span class="w-3.5 h-3.5">{ICON['close']}</span></button>
@@ -1570,7 +1603,7 @@ def radio_card(name, value, heading, sub="", icon="", checked=False, accent=Fals
                      you love". Latent until the site actually translated. -->
                 <label class="flex-1 min-w-0 cursor-pointer"{opens_attr}>
                   <input type="radio" name="{e(name)}" value="{e(value)}" class="peer sr-only"{' checked' if checked else ''} />
-                  <span class="flex justify-between items-center gap-3 bg-white px-5 py-4 border-2 border-neutral-divider peer-checked:border-cta rounded-xl transition-colors h-full{' radio-card-accent' if accent else ''}">
+                  <span class="flex justify-between items-center gap-3 bg-white px-5 py-4 border border-neutral-divider peer-checked:border-primary peer-checked:bg-primary-50 rounded-2xl transition-colors h-full{' radio-card-accent' if accent else ''}">
                     <span class="radio-card__body flex items-center gap-3 min-w-0">
                       {icon_html}
                       <span class="flex flex-col min-w-0">
@@ -1768,15 +1801,19 @@ def product_widget(p, sale=None, slide=True, cat=None):
            if on_offer else "")
     width = "w-[258px] shrink-0 snap-start" if slide else "w-full"
     # Prefer the styled Figma photography where we have it (keyed by id).
-    img = (f"images/jaad/products-styled/{pid}.jpg"
-           if str(pid) in STYLED_IDS else p["image"])
+    # Two sources for the image-style toggle: the in-scene styled shot (default)
+    # and the white-background original. initImgStyleSwitch swaps [data-img-scene]
+    # <img> between them; data-image (cart thumb) stays the scene hero.
+    scene_img = (f"images/jaad/products-styled/{pid}.jpg"
+                 if str(pid) in STYLED_IDS else p["image"])
+    plain_img = p["image"]
     return f"""
           <article class="product-widget {width}" data-product data-cat="{e(cat if cat is not None else p.get('categorySlug',''))}"
                    data-price="{price}" data-id="{pid}" data-name="{e(p.get('nameAr') or en_name)}"
-                   data-name-en="{e(en_name)}" data-image="{e(img)}">
+                   data-name-en="{e(en_name)}" data-image="{e(scene_img)}">
             <div class="relative">
               <a href="product-{pid}.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
-                <img src="{e(img)}" alt="{e(en_name)}" class="w-full h-full object-cover" loading="lazy" />
+                <img src="{e(scene_img)}" data-img-scene="{e(scene_img)}" data-img-plain="{e(plain_img)}" alt="{e(en_name)}" class="w-full h-full object-cover" loading="lazy" />
               </a>
               <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
                    action and does not compete with the green price sticker. Once
@@ -1787,10 +1824,15 @@ def product_widget(p, sale=None, slide=True, cat=None):
                         class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
                   <span class="w-[22px] h-[22px]">{ICON['cart']}</span>
                 </button>
-                <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full h-10 text-[#003616] flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4">{ICON['minus']}</span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-semibold text-center latin">1</span>
-                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4">{ICON['plus']}</span></button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +, scaled compact (size-8) to sit in
+                     the add button's footprint. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-8 text-[#003616] shrink-0 transition-colors"><span class="w-4 h-4">{ICON['minus']}</span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-8 text-white shrink-0 transition-colors"><span class="w-4 h-4">{ICON['plus']}</span></button>
                 </div>
               </div>
             </div>

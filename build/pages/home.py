@@ -147,9 +147,27 @@ PERFECT_PICKS = [
 ]
 
 
+# Mobile widths for the decorative leaves. The leaves now render on phones too
+# (the leaves-on-scroll effect needs them present), but the hero/bands are much
+# narrower there, so each leaf drops to a smaller width below `md` and the exact
+# Figma width is restored at `md`+ — the desktop layout is left untouched. Any
+# width not listed falls back to itself (i.e. no shrink), which is safe.
+_LEAF_MOBILE_W = {
+    "w-8": "w-5", "w-9": "w-5", "w-10": "w-6", "w-11": "w-6",
+    "w-12": "w-7", "w-14": "w-8", "w-16": "w-9", "w-20": "w-11",
+}
+
+
 def render_leaves(items, dark=False):
-    """Scattered decorative leaf layer (Figma). Hidden below md; absolute inside
-    the nearest positioned ancestor. items: (leaf, top%, left%, width class, deg).
+    """Scattered decorative leaf layer (Figma). Absolute inside the nearest
+    positioned ancestor. items: (leaf, top%, left%, width class, deg).
+
+    Shown on every breakpoint (previously hidden below md): the mobile
+    leaves-on-scroll effect needs the leaves in the DOM. On phones each leaf
+    renders at a reduced width (`_LEAF_MOBILE_W`) so nothing crowds the smaller
+    bands, and the parent bands are already `overflow-hidden` so a leaf near an
+    edge is clipped rather than spilling the page. At `md`+ the original width
+    is restored, so the desktop layout is identical to before.
 
     `data-leaf` + the `.leaf-wind` class let initLeafWind() scatter each leaf with
     the cursor. Base rotation is kept in `--lr` so the JS can layer a translate +
@@ -158,7 +176,7 @@ def render_leaves(items, dark=False):
     tone = "opacity-90 brightness-150" if dark else "opacity-80"
     return "".join(
         f'<img src="images/jaad/decor/{leaf}" alt="" aria-hidden="true" data-leaf '
-        f'class="leaf-wind hidden md:block absolute {cls} h-auto {tone} pointer-events-none z-0" '
+        f'class="leaf-wind block absolute {_LEAF_MOBILE_W.get(cls, cls)} md:{cls} h-auto {tone} pointer-events-none z-0" '
         f'style="top:{top};left:{left};--lr:{rot}deg" />'
         for leaf, top, left, cls, rot in items
     )
