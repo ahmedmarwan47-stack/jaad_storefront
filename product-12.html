@@ -95,7 +95,7 @@
                The wrapper owns `lg:self-start lg:sticky lg:top-[60px]`; this
                only works because <main> is `overflow-x-clip` (see page()). -->
           <div data-gallery class="flex md:flex-row flex-col-reverse gap-4 min-w-0">
-            <div class="flex md:flex-col gap-3 md:max-h-[348px] xl:max-h-[520px]
+            <div data-gallery-strip class="flex md:flex-col gap-3 md:max-h-[348px] xl:max-h-[520px]
                         overflow-x-auto md:overflow-x-hidden md:overflow-y-auto no-scrollbar shrink-0">
                 <button type="button" data-gallery-thumb aria-pressed="true"
                         aria-label="عرض الصورة 1 من 3"
@@ -134,6 +134,7 @@
                  class="gallery-plate relative flex-1 bg-interaction-base rounded-[20px] min-w-0 overflow-hidden
                         h-[348px] xl:h-[520px]">
               <img data-gallery-main src="images/jaad/products-styled/12.jpg" alt="عين جمل"
+                   data-img-scene="images/jaad/products-styled/12.jpg" data-img-plain="images/jaad/products/nuts-walnut.png"
                    class="mx-auto w-full h-full" />
               <button type="button" data-fav-toggle aria-pressed="false" aria-label="أضف إلى المفضلة" data-product data-id="12" data-name="عين جمل" data-price="65.0" data-image="images/jaad/products/nuts-walnut.png" class="fav-btn btn-elevate absolute top-4 end-4 z-10 place-items-center grid bg-white/90 hover:bg-white shadow-custom4 rounded-full text-cta size-11"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5"><path d="M12 20.5s-7.5-4.6-7.5-9.6a4.4 4.4 0 0 1 7.5-3.1 4.4 4.4 0 0 1 7.5 3.1c0 5-7.5 9.6-7.5 9.6Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 20.5s-7.5-4.6-7.5-9.6a4.4 4.4 0 0 1 7.5-3.1 4.4 4.4 0 0 1 7.5 3.1c0 5-7.5 9.6-7.5 9.6Z"/></svg></button>
             </div>
@@ -195,11 +196,11 @@
           <!-- The white card is desktop-only (Ahmed, 2026-08-02): on mobile the
                info column drops its container so the content sits inline with
                the page grid, like the gallery beside it. lg+ keeps the card. -->
-          <div class="flex flex-col gap-5 lg:bg-white lg:shadow-custom4 lg:p-6 xl:p-8 lg:rounded-[20px]"
+          <div class="flex flex-col gap-5 lg:bg-white lg:shadow-custom4 lg:p-6 xl:p-8 lg:rounded-[20px] story-host"
                data-product data-record-view data-id="12" data-name="عين جمل"
                data-price="65.0" data-image="images/jaad/products/nuts-walnut.png">
             <div class="flex flex-col gap-3">
-              <span data-best-seller class="inline-flex self-start items-center bg-accent-yellow px-3 py-1.5 rounded-full font-bold text-[#003616] text-xs"><span class="relative top-[2px] leading-none">الأكثر مبيعاً</span></span>
+              <span data-best-seller class="inline-flex self-start items-center bg-[#8ACC3E] px-3 py-1.5 rounded-full font-bold text-[#003616] text-xs"><span class="relative top-[2px] leading-none">الأكثر مبيعاً</span></span>
               <h1 class="font-bold text-[#003616] text-2xl xl:text-4xl leading-tight">عين جمل</h1>
               <!-- Points callout sits with the rating + social-proof line, right
                    beside the red "best seller" proof text (Ahmed, 2026-08-04) —
@@ -293,7 +294,10 @@
               <button type="button" data-open="location" class="font-semibold text-cta text-sm underline">تغيير المنطقة</button>
             </div>
 
-            <div class="flex flex-col gap-3" data-accordion>
+            <!-- In white-image mode on the story product these give way to the
+                 scroll story below; scene mode keeps them here. -->
+            <div data-buy-extras class="flex flex-col gap-5">
+              <div class="flex flex-col gap-3" data-accordion>
                 <div class="faq-card accordion-item rounded-2xl overflow-hidden is-open">
                   <button type="button" class="accordion-trigger flex justify-between items-center gap-4 p-6 w-full text-start">
                     <span class="faq-q text-lg leading-snug">الفوائد</span>
@@ -353,7 +357,7 @@
                   </div>
                 </div>
               </div>
-            
+              
             <div class="flex flex-col gap-2">
               <h2 class="mt-1 font-bold text-[#003616] text-lg xl:text-xl">الأسئلة الشائعة</h2>
               <div class="flex flex-col gap-3" data-accordion>
@@ -406,6 +410,7 @@
                   </div>
                 </div>
               </div>
+            </div>
             </div>
           </div>
 
@@ -467,10 +472,105 @@
         </div>
       </section>
 
+      
+      <!-- ==================== WHITE-MODE SCROLL STORY ====================
+           Pinned + scroll-scrubbed. Only rendered on the hero product, only
+           shown in white-image mode (styles.css gates on html[data-img]).
+           initProductStory drives the image transform + the panel reveals. -->
+      <section data-reveal data-story data-cutout="images/jaad/products/nuts-walnut-cutout.png" class="product-story" aria-hidden="true">
+        <div data-story-stage class="product-story__stage">
+          <img data-story-img src="images/jaad/products/nuts-walnut-cutout.png" alt="عين جمل" class="product-story__img" />
+          
+            <div data-story-panel data-step="0" style="top:18%" class="product-story__panel is-right">
+              <img src="images/jaad/icons/spec-leaf.png" alt="" class="product-story__ico" loading="lazy" />
+              <div class="min-w-0">
+                <p class="font-bold text-[#003616] text-sm sm:text-lg xl:text-xl leading-tight">مكوّنات مختارة بعناية</p>
+                <p class="mt-0.5 sm:mt-1 text-neutral-secondary text-xs sm:text-sm leading-snug sm:leading-6">من مصادر موثوقة ودون أي إضافات غير ضرورية.</p>
+              </div>
+            </div>
+            <div data-story-panel data-step="1" style="top:38%" class="product-story__panel is-left">
+              <img src="images/jaad/icons/spec-bolt.png" alt="" class="product-story__ico" loading="lazy" />
+              <div class="min-w-0">
+                <p class="font-bold text-[#003616] text-sm sm:text-lg xl:text-xl leading-tight">نكهة غنية ومتوازنة</p>
+                <p class="mt-0.5 sm:mt-1 text-neutral-secondary text-xs sm:text-sm leading-snug sm:leading-6">مثالية للتسالي في أي وقت من اليوم.</p>
+              </div>
+            </div>
+            <div data-story-panel data-step="2" style="top:56%" class="product-story__panel is-right">
+              <img src="images/jaad/icons/spec-shield.png" alt="" class="product-story__ico" loading="lazy" />
+              <div class="min-w-0">
+                <p class="font-bold text-[#003616] text-sm sm:text-lg xl:text-xl leading-tight">الأنسب للضيافة</p>
+                <p class="mt-0.5 sm:mt-1 text-neutral-secondary text-xs sm:text-sm leading-snug sm:leading-6">خيار رائع للمشاركة مع العائلة والأصحاب.</p>
+              </div>
+            </div>
+            <div data-story-panel data-step="3" style="top:72%" class="product-story__panel is-left">
+              <img src="images/jaad/icons/spec-delivery.png" alt="" class="product-story__ico" loading="lazy" />
+              <div class="min-w-0">
+                <p class="font-bold text-[#003616] text-sm sm:text-lg xl:text-xl leading-tight">طازج حتى آخر قضمة</p>
+                <p class="mt-0.5 sm:mt-1 text-neutral-secondary text-xs sm:text-sm leading-snug sm:leading-6">يصلك بتغليف يحافظ على جودته وطزاجته.</p>
+              </div>
+            </div>
+        </div>
+      </section>
+      <section data-reveal data-story-faq class="product-story-faq">
+        <div class="mx-auto px-4 max-w-[760px]">
+          <h2 class="mb-6 font-bold text-[#003616] text-2xl xl:text-3xl text-center">الأسئلة الشائعة</h2>
+          <div class="flex flex-col gap-3" data-accordion>
+                <div class="faq-card accordion-item rounded-2xl overflow-hidden is-open">
+                  <button type="button" class="accordion-trigger flex justify-between items-center gap-4 p-6 w-full text-start">
+                    <span class="faq-q text-lg leading-snug">كم يستغرق توصيل الطلب؟</span>
+                    <span class="place-items-center grid size-6 text-[#006328] shrink-0">
+                      <span class="faq-plus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+                      <span class="faq-minus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+                    </span>
+                  </button>
+                  <div class="accordion-panel">
+                    <div class="px-6 pb-6 text-[#4b5563] text-[15px] leading-[1.6]"><p class="text-neutral-800 leading-7">التوصيل خلال ساعتين داخل القاهرة الكبرى، ويصل إلى باقي المحافظات حسب المنطقة. يمكنك تغيير منطقة التوصيل من أعلى الصفحة.</p></div>
+                  </div>
+                </div>
+                <div class="faq-card accordion-item rounded-2xl overflow-hidden">
+                  <button type="button" class="accordion-trigger flex justify-between items-center gap-4 p-6 w-full text-start">
+                    <span class="faq-q text-lg leading-snug">هل يمكنني استرجاع المنتج؟</span>
+                    <span class="place-items-center grid size-6 text-[#006328] shrink-0">
+                      <span class="faq-plus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+                      <span class="faq-minus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+                    </span>
+                  </button>
+                  <div class="accordion-panel">
+                    <div class="px-6 pb-6 text-[#4b5563] text-[15px] leading-[1.6]"><p class="text-neutral-800 leading-7">نعم، يمكنك الاسترجاع خلال 14 يوماً من تاريخ الاستلام وفق سياسة الاسترجاع المتبعة.</p></div>
+                  </div>
+                </div>
+                <div class="faq-card accordion-item rounded-2xl overflow-hidden">
+                  <button type="button" class="accordion-trigger flex justify-between items-center gap-4 p-6 w-full text-start">
+                    <span class="faq-q text-lg leading-snug">كيف أحافظ على المنتج طازجاً؟</span>
+                    <span class="place-items-center grid size-6 text-[#006328] shrink-0">
+                      <span class="faq-plus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+                      <span class="faq-minus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+                    </span>
+                  </button>
+                  <div class="accordion-panel">
+                    <div class="px-6 pb-6 text-[#4b5563] text-[15px] leading-[1.6]"><p class="text-neutral-800 leading-7">يُحفظ المنتج في مكان جاف بعيداً عن الرطوبة وأشعة الشمس المباشرة ومصادر الحرارة للحفاظ على نكهته وطزاجته.</p></div>
+                  </div>
+                </div>
+                <div class="faq-card accordion-item rounded-2xl overflow-hidden">
+                  <button type="button" class="accordion-trigger flex justify-between items-center gap-4 p-6 w-full text-start">
+                    <span class="faq-q text-lg leading-snug">هل تتوفر أحجام أو عبوات أخرى؟</span>
+                    <span class="place-items-center grid size-6 text-[#006328] shrink-0">
+                      <span class="faq-plus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+                      <span class="faq-minus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+                    </span>
+                  </button>
+                  <div class="accordion-panel">
+                    <div class="px-6 pb-6 text-[#4b5563] text-[15px] leading-[1.6]"><p class="text-neutral-800 leading-7">تختلف الأحجام المتاحة حسب المنتج، وتظهر خيارات الحجم أعلى الصفحة عند توفر أكثر من عبوة.</p></div>
+                  </div>
+                </div>
+              </div>
+        </div>
+      </section>
+
       <!-- =========================== MORE FROM US =========================== -->
       <section data-reveal class="py-12 xl:py-16">
         <div class="mx-auto px-4 max-w-[1536px]">
-          <div class="flex flex-wrap justify-between items-center gap-4 mb-10"><h2 class="font-bold text-[#003616] text-3xl xl:text-4xl">تسوق اكتر من جاد</h2><a href="shop.html" class="inline-flex justify-center items-center rounded-full font-semibold transition-colors px-6 py-2.5 text-sm border border-cta text-cta hover:bg-interaction-base ">عرض المزيد</a></div>
+          <div class="flex flex-wrap justify-between items-center gap-4 mb-10"><h2 class="font-bold text-[#003616] text-3xl xl:text-4xl">تسوق اكتر من جاد</h2><a href="shop.html" class="btn inline-flex justify-center items-center rounded-full font-semibold transition-colors px-6 py-2.5 text-sm border border-cta text-cta hover:bg-interaction-base ">عرض المزيد</a></div>
           
           <div class="relative carousel " style="--carousel-gap:24px">
             <div class="carousel-track">
@@ -479,7 +579,7 @@
                    data-name-en="Cashew" data-image="images/jaad/products-styled/8.jpg">
             <div class="relative">
               <a href="product-8.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
-                <img src="images/jaad/products-styled/8.jpg" alt="Cashew" class="w-full h-full object-cover" loading="lazy" />
+                <img src="images/jaad/products-styled/8.jpg" data-img-scene="images/jaad/products-styled/8.jpg" data-img-plain="images/jaad/products/nuts-cashew.png" alt="Cashew" class="w-full h-full object-cover" loading="lazy" />
               </a>
               <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
                    action and does not compete with the green price sticker. Once
@@ -490,10 +590,15 @@
                         class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full h-10 text-[#003616] flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-semibold text-center latin">1</span>
-                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +, scaled compact (size-8) to sit in
+                     the add button's footprint. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-8 text-[#003616] shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-8 text-white shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
@@ -516,7 +621,7 @@
                    data-name-en="Hazelnut" data-image="images/jaad/products-styled/9.jpg">
             <div class="relative">
               <a href="product-9.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
-                <img src="images/jaad/products-styled/9.jpg" alt="Hazelnut" class="w-full h-full object-cover" loading="lazy" />
+                <img src="images/jaad/products-styled/9.jpg" data-img-scene="images/jaad/products-styled/9.jpg" data-img-plain="images/jaad/products/nuts-hazelnut.png" alt="Hazelnut" class="w-full h-full object-cover" loading="lazy" />
               </a>
               <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
                    action and does not compete with the green price sticker. Once
@@ -527,10 +632,15 @@
                         class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full h-10 text-[#003616] flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-semibold text-center latin">1</span>
-                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +, scaled compact (size-8) to sit in
+                     the add button's footprint. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-8 text-[#003616] shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-8 text-white shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
@@ -553,7 +663,7 @@
                    data-name-en="Pistachio" data-image="images/jaad/products-styled/10.jpg">
             <div class="relative">
               <a href="product-10.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
-                <img src="images/jaad/products-styled/10.jpg" alt="Pistachio" class="w-full h-full object-cover" loading="lazy" />
+                <img src="images/jaad/products-styled/10.jpg" data-img-scene="images/jaad/products-styled/10.jpg" data-img-plain="images/jaad/products/nuts-pistachio.png" alt="Pistachio" class="w-full h-full object-cover" loading="lazy" />
               </a>
               <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
                    action and does not compete with the green price sticker. Once
@@ -564,10 +674,15 @@
                         class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full h-10 text-[#003616] flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-semibold text-center latin">1</span>
-                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +, scaled compact (size-8) to sit in
+                     the add button's footprint. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-8 text-[#003616] shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-8 text-white shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
@@ -590,7 +705,7 @@
                    data-name-en="Almond" data-image="images/jaad/products-styled/11.jpg">
             <div class="relative">
               <a href="product-11.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
-                <img src="images/jaad/products-styled/11.jpg" alt="Almond" class="w-full h-full object-cover" loading="lazy" />
+                <img src="images/jaad/products-styled/11.jpg" data-img-scene="images/jaad/products-styled/11.jpg" data-img-plain="images/jaad/products/nuts-almond.png" alt="Almond" class="w-full h-full object-cover" loading="lazy" />
               </a>
               <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
                    action and does not compete with the green price sticker. Once
@@ -601,10 +716,15 @@
                         class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full h-10 text-[#003616] flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-semibold text-center latin">1</span>
-                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +, scaled compact (size-8) to sit in
+                     the add button's footprint. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-8 text-[#003616] shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-8 text-white shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
@@ -627,7 +747,7 @@
                    data-name-en="Walnut" data-image="images/jaad/products-styled/12.jpg">
             <div class="relative">
               <a href="product-12.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
-                <img src="images/jaad/products-styled/12.jpg" alt="Walnut" class="w-full h-full object-cover" loading="lazy" />
+                <img src="images/jaad/products-styled/12.jpg" data-img-scene="images/jaad/products-styled/12.jpg" data-img-plain="images/jaad/products/nuts-walnut.png" alt="Walnut" class="w-full h-full object-cover" loading="lazy" />
               </a>
               <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
                    action and does not compete with the green price sticker. Once
@@ -638,10 +758,15 @@
                         class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full h-10 text-[#003616] flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-semibold text-center latin">1</span>
-                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +, scaled compact (size-8) to sit in
+                     the add button's footprint. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-8 text-[#003616] shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-8 text-white shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
@@ -664,7 +789,7 @@
                    data-name-en="Light Roasted Coffee" data-image="images/jaad/products-styled/1.jpg">
             <div class="relative">
               <a href="product-1.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
-                <img src="images/jaad/products-styled/1.jpg" alt="Light Roasted Coffee" class="w-full h-full object-cover" loading="lazy" />
+                <img src="images/jaad/products-styled/1.jpg" data-img-scene="images/jaad/products-styled/1.jpg" data-img-plain="images/jaad/products/coffee-light-plain.png" alt="Light Roasted Coffee" class="w-full h-full object-cover" loading="lazy" />
               </a>
               <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
                    action and does not compete with the green price sticker. Once
@@ -675,10 +800,15 @@
                         class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full h-10 text-[#003616] flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-semibold text-center latin">1</span>
-                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +, scaled compact (size-8) to sit in
+                     the add button's footprint. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-8 text-[#003616] shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-8 text-white shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
@@ -701,7 +831,7 @@
                    data-name-en="Medium Roasted Coffee" data-image="images/jaad/products-styled/2.jpg">
             <div class="relative">
               <a href="product-2.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
-                <img src="images/jaad/products-styled/2.jpg" alt="Medium Roasted Coffee" class="w-full h-full object-cover" loading="lazy" />
+                <img src="images/jaad/products-styled/2.jpg" data-img-scene="images/jaad/products-styled/2.jpg" data-img-plain="images/jaad/products/coffee-medium-plain.png" alt="Medium Roasted Coffee" class="w-full h-full object-cover" loading="lazy" />
               </a>
               <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
                    action and does not compete with the green price sticker. Once
@@ -712,10 +842,15 @@
                         class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full h-10 text-[#003616] flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-semibold text-center latin">1</span>
-                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +, scaled compact (size-8) to sit in
+                     the add button's footprint. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-8 text-[#003616] shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-8 text-white shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
@@ -738,7 +873,7 @@
                    data-name-en="Dark Roasted Coffee" data-image="images/jaad/products-styled/3.jpg">
             <div class="relative">
               <a href="product-3.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
-                <img src="images/jaad/products-styled/3.jpg" alt="Dark Roasted Coffee" class="w-full h-full object-cover" loading="lazy" />
+                <img src="images/jaad/products-styled/3.jpg" data-img-scene="images/jaad/products-styled/3.jpg" data-img-plain="images/jaad/products/coffee-dark-plain.png" alt="Dark Roasted Coffee" class="w-full h-full object-cover" loading="lazy" />
               </a>
               <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
                    action and does not compete with the green price sticker. Once
@@ -749,10 +884,15 @@
                         class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full h-10 text-[#003616] flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-semibold text-center latin">1</span>
-                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +, scaled compact (size-8) to sit in
+                     the add button's footprint. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-8 text-[#003616] shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-8 text-white shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
@@ -775,7 +915,7 @@
                    data-name-en="Light Roasted with Cardamom" data-image="images/jaad/products-styled/4.jpg">
             <div class="relative">
               <a href="product-4.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
-                <img src="images/jaad/products-styled/4.jpg" alt="Light Roasted with Cardamom" class="w-full h-full object-cover" loading="lazy" />
+                <img src="images/jaad/products-styled/4.jpg" data-img-scene="images/jaad/products-styled/4.jpg" data-img-plain="images/jaad/products/coffee-light-cardamom.png" alt="Light Roasted with Cardamom" class="w-full h-full object-cover" loading="lazy" />
               </a>
               <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
                    action and does not compete with the green price sticker. Once
@@ -786,10 +926,15 @@
                         class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full h-10 text-[#003616] flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-semibold text-center latin">1</span>
-                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +, scaled compact (size-8) to sit in
+                     the add button's footprint. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-8 text-[#003616] shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-8 text-white shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
@@ -812,7 +957,7 @@
                    data-name-en="Medium Roasted with Cardamom" data-image="images/jaad/products-styled/5.jpg">
             <div class="relative">
               <a href="product-5.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
-                <img src="images/jaad/products-styled/5.jpg" alt="Medium Roasted with Cardamom" class="w-full h-full object-cover" loading="lazy" />
+                <img src="images/jaad/products-styled/5.jpg" data-img-scene="images/jaad/products-styled/5.jpg" data-img-plain="images/jaad/products/coffee-medium-cardamom.png" alt="Medium Roasted with Cardamom" class="w-full h-full object-cover" loading="lazy" />
               </a>
               <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
                    action and does not compete with the green price sticker. Once
@@ -823,10 +968,15 @@
                         class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
-                <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full h-10 text-[#003616] flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-semibold text-center latin">1</span>
-                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +, scaled compact (size-8) to sit in
+                     the add button's footprint. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-8 text-[#003616] shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-8 text-white shrink-0 transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>

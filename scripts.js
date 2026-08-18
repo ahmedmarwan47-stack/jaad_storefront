@@ -1056,7 +1056,7 @@
                        </button>
                        <button type="button" data-open="cart" aria-label="${esc(t("السلة"))}" class="relative place-items-center grid bg-white shadow-custom4 rounded-full size-11">
                          <img src="images/jaad/icons/hdr-cart.svg" alt="" class="w-6 h-6" />
-                         <span class="-top-1 -end-1 absolute place-items-center grid bg-[#ACD574] px-1 rounded-full min-w-[20px] h-5 font-semibold text-white text-xs latin" data-cart-count>2</span>
+                         <span class="-top-1 -end-1 absolute place-items-center grid bg-[#ACD574] px-1 rounded-full min-w-[20px] h-5 font-semibold text-[#00451C] text-xs latin" data-cart-count>2</span>
                        </button>
                      </div>
                    </div>`
@@ -1257,7 +1257,7 @@
         <div class="flex items-center gap-4 bg-[#EA983E] p-5 xl:p-8 rounded-[20px] w-full max-w-[519px]">
           <img src="images/jaad/site/newsletter-mail.png" alt="" class="w-[92px] xl:w-[122px] shrink-0 object-contain" />
           <div class="flex flex-col gap-4 min-w-0">
-            <p class="font-medium text-white text-lg leading-[1.4]">${esc(t("Stay Connected With Our Exclusive Offers"))}</p>
+            <p class="font-medium text-[#003616] text-lg leading-[1.4]">${esc(t("Stay Connected With Our Exclusive Offers"))}</p>
             <form data-newsletter class="flex items-center gap-2 bg-white ps-4 pe-2 py-2 border border-[#FEFCFA] rounded-full w-full">
               <input type="email" required aria-label="${esc(t("Email"))}" placeholder="${esc(t("Enter your email"))}"
                      class="flex-1 bg-transparent outline-none min-w-0 text-black text-sm placeholder:text-black/50" />
@@ -1280,7 +1280,12 @@
     ]
       .map(
         (l) =>
-          `<img src="images/jaad/decor/${l[0]}" alt="" aria-hidden="true" data-leaf class="leaf-wind hidden md:block absolute ${l[3]} h-auto opacity-90 brightness-150 pointer-events-none z-0" style="top:${l[1]};left:${l[2]};--lr:${l[4]}deg" />`,
+          // Visible at every width (was `hidden md:block`) so the leaves-on-scroll
+          // wind effect runs on phones too. On mobile the fixed px widths (w-8..w-16)
+          // could crowd/overflow the narrow footer, so an inline max-width in vw caps
+          // them below md; at >=768px 9vw always exceeds the largest leaf (64px), so
+          // the desktop field is left byte-identical.
+          `<img src="images/jaad/decor/${l[0]}" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute ${l[3]} h-auto opacity-90 brightness-150 pointer-events-none z-0" style="top:${l[1]};left:${l[2]};--lr:${l[4]}deg;max-width:9vw" />`,
       )
       .join("");
 
@@ -1539,13 +1544,24 @@
     <!-- Search modal -->
     <div data-modal="search" class="modal-shell">
       <div class="bg-white shadow-custom3 rounded-2xl w-full max-w-[640px] overflow-hidden" data-modal-box>
-        <div class="flex items-center gap-3 px-5 py-4 border-transparent border-b search-row">
-          <span class="w-5 h-5 text-neutral-secondary shrink-0">${ICON.search}</span>
-          <label class="sr-only" for="site-search">${esc(t("ابحث عن قهوة، مكسرات، تمور…"))}</label>
-          <input type="search" id="site-search" data-search-input autocomplete="off"
-                 placeholder="ابحث عن قهوة، مكسرات، تمور…"
-                 class="flex-1 bg-transparent outline-none min-w-0 text-[#003616] text-base" />
+        <!-- Header: overlay title + close. The close is delegated via
+             [data-close], so it works from here just as it did in the row. -->
+        <div class="flex justify-between items-center gap-3 px-6 pt-6 pb-4">
+          <h2 class="font-bold text-[#003616] text-lg">${esc(t("بحث"))}</h2>
           <button type="button" data-close class="place-items-center grid hover:bg-interaction-base rounded-full w-11 h-11 -me-2 text-[#003616] shrink-0" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
+        </div>
+
+        <!-- Roomy JAAD search field: neutral outline that turns green on focus,
+             with a lime focus ring. focus-within lets the wrapper react while
+             the real focus stays on the input inside. -->
+        <div class="px-6">
+          <div class="flex items-center gap-3 bg-white px-4 py-3.5 border-2 border-neutral-outline rounded-2xl transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-[#98CA55] search-row">
+            <span class="w-5 h-5 text-neutral-secondary shrink-0">${ICON.search}</span>
+            <label class="sr-only" for="site-search">${esc(t("ابحث عن قهوة، مكسرات، تمور…"))}</label>
+            <input type="search" id="site-search" data-search-input autocomplete="off"
+                   placeholder="ابحث عن قهوة، مكسرات، تمور…"
+                   class="flex-1 bg-transparent outline-none min-w-0 text-[#003616] placeholder:text-neutral-secondary text-base" />
+          </div>
         </div>
 
         <!-- Idle state: the query is empty. These were five links that all
@@ -1557,13 +1573,13 @@
              Abu Auf's 5-term set, which included تمر/معمول/بروتين — dates,
              maamoul, protein — none of which are Jaad products), so a chip
              always lands on real results. -->
-        <div class="px-5 py-6" data-search-idle>
+        <div class="px-6 py-6" data-search-idle>
           <p class="mb-3 text-neutral-secondary text-xs">${esc(t("اقتراحات البحث"))}</p>
           <div class="flex flex-wrap gap-2">
             ${["Coffee", "Nuts", "Spices"]
               .map(
                 (s) =>
-                  `<button type="button" data-search-seed="${esc(s)}" class="bg-interaction-base hover:bg-cta px-3 py-2 rounded-full min-h-11 text-[#003616] hover:text-white text-sm transition-colors">${esc(s)}</button>`,
+                  `<button type="button" data-search-seed="${esc(s)}" class="bg-[#98CA55] hover:bg-cta px-4 py-2 rounded-full min-h-11 font-medium text-[#003616] hover:text-white text-sm transition-colors">${esc(s)}</button>`,
               )
               .join("")}
           </div>
@@ -1572,7 +1588,7 @@
         <!-- Result count is a live region so a screen reader hears the list
              change; the list itself is plain anchors, which stay operable if
              the fetch or the JS ever fails. -->
-        <p class="px-5 text-neutral-secondary text-xs" data-search-status role="status" aria-live="polite" hidden></p>
+        <p class="px-6 text-neutral-secondary text-xs" data-search-status role="status" aria-live="polite" hidden></p>
         <div class="max-h-[52vh] overflow-y-auto overscroll-contain" data-search-results hidden></div>
       </div>
     </div>
@@ -3124,6 +3140,12 @@
     { id: "11", name: "Almond", price: 85, image: "images/jaad/products-styled/11.jpg" },
   ];
 
+  /* White-background original per SKU id, for the product-image style toggle.
+     JS-built cards (Recently Viewed) carry only the scene path in their seed /
+     Recent store, and the originals are slug-named, so this maps id -> original.
+     Generated from catalog.json; keep in sync if the catalog SKUs change. */
+  const PLAIN_BY_ID = {"1":"images/jaad/products/coffee-light-plain.png","2":"images/jaad/products/coffee-medium-plain.png","3":"images/jaad/products/coffee-dark-plain.png","4":"images/jaad/products/coffee-light-cardamom.png","5":"images/jaad/products/coffee-medium-cardamom.png","6":"images/jaad/products/coffee-dark-cardamom.png","7":"images/jaad/products/coffee-espresso.png","8":"images/jaad/products/nuts-cashew.png","9":"images/jaad/products/nuts-hazelnut.png","10":"images/jaad/products/nuts-pistachio.png","11":"images/jaad/products/nuts-almond.png","12":"images/jaad/products/nuts-walnut.png","13":"images/jaad/products/spices-chili.png","14":"images/jaad/products/spices-turmeric.png","15":"images/jaad/products/spices-ginger.png","16":"images/jaad/products/spices-coriander.png","17":"images/jaad/products/spices-nutmeg.png","18":"images/jaad/products/spices-cinnamon.png","19":"images/jaad/products/spices-paprika.png","20":"images/jaad/products/spices-black-pepper.png","21":"images/jaad/products/spices-cardamom.png","22":"images/jaad/products/spices-cloves.png","23":"images/jaad/products/spices-cumin.png","24":"images/jaad/products/spices-meat.png","25":"images/jaad/products/spices-chicken.png","26":"images/jaad/products/spices-fish.png"};
+
   const Favs = (function () {
     let items = [];
 
@@ -3754,8 +3776,17 @@
    * opts.quick  — tighter and faster, for repeat taps on a card stepper.
    * opts.tag    — small text chip riding along with the tile, e.g. "+1".
    */
+  /* Fly-to-cart style, chosen at the switch (default the Abu Auf arc). Only the
+     THROW stage differs between them — pick-up, clamp, ghost/plate scaffolding
+     and the landing resolve are shared. */
+  function currentFlyStyle() {
+    const s = document.documentElement.getAttribute("data-fly");
+    return s === "drop" || s === "comet" ? s : "arc";
+  }
+
   function flyTo(sourceEl, targetEl, ghostHTML, opts) {
     opts = opts || {};
+    const style = currentFlyStyle();
     if (!sourceEl || !targetEl || reduceMotion() || !document.body.animate) {
       return Promise.resolve(false);
     }
@@ -3816,7 +3847,7 @@
     const lift = Math.min(160, Math.hypot(dx, dy) * 0.32) + 40;
 
     const pickupMs = opts.card ? (opts.quick ? 150 : 230) : 0;
-    const flightMs = opts.quick ? 560 : 700;
+    const flightMs = (opts.quick ? 560 : 700) * (style === "comet" ? 0.7 : 1);
 
     /* Force a style flush so the transition has a resolved start value to
        move away from. Deliberately NOT requestAnimationFrame: rAF does not
@@ -3855,26 +3886,76 @@
         const frames = [];
         for (let i = 0; i <= N; i++) {
           const t = i / N;
-          const p = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-          const x = dx * p;
-          // sin(pi*p) peaks at exactly `lift` mid-flight and lands at 0 — the
-          // same arc height the old apex keyframe had, without its corner.
-          const y = dy * p - lift * Math.sin(Math.PI * p);
-          const scale = 1 - 0.84 * p;
-          // A held tilt against the direction of travel, righting itself on
-          // approach — reads as carried momentum rather than a spin.
-          const rot = -7 * Math.sin(Math.PI * p) + 4 * p;
+          let x, y, sx, sy, rot, op;
+          if (style === "drop") {
+            /* DROP-&-BAG: horizontal settles fast, vertical accelerates like
+               gravity, and the tile splats — squashing wide-and-flat over the
+               last stretch — as it drops into the cart. */
+            const px = 1 - (1 - t) * (1 - t);
+            const py = t * t;
+            const hop = Math.min(40, lift * 0.35);
+            x = dx * px;
+            y = dy * py - hop * Math.sin(Math.PI * t);
+            const base = 1 - 0.72 * t;
+            sx = base; sy = base;
+            if (t > 0.82) { const k = (t - 0.82) / 0.18; sx = base * (1 + 0.55 * k); sy = base * (1 - 0.5 * k); }
+            rot = 0;
+            op = t < 0.86 ? 1 : 1 - ((t - 0.86) / 0.14) * 0.85;
+          } else if (style === "comet") {
+            /* COMET STREAK: a dead-straight, fast shot to the cart — no arc.
+               The speed read comes from the fading trail discs spawned below. */
+            const p = t;
+            x = dx * p;
+            y = dy * p;
+            sx = sy = 1 - 0.72 * p;
+            rot = 0;
+            op = p < 0.85 ? 1 : 1 - ((p - 0.85) / 0.15) * 0.9;
+          } else {
+            /* ARC (default, Abu Auf): sampled parabola with a held tilt.
+               sin(pi*p) peaks at `lift` mid-flight and lands at 0 — a real
+               curve, no corner at the apex. */
+            const p = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+            x = dx * p;
+            y = dy * p - lift * Math.sin(Math.PI * p);
+            sx = sy = 1 - 0.84 * p;
+            rot = -7 * Math.sin(Math.PI * p) + 4 * p;
+            op = p < 0.8 ? 1 : 1 - ((p - 0.8) / 0.2) * 0.85;
+          }
           frames.push({
             transform:
               "translate(" + x.toFixed(1) + "px," + y.toFixed(1) + "px) " +
-              "scale(" + scale.toFixed(3) + ") rotate(" + rot.toFixed(2) + "deg)",
-            // Stay fully present for most of the flight; only melt into the
-            // cart over the last fifth so the landing is crisp, not a fade-out
-            // that starts mid-air.
-            opacity: p < 0.8 ? 1 : 1 - ((p - 0.8) / 0.2) * 0.85,
+              "scale(" + sx.toFixed(3) + "," + sy.toFixed(3) + ") rotate(" + rot.toFixed(2) + "deg)",
+            opacity: op,
             offset: t,
           });
         }
+
+        /* Comet tail: a handful of shrinking, fading discs fired down the same
+           straight vector, each lagging a little further behind the head. Tinted
+           to the active button theme so the streak matches the palette. */
+        if (style === "comet") {
+          const cx = s.left + s.width / 2, cy = s.top + s.height / 2;
+          const tint = document.documentElement.getAttribute("data-btn") === "v2" ? "#EA983E" : "#1A733E";
+          for (let k = 1; k <= 5; k++) {
+            const size = 16 - k * 1.6;
+            const dot = document.createElement("div");
+            dot.style.cssText =
+              "position:fixed;z-index:199;pointer-events:none;border-radius:50%;left:" +
+              (cx - size / 2) + "px;top:" + (cy - size / 2) + "px;width:" + size +
+              "px;height:" + size + "px;background:" + tint + ";";
+            document.body.appendChild(dot);
+            const da = dot.animate(
+              [
+                { transform: "translate(0,0) scale(1)", opacity: 0.55 - k * 0.08, offset: 0 },
+                { transform: "translate(" + dx.toFixed(1) + "px," + dy.toFixed(1) + "px) scale(0.2)", opacity: 0, offset: 1 },
+              ],
+              { duration: flightMs, delay: k * 26, easing: "cubic-bezier(0.4,0,0.7,1)", fill: "forwards" },
+            );
+            da.onfinish = () => dot.remove();
+            setTimeout(() => dot.remove(), flightMs + k * 26 + 500);
+          }
+        }
+
         const anim = ghost.animate(frames, {
           duration: flightMs, easing: "linear", fill: "forwards",
         });
@@ -5613,17 +5694,17 @@
                data-product data-id="${id}" data-name="${name}" data-price="${price}" data-image="${esc(p.image || "")}">
         <div class="relative">
           <a href="product-${id}.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
-            <img src="${esc(p.image || "")}" alt="${name}" class="w-full h-full object-cover" loading="lazy" />
+            <img src="${esc(imgFor(p.image, PLAIN_BY_ID[id]))}" data-img-scene="${esc(p.image || "")}" data-img-plain="${esc(PLAIN_BY_ID[id] || p.image || "")}" alt="${name}" class="w-full h-full object-cover" loading="lazy" />
           </a>
           <div class="${btnPos} z-10 absolute">
             <button type="button" data-add-to-cart aria-label="Add to cart"
                     class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full ${btnSize} text-[#003616] transition-colors">
               <span class="${cartIco}">${ICON.cart}</span>
             </button>
-            <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full ${stepH} text-[#003616] flex">
-              <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full ${btnSize} shrink-0"><span class="w-4 h-4">${ICON.minus}</span></button>
-              <span data-card-qty class="min-w-[1.5ch] font-semibold text-center latin">1</span>
-              <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full ${btnSize} shrink-0"><span class="w-4 h-4">${ICON.plus}</span></button>
+            <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
+              <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full ${c ? "size-7" : "size-8"} text-[#003616] shrink-0 transition-colors"><span class="w-4 h-4">${ICON.minus}</span></button>
+              <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+              <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full ${c ? "size-7" : "size-8"} text-white shrink-0 transition-colors"><span class="w-4 h-4">${ICON.plus}</span></button>
             </div>
           </div>
         </div>
@@ -5768,13 +5849,22 @@
      shoved away from the pointer, like brushing leaves aside. The push is
      PERSISTENT: displacement accumulates and the leaf STAYS where it was pushed
      (it never springs back), capped so leaves don't fly off. Base positions are
-     cached in document coords (scroll-aware). rAF-throttled; skipped on touch /
-     reduced-motion. */
+     cached in document coords (scroll-aware). rAF-throttled.
+
+     Touch / no-hover devices have no cursor, so there the SAME leaves are driven
+     by SCROLL instead (see the touch branch below): scrolling down blows them
+     UP, scrolling up blows them DOWN, reusing the identical CSS-eased
+     --wx/--wy/--wr offsets and per-section fence — it reads as the same wind.
+     Held still under prefers-reduced-motion. NOTE: none of this is gated by the
+     data-btn / data-img / data-fly runtime toggles — the leaves animate in every
+     combination of those states. */
   function initLeafWind() {
+    // Reduced motion is the ONLY hard stop: leaves hold still and neither the
+    // cursor nor the scroll wiring is attached. (The data-btn / data-img /
+    // data-fly toggles are never consulted here, so they cannot disable this.)
     if (
       window.matchMedia &&
-      (window.matchMedia("(pointer: coarse)").matches ||
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
     )
       return;
     const leaves = Array.prototype.slice.call(
@@ -5784,10 +5874,15 @@
     const R = 150; // influence radius (px) — only leaves within this react
     const STEP = 30; // how hard each pass shoves a nearby leaf
     const BOUNCE = 0.5; // rebound off a boundary (0 = stick, 1 = full reflect)
-    leaves.forEach((el) => {
+    leaves.forEach((el, i) => {
       el._ax = 0;
       el._ay = 0;
       el._ar = 0;
+      // Per-leaf scroll-wind response — deterministic (index-based) so a gust
+      // moves the field with a little lead/lag instead of as one rigid block.
+      el._ky = 0.7 + ((i * 7) % 5) * 0.16; // vertical parallax gain
+      el._kx = (((i * 5) % 3) - 1) * 0.22; // slight lateral sway
+      el._kr = (((i * 3) % 5) - 2) * 0.05; // gentle roll
     });
     const cacheBase = () => {
       leaves.forEach((el) => {
@@ -5822,6 +5917,65 @@
       if (p > max) return max - (p - max) * BOUNCE;
       return p;
     };
+
+    // Touch / no-hover / sub-md viewports have no cursor, so SCROLL is the wind.
+    // We never read layout in here (every base is already cached), so it can't
+    // thrash; the rAF only runs while a gust is still settling.
+    const touch =
+      window.matchMedia &&
+      (window.matchMedia("(hover: none)").matches ||
+        window.matchMedia("(pointer: coarse)").matches ||
+        window.innerWidth < 768);
+    if (touch) {
+      let sraf = null;
+      let lastY = window.pageYOffset || window.scrollY || 0;
+      let pending = 0; // scroll delta accumulated since the last frame
+      let w = 0; // current wind displacement (px); decays back toward 0
+      const GAIN = 0.35; // fraction of each scroll delta that becomes wind
+      const FRICTION = 0.9; // per-frame decay so leaves settle once scrolling stops
+      const WMAX = 70; // cap so a fast fling can't blow leaves off
+      const frame = () => {
+        sraf = null;
+        // Scroll DOWN (pending > 0) blows leaves UP → negative wind; scrolling
+        // up flips the sign. The accumulator then eases back toward rest.
+        w -= pending * GAIN;
+        pending = 0;
+        if (w > WMAX) w = WMAX;
+        else if (w < -WMAX) w = -WMAX;
+        w *= FRICTION;
+        if (Math.abs(w) < 0.15) w = 0;
+        leaves.forEach((el) => {
+          if (el._bx == null) return; // hidden (display:none below md) — skip
+          // Same fence as the cursor path: the shove is clamped inside the
+          // leaf's own section so it never drifts out.
+          el._ax =
+            reflect(el._bx + w * el._kx, el._secL + el._hw, el._secR - el._hw) -
+            el._bx;
+          el._ay =
+            reflect(el._by + w * el._ky, el._secT + el._hh, el._secB - el._hh) -
+            el._by;
+          el._ar = Math.max(-42, Math.min(42, w * el._kr));
+          el.style.setProperty("--wx", el._ax.toFixed(1) + "px");
+          el.style.setProperty("--wy", el._ay.toFixed(1) + "px");
+          el.style.setProperty("--wr", el._ar.toFixed(1) + "deg");
+        });
+        // Keep animating until the gust has fully died down.
+        if (w !== 0 && !sraf) sraf = requestAnimationFrame(frame);
+      };
+      window.addEventListener(
+        "scroll",
+        () => {
+          const y = window.pageYOffset || window.scrollY || 0;
+          pending += y - lastY;
+          lastY = y;
+          if (!sraf) sraf = requestAnimationFrame(frame);
+        },
+        { passive: true },
+      );
+      return;
+    }
+
+    // Hover devices (desktop): the CURSOR is the wind. Unchanged behaviour.
     let raf = null,
       mx = -1e5,
       my = -1e5;
@@ -6774,32 +6928,250 @@
      bottom that flips every primary CTA between V1 (green pill) and V2 (orange,
      16px) and remembers the choice in localStorage. Pure CSS does the repaint
      via html[data-btn] (see styles.css). */
+  /* Pick the right product image for the current toggle mode. Used by the JS
+     card builder so dynamically-rendered cards are born in the correct mode. */
+  function imgFor(scene, plain) {
+    scene = scene || "";
+    plain = plain || scene;
+    return document.documentElement.getAttribute("data-img") === "plain" ? plain : scene;
+  }
+
+  /* Swap every product image between its in-scene shot and its white-background
+     original. Static (Python) cards + the gallery are swapped here; dynamic
+     cards are born correct via imgFor(), and this also catches any already on
+     the page. The gallery plate flips fill: cut-outs sit contained, scenes
+     cover the plate edge-to-edge. */
+  function applyImgStyle(mode) {
+    mode = mode === "plain" ? "plain" : "scene";
+    document.querySelectorAll("img[data-img-scene]").forEach((im) => {
+      const scene = im.getAttribute("data-img-scene") || "";
+      const plain = im.getAttribute("data-img-plain") || scene;
+      const next = mode === "plain" ? plain : scene;
+      if (next && im.getAttribute("src") !== next) im.setAttribute("src", next);
+    });
+    document.querySelectorAll("[data-gallery-main]").forEach((im) => {
+      const plate = im.closest("[data-gallery-plate]");
+      if (plate) plate.setAttribute("data-fill", mode === "plain" ? "contain" : "cover");
+    });
+    // Let the scroll story recompute when the mode flips into/out of white.
+    document.dispatchEvent(new CustomEvent("jaad:img", { detail: mode }));
+  }
+
+  /* White-mode scroll story (product page). A pinned, scroll-scrubbed stage:
+     the packshot locks to centre and drifts subtly on X/Y with a small 2D tilt
+     (it is a flat image, so no 3D tumble) while the benefit panels reveal one
+     at a time, alternating sides and overlapping the image; the FAQ accordions
+     follow below. Inert unless the story markup is present AND the image toggle
+     is in white mode. Reduced-motion falls back to a static, un-pinned stack. */
+  function initProductStory() {
+    const story = document.querySelector("[data-story]");
+    if (!story) return;
+    const stage = story.querySelector("[data-story-stage]");
+    const img = story.querySelector("[data-story-img]");
+    const panels = [...story.querySelectorAll("[data-story-panel]")];
+    const galleryImg = document.querySelector("[data-gallery-main]");
+    const faqSection = document.querySelector("[data-story-faq]");
+    if (!stage || !img || !panels.length) return;
+    const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    if (reduceMotion()) {
+      // No scrub: drop the fixed overlay into normal flow as a static stack.
+      story.style.height = "auto";
+      stage.style.cssText += ";position:static;opacity:1;pointer-events:auto;display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px 16px;";
+      img.style.cssText += ";position:static;transform:none;left:auto;top:auto;width:min(80vw,420px);height:auto;";
+      panels.forEach((panel) => {
+        panel.style.cssText += ";position:static;opacity:1;transform:none;left:auto;right:auto;width:min(90vw,340px);";
+      });
+      return;
+    }
+
+    /* FLIP: S = the gallery image's rect projected to scroll 0 (the flight
+       START); E = the centred, large rect (the flight END). The clone is laid
+       out AT E and a transform maps it back onto S while flying, so it literally
+       lifts off the gallery and eases to centre as one continuous scroll. */
+    // The story uses a transparent CUTOUT so the flying product is isolated over
+    // the page (no white box over the copy). Point the gallery at the SAME cutout
+    // in white mode, so the image that detaches is the one already on screen.
+    const CUTOUT = story.getAttribute("data-cutout") || img.getAttribute("src");
+    img.src = CUTOUT;
+    if (galleryImg) {
+      galleryImg.setAttribute("data-img-plain", CUTOUT);
+      if (document.documentElement.getAttribute("data-img") === "plain") galleryImg.src = CUTOUT;
+    }
+
+    let S = null, E = null;
+    function measure() {
+      const ar = img.naturalWidth && img.naturalHeight ? img.naturalHeight / img.naturalWidth : 1.2;
+      if (galleryImg) {
+        const r = galleryImg.getBoundingClientRect();
+        // Fit the aspect INSIDE the gallery box (object-contain) so the clone
+        // starts EXACTLY on the displayed packshot — no size jump on detach.
+        let fw, fh;
+        if (ar > r.height / r.width) { fh = r.height; fw = fh / ar; }
+        else { fw = r.width; fh = fw * ar; }
+        S = { left: r.left + (r.width - fw) / 2, top: r.top + (r.height - fh) / 2 + window.scrollY, width: fw, height: fh };
+      } else {
+        S = { left: window.innerWidth * 0.2, top: 120, width: window.innerWidth * 0.6, height: window.innerHeight * 0.5 };
+      }
+      let ew = Math.min(window.innerWidth * 0.72, 500);
+      let eh = ew * ar;
+      const maxh = window.innerHeight * 0.76;
+      if (eh > maxh) { eh = maxh; ew = eh / ar; }
+      E = { left: (window.innerWidth - ew) / 2, top: (window.innerHeight - eh) / 2, width: ew, height: eh };
+      img.style.left = E.left + "px";
+      img.style.top = E.top + "px";
+      img.style.width = E.width + "px";
+      img.style.height = E.height + "px";
+    }
+
+    let ticking = false;
+    function frame() {
+      ticking = false;
+      if (document.documentElement.getAttribute("data-img") !== "plain") {
+        stage.style.opacity = "0";
+        if (galleryImg) galleryImg.style.opacity = "";
+        return;
+      }
+      if (!E) measure();
+      const y = window.scrollY;
+      const D1 = Math.max(1, story.offsetTop);     // flight distance = hero height
+      const D2 = Math.max(1, story.offsetHeight);  // story distance = spacer height
+
+      if (y <= 2) {                                 // at top: gallery shows, overlay off
+        stage.style.opacity = "0";
+        if (galleryImg) galleryImg.style.opacity = "";
+        return;
+      }
+      if (y > D1 + D2) {                            // past the story: released
+        stage.style.opacity = "0";
+        if (galleryImg) galleryImg.style.opacity = "0";
+        return;
+      }
+      // Active — the real gallery image hides and the clone carries it.
+      if (galleryImg) galleryImg.style.opacity = "0";
+
+      const f = clamp01(y / D1);
+      let dx, dy, s, rot = 0;
+      if (f < 1) {
+        const ef = 1 - Math.pow(1 - f, 3); // easeOutCubic
+        dx = lerp(S.left, E.left, ef) - E.left;
+        dy = lerp(S.top, E.top, ef) - E.top;
+        s = lerp(S.width, E.width, ef) / E.width;
+      } else {
+        // Centred: hold with a subtle 2D drift (no 3D tumble — it is flat).
+        const g = clamp01((y - D1) / D2);
+        dx = 8 * Math.sin(g * Math.PI * 3);
+        dy = 6 * Math.sin(g * Math.PI * 2);
+        rot = 1.2 * Math.sin(g * Math.PI * 3);
+        s = 1;
+      }
+      img.style.transform =
+        "translate(" + dx.toFixed(1) + "px," + dy.toFixed(1) + "px) scale(" +
+        s.toFixed(4) + ") rotate(" + rot.toFixed(2) + "deg)";
+
+      // Benefits ACCUMULATE once the flight lands: each fades in at its
+      // threshold and stays, framing the product. All four are up by ~0.5 so
+      // there is a clear "all together" hold before the outro.
+      const g = clamp01((y - D1) / D2);
+      const first = 0.05, step = 0.10, fade = 0.08;
+      panels.forEach((panel, i) => {
+        const st = first + i * step;
+        const a = (f >= 1 && g >= st) ? clamp01((g - st) / fade) : 0;
+        panel.style.opacity = a.toFixed(3);
+        panel.style.transform = "translateY(" + ((1 - a) * 20).toFixed(1) + "px)";
+      });
+
+      // The story does NOT vanish at the end — the whole overlay scrolls UP with
+      // the page (1:1) as the FAQ rises in from below, so it stays fully visible
+      // and just leaves past the top while the FAQ takes its place. No overlap,
+      // no disappearing act.
+      const faqTop = faqSection ? faqSection.getBoundingClientRect().top : Infinity;
+      const releaseTy = Math.min(0, faqTop - window.innerHeight * 1.05);
+      stage.style.transform = "translateY(" + releaseTy.toFixed(1) + "px)";
+      stage.style.opacity = "1";
+    }
+
+    function schedule() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", () => { measure(); schedule(); }, { passive: true });
+    document.addEventListener("jaad:img", () => { measure(); schedule(); });
+    measure();
+    frame();
+  }
+
   function initBtnStyleSwitch() {
-    const KEY = "jaad:btnstyle";
-    let cur = "v1";
-    try { cur = localStorage.getItem(KEY) || "v1"; } catch (e) { /* ignore */ }
-    document.documentElement.setAttribute("data-btn", cur);
+    const BKEY = "jaad:btnstyle", IKEY = "jaad:imgstyle", FKEY = "jaad:flystyle";
+    let btn = "v1", img = "scene", fly = "arc";
+    try { btn = localStorage.getItem(BKEY) || "v1"; } catch (e) { /* ignore */ }
+    try { img = localStorage.getItem(IKEY) || "scene"; } catch (e) { /* ignore */ }
+    try { fly = localStorage.getItem(FKEY) || "arc"; } catch (e) { /* ignore */ }
+    document.documentElement.setAttribute("data-btn", btn);
+    document.documentElement.setAttribute("data-img", img);
+    document.documentElement.setAttribute("data-fly", fly);
+    applyImgStyle(img);
     if (document.querySelector("[data-btn-switch]")) return;
     const el = document.createElement("div");
     el.className = "btnswitch";
     el.setAttribute("data-btn-switch", "");
     el.innerHTML =
-      '<span class="btnswitch__lbl">Button style</span>' +
-      '<div class="btnswitch__seg">' +
-      '<button type="button" data-btn-v="v1"><span class="btnswitch__dot" style="background:#00451C"></span>Green</button>' +
-      '<button type="button" data-btn-v="v2"><span class="btnswitch__dot" style="background:#EA983E"></span>Orange</button>' +
-      "</div>";
+      '<div class="btnswitch__row">' +
+        '<span class="btnswitch__lbl">Button style</span>' +
+        '<div class="btnswitch__seg">' +
+          '<button type="button" data-btn-v="v1"><span class="btnswitch__dot" style="background:#00451C"></span>Green</button>' +
+          '<button type="button" data-btn-v="v2"><span class="btnswitch__dot" style="background:#EA983E"></span>Orange</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="btnswitch__row">' +
+        '<span class="btnswitch__lbl">Product images</span>' +
+        '<div class="btnswitch__seg">' +
+          '<button type="button" data-img-v="scene"><span class="btnswitch__dot" style="background:#EA983E"></span>Scenes</button>' +
+          '<button type="button" data-img-v="plain"><span class="btnswitch__dot" style="background:#fff;box-shadow:inset 0 0 0 1px #C1C3C6"></span>White</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="btnswitch__row">' +
+        '<span class="btnswitch__lbl">Fly to cart</span>' +
+        '<div class="btnswitch__seg">' +
+          '<button type="button" data-fly-v="arc">Arc</button>' +
+          '<button type="button" data-fly-v="drop">Drop</button>' +
+          '<button type="button" data-fly-v="comet">Comet</button>' +
+        '</div>' +
+      '</div>';
     document.body.appendChild(el);
-    const paint = () => el.querySelectorAll("[data-btn-v]").forEach((b) =>
-      b.setAttribute("aria-pressed", b.getAttribute("data-btn-v") === cur ? "true" : "false"));
+    const paint = () => {
+      el.querySelectorAll("[data-btn-v]").forEach((b) =>
+        b.setAttribute("aria-pressed", b.getAttribute("data-btn-v") === btn ? "true" : "false"));
+      el.querySelectorAll("[data-img-v]").forEach((b) =>
+        b.setAttribute("aria-pressed", b.getAttribute("data-img-v") === img ? "true" : "false"));
+      el.querySelectorAll("[data-fly-v]").forEach((b) =>
+        b.setAttribute("aria-pressed", b.getAttribute("data-fly-v") === fly ? "true" : "false"));
+    };
     paint();
     el.addEventListener("click", (e) => {
-      const b = e.target.closest("[data-btn-v]");
-      if (!b) return;
-      cur = b.getAttribute("data-btn-v");
-      document.documentElement.setAttribute("data-btn", cur);
-      try { localStorage.setItem(KEY, cur); } catch (err) { /* ignore */ }
-      paint();
+      const bb = e.target.closest("[data-btn-v]");
+      if (bb) {
+        btn = bb.getAttribute("data-btn-v");
+        document.documentElement.setAttribute("data-btn", btn);
+        try { localStorage.setItem(BKEY, btn); } catch (err) { /* ignore */ }
+        paint();
+        return;
+      }
+      const ib = e.target.closest("[data-img-v]");
+      if (ib) {
+        img = ib.getAttribute("data-img-v");
+        document.documentElement.setAttribute("data-img", img);
+        try { localStorage.setItem(IKEY, img); } catch (err) { /* ignore */ }
+        applyImgStyle(img);
+        paint();
+        return;
+      }
+      const fb = e.target.closest("[data-fly-v]");
+      if (fb) {
+        fly = fb.getAttribute("data-fly-v");
+        document.documentElement.setAttribute("data-fly", fly);
+        try { localStorage.setItem(FKEY, fly); } catch (err) { /* ignore */ }
+        paint();
+      }
     });
   }
 
@@ -6845,6 +7217,10 @@
     // Once per page, after the buy block and its host are in the DOM. Guards
     // itself off [data-sticky-buybar], so it is a no-op everywhere but product.
     initStickyBuyBar();
+
+    // White-mode scroll story — guards off [data-story], so it is a no-op
+    // everywhere but the story product page.
+    initProductStory();
   }
 
   if (document.readyState === "loading") {
