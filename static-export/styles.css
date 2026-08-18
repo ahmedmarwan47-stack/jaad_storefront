@@ -2880,3 +2880,47 @@ input:checked + .radio-card-accent {
     box-shadow: inset 0 0 0 2px #00451C;
   }
 }
+
+/* ------------------------------------------------------------------ *
+ * Runtime button-style A/B toggle (Ahmed, 2026-08-18).
+ * V1 (default) = green pill.  V2 = orange fill + 16px radius.
+ * initBtnStyleSwitch() sets html[data-btn]; V2 repaints every primary
+ * CTA (any <a>/<button> carrying the .bg-cta fill).
+ * ACCESSIBILITY: white on #EA983E is only 2.3:1 (fails WCAG AA). So V2 keeps
+ * the brand orange but uses DARK-GREEN labels (#003616) — 5.9:1, passes AA
+ * (Ahmed's call). Icons inherit via currentColor.
+ * ------------------------------------------------------------------ */
+html[data-btn="v2"] a.bg-cta,
+html[data-btn="v2"] button.bg-cta {
+  background-color: #EA983E !important;
+  color: #003616 !important;
+  border-radius: 16px !important;
+}
+html[data-btn="v2"] a.bg-cta [class*="text-white"],
+html[data-btn="v2"] button.bg-cta [class*="text-white"],
+html[data-btn="v2"] a.bg-cta svg,
+html[data-btn="v2"] button.bg-cta svg { color: #003616 !important; }
+html[data-btn="v2"] .hover\:bg-cta-hover:hover { background-color: #d9852f !important; }
+html[data-btn="v2"] a.border-cta,
+html[data-btn="v2"] button.border-cta { border-radius: 16px !important; }
+
+.btnswitch {
+  position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+  z-index: 2000; display: flex; align-items: center; gap: 10px;
+  background: #fff; border: 1px solid #E7E3D5; border-radius: 999px;
+  padding: 6px 8px 6px 16px; box-shadow: 0 10px 30px rgba(0,0,0,.14);
+  font-family: Aeonik, system-ui, sans-serif;
+}
+.btnswitch__lbl { font-size: 12px; font-weight: 600; color: #5E6353; white-space: nowrap; }
+.btnswitch__seg { display: inline-flex; background: #F4EEE1; border-radius: 999px; padding: 3px; }
+.btnswitch__seg button {
+  border: 0; background: transparent; font-family: inherit; font-size: 12.5px;
+  font-weight: 600; color: #5E6353; padding: 7px 14px; border-radius: 999px;
+  cursor: pointer; transition: background .15s, color .15s;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.btnswitch__seg button[aria-pressed="true"] { background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+.btnswitch__seg button[data-btn-v="v1"][aria-pressed="true"] { color: #00451C; }
+.btnswitch__seg button[data-btn-v="v2"][aria-pressed="true"] { color: #C4741F; }
+.btnswitch__dot { width: 10px; height: 10px; border-radius: 3px; }
+@media (max-width: 480px) { .btnswitch__lbl { display: none; } }
