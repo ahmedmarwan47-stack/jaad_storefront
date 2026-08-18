@@ -6770,7 +6770,41 @@
   /* ---------------------------------------------------------------
      Boot
      --------------------------------------------------------------- */
+  /* Runtime A/B for the button style (Ahmed, 2026-08-18): a fixed switch at the
+     bottom that flips every primary CTA between V1 (green pill) and V2 (orange,
+     16px) and remembers the choice in localStorage. Pure CSS does the repaint
+     via html[data-btn] (see styles.css). */
+  function initBtnStyleSwitch() {
+    const KEY = "jaad:btnstyle";
+    let cur = "v1";
+    try { cur = localStorage.getItem(KEY) || "v1"; } catch (e) { /* ignore */ }
+    document.documentElement.setAttribute("data-btn", cur);
+    if (document.querySelector("[data-btn-switch]")) return;
+    const el = document.createElement("div");
+    el.className = "btnswitch";
+    el.setAttribute("data-btn-switch", "");
+    el.innerHTML =
+      '<span class="btnswitch__lbl">Button style</span>' +
+      '<div class="btnswitch__seg">' +
+      '<button type="button" data-btn-v="v1"><span class="btnswitch__dot" style="background:#00451C"></span>Green</button>' +
+      '<button type="button" data-btn-v="v2"><span class="btnswitch__dot" style="background:#EA983E"></span>Orange</button>' +
+      "</div>";
+    document.body.appendChild(el);
+    const paint = () => el.querySelectorAll("[data-btn-v]").forEach((b) =>
+      b.setAttribute("aria-pressed", b.getAttribute("data-btn-v") === cur ? "true" : "false"));
+    paint();
+    el.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-btn-v]");
+      if (!b) return;
+      cur = b.getAttribute("data-btn-v");
+      document.documentElement.setAttribute("data-btn", cur);
+      try { localStorage.setItem(KEY, cur); } catch (err) { /* ignore */ }
+      paint();
+    });
+  }
+
   function boot() {
+    initBtnStyleSwitch();
     const header = document.getElementById("site-header");
     const footer = document.getElementById("site-footer");
     if (header) header.innerHTML = headerHTML();
