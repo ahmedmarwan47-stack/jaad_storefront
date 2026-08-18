@@ -27,7 +27,7 @@ from catalog import PRODUCTS, e, in_category, money, rail_products, title
 from components import (
     ICON, accordion, best_seller_badge, button, carousel, page, page_header,
     points_callout, product_card, product_gallery, qty_stepper, rating,
-    recipe_card, size_chips, sold_proof, specs_block, bundle_item, section_heading,
+    size_chips, sold_proof, specs_block, bundle_item, section_heading,
 )
 
 SLUG = "product.html"
@@ -122,13 +122,6 @@ STORAGE = """
                         <li>بعيداً عن أشعة الشمس المباشرة ومصادر الحرارة</li>
                         <li>يفضل استهلاكه خلال فترة قصيرة بعد الفتح للحفاظ على الطزاجة</li>
                       </ul>"""
-
-RECIPES = [
-    ("images/jaad/site/4-1-1.webp", "الوصفات", "كيكة التمر بالقرفة والشيكولاتة البيضاء",
-     "وصفة سهلة تجمع بين حلاوة التمر ودفء القرفة، جاهزة في أقل من ساعة.", 45),
-    ("images/jaad/site/big.webp", "الوصفات", "فتوتشيني ألفريدو دجاج مع الكاجو",
-     "طبق كريمي غني بالمكسرات، مناسب لعشاء سريع في نص ساعة.", 30),
-]
 
 # Generic product FAQ — IDENTICAL on all 99 pages by design (Ahmed, 2026-07-29).
 # There is no per-product FAQ data in the catalogue, and this project does not
@@ -344,8 +337,7 @@ def _render(p):
             <div class="flex flex-wrap items-center gap-3">
               {old_price}
               <span data-price-display data-unit-price="{p.get('sale') or p.get('price') or 0}"
-                    style="line-height:.6"
-                    class="bg-accent-yellow px-3 rounded font-bold text-[#003616] text-2xl latin">EGP {money(p['price'])}</span>
+                    class="inline-flex items-center bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-3 py-1 rounded-tl-[20px] rounded-br-[20px] font-bold text-white text-2xl latin">EGP {money(p['price'])}</span>
             </div>
 
             <!-- The stepper IS the add control (Ahmed, 2026-07-26). There is
@@ -399,15 +391,6 @@ def _render(p):
                the HTML. `lg:hidden` removes it from the grid at lg entirely,
                so it adds no row/track there. -->
           <div class="lg:hidden">{related_list}</div>
-        </div>
-      </section>
-
-      <!-- ============================= RECIPES ============================= -->
-      <section data-reveal class="bg-interaction-base py-12">
-        <div class="mx-auto px-4 max-w-[1536px]">
-          {section_heading("وصفات بالمنتج")}
-          <div class="gap-6 xl:gap-8 grid lg:grid-cols-2">{"".join(recipe_card(*r) for r in RECIPES)}
-          </div>
         </div>
       </section>
 

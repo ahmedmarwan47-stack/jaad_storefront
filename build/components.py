@@ -786,7 +786,7 @@ def points_callout(p):
             '<span class="inline-flex items-center gap-1 bg-[#E9F3E6] px-2.5 py-0.5 '
             'rounded-full font-bold text-[#00451C] text-xs">'
             '<img src="images/jaad/icons/points-3d.png" alt="" class="w-4 h-4 shrink-0 object-contain" />'
-            f'<span>اكسب <span class="latin">{pts}</span> نقطة بشرائك</span></span></span>')
+            f'<span>اكسب <span class="latin">{pts}</span> نقطة</span></span></span>')
 
 
 def _sold_proof_label(p):

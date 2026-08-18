@@ -873,6 +873,14 @@ def build_dictionary():
     text.update(CHROME)
     text.update(UI)  # our own UI wins any collision with scraped copy
 
+    # i18n_extra.json — English for every page-body string the audit found
+    # untranslated (Ahmed, 2026-08-18: "every text respects the en/ar swap").
+    # Loaded last so it fills any remaining gaps; a flat {arabic: english} map.
+    _extra_path = os.path.join(HERE, "i18n_extra.json")
+    if os.path.exists(_extra_path):
+        with open(_extra_path, encoding="utf-8") as _f:
+            text.update(json.load(_f))
+
     tpl = dict(TPL)
     tpl.update(TPL2)
     # "<governorate> {0}" rows on the branches page

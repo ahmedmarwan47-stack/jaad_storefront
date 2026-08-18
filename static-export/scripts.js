@@ -1024,7 +1024,7 @@
                    <span class="font-medium text-black text-sm whitespace-nowrap">${esc(t("100% Natural Based Products"))}</span>
                    <nav class="flex items-center gap-4 xl:gap-6 min-w-0 overflow-hidden">
                      ${support}
-                     <button type="button" data-open="locale" data-no-i18n class="shrink-0 font-medium text-[#29612F] text-sm underline whitespace-nowrap">${currentLang() === "ar" ? "English" : "العربية"}</button>
+                     <button type="button" data-lang-toggle data-no-i18n class="shrink-0 font-medium text-[#29612F] text-sm underline whitespace-nowrap">${currentLang() === "ar" ? "English" : "العربية"}</button>
                    </nav>
                  </div>
                </div>`
@@ -1361,7 +1361,7 @@
       // Perfect Picks and Recently Viewed. The array carries `img`;
       // recentCardHTML wants `image`.
       .map((p) =>
-        recentCardHTML({ id: p.id, name: p.name, price: p.price, image: p.img }),
+        recentCardHTML({ id: p.id, name: p.name, price: p.price, image: p.img }, true),
       )
       .join("");
 
@@ -2049,6 +2049,10 @@
     cart: '<svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M4 5h2l1.6 10.2a1.5 1.5 0 0 0 1.5 1.3h7.8a1.5 1.5 0 0 0 1.5-1.2L20 8H6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="20" r="1.4" fill="currentColor"/><circle cx="18" cy="20" r="1.4" fill="currentColor"/></svg>',
   };
   function toast(msg, type) {
+    // Toast pop-ups removed site-wide (Ahmed, 2026-08-18). Every call site is
+    // left intact — add-to-cart already gives feedback via the fly-to-cart
+    // animation and the cart badge — but no notification is ever shown.
+    return;
     const c = document.getElementById("toast-container");
     if (!c) return;
     const kind = TOAST_ICONS[type] ? type : "success";
@@ -3565,6 +3569,15 @@
       applyLang(lang ? lang.value : currentLang());
       repaintForLang();
       toast("تم تطبيق التفضيلات");
+    });
+
+    // Direct language toggle in the top strip (Ahmed, 2026-08-18): clicking
+    // "العربية" / "English" flips the language immediately — no locale popup.
+    document.addEventListener("click", (e) => {
+      const tog = e.target.closest("[data-lang-toggle]");
+      if (!tog) return;
+      applyLang(currentLang() === "ar" ? "en" : "ar");
+      repaintForLang();
     });
   }
 
@@ -5572,7 +5585,7 @@
      sale strike-through and the "peek" zoom badge, because a stored view —
      unlike a card built from catalog.json — never carries `regular`/`sale`.
      --------------------------------------------------------------- */
-  function recentCardHTML(p) {
+  function recentCardHTML(p, compact) {
     const id = esc(String(p.id));
     const name = esc(p.name || "");
     const price = Number(p.price) || 0;
@@ -5580,32 +5593,47 @@
     const dec = String(Math.round((price - whole) * 100)).padStart(2, "0");
     // Mirrors components.product_widget() (Figma 9946:16778): bordered square,
     // green sticker price badge with a lime offset shadow, circular cart button.
+    // `compact` shrinks it for the cart-drawer upsell (Ahmed, 2026-08-18) while
+    // keeping the exact same design language as the homepage card.
+    const c = compact === true;
+    const width = c ? "w-[152px]" : "w-[258px]";
+    const btnPos = c ? "right-3 -bottom-4" : "right-4 -bottom-5";
+    const btnSize = c ? "size-9" : "size-10";
+    const cartIco = c ? "w-5 h-5" : "w-[22px] h-[22px]";
+    const stepH = c ? "h-9" : "h-10";
+    const pad = c ? "gap-2 p-2" : "gap-3 p-3";
+    const bPad = c ? "px-1.5" : "px-2";
+    const bRad = c ? "rounded-tl-[14px] rounded-br-[14px]" : "rounded-tl-[20px] rounded-br-[20px]";
+    const bSh = c ? "shadow-[2px_3px_0px_#98CA55]" : "shadow-[3px_5px_0px_#98CA55]";
+    const sEGP = c ? "text-[11px]" : "text-[18px]";
+    const sWhole = c ? "text-[16px]" : "text-[24px]";
+    const titleCls = c ? "text-sm line-clamp-2 min-h-[2.5em]" : "text-lg";
     return `
-      <article class="product-widget carousel-slide w-[258px] shrink-0 snap-start"
+      <article class="product-widget carousel-slide ${width} shrink-0 snap-start"
                data-product data-id="${id}" data-name="${name}" data-price="${price}" data-image="${esc(p.image || "")}">
         <div class="relative">
           <a href="product-${id}.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
             <img src="${esc(p.image || "")}" alt="${name}" class="w-full h-full object-cover" loading="lazy" />
           </a>
-          <div class="right-4 -bottom-5 z-10 absolute">
+          <div class="${btnPos} z-10 absolute">
             <button type="button" data-add-to-cart aria-label="Add to cart"
-                    class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-white transition-colors">
-              <span class="w-[22px] h-[22px]">${ICON.cart}</span>
+                    class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full ${btnSize} text-white transition-colors">
+              <span class="${cartIco}">${ICON.cart}</span>
             </button>
-            <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full h-10 text-white flex">
-              <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4">${ICON.minus}</span></button>
+            <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full ${stepH} text-white flex">
+              <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full ${btnSize} shrink-0"><span class="w-4 h-4">${ICON.minus}</span></button>
               <span data-card-qty class="min-w-[1.5ch] font-semibold text-center latin">1</span>
-              <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full size-10 shrink-0"><span class="w-4 h-4">${ICON.plus}</span></button>
+              <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full ${btnSize} shrink-0"><span class="w-4 h-4">${ICON.plus}</span></button>
             </div>
           </div>
         </div>
-        <div class="flex flex-col gap-3 p-3">
-          <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
-            <span class="text-[18px] leading-[1.4]">EGP</span>
-            <span class="text-[24px] leading-[1.2]">${whole}</span>
-            <span class="text-[18px] leading-[1.4]">.${dec}</span>
+        <div class="flex flex-col ${pad}">
+          <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] ${bSh} ${bPad} ${bRad} text-white latin">
+            <span class="${sEGP} leading-[1.4]">EGP</span>
+            <span class="${sWhole} leading-[1.2]">${whole}</span>
+            <span class="${sEGP} leading-[1.4]">.${dec}</span>
           </span>
-          <h3 class="font-semibold text-black text-lg leading-snug">
+          <h3 class="font-semibold text-black ${titleCls} leading-snug">
             <a href="product-${id}.html" data-product-title class="hover:text-[#29612F] transition-colors">${name}</a>
           </h3>
         </div>
@@ -5645,7 +5673,7 @@
       }
 
       if (!items.length) return; // only if the pool itself is empty
-      track.innerHTML = items.map(recentCardHTML).join("");
+      track.innerHTML = items.map((x) => recentCardHTML(x)).join("");
       section.hidden = false;
       syncCardSteppers(section);
     });
