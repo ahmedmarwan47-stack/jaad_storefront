@@ -3044,6 +3044,14 @@ html[data-img="plain"] .story-host [data-buy-extras] { display: none; }
   .product-story__panel.is-right { left: auto; right: 8px; }
   .product-story__panel.is-left { right: auto; left: 8px; }
   .product-story__ico { width: 34px; height: 34px; }
+  /* Mobile: the flying image rides BEHIND the page copy (text stays on top and
+     readable), so the story layer drops below the content and its backdrop goes
+     transparent — the image shows through the (empty) spacer once centred. The
+     gallery plate also goes transparent so the image reads cleanly behind it at
+     the start of the flight instead of being masked by the white plate. */
+  .product-story__stage { z-index: -1; }
+  html[data-img="plain"] .product-story { background: transparent; }
+  html[data-img="plain"] [data-gallery-plate] { background: transparent; }
 }
 
 .btnswitch {
