@@ -1,0 +1,342 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Light Roasted Coffee",
+      "nameAr": "بن فاتح سادة",
+      "category": "Coffee",
+      "categorySlug": "coffee",
+      "price": 45.0,
+      "image": "images/jaad/products/coffee-light-plain.png",
+      "images": [
+        "images/jaad/products/coffee-light-plain.png"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Medium Roasted Coffee",
+      "nameAr": "بن وسط سادة",
+      "category": "Coffee",
+      "categorySlug": "coffee",
+      "price": 45.0,
+      "image": "images/jaad/products/coffee-medium-plain.png",
+      "images": [
+        "images/jaad/products/coffee-medium-plain.png"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Dark Roasted Coffee",
+      "nameAr": "بن غامق سادة",
+      "category": "Coffee",
+      "categorySlug": "coffee",
+      "price": 45.0,
+      "image": "images/jaad/products/coffee-dark-plain.png",
+      "images": [
+        "images/jaad/products/coffee-dark-plain.png"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Light Roasted with Cardamom",
+      "nameAr": "بن فاتح محوج بالحبهان",
+      "category": "Coffee",
+      "categorySlug": "coffee",
+      "price": 50.0,
+      "image": "images/jaad/products/coffee-light-cardamom.png",
+      "images": [
+        "images/jaad/products/coffee-light-cardamom.png"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Medium Roasted with Cardamom",
+      "nameAr": "بن وسط محوج بالحبهان",
+      "category": "Coffee",
+      "categorySlug": "coffee",
+      "price": 50.0,
+      "image": "images/jaad/products/coffee-medium-cardamom.png",
+      "images": [
+        "images/jaad/products/coffee-medium-cardamom.png"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Dark Roasted with Cardamom",
+      "nameAr": "بن غامق محوج بالحبهان",
+      "category": "Coffee",
+      "categorySlug": "coffee",
+      "price": 50.0,
+      "image": "images/jaad/products/coffee-dark-cardamom.png",
+      "images": [
+        "images/jaad/products/coffee-dark-cardamom.png"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Espresso",
+      "nameAr": "اسبرسو",
+      "category": "Coffee",
+      "categorySlug": "coffee",
+      "price": 65.0,
+      "image": "images/jaad/products/coffee-espresso.png",
+      "images": [
+        "images/jaad/products/coffee-espresso.png"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Cashew",
+      "nameAr": "كاجو",
+      "category": "Nuts",
+      "categorySlug": "nuts",
+      "price": 85.0,
+      "image": "images/jaad/products/nuts-cashew.png",
+      "images": [
+        "images/jaad/products/nuts-cashew.png"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Hazelnut",
+      "nameAr": "بندق",
+      "category": "Nuts",
+      "categorySlug": "nuts",
+      "price": 80.0,
+      "image": "images/jaad/products/nuts-hazelnut.png",
+      "images": [
+        "images/jaad/products/nuts-hazelnut.png"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Pistachio",
+      "nameAr": "فستق",
+      "category": "Nuts",
+      "categorySlug": "nuts",
+      "price": 90.0,
+      "image": "images/jaad/products/nuts-pistachio.png",
+      "images": [
+        "images/jaad/products/nuts-pistachio.png"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Almond",
+      "nameAr": "لوز",
+      "category": "Nuts",
+      "categorySlug": "nuts",
+      "price": 85.0,
+      "image": "images/jaad/products/nuts-almond.png",
+      "images": [
+        "images/jaad/products/nuts-almond.png"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Walnut",
+      "nameAr": "عين جمل",
+      "category": "Nuts",
+      "categorySlug": "nuts",
+      "price": 65.0,
+      "image": "images/jaad/products/nuts-walnut.png",
+      "images": [
+        "images/jaad/products/nuts-walnut.png"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Chili Peppers",
+      "nameAr": "شطة",
+      "category": "Spices",
+      "categorySlug": "spices",
+      "price": 35.0,
+      "image": "images/jaad/products/spices-chili.png",
+      "images": [
+        "images/jaad/products/spices-chili.png"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Turmeric",
+      "nameAr": "كركم",
+      "category": "Spices",
+      "categorySlug": "spices",
+      "price": 35.0,
+      "image": "images/jaad/products/spices-turmeric.png",
+      "images": [
+        "images/jaad/products/spices-turmeric.png"
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Ginger",
+      "nameAr": "جنزبيل",
+      "category": "Spices",
+      "categorySlug": "spices",
+      "price": 35.0,
+      "image": "images/jaad/products/spices-ginger.png",
+      "images": [
+        "images/jaad/products/spices-ginger.png"
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Coriander",
+      "nameAr": "كسبرة",
+      "category": "Spices",
+      "categorySlug": "spices",
+      "price": 30.0,
+      "image": "images/jaad/products/spices-coriander.png",
+      "images": [
+        "images/jaad/products/spices-coriander.png"
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Nutmeg",
+      "nameAr": "جوزة الطيب",
+      "category": "Spices",
+      "categorySlug": "spices",
+      "price": 40.0,
+      "image": "images/jaad/products/spices-nutmeg.png",
+      "images": [
+        "images/jaad/products/spices-nutmeg.png"
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Cinnamon",
+      "nameAr": "قرفة",
+      "category": "Spices",
+      "categorySlug": "spices",
+      "price": 35.0,
+      "image": "images/jaad/products/spices-cinnamon.png",
+      "images": [
+        "images/jaad/products/spices-cinnamon.png"
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Paprika",
+      "nameAr": "بابريكا",
+      "category": "Spices",
+      "categorySlug": "spices",
+      "price": 35.0,
+      "image": "images/jaad/products/spices-paprika.png",
+      "images": [
+        "images/jaad/products/spices-paprika.png"
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Black Pepper",
+      "nameAr": "فلفل أسود",
+      "category": "Spices",
+      "categorySlug": "spices",
+      "price": 40.0,
+      "image": "images/jaad/products/spices-black-pepper.png",
+      "images": [
+        "images/jaad/products/spices-black-pepper.png"
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Cardamom",
+      "nameAr": "حبهان",
+      "category": "Spices",
+      "categorySlug": "spices",
+      "price": 55.0,
+      "image": "images/jaad/products/spices-cardamom.png",
+      "images": [
+        "images/jaad/products/spices-cardamom.png"
+      ]
+    },
+    {
+      "id": 22,
+      "name": "Cloves",
+      "nameAr": "قرنفل",
+      "category": "Spices",
+      "categorySlug": "spices",
+      "price": 40.0,
+      "image": "images/jaad/products/spices-cloves.png",
+      "images": [
+        "images/jaad/products/spices-cloves.png"
+      ]
+    },
+    {
+      "id": 23,
+      "name": "Cumin",
+      "nameAr": "كمون",
+      "category": "Spices",
+      "categorySlug": "spices",
+      "price": 35.0,
+      "image": "images/jaad/products/spices-cumin.png",
+      "images": [
+        "images/jaad/products/spices-cumin.png"
+      ]
+    },
+    {
+      "id": 24,
+      "name": "Meat Spices",
+      "nameAr": "بهارات لحمة",
+      "category": "Spices",
+      "categorySlug": "spices",
+      "price": 40.0,
+      "image": "images/jaad/products/spices-meat.png",
+      "images": [
+        "images/jaad/products/spices-meat.png"
+      ]
+    },
+    {
+      "id": 25,
+      "name": "Chicken Spices",
+      "nameAr": "بهارات فراخ",
+      "category": "Spices",
+      "categorySlug": "spices",
+      "price": 40.0,
+      "image": "images/jaad/products/spices-chicken.png",
+      "images": [
+        "images/jaad/products/spices-chicken.png"
+      ]
+    },
+    {
+      "id": 26,
+      "name": "Fish Spices",
+      "nameAr": "بهارات سمك",
+      "category": "Spices",
+      "categorySlug": "spices",
+      "price": 40.0,
+      "image": "images/jaad/products/spices-fish.png",
+      "images": [
+        "images/jaad/products/spices-fish.png"
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "name": "Coffee",
+      "slug": "coffee",
+      "ar": "القهوة",
+      "image": "images/jaad/products/coffee-medium-plain.png",
+      "nav": true,
+      "home": true
+    },
+    {
+      "name": "Nuts",
+      "slug": "nuts",
+      "ar": "المكسرات",
+      "image": "images/jaad/products/nuts-walnut.png",
+      "nav": true,
+      "home": true
+    },
+    {
+      "name": "Spices",
+      "slug": "spices",
+      "ar": "البهارات",
+      "image": "images/jaad/products/spices-turmeric.png",
+      "nav": true,
+      "home": true
+    }
+  ]
+}
