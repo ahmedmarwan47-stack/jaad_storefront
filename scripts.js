@@ -2046,7 +2046,7 @@
     info: '<svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 11v5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="7.8" r="1.2" fill="currentColor"/></svg>',
     wallet: '<svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H18a1 1 0 0 1 1 1v1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M3 7.5v9A2.5 2.5 0 0 0 5.5 19H19a1 1 0 0 0 1-1v-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 10.5h-4a2 2 0 0 0 0 4h4a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>',
     spend: '<svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H18a1 1 0 0 1 1 1v1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M3 7.5v9A2.5 2.5 0 0 0 5.5 19H19a1 1 0 0 0 1-1v-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 12.5h6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
-    cart: '<svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M4 5h2l1.6 10.2a1.5 1.5 0 0 0 1.5 1.3h7.8a1.5 1.5 0 0 0 1.5-1.2L20 8H6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="20" r="1.4" fill="currentColor"/><circle cx="18" cy="20" r="1.4" fill="currentColor"/></svg>',
+    cart: '<svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   };
   function toast(msg, type) {
     // Toast pop-ups removed site-wide (Ahmed, 2026-08-18). Every call site is
@@ -5617,10 +5617,10 @@
           </a>
           <div class="${btnPos} z-10 absolute">
             <button type="button" data-add-to-cart aria-label="Add to cart"
-                    class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full ${btnSize} text-white transition-colors">
+                    class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full ${btnSize} text-[#003616] transition-colors">
               <span class="${cartIco}">${ICON.cart}</span>
             </button>
-            <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full ${stepH} text-white flex">
+            <div data-card-stepper hidden class="items-center bg-[#EA983E] shadow-custom4 rounded-full ${stepH} text-[#003616] flex">
               <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid hover:bg-black/10 rounded-full ${btnSize} shrink-0"><span class="w-4 h-4">${ICON.minus}</span></button>
               <span data-card-qty class="min-w-[1.5ch] font-semibold text-center latin">1</span>
               <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid hover:bg-black/10 rounded-full ${btnSize} shrink-0"><span class="w-4 h-4">${ICON.plus}</span></button>

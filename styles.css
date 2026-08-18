@@ -2924,3 +2924,9 @@ html[data-btn="v2"] button.border-cta { border-radius: 16px !important; }
 .btnswitch__seg button[data-btn-v="v2"][aria-pressed="true"] { color: #C4741F; }
 .btnswitch__dot { width: 10px; height: 10px; border-radius: 3px; }
 @media (max-width: 480px) { .btnswitch__lbl { display: none; } }
+
+/* V2 also squares the steppers so the − N + follows the 16px variant (Ahmed). */
+html[data-btn="v2"] [data-stepper],
+html[data-btn="v2"] [data-card-stepper] { border-radius: 16px !important; }
+html[data-btn="v2"] [data-stepper] button,
+html[data-btn="v2"] [data-card-stepper] button { border-radius: 12px !important; }
