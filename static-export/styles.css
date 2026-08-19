@@ -878,9 +878,14 @@ body.no-scroll {
   bottom: 2px;
   left: 0;
   width: 0;
-  border-radius: 9999px;
+  /* Match the green/orange switcher's active pill CORNER RADIUS (~14px), not a
+     full stadium (Ahmed, 2026-08-19): the tab pill is much taller than the
+     switcher's, so a full 9999px read visibly rounder than the switcher even
+     though both are "pill" shaped. A fixed 14px makes the two selected pills
+     share the same corner curve. The container stays rounded-full. */
+  border-radius: 14px;
   background: #fff;
-  box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
   transform: translateX(0);
   transition:
     transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),

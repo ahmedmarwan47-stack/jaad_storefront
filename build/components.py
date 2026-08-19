@@ -1832,9 +1832,9 @@ def product_widget(p, sale=None, slide=True, cat=None):
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
                 <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-8 text-[#003616] shrink-0 transition-colors"><span class="w-4 h-4">{ICON['minus']}</span></button>
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4">{ICON['minus']}</span></button>
                   <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
-                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-8 text-white shrink-0 transition-colors"><span class="w-4 h-4">{ICON['plus']}</span></button>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4">{ICON['plus']}</span></button>
                 </div>
               </div>
             </div>
