@@ -188,18 +188,22 @@ def category_card(title, desc, href, back, front):
     away from each other. Physical left/right on purpose — this is a product
     arrangement, not reading-order content."""
     return f"""
-          <a href="{href}" class="group flex flex-col items-center gap-[18px] w-full max-w-[356px]">
+          <a href="{href}" data-cat-card class="group flex flex-col items-center gap-3 sm:gap-[18px] w-full max-w-[240px] sm:max-w-[356px]">
             <div class="relative w-full aspect-[356/260]">
+              <!-- The fan-apart is a group-hover on desktop; on touch (no hover)
+                   initCategoryReveal adds .in-view when the card scrolls to the
+                   viewport centre, so the group-[.in-view] variants fire the same
+                   motion (Ahmed, 2026-08-19). -->
               <img src="images/jaad/categories/cat-shadow.svg" alt="" aria-hidden="true"
-                   class="bottom-[2%] left-1/2 absolute w-[72%] -translate-x-1/2 transition-all duration-500 ease-out group-hover:w-[82%]" />
+                   class="bottom-[2%] left-1/2 absolute w-[72%] -translate-x-1/2 transition-all duration-500 ease-out group-hover:w-[82%] group-[.in-view]:w-[82%]" />
               <img src="images/jaad/categories/{back}" alt="" aria-hidden="true"
-                   class="top-[4%] left-0 absolute w-[67.5%] aspect-square object-contain -rotate-[1.66deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-x-[10%] group-hover:-translate-y-[7%] group-hover:-rotate-[7deg] group-hover:scale-[1.05]" />
+                   class="top-[4%] left-0 absolute w-[67.5%] aspect-square object-contain -rotate-[1.66deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-x-[10%] group-hover:-translate-y-[7%] group-hover:-rotate-[7deg] group-hover:scale-[1.05] group-[.in-view]:-translate-x-[10%] group-[.in-view]:-translate-y-[7%] group-[.in-view]:-rotate-[7deg] group-[.in-view]:scale-[1.05]" />
               <img src="images/jaad/categories/{front}" alt="{e(title)}"
-                   class="top-0 left-[27%] absolute w-[73%] aspect-square object-contain rotate-[1.56deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-y-[6%] group-hover:rotate-[7deg] group-hover:scale-[1.05]" />
+                   class="top-0 left-[27%] absolute w-[73%] aspect-square object-contain rotate-[1.56deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-y-[6%] group-hover:rotate-[7deg] group-hover:scale-[1.05] group-[.in-view]:-translate-y-[6%] group-[.in-view]:rotate-[7deg] group-[.in-view]:scale-[1.05]" />
             </div>
-            <div class="flex flex-col items-center gap-3 text-center">
-              <h3 class="font-bold text-[#29612F] text-2xl leading-[1.4]">{e(title)}</h3>
-              <p class="max-w-[341px] text-[#4a4a4a] text-base leading-[1.4]">{e(desc)}</p>
+            <div class="flex flex-col items-center gap-1.5 sm:gap-3 text-center">
+              <h3 class="font-bold text-[#29612F] text-lg sm:text-2xl leading-[1.4]">{e(title)}</h3>
+              <p class="max-w-[341px] text-[#4a4a4a] text-sm sm:text-base leading-[1.4]">{e(desc)}</p>
             </div>
           </a>"""
 
@@ -224,7 +228,7 @@ def build():
     )
     pp_panels = "".join(
         f'<div class="tab-panel" data-panel="{key}"{"" if i == 0 else " hidden"}>'
-        f'<div class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 '
+        f'<div class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 scroll-pl-4 xl:scroll-pl-0 '
         f'overflow-x-auto xl:overflow-visible no-scrollbar snap-x">{pp_widgets(ids, disc)}'
         f'</div></div>'
         for i, (key, _label, ids, disc) in enumerate(PERFECT_PICKS)
@@ -302,15 +306,27 @@ def build():
       <section id="hero" class="relative bg-white w-full">
         <h1 class="sr-only">Jaad — natural coffee, nuts and spices</h1>
         <div class="relative w-full">
-          <img src="images/jaad/site/hero-figma.jpg"
+          <!-- Language + device aware hero (Ahmed, 2026-08-19). Four sources:
+               the product cluster sits on the side OPPOSITE the (side-aligned)
+               headline, so EN (text left) uses products-right and AR (text right,
+               RTL) uses products-left; desktop is wide, phone is a TALL portrait
+               so the banner never squishes on mobile. styles.css (.hero-pic) shows
+               exactly ONE via html[dir] + the sm breakpoint — no JS, no flash. -->
+          <img src="images/jaad/site/hero-figma.jpg" fetchpriority="high"
                alt="Jaad natural snacks — nuts, coffee and spices"
-               class="block w-full aspect-[1512/728] max-h-[82vh] object-cover" fetchpriority="high" />
-          <div class="absolute inset-y-0 start-0 flex flex-col justify-center items-start gap-4 md:gap-5 ps-6 md:ps-10 xl:ps-[60px] pe-4 max-w-[62%]">
+               class="hero-pic hero-pic--en-desktop w-full aspect-[1512/728] max-h-[82vh] object-cover" />
+          <img src="images/jaad/site/hero-ar-desktop.jpg" alt="" aria-hidden="true"
+               class="hero-pic hero-pic--ar-desktop w-full aspect-[1512/728] max-h-[82vh] object-cover" />
+          <img src="images/jaad/site/hero-en-mob.jpg" alt="" aria-hidden="true" loading="lazy"
+               class="hero-pic hero-pic--en-mobile w-full aspect-[3/4] object-cover" />
+          <img src="images/jaad/site/hero-ar-mob.jpg" alt="" aria-hidden="true" loading="lazy"
+               class="hero-pic hero-pic--ar-mobile w-full aspect-[3/4] object-cover" />
+          <div class="absolute inset-x-0 top-0 sm:inset-y-0 flex flex-col justify-start sm:justify-center items-start gap-3 sm:gap-4 md:gap-5 pt-[16%] sm:pt-0 ps-6 md:ps-10 xl:ps-[60px] pe-4 max-w-[80%] sm:max-w-[62%]">
             <div class="flex flex-col items-start isolate">
-              <span class="z-[2] -mb-2 -rotate-2 inline-flex items-center bg-[#98CA55] px-2.5 rounded-tl-[20px] rounded-br-[20px] font-normal text-[#29612F] text-[26px] md:text-[36px] xl:text-[42px] leading-none tracking-[-0.21px]">Natural Snacks</span>
-              <span class="z-[1] inline-flex items-center bg-white px-2.5 pb-1 rounded-[12px] font-bold text-[#333] text-[36px] md:text-[50px] xl:text-[62px] leading-[1.2]">For Every Event</span>
+              <span class="z-[2] -mb-2 -rotate-2 inline-flex items-center bg-[#98CA55] px-2.5 pb-1 sm:pb-0 rounded-tl-[20px] rounded-br-[20px] font-normal text-[#29612F] text-[28px] md:text-[36px] xl:text-[42px] leading-none tracking-[-0.21px]">Natural Snacks</span>
+              <span class="z-[1] inline-flex items-center whitespace-nowrap bg-white px-2.5 pt-1.5 sm:pt-0 pb-1 rounded-[12px] font-bold text-[#333] text-[34px] md:text-[50px] xl:text-[62px] leading-[1.15] sm:leading-[1.2]">For Every Event</span>
             </div>
-            <a href="shop.html" class="inline-flex items-center gap-2.5 bg-[#29612F] hover:bg-[#1f4a24] px-6 py-3 rounded-[8px] font-medium text-white text-base transition-colors">
+            <a href="shop.html" class="inline-flex items-center gap-2.5 bg-cta hover:bg-cta-hover px-6 py-3 rounded-[8px] font-medium text-white text-base transition-colors">
               Shop Now
               <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
@@ -401,7 +417,7 @@ def build():
       <section id="recently-viewed" class="bg-white py-14 xl:py-[60px]" data-recently-viewed data-recent-min="5">
         <div class="flex flex-col gap-8 xl:gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">Recently Viewed</h2>
-          <div data-recent-track class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 overflow-x-auto xl:overflow-visible no-scrollbar snap-x"></div>
+          <div data-recent-track class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 scroll-pl-4 xl:scroll-pl-0 overflow-x-auto xl:overflow-visible no-scrollbar snap-x"></div>
         </div>
       </section>
 

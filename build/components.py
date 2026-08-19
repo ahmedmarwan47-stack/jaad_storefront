@@ -1838,7 +1838,7 @@ def product_widget(p, sale=None, slide=True, cat=None):
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>

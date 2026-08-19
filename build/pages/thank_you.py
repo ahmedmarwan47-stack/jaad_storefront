@@ -1,5 +1,5 @@
 """Order confirmation — Figma 'Thanks' (268:11025)."""
-from _account import order_tracker
+from _account import order_tracker_ride
 from catalog import e, in_category, money, rail_products
 from components import carousel, page, product_card, section_heading
 
@@ -8,17 +8,11 @@ SLUG = "thank-you.html"
 DELIVERY_FEE = 30.0
 ORDER_NO = "304585"
 
-# The shared animated tracker (Ahmed, 2026-08-04) — unified with the dashboard
-# and order drawer. Right after placing an order the current step is "جاري
-# التحضير" (index 1: order placed, now being prepared); these subtitles ride
-# under each step (shown from sm up).
+# The shared courier "ride" tracker — IDENTICAL to the dashboard current-order
+# card (Ahmed, 2026-08-19): same order_tracker_ride component, no per-step
+# subtitles, so the thank-you and the dashboard read as one thing. Right after
+# placing an order the current step is index 1 (order placed, now being prepared).
 TRACKER_STEP = 1
-TRACKER_SUBS = [
-    "بأنتظار تأكيد المتجر",
-    "سيتم تجهيز الطلب قريباً",
-    "طلبك في الطريق إليك",
-    "سعدنا بخدمتك ونود أن تراك مرة أخرى",
-]
 
 # A trailing True on a pair spans it across BOTH columns of the 2-up grid
 # below — used for the email, whose long latin address would otherwise wrap
@@ -93,7 +87,7 @@ def build():
       <section class="pb-8">
         <div class="mx-auto px-4 max-w-[1200px]">
           <div class="bg-white shadow-custom4 p-6 xl:px-10 rounded-[20px]">
-            {order_tracker(TRACKER_STEP, TRACKER_SUBS)}
+            {order_tracker_ride(TRACKER_STEP)}
           </div>
         </div>
       </section>
