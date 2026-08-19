@@ -871,8 +871,11 @@ body.no-scroll {
    and positions it), so the label font/size never changes — no reflow jump. */
 .pp-tabs [data-tab-indicator] {
   position: absolute;
-  top: 4px;
-  bottom: 4px;
+  /* 2px inset (was 4px) so the pill fills more of the track height and its
+     fully-round ends read the same as the green/orange switcher's active pill
+     (Ahmed, 2026-08-19). */
+  top: 2px;
+  bottom: 2px;
   left: 0;
   width: 0;
   border-radius: 9999px;
@@ -890,11 +893,15 @@ body.no-scroll {
   z-index: 1;
   border-bottom: 0;
   border-radius: 9999px;
-  padding: 0.5rem 1rem;
+  /* Bigger tap target on phones (Ahmed, 2026-08-19); tightens back up from sm. */
+  padding: 0.7rem 1.15rem;
   font-weight: 500;
   color: #333;
   white-space: nowrap;
   transition: color 0.2s ease;
+}
+@media (min-width: 640px) {
+  .pp-tabs .tab-btn { padding: 0.5rem 1rem; }
 }
 .pp-tabs .tab-btn::after {
   display: none;
@@ -2747,6 +2754,16 @@ input:checked + .radio-card-accent {
   background-size: 250% 100%;
   animation: trackFlow 1.4s linear infinite;
 }
+/* Phone (Ahmed, 2026-08-19): the 40px end-insets assume wide steps. At ~82px per
+   step on a phone they consume the whole segment and the progress LINE collapses
+   to ~0, leaving disconnected circles. Tighten the insets so the connector reads
+   between the bubbles (it tucks a few px behind them, z-0, which is fine). */
+@media (max-width: 640px) {
+  .track-step__conn {
+    inset-inline-start: calc(-50% + 30px);
+    width: calc(100% - 60px);
+  }
+}
 .track-step__art {
   position: relative;
   z-index: 1;
@@ -3152,6 +3169,20 @@ html[data-img="plain"] [data-gallery-plate] { background-color: #fff !important;
    Scene mode hides it and the normal in-panel benefits/FAQ show instead. The
    tall section provides the scroll distance; the stage pins inside it while
    initProductStory drives the centred image + the staged panel reveals. */
+/* ===================== Language + device aware hero =====================
+   Four <img> sources in the home hero; show exactly ONE. EN/AR is keyed off
+   html[dir] (applyLang sets it), desktop/phone off the sm (640px) breakpoint.
+   Default (no JS yet) is dir=ltr → EN desktop, matching the served markup. */
+.hero-pic { display: none; }
+html[dir="ltr"] .hero-pic--en-desktop { display: block; }
+html[dir="rtl"] .hero-pic--ar-desktop { display: block; }
+@media (max-width: 639px) {
+  html[dir="ltr"] .hero-pic--en-desktop,
+  html[dir="rtl"] .hero-pic--ar-desktop { display: none; }
+  html[dir="ltr"] .hero-pic--en-mobile { display: block; }
+  html[dir="rtl"] .hero-pic--ar-mobile { display: block; }
+}
+
 .product-story, .product-story-faq { display: none; }
 html[data-img="plain"] .product-story { display: block; height: 340vh; background: #fff; }
 html[data-img="plain"] .product-story-faq { display: block; padding: 2rem 0 4rem; }
@@ -3241,14 +3272,11 @@ html[data-img="plain"] .story-fb-plain { display: block; }
   .product-story__panel.is-right { left: auto; right: 8px; }
   .product-story__panel.is-left { right: auto; left: 8px; }
   .product-story__ico { width: 34px; height: 34px; }
-  /* Mobile: the flying image rides BEHIND the page copy (text stays on top and
-     readable), so the story layer drops below the content and its backdrop goes
-     transparent — the image shows through the (empty) spacer once centred. The
-     gallery plate also goes transparent so the image reads cleanly behind it at
-     the start of the flight instead of being masked by the white plate. */
-  .product-story__stage { z-index: -1; }
-  html[data-img="plain"] .product-story { background: transparent; }
-  html[data-img="plain"] [data-gallery-plate] { background: transparent; }
+  /* Mobile (Ahmed, 2026-08-19 v3): the desktop ride-behind-content is gone. The
+     story stays hidden while the product content scrolls and only begins once the
+     content ends, playing centred ON TOP of its own white spacer — so the stage
+     keeps its normal z-index and the section stays white (no transparent hacks).
+     initProductStory handles the phone-specific fade/scale-in animation. */
 }
 
 /* Dev/preview UI-toggle panel. Parked bottom-LEFT, compact, and COLLAPSIBLE

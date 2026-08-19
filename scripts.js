@@ -1085,7 +1085,7 @@
                    <button type="button" data-open="menu" class="place-items-center grid shrink-0 size-11 -ms-2" aria-label="Menu"><span class="w-6 h-6">${ICON.menu}</span></button>
                  </div>`
           }
-          <a href="index.html" class="block shrink-0"><img src="images/jaad/brand/logo-jaad.svg" alt="جاد" class="w-[32px] h-[31px] object-contain" /></a>
+          <a href="index.html" class="block shrink-0"><img src="images/jaad/brand/logo-jaad.svg" alt="جاد" class="w-auto h-[48px] object-contain" /></a>
           ${
             checkout
               ? ""
@@ -1307,7 +1307,8 @@
         <div class="bg-white/15 w-full h-px"></div>
         <!-- link columns + newsletter -->
         <div class="flex xl:flex-row flex-col justify-between gap-10">
-          <div class="flex flex-wrap gap-10 xl:gap-20">${columns}</div>
+          <div class="hidden md:flex flex-wrap gap-10 xl:gap-20">${columns}</div>
+          ${columnsMobile}
           ${newsletter}
         </div>
         <!-- payments + copyright -->
@@ -6913,6 +6914,43 @@
     });
   }
 
+  /* Category cards fan their two cutouts apart on hover (desktop). Touch has no
+     hover, so on (hover: none) reveal the SAME motion by SCROLL: when a card
+     reaches the vertical centre of the viewport it gets .in-view and the
+     group-[.in-view] variants fire (Ahmed, 2026-08-19). The root is a thin band
+     at the viewport centre (top/bottom margins pulled in ~45%), so a card is
+     "active" only while it sits centred — exactly the phone behaviour asked for. */
+  function initCategoryReveal(scope) {
+    const cards = [...scope.querySelectorAll("[data-cat-card]")];
+    if (!cards.length || !("IntersectionObserver" in window)) return;
+    // Trigger on any device WITHOUT real hover OR any phone-width viewport — a
+    // narrowed desktop that shows the mobile 1-col layout has no fan-apart hover
+    // either, so it should scroll-reveal too (comma = OR in a media query list).
+    const noHover = window.matchMedia("(hover: none), (pointer: coarse), (max-width: 767px)");
+    let io = null;
+    const enable = () => {
+      if (io) return;
+      io = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((e) => e.target.classList.toggle("in-view", e.isIntersecting)),
+        // A generous centre band (middle ~30% of the viewport) so a card lights up
+        // as it scrolls through the middle of the screen, not only dead-centre.
+        { rootMargin: "-35% 0px -35% 0px", threshold: 0 },
+      );
+      cards.forEach((c) => io.observe(c));
+    };
+    const disable = () => {
+      if (!io) return;
+      io.disconnect();
+      io = null;
+      cards.forEach((c) => c.classList.remove("in-view"));
+    };
+    const apply = () => (noHover.matches ? enable() : disable());
+    apply();
+    if (noHover.addEventListener) noHover.addEventListener("change", apply);
+    else if (noHover.addListener) noHover.addListener(apply);
+  }
+
   window.kInit = function (scope) {
     scope = scope || document;
     scope.querySelectorAll(".carousel").forEach(initCarousel);
@@ -6927,6 +6965,7 @@
     initListing(scope);
     initFancySelect(scope);
     initReveal(scope);
+    initCategoryReveal(scope);
   };
 
   /* ---------------------------------------------------------------
@@ -7080,6 +7119,73 @@
         return;
       }
 
+      // ===================== MOBILE (Ahmed, 2026-08-19 v3) =====================
+      // On a phone the desktop RIDE/FLIP doesn't fit: the pinned packshot riding
+      // behind the copy was cramped and unreadable. Instead the story stays fully
+      // HIDDEN while the product content scrolls, then — only once the content
+      // ends (y >= D1) — the white packshot animates IN at screen centre (fade +
+      // rise + slight scale), the four benefits reveal, leaves stream, and the
+      // whole overlay releases up as the FAQ rises. No ride, no over/under-content
+      // overlap; it plays in its own white spacer on top.
+      if (window.matchMedia("(max-width: 640px)").matches) {
+        if (y < D1) {                               // still in the content: nothing overlaid
+          stage.style.opacity = "0";
+          if (galleryImg) galleryImg.style.opacity = "";
+          detach(false);
+          return;
+        }
+        if (galleryImg) galleryImg.style.opacity = "0";
+        stage.style.opacity = "1";
+        detach(false);
+        img.src = CUTOUT;
+        img.style.left = E.left + "px";
+        img.style.top = E.top + "px";
+        img.style.width = E.width + "px";
+        img.style.height = E.height + "px";
+        img.style.transformOrigin = "center center";
+
+        const g = clamp01((y - D1) / D2);
+        const INTRO = 0.14;                          // fraction spent easing the packshot in
+        const t = clamp01(g / INTRO);
+        const ease = easeInOut(t);
+        const OUTRO_AT = 0.80, OUTRO_LEN = 0.15;
+        const outro = clamp01((g - OUTRO_AT) / OUTRO_LEN);
+        const sc = lerp(0.86, 1, ease);
+        const ty = lerp(30, 0, ease);
+        const drift = t >= 1 ? 5 * Math.sin(g * Math.PI * 2) : 0;
+        img.style.opacity = (ease * (1 - outro)).toFixed(3);
+        img.style.transform =
+          "translateY(" + (ty + drift).toFixed(1) + "px) scale(" + sc.toFixed(3) + ")";
+
+        const first = 0.16, step = 0.11, fade = 0.08;
+        panels.forEach((panel, i) => {
+          const st = first + i * step;
+          const a = (g >= st) ? clamp01((g - st) / fade) : 0;
+          panel.style.opacity = (a * (1 - outro)).toFixed(3);
+          panel.style.transform = "translateY(" + ((1 - a) * 20).toFixed(1) + "px)";
+        });
+
+        const cx = E.left + E.width / 2, cy = E.top + E.height / 2;
+        leaves.forEach((leaf, i) => {
+          const ang = i * 2.39996;
+          const startI = 0.16 + (i % 5) * 0.04;
+          const p = clamp01((g - startI) / 0.5);
+          const dist = lerp(18, 150 + (i % 4) * 34, p);   // tighter spread than desktop
+          const lx = cx + Math.cos(ang) * dist - 11;
+          const ly = cy + Math.sin(ang) * dist - 40 * p - 11;
+          const lrot = p * 200 * (i % 2 ? 1 : -1);
+          const op = Math.sin(clamp01(p) * Math.PI) * (1 - outro);
+          leaf.style.transform =
+            "translate(" + lx.toFixed(1) + "px," + ly.toFixed(1) + "px) rotate(" + lrot.toFixed(1) + "deg)";
+          leaf.style.opacity = op.toFixed(3);
+        });
+
+        const faqTopM = faqSection ? faqSection.getBoundingClientRect().top : Infinity;
+        const releaseTyM = Math.min(0, faqTopM - window.innerHeight * 1.05);
+        stage.style.transform = "translateY(" + releaseTyM.toFixed(1) + "px)";
+        return;
+      }
+
       // ===================== RIDE (Ahmed, 2026-08-19 v2) =====================
       // Content-first, but the package no longer just scrolls away: it RIDES.
       // While the taller right column (gallery + "قد يعجبك أيضاً") scrolls, the
@@ -7123,6 +7229,7 @@
       stage.style.opacity = "1";
       detach(true);                                 // outer plate border FADES OUT as it detaches
       img.src = CUTOUT;
+      img.style.transformOrigin = "top left";       // FLIP math needs top-left (mobile sets centre)
       img.style.left = E.left + "px";
       img.style.top = E.top + "px";
       img.style.width = E.width + "px";

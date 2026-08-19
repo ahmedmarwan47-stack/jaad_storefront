@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=0131684a" />
-    <link rel="stylesheet" href="styles.css?v=925e4656" />
+    <link rel="stylesheet" href="tailwind.css?v=1f467ff2" />
+    <link rel="stylesheet" href="styles.css?v=39c3d8eb" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -46,7 +46,7 @@
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
     <script defer src="i18n-en.js?v=1500250b"></script>
-    <script defer src="scripts.js?v=582f8a66"></script>
+    <script defer src="scripts.js?v=fc0bc880"></script>
   </head>
   <body data-page="home" data-path="/" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -66,15 +66,27 @@
       <section data-reveal id="hero" class="relative bg-white w-full">
         <h1 class="sr-only">Jaad — natural coffee, nuts and spices</h1>
         <div class="relative w-full">
-          <img src="images/jaad/site/hero-figma.jpg"
+          <!-- Language + device aware hero (Ahmed, 2026-08-19). Four sources:
+               the product cluster sits on the side OPPOSITE the (side-aligned)
+               headline, so EN (text left) uses products-right and AR (text right,
+               RTL) uses products-left; desktop is wide, phone is a TALL portrait
+               so the banner never squishes on mobile. styles.css (.hero-pic) shows
+               exactly ONE via html[dir] + the sm breakpoint — no JS, no flash. -->
+          <img src="images/jaad/site/hero-figma.jpg" fetchpriority="high"
                alt="Jaad natural snacks — nuts, coffee and spices"
-               class="block w-full aspect-[1512/728] max-h-[82vh] object-cover" fetchpriority="high" />
-          <div class="absolute inset-y-0 start-0 flex flex-col justify-center items-start gap-4 md:gap-5 ps-6 md:ps-10 xl:ps-[60px] pe-4 max-w-[62%]">
+               class="hero-pic hero-pic--en-desktop w-full aspect-[1512/728] max-h-[82vh] object-cover" />
+          <img src="images/jaad/site/hero-ar-desktop.jpg" alt="" aria-hidden="true"
+               class="hero-pic hero-pic--ar-desktop w-full aspect-[1512/728] max-h-[82vh] object-cover" />
+          <img src="images/jaad/site/hero-en-mob.jpg" alt="" aria-hidden="true" loading="lazy"
+               class="hero-pic hero-pic--en-mobile w-full aspect-[3/4] object-cover" />
+          <img src="images/jaad/site/hero-ar-mob.jpg" alt="" aria-hidden="true" loading="lazy"
+               class="hero-pic hero-pic--ar-mobile w-full aspect-[3/4] object-cover" />
+          <div class="absolute inset-x-0 top-0 sm:inset-y-0 flex flex-col justify-start sm:justify-center items-start gap-3 sm:gap-4 md:gap-5 pt-[16%] sm:pt-0 ps-6 md:ps-10 xl:ps-[60px] pe-4 max-w-[80%] sm:max-w-[62%]">
             <div class="flex flex-col items-start isolate">
-              <span class="z-[2] -mb-2 -rotate-2 inline-flex items-center bg-[#98CA55] px-2.5 rounded-tl-[20px] rounded-br-[20px] font-normal text-[#29612F] text-[26px] md:text-[36px] xl:text-[42px] leading-none tracking-[-0.21px]">Natural Snacks</span>
-              <span class="z-[1] inline-flex items-center bg-white px-2.5 pb-1 rounded-[12px] font-bold text-[#333] text-[36px] md:text-[50px] xl:text-[62px] leading-[1.2]">For Every Event</span>
+              <span class="z-[2] -mb-2 -rotate-2 inline-flex items-center bg-[#98CA55] px-2.5 pb-1 sm:pb-0 rounded-tl-[20px] rounded-br-[20px] font-normal text-[#29612F] text-[28px] md:text-[36px] xl:text-[42px] leading-none tracking-[-0.21px]">Natural Snacks</span>
+              <span class="z-[1] inline-flex items-center whitespace-nowrap bg-white px-2.5 pt-1.5 sm:pt-0 pb-1 rounded-[12px] font-bold text-[#333] text-[34px] md:text-[50px] xl:text-[62px] leading-[1.15] sm:leading-[1.2]">For Every Event</span>
             </div>
-            <a href="shop.html" class="inline-flex items-center gap-2.5 bg-[#29612F] hover:bg-[#1f4a24] px-6 py-3 rounded-[8px] font-medium text-white text-base transition-colors">
+            <a href="shop.html" class="inline-flex items-center gap-2.5 bg-cta hover:bg-cta-hover px-6 py-3 rounded-[8px] font-medium text-white text-base transition-colors">
               Shop Now
               <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
@@ -96,46 +108,58 @@
             Explore <span class="font-bold text-[#29612F]">JAAD&rsquo;s</span> Categories
           </h2>
           <div class="justify-items-center gap-12 xl:gap-[58px] grid grid-cols-1 sm:grid-cols-3 w-full max-w-[1392px]">
-          <a href="shop.html" class="group flex flex-col items-center gap-[18px] w-full max-w-[356px]">
+          <a href="shop.html" data-cat-card class="group flex flex-col items-center gap-3 sm:gap-[18px] w-full max-w-[240px] sm:max-w-[356px]">
             <div class="relative w-full aspect-[356/260]">
+              <!-- The fan-apart is a group-hover on desktop; on touch (no hover)
+                   initCategoryReveal adds .in-view when the card scrolls to the
+                   viewport centre, so the group-[.in-view] variants fire the same
+                   motion (Ahmed, 2026-08-19). -->
               <img src="images/jaad/categories/cat-shadow.svg" alt="" aria-hidden="true"
-                   class="bottom-[2%] left-1/2 absolute w-[72%] -translate-x-1/2 transition-all duration-500 ease-out group-hover:w-[82%]" />
+                   class="bottom-[2%] left-1/2 absolute w-[72%] -translate-x-1/2 transition-all duration-500 ease-out group-hover:w-[82%] group-[.in-view]:w-[82%]" />
               <img src="images/jaad/categories/nuts-a.png" alt="" aria-hidden="true"
-                   class="top-[4%] left-0 absolute w-[67.5%] aspect-square object-contain -rotate-[1.66deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-x-[10%] group-hover:-translate-y-[7%] group-hover:-rotate-[7deg] group-hover:scale-[1.05]" />
+                   class="top-[4%] left-0 absolute w-[67.5%] aspect-square object-contain -rotate-[1.66deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-x-[10%] group-hover:-translate-y-[7%] group-hover:-rotate-[7deg] group-hover:scale-[1.05] group-[.in-view]:-translate-x-[10%] group-[.in-view]:-translate-y-[7%] group-[.in-view]:-rotate-[7deg] group-[.in-view]:scale-[1.05]" />
               <img src="images/jaad/categories/nuts-b.png" alt="Nuts"
-                   class="top-0 left-[27%] absolute w-[73%] aspect-square object-contain rotate-[1.56deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-y-[6%] group-hover:rotate-[7deg] group-hover:scale-[1.05]" />
+                   class="top-0 left-[27%] absolute w-[73%] aspect-square object-contain rotate-[1.56deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-y-[6%] group-hover:rotate-[7deg] group-hover:scale-[1.05] group-[.in-view]:-translate-y-[6%] group-[.in-view]:rotate-[7deg] group-[.in-view]:scale-[1.05]" />
             </div>
-            <div class="flex flex-col items-center gap-3 text-center">
-              <h3 class="font-bold text-[#29612F] text-2xl leading-[1.4]">Nuts</h3>
-              <p class="max-w-[341px] text-[#4a4a4a] text-base leading-[1.4]">Premium hand-picked selections for every taste</p>
+            <div class="flex flex-col items-center gap-1.5 sm:gap-3 text-center">
+              <h3 class="font-bold text-[#29612F] text-lg sm:text-2xl leading-[1.4]">Nuts</h3>
+              <p class="max-w-[341px] text-[#4a4a4a] text-sm sm:text-base leading-[1.4]">Premium hand-picked selections for every taste</p>
             </div>
           </a>
-          <a href="shop.html" class="group flex flex-col items-center gap-[18px] w-full max-w-[356px]">
+          <a href="shop.html" data-cat-card class="group flex flex-col items-center gap-3 sm:gap-[18px] w-full max-w-[240px] sm:max-w-[356px]">
             <div class="relative w-full aspect-[356/260]">
+              <!-- The fan-apart is a group-hover on desktop; on touch (no hover)
+                   initCategoryReveal adds .in-view when the card scrolls to the
+                   viewport centre, so the group-[.in-view] variants fire the same
+                   motion (Ahmed, 2026-08-19). -->
               <img src="images/jaad/categories/cat-shadow.svg" alt="" aria-hidden="true"
-                   class="bottom-[2%] left-1/2 absolute w-[72%] -translate-x-1/2 transition-all duration-500 ease-out group-hover:w-[82%]" />
+                   class="bottom-[2%] left-1/2 absolute w-[72%] -translate-x-1/2 transition-all duration-500 ease-out group-hover:w-[82%] group-[.in-view]:w-[82%]" />
               <img src="images/jaad/categories/spices-a.png" alt="" aria-hidden="true"
-                   class="top-[4%] left-0 absolute w-[67.5%] aspect-square object-contain -rotate-[1.66deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-x-[10%] group-hover:-translate-y-[7%] group-hover:-rotate-[7deg] group-hover:scale-[1.05]" />
+                   class="top-[4%] left-0 absolute w-[67.5%] aspect-square object-contain -rotate-[1.66deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-x-[10%] group-hover:-translate-y-[7%] group-hover:-rotate-[7deg] group-hover:scale-[1.05] group-[.in-view]:-translate-x-[10%] group-[.in-view]:-translate-y-[7%] group-[.in-view]:-rotate-[7deg] group-[.in-view]:scale-[1.05]" />
               <img src="images/jaad/categories/spices-b.png" alt="Spices"
-                   class="top-0 left-[27%] absolute w-[73%] aspect-square object-contain rotate-[1.56deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-y-[6%] group-hover:rotate-[7deg] group-hover:scale-[1.05]" />
+                   class="top-0 left-[27%] absolute w-[73%] aspect-square object-contain rotate-[1.56deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-y-[6%] group-hover:rotate-[7deg] group-hover:scale-[1.05] group-[.in-view]:-translate-y-[6%] group-[.in-view]:rotate-[7deg] group-[.in-view]:scale-[1.05]" />
             </div>
-            <div class="flex flex-col items-center gap-3 text-center">
-              <h3 class="font-bold text-[#29612F] text-2xl leading-[1.4]">Spices</h3>
-              <p class="max-w-[341px] text-[#4a4a4a] text-base leading-[1.4]">Aromatic blends from the world&#x27;s finest regions</p>
+            <div class="flex flex-col items-center gap-1.5 sm:gap-3 text-center">
+              <h3 class="font-bold text-[#29612F] text-lg sm:text-2xl leading-[1.4]">Spices</h3>
+              <p class="max-w-[341px] text-[#4a4a4a] text-sm sm:text-base leading-[1.4]">Aromatic blends from the world&#x27;s finest regions</p>
             </div>
           </a>
-          <a href="shop.html" class="group flex flex-col items-center gap-[18px] w-full max-w-[356px]">
+          <a href="shop.html" data-cat-card class="group flex flex-col items-center gap-3 sm:gap-[18px] w-full max-w-[240px] sm:max-w-[356px]">
             <div class="relative w-full aspect-[356/260]">
+              <!-- The fan-apart is a group-hover on desktop; on touch (no hover)
+                   initCategoryReveal adds .in-view when the card scrolls to the
+                   viewport centre, so the group-[.in-view] variants fire the same
+                   motion (Ahmed, 2026-08-19). -->
               <img src="images/jaad/categories/cat-shadow.svg" alt="" aria-hidden="true"
-                   class="bottom-[2%] left-1/2 absolute w-[72%] -translate-x-1/2 transition-all duration-500 ease-out group-hover:w-[82%]" />
+                   class="bottom-[2%] left-1/2 absolute w-[72%] -translate-x-1/2 transition-all duration-500 ease-out group-hover:w-[82%] group-[.in-view]:w-[82%]" />
               <img src="images/jaad/categories/coffee-a.png" alt="" aria-hidden="true"
-                   class="top-[4%] left-0 absolute w-[67.5%] aspect-square object-contain -rotate-[1.66deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-x-[10%] group-hover:-translate-y-[7%] group-hover:-rotate-[7deg] group-hover:scale-[1.05]" />
+                   class="top-[4%] left-0 absolute w-[67.5%] aspect-square object-contain -rotate-[1.66deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-x-[10%] group-hover:-translate-y-[7%] group-hover:-rotate-[7deg] group-hover:scale-[1.05] group-[.in-view]:-translate-x-[10%] group-[.in-view]:-translate-y-[7%] group-[.in-view]:-rotate-[7deg] group-[.in-view]:scale-[1.05]" />
               <img src="images/jaad/categories/coffee-b.png" alt="Coffee"
-                   class="top-0 left-[27%] absolute w-[73%] aspect-square object-contain rotate-[1.56deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-y-[6%] group-hover:rotate-[7deg] group-hover:scale-[1.05]" />
+                   class="top-0 left-[27%] absolute w-[73%] aspect-square object-contain rotate-[1.56deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-y-[6%] group-hover:rotate-[7deg] group-hover:scale-[1.05] group-[.in-view]:-translate-y-[6%] group-[.in-view]:rotate-[7deg] group-[.in-view]:scale-[1.05]" />
             </div>
-            <div class="flex flex-col items-center gap-3 text-center">
-              <h3 class="font-bold text-[#29612F] text-2xl leading-[1.4]">Coffee</h3>
-              <p class="max-w-[341px] text-[#4a4a4a] text-base leading-[1.4]">Rich, authentic flavors brewed to perfection</p>
+            <div class="flex flex-col items-center gap-1.5 sm:gap-3 text-center">
+              <h3 class="font-bold text-[#29612F] text-lg sm:text-2xl leading-[1.4]">Coffee</h3>
+              <p class="max-w-[341px] text-[#4a4a4a] text-sm sm:text-base leading-[1.4]">Rich, authentic flavors brewed to perfection</p>
             </div>
           </a>
           </div>
@@ -151,7 +175,7 @@
             <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">Perfect Picks</h2>
             <div class="pp-tabs relative inline-flex items-center gap-1 bg-[#E3F2D1] p-1 rounded-full"><span data-tab-indicator aria-hidden="true"></span><button type="button" class="tab-btn is-active" data-tab="best">Best Selling</button><button type="button" class="tab-btn" data-tab="new">New</button><button type="button" class="tab-btn" data-tab="offers">Offers</button></div>
           </div>
-<div class="tab-panel" data-panel="best"><div class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 overflow-x-auto xl:overflow-visible no-scrollbar snap-x">
+<div class="tab-panel" data-panel="best"><div class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 scroll-pl-4 xl:scroll-pl-0 overflow-x-auto xl:overflow-visible no-scrollbar snap-x">
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
                    data-price="45.0" data-id="1" data-name="بن فاتح سادة"
                    data-name-en="Light Roasted Coffee" data-image="images/jaad/products-styled/1.jpg">
@@ -182,7 +206,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
@@ -226,7 +250,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
@@ -270,7 +294,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
@@ -314,7 +338,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
@@ -358,7 +382,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
@@ -371,7 +395,7 @@
                 <a href="product-11.html" data-product-title class="hover:text-[#29612F] transition-colors">Almond</a>
               </h3>
             </div>
-          </article></div></div><div class="tab-panel" data-panel="new" hidden><div class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 overflow-x-auto xl:overflow-visible no-scrollbar snap-x">
+          </article></div></div><div class="tab-panel" data-panel="new" hidden><div class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 scroll-pl-4 xl:scroll-pl-0 overflow-x-auto xl:overflow-visible no-scrollbar snap-x">
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
                    data-price="50.0" data-id="4" data-name="بن فاتح محوج بالحبهان"
                    data-name-en="Light Roasted with Cardamom" data-image="images/jaad/products-styled/4.jpg">
@@ -402,7 +426,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
@@ -446,7 +470,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
@@ -490,7 +514,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
@@ -534,7 +558,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
@@ -578,7 +602,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
@@ -591,7 +615,7 @@
                 <a href="product-5.html" data-product-title class="hover:text-[#29612F] transition-colors">Medium Roasted with Cardamom</a>
               </h3>
             </div>
-          </article></div></div><div class="tab-panel" data-panel="offers" hidden><div class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 overflow-x-auto xl:overflow-visible no-scrollbar snap-x">
+          </article></div></div><div class="tab-panel" data-panel="offers" hidden><div class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 scroll-pl-4 xl:scroll-pl-0 overflow-x-auto xl:overflow-visible no-scrollbar snap-x">
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="nuts"
                    data-price="64" data-id="9" data-name="بندق"
                    data-name-en="Hazelnut" data-image="images/jaad/products-styled/9.jpg">
@@ -622,7 +646,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
@@ -666,7 +690,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
@@ -710,7 +734,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
@@ -754,7 +778,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
@@ -798,7 +822,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3">
+            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
@@ -931,7 +955,7 @@
       <section data-reveal id="recently-viewed" class="bg-white py-14 xl:py-[60px]" data-recently-viewed data-recent-min="5">
         <div class="flex flex-col gap-8 xl:gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">Recently Viewed</h2>
-          <div data-recent-track class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 overflow-x-auto xl:overflow-visible no-scrollbar snap-x"></div>
+          <div data-recent-track class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 scroll-pl-4 xl:scroll-pl-0 overflow-x-auto xl:overflow-visible no-scrollbar snap-x"></div>
         </div>
       </section>
 
