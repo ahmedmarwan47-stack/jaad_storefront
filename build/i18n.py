@@ -83,7 +83,7 @@ UI = {
     "اتصل بنا": "Contact Us",
     "ميديا": "Media",
     "100% Natural Based Products": "100% Natural Based Products",
-    "الأسئلة الشائعة": "FAQs",
+    "الأسئلة الشائعة": "Frequently asked questions",
     "الأسئلة المتداولة": "FAQs",
     "تحتاج مساعدة؟": "Need help?",
     "الشروط والأحكام": "Terms & Conditions",

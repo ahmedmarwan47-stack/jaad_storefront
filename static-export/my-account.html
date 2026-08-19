@@ -3,6 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Don't cache the HTML page itself (Ahmed, 2026-08-19). Asset links carry
+         a ?v=<hash> so CSS/JS always load fresh, but the browser was still
+         serving a stale cached COPY OF THE PAGE (old markup persisted after a
+         fix). Revalidating the HTML means every reload picks up the current
+         page — and thus the current versioned asset links — with no hard-refresh. -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>حسابي | جاد</title>
     <meta name="description" content="إدارة طلباتك وعناوينك ومحفظتك في جاد." />
     <meta name="theme-color" content="#00451C" />
@@ -25,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="tailwind.css?v=0131684a" />
+    <link rel="stylesheet" href="styles.css?v=925e4656" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -37,8 +45,8 @@
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js"></script>
-    <script defer src="scripts.js"></script>
+    <script defer src="i18n-en.js?v=1500250b"></script>
+    <script defer src="scripts.js?v=582f8a66"></script>
   </head>
   <body data-page="my-account" data-path="/my-account" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -249,24 +257,41 @@
                 </div>
                 <button type="button" data-order-open="#30941" class="bg-cta hover:bg-cta-hover px-6 py-2.5 rounded-full font-semibold text-white text-sm transition-colors">تفاصيل الطلب</button>
               </div>
-              <ol class="order-track" data-order-tracker>
-                <li class="track-step is-done">
-                  <span class="track-step__art" aria-hidden="true"><img src="images/jaad/icons/track-placed-3d.png" alt="" class="w-12 h-12 object-contain" /><span class="track-step__check"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
-                  <span class="track-step__label">تم الطلب</span>
+              
+            <div class="order-ride" data-order-ride style="--steps:4;--to:37.500%;--from:12.500%;--fillto:33.333%;--fillfrom:0.000%">
+              <div class="order-ride__track">
+                <span class="order-ride__rail" aria-hidden="true"><span class="order-ride__fill"></span></span>
+                <ol class="order-ride__nodes">
+                <li class="order-ride__node is-done">
+                  <span class="order-ride__bubble">
+                    <img src="images/jaad/icons/track-placed-3d.png" alt="" class="order-ride__ico" /><span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </span>
+                  <span class="order-ride__label">تم الطلب</span>
                 </li>
-                <li class="track-step is-now"><span class="track-step__conn is-filled is-active" aria-hidden="true"><span class="track-conn__arrows"><b></b><b></b><b></b></span></span>
-                  <span class="track-step__art" aria-hidden="true"><img src="images/jaad/icons/track-preparing-3d.png" alt="" class="w-12 h-12 object-contain" /></span>
-                  <span class="track-step__label">جاري التحضير</span>
+                <li class="order-ride__node is-now">
+                  <span class="order-ride__bubble">
+                    <img src="images/jaad/icons/track-preparing-3d.png" alt="" class="order-ride__ico" />
+                  </span>
+                  <span class="order-ride__label">جاري التحضير</span>
                 </li>
-                <li class="track-step is-todo"><span class="track-step__conn  " aria-hidden="true"></span>
-                  <span class="track-step__art" aria-hidden="true"><img src="images/jaad/icons/track-transit-3d.png" alt="" class="w-12 h-12 object-contain" /></span>
-                  <span class="track-step__label">في الطريق إليك</span>
+                <li class="order-ride__node is-todo">
+                  <span class="order-ride__bubble">
+                    <img src="images/jaad/icons/track-transit-3d.png" alt="" class="order-ride__ico" />
+                  </span>
+                  <span class="order-ride__label">في الطريق إليك</span>
                 </li>
-                <li class="track-step is-todo"><span class="track-step__conn  " aria-hidden="true"></span>
-                  <span class="track-step__art" aria-hidden="true"><img src="images/jaad/icons/track-delivered-3d.png" alt="" class="w-12 h-12 object-contain" /></span>
-                  <span class="track-step__label">تم التسليم</span>
+                <li class="order-ride__node is-todo">
+                  <span class="order-ride__bubble">
+                    <img src="images/jaad/icons/track-delivered-3d.png" alt="" class="order-ride__ico" />
+                  </span>
+                  <span class="order-ride__label">تم التسليم</span>
                 </li>
-              </ol>
+                </ol>
+                <span class="order-ride__courier" aria-hidden="true">
+                  <span class="order-ride__face"><img src="images/jaad/icons/track-transit-3d.png" alt="" /></span>
+                </span>
+              </div>
+            </div>
             </div>
               
             <div data-reorder-card class="flex flex-wrap justify-between items-center gap-4 bg-white shadow-custom4 p-6 rounded-[20px]">
@@ -353,24 +378,41 @@
                   <h3 class="font-bold text-[#003616] text-base">طلب رقم <span class="latin">#30941</span></h3>
                   <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold text-xs bg-accent-yellow text-[#003616]"><span class="status-live-dot" aria-hidden="true"></span>تحت التحضير</span>
                 </div>
-                <div class="pb-1"><ol class="order-track" data-order-tracker>
-                <li class="track-step is-done">
-                  <span class="track-step__art" aria-hidden="true"><img src="images/jaad/icons/track-placed-3d.png" alt="" class="w-12 h-12 object-contain" /><span class="track-step__check"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
-                  <span class="track-step__label">تم الطلب</span>
+                <div class="pb-1">
+            <div class="order-ride" data-order-ride style="--steps:4;--to:37.500%;--from:12.500%;--fillto:33.333%;--fillfrom:0.000%">
+              <div class="order-ride__track">
+                <span class="order-ride__rail" aria-hidden="true"><span class="order-ride__fill"></span></span>
+                <ol class="order-ride__nodes">
+                <li class="order-ride__node is-done">
+                  <span class="order-ride__bubble">
+                    <img src="images/jaad/icons/track-placed-3d.png" alt="" class="order-ride__ico" /><span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </span>
+                  <span class="order-ride__label">تم الطلب</span>
                 </li>
-                <li class="track-step is-now"><span class="track-step__conn is-filled is-active" aria-hidden="true"><span class="track-conn__arrows"><b></b><b></b><b></b></span></span>
-                  <span class="track-step__art" aria-hidden="true"><img src="images/jaad/icons/track-preparing-3d.png" alt="" class="w-12 h-12 object-contain" /></span>
-                  <span class="track-step__label">جاري التحضير</span>
+                <li class="order-ride__node is-now">
+                  <span class="order-ride__bubble">
+                    <img src="images/jaad/icons/track-preparing-3d.png" alt="" class="order-ride__ico" />
+                  </span>
+                  <span class="order-ride__label">جاري التحضير</span>
                 </li>
-                <li class="track-step is-todo"><span class="track-step__conn  " aria-hidden="true"></span>
-                  <span class="track-step__art" aria-hidden="true"><img src="images/jaad/icons/track-transit-3d.png" alt="" class="w-12 h-12 object-contain" /></span>
-                  <span class="track-step__label">في الطريق إليك</span>
+                <li class="order-ride__node is-todo">
+                  <span class="order-ride__bubble">
+                    <img src="images/jaad/icons/track-transit-3d.png" alt="" class="order-ride__ico" />
+                  </span>
+                  <span class="order-ride__label">في الطريق إليك</span>
                 </li>
-                <li class="track-step is-todo"><span class="track-step__conn  " aria-hidden="true"></span>
-                  <span class="track-step__art" aria-hidden="true"><img src="images/jaad/icons/track-delivered-3d.png" alt="" class="w-12 h-12 object-contain" /></span>
-                  <span class="track-step__label">تم التسليم</span>
+                <li class="order-ride__node is-todo">
+                  <span class="order-ride__bubble">
+                    <img src="images/jaad/icons/track-delivered-3d.png" alt="" class="order-ride__ico" />
+                  </span>
+                  <span class="order-ride__label">تم التسليم</span>
                 </li>
-              </ol></div>
+                </ol>
+                <span class="order-ride__courier" aria-hidden="true">
+                  <span class="order-ride__face"><img src="images/jaad/icons/track-transit-3d.png" alt="" /></span>
+                </span>
+              </div>
+            </div></div>
                 <div class="flex flex-col">
                 <div class="flex items-center gap-3 py-3 border-neutral-divider border-b last:border-0">
                   <img src="images/jaad/products/coffee-light-plain.png" alt="" class="bg-interaction-base p-1.5 rounded-lg w-14 h-14 object-contain shrink-0" loading="lazy" />
@@ -440,24 +482,38 @@
                   <h3 class="font-bold text-[#003616] text-base">طلب رقم <span class="latin">#30943</span></h3>
                   <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold text-xs bg-primary text-white">مكتمل</span>
                 </div>
-                <div class="pb-1"><ol class="order-track" data-order-tracker>
-                <li class="track-step is-done">
-                  <span class="track-step__art" aria-hidden="true"><img src="images/jaad/icons/track-placed-3d.png" alt="" class="w-12 h-12 object-contain" /><span class="track-step__check"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
-                  <span class="track-step__label">تم الطلب</span>
+                <div class="pb-1">
+            <div class="order-ride is-delivered" data-order-ride style="--steps:4;--to:87.500%;--from:62.500%;--fillto:100.000%;--fillfrom:66.667%">
+              <div class="order-ride__track">
+                <span class="order-ride__rail" aria-hidden="true"><span class="order-ride__fill"></span></span>
+                <ol class="order-ride__nodes">
+                <li class="order-ride__node is-done">
+                  <span class="order-ride__bubble">
+                    <img src="images/jaad/icons/track-placed-3d.png" alt="" class="order-ride__ico" /><span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </span>
+                  <span class="order-ride__label">تم الطلب</span>
                 </li>
-                <li class="track-step is-done"><span class="track-step__conn is-filled " aria-hidden="true"></span>
-                  <span class="track-step__art" aria-hidden="true"><img src="images/jaad/icons/track-preparing-3d.png" alt="" class="w-12 h-12 object-contain" /><span class="track-step__check"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
-                  <span class="track-step__label">جاري التحضير</span>
+                <li class="order-ride__node is-done">
+                  <span class="order-ride__bubble">
+                    <img src="images/jaad/icons/track-preparing-3d.png" alt="" class="order-ride__ico" /><span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </span>
+                  <span class="order-ride__label">جاري التحضير</span>
                 </li>
-                <li class="track-step is-done"><span class="track-step__conn is-filled " aria-hidden="true"></span>
-                  <span class="track-step__art" aria-hidden="true"><img src="images/jaad/icons/track-transit-3d.png" alt="" class="w-12 h-12 object-contain" /><span class="track-step__check"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
-                  <span class="track-step__label">في الطريق إليك</span>
+                <li class="order-ride__node is-done">
+                  <span class="order-ride__bubble">
+                    <img src="images/jaad/icons/track-transit-3d.png" alt="" class="order-ride__ico" /><span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </span>
+                  <span class="order-ride__label">في الطريق إليك</span>
                 </li>
-                <li class="track-step is-done"><span class="track-step__conn is-filled " aria-hidden="true"></span>
-                  <span class="track-step__art" aria-hidden="true"><img src="images/jaad/icons/track-delivered-3d.png" alt="" class="w-12 h-12 object-contain" /><span class="track-step__check"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
-                  <span class="track-step__label">تم التسليم</span>
+                <li class="order-ride__node is-done">
+                  <span class="order-ride__bubble">
+                    <img src="images/jaad/icons/track-delivered-3d.png" alt="" class="order-ride__ico" /><span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </span>
+                  <span class="order-ride__label">تم التسليم</span>
                 </li>
-              </ol></div>
+                </ol>
+              </div>
+            </div></div>
                 <div class="flex flex-col">
                 <div class="flex items-center gap-3 py-3 border-neutral-divider border-b last:border-0">
                   <img src="images/jaad/products/spices-chili.png" alt="" class="bg-interaction-base p-1.5 rounded-lg w-14 h-14 object-contain shrink-0" loading="lazy" />

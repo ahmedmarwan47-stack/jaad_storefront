@@ -15,6 +15,7 @@ Split of responsibilities:
   * Everything else (page content) is composed from the functions below and
     baked into static HTML so pages stay standalone and work from file://.
 """
+import hashlib
 import html as html_mod
 import os
 import re
@@ -585,19 +586,19 @@ def qty_stepper(cart_bound=False):
 def accordion(items, multi=False):
     """items: [(heading, inner_html)] — first is open."""
     rows = "".join(f"""
-                <div class="faq-card accordion-item rounded-2xl overflow-hidden{' is-open' if i == 0 else ''}">
-                  <button type="button" class="accordion-trigger flex justify-between items-center gap-4 p-6 w-full text-start">
-                    <span class="faq-q text-lg leading-snug">{e(heading)}</span>
-                    <span class="place-items-center grid size-6 text-[#006328] shrink-0">
-                      <span class="faq-plus w-5 h-5">{ICON['plus']}</span>
-                      <span class="faq-minus w-5 h-5">{ICON['minus']}</span>
+                <div class="faq-card accordion-item rounded-xl overflow-hidden{' is-open' if i == 0 else ''}">
+                  <button type="button" class="accordion-trigger flex justify-between items-center gap-3 px-4 py-3.5 w-full text-start">
+                    <span class="faq-q text-[15px] leading-snug">{e(heading)}</span>
+                    <span class="place-items-center grid size-5 text-[#006328] shrink-0">
+                      <span class="faq-plus w-4 h-4">{ICON['plus']}</span>
+                      <span class="faq-minus w-4 h-4">{ICON['minus']}</span>
                     </span>
                   </button>
                   <div class="accordion-panel">
-                    <div class="px-6 pb-6 text-[#4b5563] text-[15px] leading-[1.6]">{body}</div>
+                    <div class="px-4 pb-4 text-[#4b5563] text-sm leading-[1.55]">{body}</div>
                   </div>
                 </div>""" for i, (heading, body) in enumerate(items))
-    return f'<div class="flex flex-col gap-3" data-accordion{" data-accordion-multi" if multi else ""}>{rows}\n              </div>'
+    return f'<div class="flex flex-col gap-2" data-accordion{" data-accordion-multi" if multi else ""}>{rows}\n              </div>'
 
 
 def product_gallery(images, alt, p=None):
@@ -795,9 +796,14 @@ def best_seller_badge(p):
     # read the text as hugging the top. Measured with canvas actualBoundingBox
     # metrics, not eyeballed. `relative`, because transforms do not apply to
     # inline boxes.
-    return ('<span data-best-seller class="inline-flex self-start items-center bg-[#8ACC3E] px-3 py-1.5 '
-            'rounded-full font-bold text-[#003616] text-xs">'
-            f'<span class="relative top-[2px] leading-none">{e(label)}</span></span>')
+    # Was nudged `top-[2px]` to offset Baloo Bhaijaan 2's deep descent on the
+    # Arabic label — but that same nudge pushed the LATIN "Best selling" label
+    # (a different font, no such descent) off-centre downward (Ahmed, 2026-08-19).
+    # Centre with the flex line box + a fixed pill height instead, which reads
+    # centred in both fonts without a per-language nudge.
+    return ('<span data-best-seller class="inline-flex self-start items-center bg-[#8ACC3E] px-3 '
+            'rounded-full h-7 font-bold text-[#003616] text-xs leading-none">'
+            f'{e(label)}</span>')
 
 
 def points_callout(p):
@@ -1131,26 +1137,20 @@ def phone_field(label="رقم الموبايل", name="mobile", required=True, v
     return f"""
                 <div class="flex flex-col gap-1.5">
                   <label for="{e(name)}" class="font-medium text-neutral-secondary text-sm">{e(label)}{star}</label>
-                  <div dir="ltr" class="flex items-stretch bg-white border border-neutral-divider focus-within:border-primary focus-within:ring-2 focus-within:ring-[#98CA55] rounded-2xl overflow-hidden transition-colors">
-                    <!-- Prefix sits on the SAME white as the number, NOT a filled
-                         (bg-interaction-base) cell: the tinted chip read as a
-                         nested compartment, and against the green focus border it
-                         looked like an inner border box (Ahmed, 2026-08-04). The
-                         only separator is the short divider below. -->
-                    <span class="flex items-center gap-1.5 ps-3.5 pe-3 shrink-0 font-semibold text-[#003616] text-sm">
-                      <span class="text-base leading-none" aria-hidden="true">🇪🇬</span>
-                      <span class="latin">+20</span>
+                  <!-- Rebuilt clean (Ahmed, 2026-08-19): ONE rounded control, the
+                       Egypt flag + +20 as a plain leading adornment on the SAME
+                       white surface as the number. No inner cell and NO divider
+                       rule — the old divider between the prefix and the input
+                       read as a stray vertical line after "+20". The whole field
+                       carries the green focus ring; the prefix is just text. -->
+                  <div data-phone-field dir="ltr" class="flex items-center bg-white border border-neutral-divider focus-within:border-cta focus-within:ring-2 focus-within:ring-[#98CA55] rounded-2xl transition-colors">
+                    <span class="flex items-center gap-2 ps-4 pe-2.5 shrink-0 font-semibold text-[#003616] text-base latin">
+                      <img src="images/jaad/brand/flag-egypt.svg" alt="" class="w-5 h-5 rounded-full object-cover shrink-0" />
+                      +20
                     </span>
-                    <!-- The prefix/number divider is a standalone rule, NOT a
-                         border on the chip: `my-2.5` insets it top and bottom so
-                         it stops short of the field's rounded edges. It stays
-                         CONSTANT in every state — same colour, same width — while
-                         ONLY the outer field border darkens on focus (Ahmed,
-                         2026-08-04). -->
-                    <span aria-hidden="true" class="self-stretch bg-neutral-divider my-2.5 w-px shrink-0"></span>
                     <input type="tel" id="{e(name)}" name="{e(name)}"{' required' if required else ''}{hints} dir="ltr" value="{e(value)}"
                            placeholder="100 123 4567"
-                           class="flex-1 bg-transparent px-3 py-3 outline-none min-w-0 text-[#003616] text-base latin" />
+                           class="flex-1 bg-transparent py-3.5 pe-4 outline-none min-w-0 text-[#003616] text-base latin" />
                   </div>
                   {help_html}
                 </div>"""
@@ -1815,13 +1815,15 @@ def product_widget(p, sale=None, slide=True, cat=None):
               <a href="product-{pid}.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="{e(scene_img)}" data-img-scene="{e(scene_img)}" data-img-plain="{e(plain_img)}" alt="{e(en_name)}" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]">{ICON['cart']}</span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -2045,6 +2047,31 @@ def _with_reveal(body):
     return _SECTION_OPEN.sub(r"<section data-reveal\1", body)
 
 
+_ASSET_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "static-export")
+_asset_v_cache = {}
+
+
+def _asset_v(filename):
+    """Short content hash appended to a built asset link as ?v=… for cache-
+    busting (Ahmed, 2026-08-19). An edited styles.css/scripts.js then loads FRESH
+    on the next normal reload instead of the browser serving a stale cached copy
+    — the recurring "you have to hard-refresh" trap. The hash is of the file's
+    CURRENT bytes, so the URL only changes when the file changes.
+
+    Caveat: tailwind.css is regenerated AFTER the pages are written, so its hash
+    here is the PREVIOUS build's; it settles on the next build. Utility changes
+    are rare, so that one-build lag is acceptable. IMPORTANT: this is baked at
+    build time, so a styles.css/scripts.js edit needs a rebuild to update the
+    version — run build after touching those files."""
+    if filename not in _asset_v_cache:
+        try:
+            with open(os.path.join(_ASSET_ROOT, filename), "rb") as f:
+                _asset_v_cache[filename] = hashlib.md5(f.read()).hexdigest()[:8]
+        except OSError:
+            _asset_v_cache[filename] = "1"
+    return _asset_v_cache[filename]
+
+
 def page(title_text, description, body, page_id, path, main_class="overflow-x-clip"):
     """
     Standard document shell. Header, footer and overlays are mount points
@@ -2071,6 +2098,14 @@ def page(title_text, description, body, page_id, path, main_class="overflow-x-cl
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Don't cache the HTML page itself (Ahmed, 2026-08-19). Asset links carry
+         a ?v=<hash> so CSS/JS always load fresh, but the browser was still
+         serving a stale cached COPY OF THE PAGE (old markup persisted after a
+         fix). Revalidating the HTML means every reload picks up the current
+         page — and thus the current versioned asset links — with no hard-refresh. -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>{e(title_text)}</title>
     <meta name="description" content="{e(description)}" />
     {social}
@@ -2086,8 +2121,8 @@ def page(title_text, description, body, page_id, path, main_class="overflow-x-cl
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="tailwind.css?v={_asset_v('tailwind.css')}" />
+    <link rel="stylesheet" href="styles.css?v={_asset_v('styles.css')}" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -2098,8 +2133,8 @@ def page(title_text, description, body, page_id, path, main_class="overflow-x-cl
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js"></script>
-    <script defer src="scripts.js"></script>
+    <script defer src="i18n-en.js?v={_asset_v('i18n-en.js')}"></script>
+    <script defer src="scripts.js?v={_asset_v('scripts.js')}"></script>
   </head>
   <body data-page="{e(page_id)}" data-path="{e(path)}" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a

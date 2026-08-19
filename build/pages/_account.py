@@ -394,6 +394,74 @@ def order_tracker(step, subs=None):
 _order_tracker = order_tracker
 
 
+def order_tracker_ride(step, subs=None):
+    """Prototype #2 (Ahmed, 2026-08-19) — the 'traveling courier' tracker, a
+    different progress CONCEPT from order_tracker() above. Grounded in the
+    DoorDash / Wonder pattern: the four stages are dots on a single horizontal
+    rail; the rail fills to the reached stage and the JAAD delivery scooter RIDES
+    on the rail at the current progress, driving in and bobbing as it goes. The
+    current stage's dot pulses. All motion is CSS (`.order-ride` in styles.css)
+    and is disabled under prefers-reduced-motion (static filled rail + dots).
+
+    Forced dir="ltr": every reference tracker runs left→right (received → on the
+    way → delivered) and the physical-left fill/position math below assumes it,
+    so the scooter always drives toward the delivered node on the right. The
+    Arabic stage labels sit centred under each dot and render fine.
+
+    Wired into the dashboard 'current order' card and the order drawer for
+    review; the thank-you page keeps the original tracker so the two concepts can
+    be compared side by side."""
+    n = len(_ORDER_STEPS)
+    last = n - 1
+    delivered = step >= last
+    at = min(max(step, 0), last)
+    prev = max(at - 1, 0)
+    # Node-centre percentages (of the track width) for the floating courier, and
+    # rail percentages for the fill — each with a FROM (previous stage) and TO
+    # (current stage) so the scooter DRIVES, and the line GROWS, the last leg on
+    # load rather than just appearing at the current stage.
+    to_pct, from_pct = (at + 0.5) / n * 100, (prev + 0.5) / n * 100
+    fill_to = at / last * 100 if last else 0
+    fill_from = prev / last * 100 if last else 0
+    nodes = ""
+    for i, label in enumerate(_ORDER_STEPS):
+        done = i < step or (delivered and i == last)
+        now = (i == step) and not delivered
+        state = "is-done" if done else "is-now" if now else "is-todo"
+        # Every stage carries its own 3D icon (Ahmed, 2026-08-19) — done stages
+        # get a check badge, upcoming stages dim, the current one pulses.
+        check = f'<span class="order-ride__check" aria-hidden="true">{_OCHECK}</span>' if done else ""
+        sub = (f'<span class="order-ride__sub">{e(subs[i])}</span>'
+               if subs and i < len(subs) else "")
+        nodes += f"""
+                <li class="order-ride__node {state}">
+                  <span class="order-ride__bubble">
+                    <img src="{_STEP_ART[i]}" alt="" class="order-ride__ico" />{check}
+                  </span>
+                  <span class="order-ride__label">{e(label)}</span>{sub}
+                </li>"""
+    # The vehicle is the live-position marker that floats above the rail and
+    # keeps driving from the previous node toward the current one; dropped once
+    # delivered. The .order-ride__face wrapper flips it to face the direction of
+    # travel (styles.css keys the flip off the page's dir, so it also flips when
+    # the language switches to Arabic/RTL). No dir="ltr" on the container any
+    # more — it INHERITS the page direction so the whole tracker mirrors in RTL.
+    courier = "" if delivered else f"""
+                <span class="order-ride__courier" aria-hidden="true">
+                  <span class="order-ride__face"><img src="{_STEP_ART[2]}" alt="" /></span>
+                </span>"""
+    style = (f"--steps:{n};--to:{to_pct:.3f}%;--from:{from_pct:.3f}%;"
+             f"--fillto:{fill_to:.3f}%;--fillfrom:{fill_from:.3f}%")
+    return f"""
+            <div class="order-ride{' is-delivered' if delivered else ''}" data-order-ride style="{style}">
+              <div class="order-ride__track">
+                <span class="order-ride__rail" aria-hidden="true"><span class="order-ride__fill"></span></span>
+                <ol class="order-ride__nodes">{nodes}
+                </ol>{courier}
+              </div>
+            </div>"""
+
+
 def _order_lines(o):
     return "".join(f"""
                 <div class="flex items-center gap-3 py-3 border-neutral-divider border-b last:border-0">
@@ -412,7 +480,7 @@ def order_panel(o):
     one' pattern) — so a shopper can open several orders in turn without leaving
     the list."""
     subtotal = order_total(o) - DELIVERY_FEE
-    tracker = "" if o["tone"] == "red" else f'<div class="pb-1">{_order_tracker(o["step"])}</div>'
+    tracker = "" if o["tone"] == "red" else f'<div class="pb-1">{order_tracker_ride(o["step"])}</div>'
     return f"""
               <div data-order-panel data-order-id="{e(o['no'])}" hidden class="flex flex-col gap-4">
                 <div class="flex flex-wrap justify-between items-center gap-2">
@@ -484,7 +552,7 @@ def order_tracking_card(o):
                 </div>
                 <button type="button" data-order-open="{e(o['no'])}" class="bg-cta hover:bg-cta-hover px-6 py-2.5 rounded-full font-semibold text-white text-sm transition-colors">تفاصيل الطلب</button>
               </div>
-              {_order_tracker(o['step'])}
+              {order_tracker_ride(o['step'])}
             </div>"""
 
 

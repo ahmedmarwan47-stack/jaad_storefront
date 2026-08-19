@@ -3,6 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Don't cache the HTML page itself (Ahmed, 2026-08-19). Asset links carry
+         a ?v=<hash> so CSS/JS always load fresh, but the browser was still
+         serving a stale cached COPY OF THE PAGE (old markup persisted after a
+         fix). Revalidating the HTML means every reload picks up the current
+         page — and thus the current versioned asset links — with no hard-refresh. -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>كل المنتجات | جاد</title>
     <meta name="description" content="تصفح كل منتجات جاد: قهوة، مكسرات وبهارات طبيعية." />
     <meta name="theme-color" content="#00451C" />
@@ -25,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="tailwind.css?v=0131684a" />
+    <link rel="stylesheet" href="styles.css?v=925e4656" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -37,8 +45,8 @@
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js"></script>
-    <script defer src="scripts.js"></script>
+    <script defer src="i18n-en.js?v=1500250b"></script>
+    <script defer src="scripts.js?v=582f8a66"></script>
   </head>
   <body data-page="shop" data-path="/shop" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -154,13 +162,15 @@
               <a href="product-1.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/1.jpg" data-img-scene="images/jaad/products-styled/1.jpg" data-img-plain="images/jaad/products/coffee-light-plain.png" alt="Light Roasted Coffee" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -196,13 +206,15 @@
               <a href="product-2.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/2.jpg" data-img-scene="images/jaad/products-styled/2.jpg" data-img-plain="images/jaad/products/coffee-medium-plain.png" alt="Medium Roasted Coffee" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -238,13 +250,15 @@
               <a href="product-3.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/3.jpg" data-img-scene="images/jaad/products-styled/3.jpg" data-img-plain="images/jaad/products/coffee-dark-plain.png" alt="Dark Roasted Coffee" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -280,13 +294,15 @@
               <a href="product-4.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/4.jpg" data-img-scene="images/jaad/products-styled/4.jpg" data-img-plain="images/jaad/products/coffee-light-cardamom.png" alt="Light Roasted with Cardamom" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -322,13 +338,15 @@
               <a href="product-5.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/5.jpg" data-img-scene="images/jaad/products-styled/5.jpg" data-img-plain="images/jaad/products/coffee-medium-cardamom.png" alt="Medium Roasted with Cardamom" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -364,13 +382,15 @@
               <a href="product-6.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/6.jpg" data-img-scene="images/jaad/products-styled/6.jpg" data-img-plain="images/jaad/products/coffee-dark-cardamom.png" alt="Dark Roasted with Cardamom" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -406,13 +426,15 @@
               <a href="product-7.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/7.jpg" data-img-scene="images/jaad/products-styled/7.jpg" data-img-plain="images/jaad/products/coffee-espresso.png" alt="Espresso" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -448,13 +470,15 @@
               <a href="product-8.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/8.jpg" data-img-scene="images/jaad/products-styled/8.jpg" data-img-plain="images/jaad/products/nuts-cashew.png" alt="Cashew" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -490,13 +514,15 @@
               <a href="product-9.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/9.jpg" data-img-scene="images/jaad/products-styled/9.jpg" data-img-plain="images/jaad/products/nuts-hazelnut.png" alt="Hazelnut" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -532,13 +558,15 @@
               <a href="product-10.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/10.jpg" data-img-scene="images/jaad/products-styled/10.jpg" data-img-plain="images/jaad/products/nuts-pistachio.png" alt="Pistachio" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -574,13 +602,15 @@
               <a href="product-11.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/11.jpg" data-img-scene="images/jaad/products-styled/11.jpg" data-img-plain="images/jaad/products/nuts-almond.png" alt="Almond" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -616,13 +646,15 @@
               <a href="product-12.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/12.jpg" data-img-scene="images/jaad/products-styled/12.jpg" data-img-plain="images/jaad/products/nuts-walnut.png" alt="Walnut" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -658,13 +690,15 @@
               <a href="product-13.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/13.jpg" data-img-scene="images/jaad/products-styled/13.jpg" data-img-plain="images/jaad/products/spices-chili.png" alt="Chili Peppers" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -700,13 +734,15 @@
               <a href="product-14.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/14.jpg" data-img-scene="images/jaad/products-styled/14.jpg" data-img-plain="images/jaad/products/spices-turmeric.png" alt="Turmeric" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -742,13 +778,15 @@
               <a href="product-15.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/15.jpg" data-img-scene="images/jaad/products-styled/15.jpg" data-img-plain="images/jaad/products/spices-ginger.png" alt="Ginger" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -784,13 +822,15 @@
               <a href="product-16.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/16.jpg" data-img-scene="images/jaad/products-styled/16.jpg" data-img-plain="images/jaad/products/spices-coriander.png" alt="Coriander" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -826,13 +866,15 @@
               <a href="product-17.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/17.jpg" data-img-scene="images/jaad/products-styled/17.jpg" data-img-plain="images/jaad/products/spices-nutmeg.png" alt="Nutmeg" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -868,13 +910,15 @@
               <a href="product-18.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/18.jpg" data-img-scene="images/jaad/products-styled/18.jpg" data-img-plain="images/jaad/products/spices-cinnamon.png" alt="Cinnamon" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -910,13 +954,15 @@
               <a href="product-19.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/19.jpg" data-img-scene="images/jaad/products-styled/19.jpg" data-img-plain="images/jaad/products/spices-paprika.png" alt="Paprika" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -952,13 +998,15 @@
               <a href="product-20.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/20.jpg" data-img-scene="images/jaad/products-styled/20.jpg" data-img-plain="images/jaad/products/spices-black-pepper.png" alt="Black Pepper" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -994,13 +1042,15 @@
               <a href="product-21.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/21.jpg" data-img-scene="images/jaad/products-styled/21.jpg" data-img-plain="images/jaad/products/spices-cardamom.png" alt="Cardamom" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -1036,13 +1086,15 @@
               <a href="product-22.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/22.jpg" data-img-scene="images/jaad/products-styled/22.jpg" data-img-plain="images/jaad/products/spices-cloves.png" alt="Cloves" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -1078,13 +1130,15 @@
               <a href="product-23.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/23.jpg" data-img-scene="images/jaad/products-styled/23.jpg" data-img-plain="images/jaad/products/spices-cumin.png" alt="Cumin" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -1120,13 +1174,15 @@
               <a href="product-24.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/24.jpg" data-img-scene="images/jaad/products-styled/24.jpg" data-img-plain="images/jaad/products/spices-meat.png" alt="Meat Spices" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -1162,13 +1218,15 @@
               <a href="product-25.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/25.jpg" data-img-scene="images/jaad/products-styled/25.jpg" data-img-plain="images/jaad/products/spices-chicken.png" alt="Chicken Spices" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
@@ -1204,13 +1262,15 @@
               <a href="product-26.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
                 <img src="images/jaad/products-styled/26.jpg" data-img-scene="images/jaad/products-styled/26.jpg" data-img-plain="images/jaad/products/spices-fish.png" alt="Fish Spices" class="w-full h-full object-cover" loading="lazy" />
               </a>
-              <!-- Add-to-cart in orange (Primary/Orange) so it reads as its own
-                   action and does not compete with the green price sticker. Once
-                   the product is in the cart it swaps for a compact − N + counter
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
               <div class="right-4 -bottom-5 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full size-10 text-[#003616] transition-colors">
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
                   <span class="w-[22px] h-[22px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's

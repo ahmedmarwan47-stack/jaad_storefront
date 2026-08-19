@@ -26,8 +26,8 @@ from html import unescape
 from catalog import PRODUCTS, e, in_category, money, rail_products, title
 from components import (
     ICON, accordion, best_seller_badge, button, carousel, page, page_header,
-    points_callout, product_card, product_gallery, qty_stepper, rating,
-    size_chips, sold_proof, specs_block, bundle_item, section_heading,
+    points_callout, product_card, product_gallery, price_sticker, qty_stepper,
+    rating, size_chips, sold_proof, specs_block, bundle_item, section_heading,
 )
 
 SLUG = "product.html"
@@ -185,11 +185,25 @@ def _plain(text):
     return re.sub(r"\s+", " ", unescape(stripped)).strip()
 
 
+# Two concept sets for the four benefit icons, swapped by the runtime
+# Green/Orange toggle (Ahmed, 2026-08-19). Same benefit order in both, but a
+# DIFFERENT metaphor per slot — not a restyle of the same object. V2 keeps the
+# same green/lime/orange 3D house style so only the idea changes, not the look.
+#   slot 0  selected ingredients   leaf        -> magnifier + bean
+#   slot 1  rich balanced flavor   bolt        -> steaming cup
+#   slot 2  best for hosting       shield      -> tray with two cups
+#   slot 3  fresh arrival          motorbike   -> parcel with a leaf seal
 _STORY_ICONS = [
     "images/jaad/icons/spec-leaf.png",
     "images/jaad/icons/spec-bolt.png",
     "images/jaad/icons/spec-shield.png",
     "images/jaad/icons/spec-delivery.png",
+]
+_STORY_ICONS_ALT = [
+    "images/jaad/icons/spec-select.png",
+    "images/jaad/icons/spec-cup.png",
+    "images/jaad/icons/spec-serve.png",
+    "images/jaad/icons/spec-parcel.png",
 ]
 
 
@@ -213,6 +227,9 @@ def _story_html(p):
     for i, (title_, desc_) in enumerate(_BENEFIT_ITEMS):
         side, top = positions[i % len(positions)]
         icon = _STORY_ICONS[i % len(_STORY_ICONS)]
+        # Single icon; the site-wide concept swap (scripts.js initIconConcepts)
+        # switches its src to the alt concept when the toggle is on Orange, the
+        # same mechanism every other 3D icon on the site now uses.
         panels += f"""
             <div data-story-panel data-step="{i}" style="top:{top}" class="product-story__panel {side}">
               <img src="{e(icon)}" alt="" class="product-story__ico" loading="lazy" />
@@ -286,24 +303,17 @@ def _render(p):
     # up and finds no [data-product] host on this side, so the base is empty).
     # Capped to four so the media side stays shorter than the scrollable info
     # side; dropped entirely when the category has no companions.
-    # Align the related list under the MAIN PHOTO, not the whole gallery
-    # (Ahmed, 2026-07-29). On md+ the gallery is a row [strip | plate]: the
-    # thumbnail strip is w-20 (80px) on the RTL-inline-start side with a gap-4
-    # (16px), and the plate is flex-1 beside it. So the plate is 96px narrower
-    # than the column; matching that means insetting the related list 96px on
-    # the inline-start side (ms). ONLY when a strip exists — a single-image
-    # product has no strip, so the plate already fills the column and an inset
-    # would push the list off-centre. Below md the gallery stacks full-width, so
-    # the inset is scoped to md+.
-    gallery_images = [i for i in (p.get("images") or [p["image"]]) if i]
-    related_inset = " md:ms-[96px]" if len(gallery_images) > 1 else ""
+    # The related list now lives in the content column beneath the details card
+    # (Ahmed, 2026-08-19), so it simply fills that column — no gallery-alignment
+    # inset any more (it used to be inset 96px to line up under the main photo
+    # back when it sat in the gallery column).
     related_list = ""
     if similar:
         picks = similar[:4]
         related_total = sum(x["price"] for x in picks)
         rows = "".join(bundle_item(x) for x in picks)
         related_list = f"""
-          <div data-bundle class="flex flex-col bg-white shadow-custom4 p-4 xl:p-5 rounded-[20px]{related_inset}">
+          <div data-bundle class="flex flex-col bg-white shadow-custom4 p-4 xl:p-5 rounded-[20px]">
             <h2 class="mb-1 px-2 font-bold text-[#003616] text-base xl:text-lg">قد يعجبك أيضاً</h2>
             <div class="flex flex-col">{rows}
             </div>
@@ -337,34 +347,35 @@ def _render(p):
 
           <!-- Media column FIRST in the DOM, so it leads the reading order in
                both directions: in RTL (the default) first means the RIGHT
-               column, in LTR the left one. It holds the gallery AND (at lg
-               only) the related list, and the WHOLE column is the sticky one
-               — `items-start` on the grid is load-bearing, it is what lets a
-               grid child be shorter than its row so sticky has room to move.
-               Sticky scoped to lg; below it the columns stack and there is
-               nothing to scroll past. Works only because <main> is
-               overflow-x-clip (see page()).
-
-               On mobile the related list is NOT rendered here — Ahmed
-               reversed the earlier call (2026-07-29): it must sit BELOW the
-               product-details card, not between the gallery and the details.
-               `hidden lg:block` keeps it out of the mobile flow entirely; a
-               second copy after the details column (`lg:hidden` below) is the
-               one mobile actually sees. Duplicating the markup rather than
-               reordering with grid-template-areas avoids reworking the sticky
-               column's row/track sizing, which is tuned exactly for this
-               2-column shape. -->
-          <div class="flex flex-col gap-6 min-w-0 lg:self-start lg:sticky lg:top-[60px]">
+               column, in LTR the left one. It holds ONLY the gallery now
+               (Ahmed, 2026-08-19) — the related list moved to the content
+               column beside it, so this column stays short and the WHOLE of it
+               is the sticky one that RIDES down as the taller content column
+               scrolls (and, in white-image mode, is the packshot that then
+               detaches to centre). `items-start` on the grid is load-bearing —
+               it is what lets a grid child be shorter than its row so sticky
+               has room to move. Sticky scoped to lg; below it the columns stack
+               and there is nothing to scroll past. Works only because <main> is
+               overflow-x-clip (see page()). -->
+          <div class="flex flex-col gap-6 min-w-0 lg:self-start lg:sticky lg:top-[132px]">
           {product_gallery(p.get("images") or [p["image"]], title(p), p)}
-          <div class="hidden lg:block">{related_list}</div>
+          <!-- SCENE version: frequently-bought UNDER the gallery. Hidden in the
+               white/story version, which shows its own copy in the right column
+               instead (CSS gates on html[data-img="plain"]). -->
+          <div class="story-fb-scene">{related_list}</div>
           </div>
 
-          <!-- Details second: the RTL-left / LTR-right column. data-product
-               lets the cart store read this product straight off the DOM, same
-               as a product card. -->
-          <!-- The white card is desktop-only (Ahmed, 2026-08-02): on mobile the
-               info column drops its container so the content sits inline with
-               the page grid, like the gallery beside it. lg+ keeps the card. -->
+          <!-- Content column second: the RTL-left / LTR-right column, holding
+               the product-details card. The "قد يعجبك أيضاً" (frequently-bought)
+               list sits UNDER THE GALLERY in the media column instead (Ahmed,
+               2026-08-19). This column is the tall one the sticky gallery
+               scrolls against. -->
+          <div class="flex flex-col gap-6 min-w-0">
+          <!-- data-product lets the cart store read this product straight off
+               the DOM, same as a product card. The white card is desktop-only
+               (Ahmed, 2026-08-02): on mobile the info column drops its container
+               so the content sits inline with the page grid, like the gallery
+               beside it. lg+ keeps the card. -->
           <div class="flex flex-col gap-5 lg:bg-white lg:shadow-custom4 lg:p-6 xl:p-8 lg:rounded-[20px]{story_host_cls}"
                data-product data-record-view data-id="{p.get('id', 0)}" data-name="{e(title(p))}"
                data-price="{p.get('sale') or p.get('price') or 0}" data-image="{e(p['image'])}">
@@ -446,13 +457,12 @@ def _render(p):
             </div>
           </div>
 
-          <!-- Mobile-only related list — the counterpart to the `hidden
-               lg:block` copy inside the sticky media column above. Same
-               string, rendered once by Python either way, so there is one
-               source of truth for the markup even though it appears twice in
-               the HTML. `lg:hidden` removes it from the grid at lg entirely,
-               so it adds no row/track there. -->
-          <div class="lg:hidden">{related_list}</div>
+          <!-- WHITE/story version: frequently-bought in the RIGHT column, so it
+               reads as part of the content the packshot detaches after. Shown
+               only in white mode; the scene copy under the gallery is hidden
+               there (CSS gates on html[data-img="plain"]). -->
+          <div class="story-fb-plain">{related_list}</div>
+          </div>
         </div>
       </section>
 
@@ -496,9 +506,13 @@ def _render(p):
         <div class="flex items-center gap-3 lg:gap-6 mx-auto px-4 max-w-[1536px] py-3">
           <img src="{e(p['image'])}" alt=""
                class="hidden sm:block bg-interaction-base p-1 rounded-xl w-12 xl:w-14 h-12 xl:h-14 object-contain shrink-0" />
-          <div class="flex flex-col flex-1 min-w-0">
+          <div class="flex items-center flex-1 gap-3 min-w-0">
             <p class="font-bold text-[#003616] text-sm xl:text-base truncate">{e(title(p))}</p>
-            <span data-sticky-price class="font-bold text-primary text-sm xl:text-base latin">EGP {money(p['price'])}</span>
+            <!-- The green price sticker (not plain text) so the bar carries the
+                 same price badge the cards and the buy block use (Ahmed,
+                 2026-08-19). Static: the JS price mirror is dropped with the
+                 data-sticky-price hook since this SKU's price does not vary. -->
+            <span class="shrink-0">{price_sticker(p['price'], "sm")}</span>
           </div>
           <!-- Quantity mirror — buttons forward to the real cart-bound stepper.
                dir="ltr" so the + always sits on the RIGHT (Ahmed, 2026-07-29):

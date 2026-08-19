@@ -710,7 +710,10 @@ body.no-scroll {
   transition: background 0.25s ease;
 }
 .faq-card.is-open {
-  background: rgba(138, 204, 62, 0.15);
+  /* Neutral open state (Ahmed, 2026-08-19): the lime tint + green question read
+     as a "selected/active" highlight; the open row now just deepens the warm
+     grey, so opening a question is a neutral reveal, not a coloured state. */
+  background: #ECE7DE;
 }
 /* Weight stays constant open/closed — only the colour changes — so the
    question never reflows (no jump). */
@@ -719,7 +722,7 @@ body.no-scroll {
   font-weight: 600;
 }
 .faq-card.is-open .faq-q {
-  color: #006328;
+  color: #111827;
 }
 /* Plus and minus share one fixed-size slot; only the glyph swaps, so the
    toggle never moves or resizes (no jump). */
@@ -1128,6 +1131,13 @@ fieldset {
   inset-inline: 0;
   top: 0;
   z-index: 100;
+}
+/* The masthead logo is much TALLER than the 56px bar and overflows it by design;
+   once the bar is fixed at the viewport top, that overflow would be clipped by
+   the top edge. Shrink the logo to sit inside the bar while stuck so nothing is
+   cut off (Ahmed, 2026-08-19). */
+[data-navbar][data-stuck="true"] a[aria-label="Jaad"] img {
+  height: 46px !important;
 }
 
 /* The slide-in starts at translateY(-100%), i.e. fully off-screen. If the
@@ -1540,6 +1550,10 @@ fieldset {
    edge only when initStickyBuyBar adds .is-visible — bottom on mobile, top on
    desktop. Kept out of flow always, so it never reserves layout space. */
 .sticky-buybar {
+  /* Above the white-mode scroll story (.product-story__stage is z-40) so the
+     flying packshot and its benefit panels scroll BEHIND this bar instead of
+     over it (Ahmed, 2026-08-19); still below the parked cart pill (z-90). */
+  z-index: 60;
   transform: translateY(110%);
   opacity: 0;
   pointer-events: none;
@@ -1734,12 +1748,23 @@ select.select-control {
 }
 
 /* Telephone inputs render `direction: ltr` under Chromium even inside an RTL
-   document, so the phone field's digits sat start-aligned to the LEFT while
+   document, so a plain tel field's digits sat start-aligned to the LEFT while
    every other field aligned right (Ahmed, 2026-08-03). Force rtl to match:
    European digits are still an LTR run, so the number reads correctly — it
-   just aligns to the start (right) like the name and email fields beside it. */
-input[type="tel"] {
+   just aligns to the start (right) like the name and email fields beside it.
+   Scoped to the RTL document only (Ahmed, 2026-08-19): in the English/LTR build
+   this override was fighting the field's own `dir="ltr"`, pushing `pe-4` to the
+   left and the digits flush against the RIGHT edge (no right padding). */
+html[dir="rtl"] input[type="tel"] {
   direction: rtl;
+}
+/* The +20 phone field manages its own direction: the whole control is dir=ltr
+   so the flag/+20 sit on the left and the digits read left-to-right right after
+   the prefix — in BOTH languages. It opts OUT of the RTL tel override above so
+   the number never drifts to the far edge away from +20 (higher specificity so
+   it wins inside the RTL document). */
+html[dir="rtl"] [data-phone-field] input[type="tel"] {
+  direction: ltr;
 }
 
 /* --- Radio cards and radio rows ------------------------------------------
@@ -2434,6 +2459,18 @@ input:checked + .radio-card-accent {
   box-shadow: none;
 }
 
+/* Phone field: the OUTER control carries the focus indication (focus-within
+   border + ring), so the inner <input> must NOT also draw the global
+   :focus-visible outline — on click it painted a 2px box around the number that
+   read as a second field, separate from the +20 prefix (Ahmed, 2026-08-19).
+   This is what the "weird line / box on click" actually was. (0,2,1) beats the
+   global :where(...):focus-visible (0,1,0). */
+[data-phone-field] input:focus,
+[data-phone-field] input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 /* The search field shows NO border or focus ring when activated (Ahmed,
    2026-08-02). The resting bottom border is already transparent (markup), the
    focus-within no longer greens it, and this rule strips the green
@@ -2848,6 +2885,107 @@ input:checked + .radio-card-accent {
   .track-conn__arrows { display: none; }
 }
 
+/* ==========================================================================
+   Order tracker — PROTOTYPE #2: "traveling courier" (Ahmed, 2026-08-19)
+   A different progress concept from .order-track above. One horizontal rail,
+   dots per stage, and the delivery scooter riding on the rail at the current
+   progress. Driven by --steps (stage count) and --p (0..1 progress) set inline
+   by order_tracker_ride(); the container is dir=ltr so the fill/marker math is
+   left→right. All motion CSS; reduced-motion drops to a static filled rail.
+   ========================================================================== */
+.order-ride { position: relative; --pad: 42px; --bub: 52px; }
+.order-ride__track { position: relative; padding-top: var(--pad); }
+.order-ride__nodes {
+  position: relative; z-index: 1;
+  display: flex; margin: 0; padding: 0; list-style: none;
+}
+.order-ride__node {
+  flex: 1 1 0; min-width: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  text-align: center;
+}
+/* Every stage is a 3D-icon bubble. done → tinted green + check; todo → dimmed
+   and desaturated; now → warm tint + a pulsing ring. */
+.order-ride__bubble {
+  position: relative; width: var(--bub); height: var(--bub);
+  border-radius: 16px; background: #F1EFE9;
+  display: grid; place-items: center; transition: background .25s ease;
+}
+.order-ride__ico {
+  width: calc(var(--bub) - 12px); height: calc(var(--bub) - 12px);
+  object-fit: contain; transition: opacity .25s, filter .25s;
+}
+.order-ride__node.is-todo .order-ride__ico { opacity: .4; filter: grayscale(.75); }
+.order-ride__node.is-done .order-ride__bubble { background: #E7F0DE; }
+.order-ride__node.is-now  .order-ride__bubble { background: #FBE6D4; animation: rideBubble 1.7s ease-out infinite; }
+.order-ride__check {
+  position: absolute; top: -5px; right: -5px; width: 19px; height: 19px;
+  border-radius: 999px; background: #2D5A2F; color: #fff;
+  display: grid; place-items: center; box-shadow: 0 0 0 2px #fff;
+}
+.order-ride__check svg { width: 11px; height: 11px; }
+.order-ride__label { font-size: 12px; font-weight: 600; color: #8A8F7E; line-height: 1.3; }
+.order-ride__node.is-done .order-ride__label,
+.order-ride__node.is-now  .order-ride__label { color: #003616; }
+.order-ride__sub { display: none; font-size: 11px; color: #6b6b6b; line-height: 1.4; }
+@media (min-width: 640px) { .order-ride__sub { display: block; } }
+
+/* Rail runs through the bubble centres (top pad + half a bubble) and is inset
+   half a slot on each side so it ends under the outer bubbles. Behind them. */
+.order-ride__rail {
+  position: absolute; z-index: 0;
+  top: calc(var(--pad) + var(--bub) / 2);
+  left: calc(50% / var(--steps)); right: calc(50% / var(--steps));
+  height: 5px; transform: translateY(-50%);
+  background: #E7E3D5; border-radius: 999px;
+}
+.order-ride__fill {
+  position: absolute; top: 0; bottom: 0; inset-inline-start: 0;
+  width: var(--fillto);
+  background: linear-gradient(90deg, #2D5A2F, #5FA83A); border-radius: 999px;
+  animation: rideFillGrow 1s var(--ease-out) both;
+}
+/* The vehicle floats in the top gap and KEEPS driving (slowly) from the previous
+   stage toward the current one, looping, then fading as it arrives. Positioned
+   with logical props + margin so it mirrors correctly when the language flips to
+   RTL. `--to`/`--from` carry node-centre percentages. */
+.order-ride__courier {
+  position: absolute; z-index: 3; top: 0;
+  inset-inline-start: var(--to); margin-inline-start: -20px;
+  width: 40px; height: 40px;
+  filter: drop-shadow(0 7px 9px rgba(6, 42, 28, 0.24));
+  animation: rideDriveLoop 4.5s ease-in-out infinite;
+}
+/* Face the direction of travel. The source vehicles face LEFT and travel heads
+   toward the inline-END, so flip in LTR (→ faces right, toward the next stage)
+   and leave natural in RTL (→ faces left). Keyed off the page dir, so it also
+   flips when the language switches to Arabic. */
+.order-ride__face { display: block; width: 100%; height: 100%; transform: scaleX(-1); }
+html[dir="rtl"] .order-ride__face { transform: none; }
+.order-ride__courier img {
+  display: block; width: 100%; height: 100%; object-fit: contain;
+  animation: rideBob 1.7s ease-in-out infinite;
+}
+@keyframes rideDriveLoop {
+  0%   { inset-inline-start: var(--from); opacity: 0; }
+  14%  { opacity: 1; }
+  55%  { inset-inline-start: var(--to); opacity: 1; }
+  80%  { inset-inline-start: var(--to); opacity: 1; }
+  92%  { inset-inline-start: var(--to); opacity: 0; }
+  100% { inset-inline-start: var(--from); opacity: 0; }
+}
+@keyframes rideFillGrow { from { width: var(--fillfrom); } to { width: var(--fillto); } }
+@keyframes rideBob { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-3px) rotate(2deg); } }
+@keyframes rideBubble {
+  0%   { box-shadow: 0 0 0 0 rgba(234,152,62,.45); }
+  70%  { box-shadow: 0 0 0 11px rgba(234,152,62,0); }
+  100% { box-shadow: 0 0 0 0 rgba(234,152,62,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .order-ride__fill, .order-ride__courier, .order-ride__courier img,
+  .order-ride__node.is-now .order-ride__bubble { animation: none; }
+}
+
 /* Live status dot — a pulsing ripple for an in-progress order. currentColor,
    so it takes the badge's own ink. */
 .status-live-dot {
@@ -2933,6 +3071,22 @@ html[data-btn="v2"] button.bg-cta svg { color: #000 !important; }
 html[data-btn="v2"] .hover\:bg-cta-hover:hover { background-color: #d9852f !important; }
 html[data-btn="v2"] a.border-cta,
 html[data-btn="v2"] button.border-cta { border-radius: 16px !important; }
+/* Orange outline buttons take a BLACK label (Ahmed, 2026-08-19): with the stroke
+   now orange, the old cta-green `text-cta` label read as a leftover from the
+   green theme. Black (#000, 9.1:1 on white) matches the filled orange CTA, whose
+   label is likewise black. The label sits on the button element itself (the
+   `secondary` variant is `border border-cta text-cta`), so colour it there and
+   also override any inner text-cta child for safety. */
+html[data-btn="v2"] a.border-cta,
+html[data-btn="v2"] button.border-cta { color: #000 !important; }
+html[data-btn="v2"] a.border-cta [class*="text-cta"],
+html[data-btn="v2"] button.border-cta [class*="text-cta"],
+html[data-btn="v2"] a.border-cta svg,
+html[data-btn="v2"] button.border-cta svg { color: #000 !important; }
+/* Orange theme = orange STROKE too (Ahmed, 2026-08-19): the CTA-coloured border
+   (e.g. the active filter chip, outline buttons) was left dark green while the
+   fill went orange. Match the border to the theme. */
+html[data-btn="v2"] .border-cta { border-color: #EA983E !important; }
 
 /* Cart-count badge tracks the toggle. V1: lime. V2: the cart button itself
    turns orange, so an orange badge would vanish into it — the badge instead
@@ -2999,9 +3153,34 @@ html[data-img="plain"] [data-gallery-plate] { background-color: #fff !important;
    tall section provides the scroll distance; the stage pins inside it while
    initProductStory drives the centred image + the staged panel reveals. */
 .product-story, .product-story-faq { display: none; }
-html[data-img="plain"] .product-story { display: block; height: 460vh; background: #fff; }
+html[data-img="plain"] .product-story { display: block; height: 340vh; background: #fff; }
 html[data-img="plain"] .product-story-faq { display: block; padding: 2rem 0 4rem; }
 html[data-img="plain"] .story-host [data-buy-extras] { display: none; }
+/* Frequently-bought placement per mode (Ahmed, 2026-08-19): the scene version
+   keeps it UNDER the gallery; the white/story version moves it into the RIGHT
+   column so it reads as part of the content the packshot detaches after. */
+html[data-img="plain"] .story-fb-scene { display: none; }
+.story-fb-plain { display: none; }
+html[data-img="plain"] .story-fb-plain { display: block; }
+/* White-image story only: the gallery photo carries a card BORDER while parked,
+   and the border + fill FADE the moment it detaches to fly to centre
+   (initProductStory adds .story-detached once the content ends). lg only —
+   mobile keeps the transparent plate it already had. */
+@media (min-width: 1024px) {
+  /* The ONE (outer) card border lives on the gallery PLATE — never on the package
+     itself. It shows while the package rides and FADES OUT at the detach point
+     (initProductStory toggles .story-detached), after which the package flies to
+     centre with no border at all. */
+  html[data-img="plain"] .gallery-plate {
+    background-color: #fff;
+    border: 1px solid #C1C3C6;
+    transition: border-color 0.35s ease, background-color 0.35s ease;
+  }
+  html[data-img="plain"] .gallery-plate.story-detached {
+    border-color: transparent;
+    background-color: transparent;
+  }
+}
 
 /* The stage is a fixed, transparent viewport overlay. During the flight the
    clone flies over the scrolling hero (so it reads as detaching FROM the
@@ -3015,26 +3194,44 @@ html[data-img="plain"] .story-host [data-buy-extras] { display: none; }
    transform (which maps that rect back onto the gallery image while flying) are
    all set by JS; transform-origin must stay top-left for the FLIP math. */
 .product-story__img {
-  position: absolute; object-fit: contain;
+  position: absolute; object-fit: contain; z-index: 2; /* above the leaves */
   will-change: transform; transform-origin: top left;
 }
 .product-story__panel {
   position: absolute; width: min(38vw, 320px);
   display: flex; align-items: center; gap: 14px;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid #EFEADD; border-radius: 16px; padding: 14px 16px;
-  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.1);
+  /* Glassy panels (Ahmed, 2026-08-19): translucent + backdrop blur so where a
+     panel overlaps the packshot the product edge frosts through it, instead of
+     the old near-opaque white card. Perf note: backdrop-filter re-rasterises the
+     backdrop while the stage scroll-scrubs (same cost the parked pill dropped);
+     acceptable here — 4 panels, hero product, white-image mode only. */
+  background: rgba(255, 255, 255, 0.40);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.7); border-radius: 18px; padding: 14px 16px;
+  box-shadow: 0 18px 44px rgba(6, 42, 28, 0.16);
   opacity: 0; transform: translateY(20px);
   will-change: opacity, transform; pointer-events: none;
+  z-index: 3; /* panels in front of the packshot and the leaves */
 }
-/* Panels hug the centred image (each panel's `top` is set inline per slot). */
-.product-story__panel.is-right { left: calc(50% + 150px); }
-.product-story__panel.is-left { right: calc(50% + 150px); }
+/* Panels OVERLAP the centred image (tighter offset than before, each panel's
+   `top` is set inline per slot) so the glass sits over the packshot edge. */
+.product-story__panel.is-right { left: calc(50% + 88px); }
+.product-story__panel.is-left { right: calc(50% + 88px); }
 .product-story__ico { width: 54px; height: 54px; object-fit: contain; flex-shrink: 0; }
+/* Leaves drifting out of the packshot during the hold. JS sets transform +
+   opacity per frame; this is just the base look. */
+.product-story__leaf {
+  position: absolute; left: 0; top: 0; width: 30px; height: 30px;
+  color: #5FA83A; opacity: 0; pointer-events: none;
+  z-index: 1; /* BEHIND the packshot (z-2) so leaves emerge from behind the bag */
+  will-change: transform, opacity;
+  filter: drop-shadow(0 4px 6px rgba(6, 42, 28, 0.18));
+}
 @media (max-width: 900px) {
   .product-story__panel { width: min(46vw, 280px); }
-  .product-story__panel.is-right { left: calc(50% + 96px); }
-  .product-story__panel.is-left { right: calc(50% + 96px); }
+  .product-story__panel.is-right { left: calc(50% + 56px); }
+  .product-story__panel.is-left { right: calc(50% + 56px); }
 }
 @media (max-width: 640px) {
   .product-story__img { width: 64vw; }
@@ -3054,27 +3251,42 @@ html[data-img="plain"] .story-host [data-buy-extras] { display: none; }
   html[data-img="plain"] [data-gallery-plate] { background: transparent; }
 }
 
+/* Dev/preview UI-toggle panel. Parked bottom-LEFT, compact, and COLLAPSIBLE
+   (Ahmed, 2026-08-19) so the review controls never sit over the design. */
 .btnswitch {
-  position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
-  z-index: 2000; display: flex; flex-direction: column; gap: 8px;
-  background: #fff; border: 1px solid #E7E3D5; border-radius: 16px;
-  padding: 10px 12px; box-shadow: 0 10px 30px rgba(0,0,0,.14);
+  position: fixed; bottom: 14px; left: 14px;
+  z-index: 2000; display: flex; flex-direction: column; gap: 5px;
+  background: #fff; border: 1px solid #E7E3D5; border-radius: 12px;
+  padding: 7px 9px; box-shadow: 0 8px 24px rgba(0,0,0,.14);
   font-family: Aeonik, system-ui, sans-serif;
+  width: max-content; max-width: min(88vw, 300px);
 }
-.btnswitch__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.btnswitch__lbl { min-width: 96px; }
-.btnswitch__lbl { font-size: 12px; font-weight: 600; color: #5E6353; white-space: nowrap; }
-.btnswitch__seg { display: inline-flex; background: #F4EEE1; border-radius: 999px; padding: 3px; }
+.btnswitch__head {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  background: transparent; border: 0; padding: 1px 2px; cursor: pointer;
+  font-family: inherit;
+}
+.btnswitch__title {
+  font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: #8A8F7E; white-space: nowrap;
+}
+.btnswitch__chev { font-size: 11px; color: #8A8F7E; transition: transform .2s ease; }
+.btnswitch.is-collapsed .btnswitch__chev { transform: rotate(-180deg); }
+.btnswitch__body { display: flex; flex-direction: column; gap: 5px; padding-top: 1px; }
+.btnswitch.is-collapsed .btnswitch__body { display: none; }
+.btnswitch__row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.btnswitch__lbl { min-width: 76px; font-size: 11px; font-weight: 600; color: #5E6353; white-space: nowrap; }
+.btnswitch__seg { display: inline-flex; background: #F4EEE1; border-radius: 999px; padding: 2px; }
 .btnswitch__seg button {
-  border: 0; background: transparent; font-family: inherit; font-size: 12.5px;
-  font-weight: 600; color: #5E6353; padding: 7px 14px; border-radius: 999px;
+  border: 0; background: transparent; font-family: inherit; font-size: 11px;
+  font-weight: 600; color: #5E6353; padding: 5px 10px; border-radius: 999px;
   cursor: pointer; transition: background .15s, color .15s;
-  display: inline-flex; align-items: center; gap: 6px;
+  display: inline-flex; align-items: center; gap: 5px;
 }
 .btnswitch__seg button[aria-pressed="true"] { background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.12); }
 .btnswitch__seg button[data-btn-v="v1"][aria-pressed="true"] { color: #00451C; }
 .btnswitch__seg button[data-btn-v="v2"][aria-pressed="true"] { color: #C4741F; }
-.btnswitch__dot { width: 10px; height: 10px; border-radius: 3px; }
+.btnswitch__dot { width: 9px; height: 9px; border-radius: 3px; }
 @media (max-width: 480px) { .btnswitch__lbl { display: none; } }
 
 /* V2 also squares the steppers so the − N + follows the 16px variant (Ahmed). */
