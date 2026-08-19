@@ -240,7 +240,14 @@ def mobile_nav(active_slug):
             </div>
             <nav class="flex flex-col">{rows}
             </nav>
-            <button type="button" data-close class="bg-cta hover:bg-cta-hover mt-4 py-3 rounded-full w-full font-semibold text-white transition-colors">تأكيد</button>
+            <!-- No "تأكيد" here (Ahmed, 2026-08-19): the rows are plain links
+                 that navigate on tap, so a confirm button confirmed nothing.
+                 Its slot carries the LOGOUT instead — the desktop sidebar's
+                 data-logout button, which the phone otherwise had no way to
+                 reach (the sidebar is hidden below lg). -->
+            <button type="button" data-logout class="flex justify-center items-center gap-2 mt-4 py-3 border border-neutral-divider hover:border-cta rounded-full w-full font-semibold text-[#003616] text-sm transition-colors">
+              {_icon('out', 'w-4 h-4')} تسجيل الخروج
+            </button>
           </div>"""
 
 

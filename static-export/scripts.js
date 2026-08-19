@@ -5691,7 +5691,14 @@
     const btnSize = c ? "size-9" : "size-10";
     const cartIco = c ? "w-5 h-5" : "w-[22px] h-[22px]";
     const stepH = c ? "h-9" : "h-10";
-    const pad = c ? "gap-2 p-2" : "gap-3 p-3";
+    // Phone-first counter sizing + badge clearance, matching product_widget()
+    // in components.py (Ahmed, 2026-08-19): the +/- targets grow to size-10 on
+    // phones (compact stays small from sm up), and the text block takes extra
+    // top padding so the straddling counter clears the price badge. Keep the
+    // two in step — the cards must read as ONE control site-wide.
+    const stepBtn = c ? "size-10 sm:size-7" : "size-10 sm:size-8";
+    const stepIco = "w-5 h-5 sm:w-4 sm:h-4";
+    const pad = c ? "gap-2 p-2 pt-8 sm:pt-2" : "gap-3 p-3 pt-9 sm:pt-3";
     const bPad = c ? "px-1.5" : "px-2";
     const bRad = c ? "rounded-tl-[14px] rounded-br-[14px]" : "rounded-tl-[20px] rounded-br-[20px]";
     const bSh = c ? "shadow-[2px_3px_0px_#98CA55]" : "shadow-[3px_5px_0px_#98CA55]";
@@ -5711,9 +5718,9 @@
               <span class="${cartIco}">${ICON.cart}</span>
             </button>
             <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-              <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full ${c ? "size-7" : "size-8"} text-[#003616] shrink-0 transition-colors"><span class="w-4 h-4">${ICON.minus}</span></button>
+              <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full ${stepBtn} text-[#003616] shrink-0 transition-colors"><span class="${stepIco}">${ICON.minus}</span></button>
               <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
-              <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full ${c ? "size-7" : "size-8"} text-white shrink-0 transition-colors"><span class="w-4 h-4">${ICON.plus}</span></button>
+              <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full ${stepBtn} text-white shrink-0 transition-colors"><span class="${stepIco}">${ICON.plus}</span></button>
             </div>
           </div>
         </div>
@@ -7196,7 +7203,14 @@
       // packshot pins under the nav and travels down WITH you. The real gallery
       // stays live at the top of the page; the fixed clone takes over exactly at
       // the pin line (seamless, same spot) and holds there until the column ends.
-      if (y < D1) {
+      // The flight STARTS the moment the (pinned) gallery's bottom lines up with
+      // the bottom of the taller right column — the content has run out beneath
+      // the packshot (Ahmed, 2026-08-19: same instant the border fades) — and
+      // eases to centre over the scroll left until the story spacer (D1). No
+      // pinned dead-hold in between: from that alignment on, every scrolled px
+      // moves the package a little closer to centre.
+      const FLY_START = D1 - PIN_TOP - S.height;
+      if (y < FLY_START) {
         // Read the REAL gallery box each frame so the clone can take over on the
         // exact same pixels (the box is CSS-sticky at PIN_TOP; a computed y-based
         // guess drifted from it and caused a visible "switch in place" jump).
@@ -7209,20 +7223,20 @@
           return;
         }
         // Pinned: the package RIDES. The clone sits on the LIVE fitted packshot —
-        // box top (held at the pin by CSS sticky) plus the object-contain letterbox
-        // offset — so the hand-off from the real gallery is pixel-identical.
+        // box top plus the object-contain letterbox offset — so the hand-off from
+        // the real gallery is pixel-identical. The gallery's CSS sticky RELEASES
+        // once its bottom hits the grid bottom (before FLY_START), so boxTop keeps
+        // climbing off-screen after that; the clone must NOT follow it up — it
+        // clamps to the pin line and HOLDS there until the flight, or the
+        // detach-to-centre starts from an off-screen package and reads as a
+        // fade-in at centre instead of a travel.
         if (galleryImg) galleryImg.style.opacity = "0";
         stage.style.opacity = "1";
         stage.style.transform = "none";
-        // Fade the outer plate border the moment the (pinned) gallery's BOTTOM
-        // lines up with the bottom of the taller right column — i.e. the content
-        // has run out beneath the packshot (Ahmed, 2026-08-19) — instead of
-        // holding it all the way to the detach a little further down.
-        const yAlign = D1 - PIN_TOP - S.height;
-        detach(y >= yAlign);
+        detach(false);                              // border ON until the flight starts
         img.src = galleryImg ? (galleryImg.currentSrc || galleryImg.src || CUTOUT) : CUTOUT;
         img.style.left = (gr ? gr.left + (gr.width - S.width) / 2 : S.left) + "px";
-        img.style.top = (boxTop + fitOff) + "px";
+        img.style.top = (Math.max(boxTop, PIN_TOP) + fitOff) + "px";
         img.style.width = S.width + "px";
         img.style.height = S.height + "px";
         img.style.opacity = "1";
@@ -7233,10 +7247,11 @@
       }
 
       // ================= DETACH → FLY TO CENTRE → HOLD =================
-      // The right column has ended. The pinned packshot DETACHES and flies to
-      // screen-centre as one continuous motion (a FLIP that maps the centred END
-      // rect back onto the pinned rect and eases to identity), then holds while
-      // the four benefits reveal and the leaves stream out.
+      // The content beneath the packshot has run out (y >= FLY_START). It
+      // DETACHES and travels to screen-centre as one continuous motion (a FLIP
+      // that maps the centred END rect back onto the pinned rect and eases to
+      // identity), arriving as the story spacer takes the screen (y = D1); it
+      // then holds while the four benefits reveal and the leaves stream out.
       if (galleryImg) galleryImg.style.opacity = "0";
       stage.style.opacity = "1";
       detach(true);                                 // outer plate border FADES OUT as it detaches
@@ -7248,13 +7263,10 @@
       img.style.height = E.height + "px";
 
       const g = clamp01((y - D1) / D2);
-      // HOLD first: the package stays put in the card while the outer border fades
-      // out, THEN it flies — so it never shifts position while still bordered.
-      // Shortened (Ahmed, 2026-08-19): the package used to linger and take a long
-      // scroll to reach centre; a smaller HOLD + ENTER makes it arrive quickly.
-      const HOLD = 0.03;
-      const ENTER = 0.07;                            // fraction of the story spent on the flight
-      const t = clamp01((g - HOLD) / ENTER);
+      // Flight progress: 0 at FLY_START (border fade + lift-off, one instant) →
+      // 1 at D1. One eased travel across that whole stretch — it starts moving
+      // the moment it detaches (Ahmed, 2026-08-19: no pinned wait, no late fly).
+      const t = clamp01((y - FLY_START) / Math.max(1, D1 - FLY_START));
       const ease = easeInOut(t);
       const OUTRO_AT = 0.80, OUTRO_LEN = 0.15;
       const outro = clamp01((g - OUTRO_AT) / OUTRO_LEN);
