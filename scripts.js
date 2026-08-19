@@ -1085,7 +1085,7 @@
                    <button type="button" data-open="menu" class="place-items-center grid shrink-0 size-11 -ms-2" aria-label="Menu"><span class="w-6 h-6">${ICON.menu}</span></button>
                  </div>`
           }
-          <a href="index.html" class="block shrink-0"><img src="images/jaad/brand/logo-jaad.svg" alt="جاد" class="w-auto h-[48px] object-contain" /></a>
+          <a href="index.html" class="block shrink-0"><img src="images/jaad/brand/logo-jaad.svg" alt="جاد" class="w-auto h-[40px] object-contain" /></a>
           ${
             checkout
               ? ""
