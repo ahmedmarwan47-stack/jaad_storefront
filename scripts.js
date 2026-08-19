@@ -42,7 +42,7 @@
   const SUPPORT_MENU = [
     { title: "قصتنا", url: "/about" },
     { title: "ميديا", url: "/blogs" },
-    { title: "الأسئلة الشائعة", url: "/faqs" },
+    { title: "الأسئلة المتداولة", url: "/faqs" },
     { title: "اتصل بنا", url: "/contact-us" },
   ];
 
@@ -285,14 +285,14 @@
       '<svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     chevronDown:
       '<svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    /* Shopping bag: solid body, stroked handle. Replaces the old basket,
-       which was a Figma export carrying preserveAspectRatio="none" and a
-       hardcoded fill, so it neither inherited colour nor scaled honestly.
-       Solid reads better than an outline at 28px on the yellow disc. */
+    /* ONE cart glyph site-wide (Ahmed, 2026-08-19): the Perfect-Picks card add
+       button's cart (Figma node 4994:7438), identical to components.ICON['cart'].
+       Was a solid shopping BAG here, which made the JS-rendered cards (recently
+       viewed, drawer upsell), the mobile masthead and the fly-to-cart clone
+       disagree with the server-rendered product cards. Now they all match. */
     cart:
-      '<svg viewBox="0 0 24 24" fill="none" class="w-full h-full">' +
-      '<path d="M8.75 9.25V6.9a3.25 3.25 0 0 1 6.5 0v2.35" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>' +
-      '<path d="M4.94 8.4h14.12c.63 0 1.12.54 1.06 1.17l-.88 9.09a3 3 0 0 1-2.99 2.71H7.75a3 3 0 0 1-2.99-2.71l-.88-9.09A1.07 1.07 0 0 1 4.94 8.4Z" fill="currentColor"/>' +
+      '<svg viewBox="0 0 20 19" fill="none" class="w-full h-full">' +
+      '<path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
       "</svg>",
     arrowRight:
       '<svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -1029,7 +1029,7 @@
                  </div>
                </div>`
         }
-        <div class="relative z-40 bg-[#29612F]">
+        <div data-navbar class="relative z-40 bg-[#29612F]">
           <div class="flex ${checkout ? "justify-center" : "items-center justify-between"} gap-4 mx-auto px-4 xl:px-[60px] h-[56px] max-w-[1512px]">
             ${
               checkout
@@ -1048,14 +1048,16 @@
                      <a href="login.html" data-account-link data-fav-target aria-label="${esc(t("الحساب"))}" class="hover:opacity-80 transition-opacity">
                        <img src="images/jaad/icons/hdr-user.svg" alt="" class="w-6 h-6" />
                      </a>
-                     <!-- Abu Auf pattern: only search + cart ride along on scroll,
-                          parking as a floating pill via [data-sticky-actions]. -->
+                     <!-- Only the CART rides along on scroll (Ahmed, 2026-08-19):
+                          search stays in the masthead and scrolls away with it, so
+                          it is NOT inside [data-sticky-actions] and the parked pill
+                          is cart-only. -->
+                     <button type="button" data-open="search" aria-label="${esc(t("بحث"))}" class="place-items-center grid hover:opacity-80 rounded-full size-11 transition-opacity">
+                       <img src="images/jaad/icons/hdr-search.svg" alt="" class="w-6 h-6" />
+                     </button>
                      <div data-sticky-actions class="flex items-center gap-5 xl:gap-6">
-                       <button type="button" data-open="search" aria-label="${esc(t("بحث"))}" class="place-items-center grid hover:opacity-80 rounded-full size-11 transition-opacity">
-                         <img src="images/jaad/icons/hdr-search.svg" alt="" class="w-6 h-6" />
-                       </button>
                        <button type="button" data-open="cart" aria-label="${esc(t("السلة"))}" class="relative place-items-center grid bg-white shadow-custom4 rounded-full size-11">
-                         <img src="images/jaad/icons/hdr-cart.svg" alt="" class="w-6 h-6" />
+                         <span class="w-6 h-6 text-[#003616]">${ICON.cart}</span>
                          <span class="-top-1 -end-1 absolute place-items-center grid bg-[#ACD574] px-1 rounded-full min-w-[20px] h-5 font-semibold text-[#00451C] text-xs latin" data-cart-count>2</span>
                        </button>
                      </div>
@@ -1096,16 +1098,18 @@
                        also gives the fly-to-cart flight a real on-screen target on
                        mobile instead of the clamp-to-edge fallback. Parked and
                        painted by the max-width rule in styles.css. -->
-                 <div data-sticky-actions class="flex flex-1 justify-end items-center gap-1 min-w-0">
+                 <div class="flex flex-1 justify-end items-center gap-1 min-w-0">
                    <button type="button" data-open="search" class="place-items-center grid shrink-0 size-11" aria-label="بحث">
                      <img src="images/jaad/icons/hdr-search.svg" alt="" class="w-5 h-5" />
                    </button>
+                   <div data-sticky-actions class="flex items-center">
                    <button type="button" data-open="cart" class="relative place-items-center grid bg-cta shrink-0 rounded-full text-white size-11" aria-label="السلة">
                      <span class="w-7 h-7" data-cart-glyph>${ICON.cart}</span>
                      <!-- Yellow chip ringed in the masthead green, matching the
                           desktop badge so the two mastheads never disagree. -->
                      <span class="-top-1 -end-1 absolute place-items-center grid bg-accent-yellow ring-2 ring-primary rounded-full w-5 h-5 font-bold text-[10px] text-[#00451C] latin" data-cart-count>2</span>
                    </button>
+                   </div>
                  </div>`
           }
         </div>
@@ -2900,8 +2904,12 @@
         delete nav.dataset.stuck;
         nav.classList.remove(...stickyClasses);
       }
-      // Search + cart ride along, on the same threshold as the nav.
+      // Actions INSIDE the sticky navbar ride along with it (do not re-park them
+      // as a floating pill — that would rip them out of the now-fixed bar). Only
+      // actions outside the navbar (the mobile masthead, which has no sticky nav)
+      // park on scroll.
       document.querySelectorAll("[data-sticky-actions]").forEach((el) => {
+        if (nav && nav.contains(el)) { delete el.dataset.stuck; return; }
         if (should) el.dataset.stuck = "true";
         else delete el.dataset.stuck;
       });
@@ -5698,7 +5706,7 @@
           </a>
           <div class="${btnPos} z-10 absolute">
             <button type="button" data-add-to-cart aria-label="Add to cart"
-                    class="btn-elevate place-items-center grid bg-[#EA983E] hover:bg-[#d9852f] shadow-custom4 rounded-full ${btnSize} text-[#003616] transition-colors">
+                    class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full ${btnSize} text-white transition-colors">
               <span class="${cartIco}">${ICON.cart}</span>
             </button>
             <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
@@ -6970,6 +6978,8 @@
     const img = story.querySelector("[data-story-img]");
     const panels = [...story.querySelectorAll("[data-story-panel]")];
     const galleryImg = document.querySelector("[data-gallery-main]");
+    const galleryPlate = galleryImg ? galleryImg.closest("[data-gallery-plate]") : null;
+    const detach = (on) => { if (galleryPlate) galleryPlate.classList.toggle("story-detached", on); };
     const faqSection = document.querySelector("[data-story-faq]");
     if (!stage || !img || !panels.length) return;
     const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
@@ -7000,6 +7010,25 @@
       if (document.documentElement.getAttribute("data-img") === "plain") galleryImg.src = CUTOUT;
     }
 
+    // Leaves that drift OUT of the packshot during the hold (Ahmed, 2026-08-19,
+    // for both option A choices). Purely decorative; created once, positioned
+    // each frame off the image centre and the hold progress `g`.
+    const LEAF_SVG =
+      '<svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full">' +
+      '<path d="M6.05 8.05c-2.73 2.73-2.73 7.15-.02 9.88 1.47-3.4 4.09-6.24 ' +
+      '7.36-7.93-2.77 2.34-4.71 5.61-5.39 9.32 2.6 1.23 5.8.78 7.95-1.37C19.43 ' +
+      '14.47 20 4 20 4S9.53 4.57 6.05 8.05z"/></svg>';
+    const LEAF_N = 12;
+    const leaves = [];
+    for (let i = 0; i < LEAF_N; i++) {
+      const s = document.createElement("span");
+      s.className = "product-story__leaf";
+      s.setAttribute("aria-hidden", "true");
+      s.innerHTML = LEAF_SVG;
+      stage.appendChild(s);
+      leaves.push(s);
+    }
+
     let S = null, E = null;
     function measure() {
       const ar = img.naturalWidth && img.naturalHeight ? img.naturalHeight / img.naturalWidth : 1.2;
@@ -7025,61 +7054,123 @@
       img.style.height = E.height + "px";
     }
 
+    // Where the ridden packshot pins on screen while the rest of the right
+    // column scrolls past beneath it. Below the sticky nav (60) AND the sticky
+    // buy bar, so the riding product never tucks behind either.
+    const PIN_TOP = 132;
+    const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+
     let ticking = false;
     function frame() {
       ticking = false;
       if (document.documentElement.getAttribute("data-img") !== "plain") {
         stage.style.opacity = "0";
         if (galleryImg) galleryImg.style.opacity = "";
+        detach(false);
         return;
       }
       if (!E) measure();
       const y = window.scrollY;
-      const D1 = Math.max(1, story.offsetTop);     // flight distance = hero height
-      const D2 = Math.max(1, story.offsetHeight);  // story distance = spacer height
+      const D1 = Math.max(1, story.offsetTop);     // top of the story section = where the right column ends
+      const D2 = Math.max(1, story.offsetHeight);  // story spacer height (the flight + reveal live in here)
 
-      if (y <= 2) {                                 // at top: gallery shows, overlay off
-        stage.style.opacity = "0";
-        if (galleryImg) galleryImg.style.opacity = "";
-        return;
-      }
-      if (y > D1 + D2) {                            // past the story: released
+      if (y > D1 + D2) {                            // past the whole story: released
         stage.style.opacity = "0";
         if (galleryImg) galleryImg.style.opacity = "0";
         return;
       }
-      // Active — the real gallery image hides and the clone carries it.
-      if (galleryImg) galleryImg.style.opacity = "0";
 
-      const f = clamp01(y / D1);
-      let dx, dy, s, rot = 0;
-      if (f < 1) {
-        const ef = 1 - Math.pow(1 - f, 3); // easeOutCubic
-        dx = lerp(S.left, E.left, ef) - E.left;
-        dy = lerp(S.top, E.top, ef) - E.top;
-        s = lerp(S.width, E.width, ef) / E.width;
-      } else {
-        // Centred: hold with a subtle 2D drift (no 3D tumble — it is flat).
-        const g = clamp01((y - D1) / D2);
-        dx = 8 * Math.sin(g * Math.PI * 3);
-        dy = 6 * Math.sin(g * Math.PI * 2);
-        rot = 1.2 * Math.sin(g * Math.PI * 3);
-        s = 1;
+      // ===================== RIDE (Ahmed, 2026-08-19 v2) =====================
+      // Content-first, but the package no longer just scrolls away: it RIDES.
+      // While the taller right column (gallery + "قد يعجبك أيضاً") scrolls, the
+      // packshot pins under the nav and travels down WITH you. The real gallery
+      // stays live at the top of the page; the fixed clone takes over exactly at
+      // the pin line (seamless, same spot) and holds there until the column ends.
+      if (y < D1) {
+        const naturalTop = S.top - y;               // the gallery's own screen top
+        if (naturalTop > PIN_TOP) {                 // gallery still high on screen & interactive
+          stage.style.opacity = "0";
+          if (galleryImg) galleryImg.style.opacity = "";
+          detach(false);                            // outer plate border ON
+          return;
+        }
+        // Pinned: the package RIDES — the clone holds at PIN_TOP (below the buy
+        // bar) and travels down with you as the right column scrolls past. The
+        // gallery PLATE is sticky at the same top (132), so ITS single outer
+        // border wraps the riding package. The package itself has no border.
+        if (galleryImg) galleryImg.style.opacity = "0";
+        stage.style.opacity = "1";
+        stage.style.transform = "none";
+        detach(false);                              // outer plate border ON while riding
+        img.src = galleryImg ? (galleryImg.currentSrc || galleryImg.src || CUTOUT) : CUTOUT;
+        img.style.left = S.left + "px";
+        img.style.top = PIN_TOP + "px";
+        img.style.width = S.width + "px";
+        img.style.height = S.height + "px";
+        img.style.opacity = "1";
+        img.style.transform = "none";
+        panels.forEach((panel) => { panel.style.opacity = "0"; });
+        leaves.forEach((leaf) => { leaf.style.opacity = "0"; });
+        return;
       }
-      img.style.transform =
-        "translate(" + dx.toFixed(1) + "px," + dy.toFixed(1) + "px) scale(" +
-        s.toFixed(4) + ") rotate(" + rot.toFixed(2) + "deg)";
 
-      // Benefits ACCUMULATE once the flight lands: each fades in at its
-      // threshold and stays, framing the product. All four are up by ~0.5 so
-      // there is a clear "all together" hold before the outro.
+      // ================= DETACH → FLY TO CENTRE → HOLD =================
+      // The right column has ended. The pinned packshot DETACHES and flies to
+      // screen-centre as one continuous motion (a FLIP that maps the centred END
+      // rect back onto the pinned rect and eases to identity), then holds while
+      // the four benefits reveal and the leaves stream out.
+      if (galleryImg) galleryImg.style.opacity = "0";
+      stage.style.opacity = "1";
+      detach(true);                                 // outer plate border FADES OUT as it detaches
+      img.src = CUTOUT;
+      img.style.left = E.left + "px";
+      img.style.top = E.top + "px";
+      img.style.width = E.width + "px";
+      img.style.height = E.height + "px";
+
       const g = clamp01((y - D1) / D2);
-      const first = 0.05, step = 0.10, fade = 0.08;
+      // HOLD first: the package stays put in the card while the outer border fades
+      // out, THEN it flies — so it never shifts position while still bordered.
+      const HOLD = 0.06;
+      const ENTER = 0.14;                            // fraction of the story spent on the flight
+      const t = clamp01((g - HOLD) / ENTER);
+      const ease = easeInOut(t);
+      const OUTRO_AT = 0.80, OUTRO_LEN = 0.15;
+      const outro = clamp01((g - OUTRO_AT) / OUTRO_LEN);
+
+      // FLIP: pinned rect P (left S.left, top PIN_TOP, size S) → centred rect E.
+      const dx = lerp(S.left - E.left, 0, ease);
+      const dy = lerp(PIN_TOP - E.top, 0, ease);
+      const sc = lerp(S.width / E.width, 1, ease);
+      const drift = t >= 1 ? 6 * Math.sin(g * Math.PI * 2) : 0;  // gentle drift once arrived
+      img.style.opacity = (1 - outro).toFixed(3);
+      img.style.transform =
+        "translate(" + (dx + drift).toFixed(1) + "px," + dy.toFixed(1) + "px) scale(" + sc.toFixed(3) + ")";
+
+      const first = 0.16, step = 0.11, fade = 0.08;
       panels.forEach((panel, i) => {
         const st = first + i * step;
-        const a = (f >= 1 && g >= st) ? clamp01((g - st) / fade) : 0;
-        panel.style.opacity = a.toFixed(3);
+        const a = (g >= st) ? clamp01((g - st) / fade) : 0;
+        panel.style.opacity = (a * (1 - outro)).toFixed(3);
         panel.style.transform = "translateY(" + ((1 - a) * 20).toFixed(1) + "px)";
+      });
+
+      // Leaves stream out from BEHIND the packshot (z-index in styles.css) once it
+      // has arrived, thinning out with the outro. Emitted from the image centre
+      // along fixed angles (golden-angle spread) so they never clump.
+      const cx = E.left + E.width / 2, cy = E.top + E.height / 2;
+      leaves.forEach((leaf, i) => {
+        const ang = i * 2.39996;                      // golden angle, radians
+        const startI = 0.16 + (i % 5) * 0.04;
+        const p = clamp01((g - startI) / 0.5);
+        const dist = lerp(20, 205 + (i % 4) * 42, p);
+        const lx = cx + Math.cos(ang) * dist - 11;
+        const ly = cy + Math.sin(ang) * dist - 46 * p - 11;
+        const lrot = p * 200 * (i % 2 ? 1 : -1);
+        const op = Math.sin(clamp01(p) * Math.PI) * (1 - outro);
+        leaf.style.transform =
+          "translate(" + lx.toFixed(1) + "px," + ly.toFixed(1) + "px) rotate(" + lrot.toFixed(1) + "deg)";
+        leaf.style.opacity = op.toFixed(3);
       });
 
       // The story does NOT vanish at the end — the whole overlay scrolls UP with
@@ -7100,41 +7191,109 @@
     frame();
   }
 
+  /* ---------------------------------------------------------------
+     Site-wide 3D icon concept swap (Ahmed, 2026-08-19)
+     Every 3D icon has an alternate-CONCEPT variant; the Green/Orange
+     toggle swaps them everywhere (dashboard, tracker, product story…),
+     not just a restyle. Base(green) → alt(orange). A MutationObserver
+     re-applies to icons injected after load (drawer, recent rail).
+     --------------------------------------------------------------- */
+  const ICON_ALT = {
+    "images/jaad/icons/spec-leaf.png": "images/jaad/icons/spec-select.png",
+    "images/jaad/icons/spec-bolt.png": "images/jaad/icons/spec-cup.png",
+    "images/jaad/icons/spec-shield.png": "images/jaad/icons/spec-serve.png",
+    "images/jaad/icons/spec-delivery.png": "images/jaad/icons/spec-parcel.png",
+    "images/jaad/icons/wallet-3d.png": "images/jaad/icons/wallet-3d--alt.png",
+    "images/jaad/icons/points-3d.png": "images/jaad/icons/points-3d--alt.png",
+    "images/jaad/icons/discount-tag-3d.png": "images/jaad/icons/discount-tag-3d--alt.png",
+    "images/jaad/icons/orders-3d.png": "images/jaad/icons/orders-3d--alt.png",
+    "images/jaad/icons/voucher-3d.png": "images/jaad/icons/voucher-3d--alt.png",
+    "images/jaad/icons/profile-3d.png": "images/jaad/icons/profile-3d--alt.png",
+    "images/jaad/icons/otp-3d.png": "images/jaad/icons/otp-3d--alt.png",
+    "images/jaad/icons/home-3d.png": "images/jaad/icons/home-3d--alt.png",
+    "images/jaad/icons/favorites-3d.png": "images/jaad/icons/favorites-3d--alt.png",
+    "images/jaad/icons/addresses-3d.png": "images/jaad/icons/addresses-3d--alt.png",
+    "images/jaad/icons/track-placed-3d.png": "images/jaad/icons/track-placed-3d--alt.png",
+    "images/jaad/icons/track-preparing-3d.png": "images/jaad/icons/track-preparing-3d--alt.png",
+    "images/jaad/icons/track-transit-3d.png": "images/jaad/icons/track-transit-3d--alt.png",
+    "images/jaad/icons/track-delivered-3d.png": "images/jaad/icons/track-delivered-3d--alt.png",
+  };
+  const ICON_BASE = {};
+  Object.keys(ICON_ALT).forEach((k) => { ICON_BASE[ICON_ALT[k]] = k; });
+  function iconBaseOf(src) {
+    if (!src) return null;
+    if (ICON_ALT[src]) return src;         // already a base
+    if (ICON_BASE[src]) return ICON_BASE[src]; // an alt → its base
+    return null;
+  }
+  function applyIconConceptTo(img) {
+    let base = img.getAttribute("data-icon-base");
+    if (!base) {
+      base = iconBaseOf(img.getAttribute("src"));
+      if (!base) return;
+      img.setAttribute("data-icon-base", base);
+    }
+    const want = document.documentElement.getAttribute("data-btn") === "v2" ? ICON_ALT[base] : base;
+    if (img.getAttribute("src") !== want) img.setAttribute("src", want);
+  }
+  function applyIconConcepts(root) {
+    (root || document).querySelectorAll("img").forEach(applyIconConceptTo);
+  }
+  function initIconConcepts() {
+    applyIconConcepts();
+    try {
+      const obs = new MutationObserver((muts) => {
+        muts.forEach((m) => m.addedNodes && m.addedNodes.forEach((n) => {
+          if (n.nodeType !== 1) return;
+          if (n.tagName === "IMG") applyIconConceptTo(n);
+          else if (n.querySelectorAll) n.querySelectorAll("img").forEach(applyIconConceptTo);
+        }));
+      });
+      obs.observe(document.body, { childList: true, subtree: true });
+    } catch (e) { /* observer unsupported — toggle still swaps existing icons */ }
+  }
+
   function initBtnStyleSwitch() {
     const BKEY = "jaad:btnstyle", IKEY = "jaad:imgstyle", FKEY = "jaad:flystyle";
     let btn = "v1", img = "scene", fly = "arc";
     try { btn = localStorage.getItem(BKEY) || "v1"; } catch (e) { /* ignore */ }
     try { img = localStorage.getItem(IKEY) || "scene"; } catch (e) { /* ignore */ }
-    try { fly = localStorage.getItem(FKEY) || "arc"; } catch (e) { /* ignore */ }
+    // Fly-to-cart is fixed to "drop" (Ahmed, 2026-08-19): its toggle row is
+    // removed from the panel below, but the arc/comet code stays in place so the
+    // toggle can be restored by re-adding the row. FKEY is left defined for that.
+    fly = "drop";
     document.documentElement.setAttribute("data-btn", btn);
     document.documentElement.setAttribute("data-img", img);
     document.documentElement.setAttribute("data-fly", fly);
     applyImgStyle(img);
     if (document.querySelector("[data-btn-switch]")) return;
+    const CKEY = "jaad:uiswitch-collapsed";
+    let collapsed = false;
+    try { collapsed = localStorage.getItem(CKEY) === "1"; } catch (e) { /* ignore */ }
     const el = document.createElement("div");
-    el.className = "btnswitch";
+    el.className = "btnswitch" + (collapsed ? " is-collapsed" : "");
     el.setAttribute("data-btn-switch", "");
     el.innerHTML =
-      '<div class="btnswitch__row">' +
-        '<span class="btnswitch__lbl">Button style</span>' +
-        '<div class="btnswitch__seg">' +
-          '<button type="button" data-btn-v="v1"><span class="btnswitch__dot" style="background:#00451C"></span>Green</button>' +
-          '<button type="button" data-btn-v="v2"><span class="btnswitch__dot" style="background:#EA983E"></span>Orange</button>' +
+      // Collapsible header: click the whole bar to fold the panel down to just
+      // this handle, so the dev toggles never sit over the design being reviewed.
+      '<button type="button" class="btnswitch__head" data-btnswitch-collapse aria-expanded="' + (collapsed ? "false" : "true") + '">' +
+        '<span class="btnswitch__title">UI controls</span>' +
+        '<span class="btnswitch__chev" aria-hidden="true">▾</span>' +
+      '</button>' +
+      '<div class="btnswitch__body">' +
+        '<div class="btnswitch__row">' +
+          '<span class="btnswitch__lbl">Button style</span>' +
+          '<div class="btnswitch__seg">' +
+            '<button type="button" data-btn-v="v1"><span class="btnswitch__dot" style="background:#00451C"></span>Green</button>' +
+            '<button type="button" data-btn-v="v2"><span class="btnswitch__dot" style="background:#EA983E"></span>Orange</button>' +
+          '</div>' +
         '</div>' +
-      '</div>' +
-      '<div class="btnswitch__row">' +
-        '<span class="btnswitch__lbl">Product images</span>' +
-        '<div class="btnswitch__seg">' +
-          '<button type="button" data-img-v="scene"><span class="btnswitch__dot" style="background:#EA983E"></span>Scenes</button>' +
-          '<button type="button" data-img-v="plain"><span class="btnswitch__dot" style="background:#fff;box-shadow:inset 0 0 0 1px #C1C3C6"></span>White</button>' +
-        '</div>' +
-      '</div>' +
-      '<div class="btnswitch__row">' +
-        '<span class="btnswitch__lbl">Fly to cart</span>' +
-        '<div class="btnswitch__seg">' +
-          '<button type="button" data-fly-v="arc">Arc</button>' +
-          '<button type="button" data-fly-v="drop">Drop</button>' +
-          '<button type="button" data-fly-v="comet">Comet</button>' +
+        '<div class="btnswitch__row">' +
+          '<span class="btnswitch__lbl">Product images</span>' +
+          '<div class="btnswitch__seg">' +
+            '<button type="button" data-img-v="scene"><span class="btnswitch__dot" style="background:#EA983E"></span>Scenes</button>' +
+            '<button type="button" data-img-v="plain"><span class="btnswitch__dot" style="background:#fff;box-shadow:inset 0 0 0 1px #C1C3C6"></span>White</button>' +
+          '</div>' +
         '</div>' +
       '</div>';
     document.body.appendChild(el);
@@ -7148,11 +7307,19 @@
     };
     paint();
     el.addEventListener("click", (e) => {
+      const collapse = e.target.closest("[data-btnswitch-collapse]");
+      if (collapse) {
+        const nowCollapsed = el.classList.toggle("is-collapsed");
+        collapse.setAttribute("aria-expanded", nowCollapsed ? "false" : "true");
+        try { localStorage.setItem(CKEY, nowCollapsed ? "1" : "0"); } catch (err) { /* ignore */ }
+        return;
+      }
       const bb = e.target.closest("[data-btn-v]");
       if (bb) {
         btn = bb.getAttribute("data-btn-v");
         document.documentElement.setAttribute("data-btn", btn);
         try { localStorage.setItem(BKEY, btn); } catch (err) { /* ignore */ }
+        applyIconConcepts();   // swap every 3D icon to the chosen concept
         paint();
         return;
       }
@@ -7221,6 +7388,10 @@
     // White-mode scroll story — guards off [data-story], so it is a no-op
     // everywhere but the story product page.
     initProductStory();
+
+    // Swap every 3D icon to the concept that matches the current toggle, and
+    // keep watching for icons injected later (drawer, recent rail).
+    initIconConcepts();
   }
 
   if (document.readyState === "loading") {
