@@ -7068,7 +7068,7 @@
       leaves.push(s);
     }
 
-    let S = null, E = null;
+    let S = null, E = null, fitOff = 0;
     function measure() {
       const ar = img.naturalWidth && img.naturalHeight ? img.naturalHeight / img.naturalWidth : 1.2;
       if (galleryImg) {
@@ -7078,6 +7078,10 @@
         let fw, fh;
         if (ar > r.height / r.width) { fh = r.height; fw = fh / ar; }
         else { fw = r.width; fh = fw * ar; }
+        // Vertical letterbox offset of the fitted packshot inside its gallery box.
+        // The clone must ride at box-top + this, not the box top, or it jumps up
+        // by this much the instant it takes over from the real (sticky) gallery.
+        fitOff = (r.height - fh) / 2;
         S = { left: r.left + (r.width - fw) / 2, top: r.top + (r.height - fh) / 2 + window.scrollY, width: fw, height: fh };
       } else {
         S = { left: window.innerWidth * 0.2, top: 120, width: window.innerWidth * 0.6, height: window.innerHeight * 0.5 };
@@ -7193,24 +7197,32 @@
       // stays live at the top of the page; the fixed clone takes over exactly at
       // the pin line (seamless, same spot) and holds there until the column ends.
       if (y < D1) {
-        const naturalTop = S.top - y;               // the gallery's own screen top
-        if (naturalTop > PIN_TOP) {                 // gallery still high on screen & interactive
+        // Read the REAL gallery box each frame so the clone can take over on the
+        // exact same pixels (the box is CSS-sticky at PIN_TOP; a computed y-based
+        // guess drifted from it and caused a visible "switch in place" jump).
+        const gr = galleryImg ? galleryImg.getBoundingClientRect() : null;
+        const boxTop = gr ? gr.top : (S.top - y);   // gallery box top on screen
+        if (boxTop > PIN_TOP) {                     // gallery still scrolling in & interactive
           stage.style.opacity = "0";
           if (galleryImg) galleryImg.style.opacity = "";
           detach(false);                            // outer plate border ON
           return;
         }
-        // Pinned: the package RIDES — the clone holds at PIN_TOP (below the buy
-        // bar) and travels down with you as the right column scrolls past. The
-        // gallery PLATE is sticky at the same top (132), so ITS single outer
-        // border wraps the riding package. The package itself has no border.
+        // Pinned: the package RIDES. The clone sits on the LIVE fitted packshot —
+        // box top (held at the pin by CSS sticky) plus the object-contain letterbox
+        // offset — so the hand-off from the real gallery is pixel-identical.
         if (galleryImg) galleryImg.style.opacity = "0";
         stage.style.opacity = "1";
         stage.style.transform = "none";
-        detach(false);                              // outer plate border ON while riding
+        // Fade the outer plate border the moment the (pinned) gallery's BOTTOM
+        // lines up with the bottom of the taller right column — i.e. the content
+        // has run out beneath the packshot (Ahmed, 2026-08-19) — instead of
+        // holding it all the way to the detach a little further down.
+        const yAlign = D1 - PIN_TOP - S.height;
+        detach(y >= yAlign);
         img.src = galleryImg ? (galleryImg.currentSrc || galleryImg.src || CUTOUT) : CUTOUT;
-        img.style.left = S.left + "px";
-        img.style.top = PIN_TOP + "px";
+        img.style.left = (gr ? gr.left + (gr.width - S.width) / 2 : S.left) + "px";
+        img.style.top = (boxTop + fitOff) + "px";
         img.style.width = S.width + "px";
         img.style.height = S.height + "px";
         img.style.opacity = "1";
@@ -7238,16 +7250,20 @@
       const g = clamp01((y - D1) / D2);
       // HOLD first: the package stays put in the card while the outer border fades
       // out, THEN it flies — so it never shifts position while still bordered.
-      const HOLD = 0.06;
-      const ENTER = 0.14;                            // fraction of the story spent on the flight
+      // Shortened (Ahmed, 2026-08-19): the package used to linger and take a long
+      // scroll to reach centre; a smaller HOLD + ENTER makes it arrive quickly.
+      const HOLD = 0.03;
+      const ENTER = 0.07;                            // fraction of the story spent on the flight
       const t = clamp01((g - HOLD) / ENTER);
       const ease = easeInOut(t);
       const OUTRO_AT = 0.80, OUTRO_LEN = 0.15;
       const outro = clamp01((g - OUTRO_AT) / OUTRO_LEN);
 
-      // FLIP: pinned rect P (left S.left, top PIN_TOP, size S) → centred rect E.
+      // FLIP: pinned rect P (left S.left, top PIN_TOP + letterbox offset, size S)
+      // → centred rect E. The +fitOff matches where the ride left the packshot,
+      // so detach continues from the exact same spot (no jump).
       const dx = lerp(S.left - E.left, 0, ease);
-      const dy = lerp(PIN_TOP - E.top, 0, ease);
+      const dy = lerp(PIN_TOP + fitOff - E.top, 0, ease);
       const sc = lerp(S.width / E.width, 1, ease);
       const drift = t >= 1 ? 6 * Math.sin(g * Math.PI * 2) : 0;  // gentle drift once arrived
       img.style.opacity = (1 - outro).toFixed(3);
