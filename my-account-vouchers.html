@@ -33,7 +33,7 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=bc7a14f0" />
+    <link rel="stylesheet" href="tailwind.css?v=04d8ab23" />
     <link rel="stylesheet" href="styles.css?v=45b31927" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
@@ -45,7 +45,7 @@
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js?v=f91551f4"></script>
+    <script defer src="i18n-en.js?v=907988ea"></script>
     <script defer src="scripts.js?v=1fea04ac"></script>
   </head>
   <body data-page="my-account-vouchers" data-path="/my-account/vouchers" class="antialiased bg-white">
@@ -70,7 +70,7 @@
 
           <div class="lg:hidden flex flex-col gap-3 min-w-0">
             <span class="tier-badge tier-badge--gold inline-flex items-center self-start px-3 py-1 rounded-full font-bold text-xs "><span class="relative z-10">عضوية ذهبية</span></span>
-            <h2 class="font-bold text-[#003616] text-xl">مرحبا محمد</h2>
+            <h2 class="font-bold text-[#29612F] text-xl">مرحبا محمد</h2>
             <button type="button" data-open="accountMenu" class="flex justify-between items-center gap-3 bg-white px-5 py-3.5 border border-neutral-divider rounded-full w-full font-semibold text-[#003616] text-base">
               <span class="flex items-center gap-3 min-w-0">
                 <span class="text-cta shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
@@ -83,7 +83,7 @@
           <div data-sheet="account-menu" class="lg:hidden bottom-sheet">
             <div class="bg-neutral-200 mx-auto mb-4 rounded-full w-10 h-1"></div>
             <div class="flex justify-between items-center mb-2">
-              <h2 class="font-bold text-[#003616] text-lg">القائمة</h2>
+              <h2 class="font-bold text-[#29612F] text-lg">القائمة</h2>
               <button type="button" data-close class="place-items-center grid hover:bg-interaction-base border border-neutral-divider rounded-full w-8 h-8 text-[#003616]" aria-label="إغلاق"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
             </div>
             <nav class="flex flex-col">
@@ -156,7 +156,7 @@
 
           <aside class="hidden lg:flex flex-col gap-1 bg-white shadow-custom4 p-5 rounded-[20px] lg:sticky lg:top-4 min-w-0 h-max">
             <span class="tier-badge tier-badge--gold inline-flex items-center self-start px-3 py-1 rounded-full font-bold text-xs "><span class="relative z-10">عضوية ذهبية</span></span>
-            <h2 class="mt-2 mb-3 font-bold text-[#003616] text-xl">مرحبا محمد</h2>
+            <h2 class="mt-2 mb-3 font-bold text-[#29612F] text-xl">مرحبا محمد</h2>
             
               <a href="my-account.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-interaction-base">
                 <img src="images/jaad/icons/home-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
@@ -221,7 +221,7 @@
           </aside>
           <div class="flex flex-col gap-6 min-w-0">
             <div class="flex flex-wrap justify-between items-center gap-3">
-              <div class="flex items-center gap-3"><span class="place-items-center grid bg-interaction-base rounded-xl size-11 shrink-0"><img src="images/jaad/icons/voucher-3d.png" alt="" class="w-8 h-8 object-contain shrink-0" /></span><h1 class="font-bold text-[#003616] text-2xl xl:text-3xl">القسائم</h1></div>
+              <div class="flex items-center gap-3"><span class="place-items-center grid bg-interaction-base rounded-xl size-11 shrink-0"><img src="images/jaad/icons/voucher-3d.png" alt="" class="w-8 h-8 object-contain shrink-0" /></span><h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">القسائم</h1></div>
               <button type="button" data-open="voucherAdd" class="btn-elevate flex items-center gap-2 bg-cta hover:bg-cta-hover px-6 py-3 rounded-full font-semibold text-white text-sm transition-colors">
                 <span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>أضف قسيمة
               </button>
@@ -239,7 +239,7 @@
             </div>
 
             <div class="flex flex-col gap-3">
-              <h2 class="font-bold text-[#003616] text-lg">القسائم المتاحة</h2>
+              <h2 class="font-bold text-[#29612F] text-lg">القسائم المتاحة</h2>
               <div class="flex flex-col gap-3" data-vouchers-list>
                 <div data-voucher data-voucher-id="0" class="flex items-center gap-3 bg-white shadow-custom4 p-4 rounded-2xl">
                   <img src="images/jaad/icons/discount-tag-3d.png" alt="" class="w-11 h-11 object-contain shrink-0" />
@@ -285,7 +285,7 @@
                  vouchers are prepended into [data-vouchers-history-dynamic] by
                  scripts.js; the static rows below are demo placeholder. -->
             <div class="flex flex-col gap-3">
-              <h2 class="font-bold text-[#003616] text-lg">القسائم السابقة</h2>
+              <h2 class="font-bold text-[#29612F] text-lg">القسائم السابقة</h2>
               <div class="flex flex-col gap-3">
                 <div data-vouchers-history-dynamic class="flex flex-col gap-3"></div>
 

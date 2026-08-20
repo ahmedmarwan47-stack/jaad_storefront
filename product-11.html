@@ -33,7 +33,7 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=bc7a14f0" />
+    <link rel="stylesheet" href="tailwind.css?v=04d8ab23" />
     <link rel="stylesheet" href="styles.css?v=45b31927" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
@@ -45,7 +45,7 @@
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js?v=f91551f4"></script>
+    <script defer src="i18n-en.js?v=907988ea"></script>
     <script defer src="scripts.js?v=1fea04ac"></script>
   </head>
   <body data-page="product" data-path="/product" class="antialiased bg-white">
@@ -145,7 +145,7 @@
                instead (CSS gates on html[data-img="plain"]). -->
           <div class="story-fb-scene">
           <div data-bundle class="flex flex-col bg-white shadow-custom4 p-4 xl:p-5 rounded-[20px]">
-            <h2 class="mb-1 px-2 font-bold text-[#003616] text-base xl:text-lg">قد يعجبك أيضاً</h2>
+            <h2 class="mb-1 px-2 font-bold text-[#29612F] text-base xl:text-lg">قد يعجبك أيضاً</h2>
             <div class="flex flex-col">
                 <label data-product data-bundle-item
                        data-id="8" data-name="كاجو"
@@ -210,7 +210,7 @@
                data-price="85.0" data-image="images/jaad/products/nuts-almond.png">
             <div class="flex flex-col gap-3">
               <span data-best-seller class="inline-flex self-start items-center bg-[#8ACC3E] px-3 rounded-full h-7 font-bold text-[#003616] text-xs leading-none">الأكثر مبيعاً</span>
-              <h1 class="font-bold text-[#003616] text-2xl xl:text-4xl leading-tight">لوز</h1>
+              <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">لوز</h1>
               <!-- Points callout sits with the rating + social-proof line, right
                    beside the red "best seller" proof text (Ahmed, 2026-08-04) —
                    not up by the yellow best-seller badge. Wraps on a narrow
@@ -276,7 +276,7 @@
             
             <div class="flex flex-col gap-4 bg-interaction-base p-5 rounded-2xl">
               <div class="flex flex-col gap-0.5">
-                <h2 class="font-bold text-[#003616] text-base xl:text-lg">جودة جاد في كل قضمة</h2>
+                <h2 class="font-bold text-[#29612F] text-base xl:text-lg">جودة جاد في كل قضمة</h2>
                 <p class="text-neutral-secondary text-sm leading-6">منتجات نختارها بعناية ونقدّمها لك بالطزاجة والجودة اللي تستاهلها.</p>
               </div>
               <ul class="flex flex-col gap-2.5">
@@ -368,7 +368,7 @@
               </div>
               
             <div class="flex flex-col gap-2">
-              <h2 class="mt-1 font-bold text-[#003616] text-lg xl:text-xl">الأسئلة الشائعة</h2>
+              <h2 class="mt-1 font-bold text-[#29612F] text-lg xl:text-xl">الأسئلة الشائعة</h2>
               <div class="flex flex-col gap-2" data-accordion>
                 <div class="faq-card accordion-item rounded-xl overflow-hidden is-open">
                   <button type="button" class="accordion-trigger flex justify-between items-center gap-3 px-4 py-3.5 w-full text-start">
@@ -429,7 +429,7 @@
                there (CSS gates on html[data-img="plain"]). -->
           <div class="story-fb-plain">
           <div data-bundle class="flex flex-col bg-white shadow-custom4 p-4 xl:p-5 rounded-[20px]">
-            <h2 class="mb-1 px-2 font-bold text-[#003616] text-base xl:text-lg">قد يعجبك أيضاً</h2>
+            <h2 class="mb-1 px-2 font-bold text-[#29612F] text-base xl:text-lg">قد يعجبك أيضاً</h2>
             <div class="flex flex-col">
                 <label data-product data-bundle-item
                        data-id="8" data-name="كاجو"
@@ -521,7 +521,7 @@
       </section>
       <section data-reveal data-story-faq class="product-story-faq">
         <div class="mx-auto px-4 max-w-[760px]">
-          <h2 class="mb-6 font-bold text-[#003616] text-2xl xl:text-3xl text-center">الأسئلة الشائعة</h2>
+          <h2 class="mb-6 font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2] text-center">الأسئلة الشائعة</h2>
           <div class="flex flex-col gap-2" data-accordion>
                 <div class="faq-card accordion-item rounded-xl overflow-hidden is-open">
                   <button type="button" class="accordion-trigger flex justify-between items-center gap-3 px-4 py-3.5 w-full text-start">
@@ -578,7 +578,7 @@
       <!-- =========================== MORE FROM US =========================== -->
       <section data-reveal class="py-12 xl:py-16">
         <div class="mx-auto px-4 max-w-[1536px]">
-          <div class="flex flex-wrap justify-between items-center gap-4 mb-10"><h2 class="font-bold text-[#003616] text-3xl xl:text-4xl">تسوق اكتر من جاد</h2><a href="shop.html" class="btn inline-flex justify-center items-center rounded-full font-semibold transition-colors px-6 py-2.5 text-sm border border-cta text-cta hover:bg-interaction-base ">عرض المزيد</a></div>
+          <div class="flex flex-wrap justify-between items-center gap-4 mb-10"><h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">تسوق اكتر من جاد</h2><a href="shop.html" class="btn inline-flex justify-center items-center rounded-full font-semibold transition-colors px-6 py-2.5 text-sm border border-cta text-cta hover:bg-interaction-base ">عرض المزيد</a></div>
           
           <div class="relative carousel " style="--carousel-gap:24px">
             <div class="carousel-track">
@@ -1049,7 +1049,7 @@
            never to a broken empty rail. -->
       <section data-reveal data-recently-viewed data-exclude-id="11" hidden class="py-12 xl:py-16">
         <div class="mx-auto px-4 max-w-[1536px]">
-          <div class="flex flex-wrap justify-between items-center gap-4 mb-10"><h2 class="font-bold text-[#003616] text-3xl xl:text-4xl">شاهدت هذا مؤخراً</h2></div>
+          <div class="flex flex-wrap justify-between items-center gap-4 mb-10"><h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">شاهدت هذا مؤخراً</h2></div>
           
           <div class="relative carousel " style="--carousel-gap:24px">
             <div class="carousel-track" data-recent-track>
