@@ -11,7 +11,7 @@ def legal_page(title_text, description, heading, sections, page_id, path):
 
     blocks = "".join(f"""
             <section id="s{i}" class="flex flex-col gap-3 scroll-mt-24">
-              <h2 class="font-bold text-[#003616] text-xl">{e(h)}</h2>
+              <h2 class="font-bold text-[#29612F] text-xl">{e(h)}</h2>
               {"".join(f'<p class="text-neutral-800 text-base leading-9">{e(p)}</p>' for p in paras)}
             </section>""" for i, (h, paras) in enumerate(sections))
 

@@ -94,7 +94,7 @@ def build():
         <div class="items-start gap-10 grid grid-cols-1 lg:grid-cols-[1fr_380px] mx-auto px-4 max-w-[1100px]">
 
           <div class="flex flex-col gap-3 order-1 lg:order-none lg:col-span-2 min-w-0">
-            <h1 class="font-bold text-[#003616] text-2xl xl:text-3xl">طريقة الدفع</h1>
+            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">طريقة الدفع</h1>
             <nav aria-label="خطوات الشراء" class="flex flex-wrap items-center gap-2">{checkout_steps(2)}</nav>
           </div>
 

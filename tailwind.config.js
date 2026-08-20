@@ -138,6 +138,22 @@ module.exports = {
           800: "#00451C", // = primary.800 / cta
         },
 
+        /* ---- FIGMA-AUTHORITATIVE tokens (Ahmed, 2026-08-20) --------------
+         * Pulled from the Jaad Figma via `get_variable_defs` — these are the
+         * REAL design variables, unlike the ramps above, which this config
+         * COMPUTED from the printed brand manual before the Figma file was
+         * available. Where the two disagree, Figma wins.
+         *
+         * `heading` (#29612F) is the one that matters: Figma's Primary/Dark
+         * Green, used for headings, the hero CTA, the header bar and section
+         * titles. The homepage/product/blog pages already use it as a literal;
+         * the older inner pages still use ink #003616 for the same job, which
+         * is the site's one remaining visual split. New markup: use these.
+         * ----------------------------------------------------------------- */
+        heading: "#29612F", // Figma Primary/Dark Green — headings, section titles
+        limeFigma: "#98CA55", // Figma Primary/Green — badges, chips, top strip
+        greenDeep: "#006328", // second, deeper green — price badge, add-to-cart
+
         /* ---- JAAD core brand ------------------------------------------- */
         // Primary/Green — masthead, brand surfaces, section bands.
         // DEFAULT/600 = the manual's exact #006328.

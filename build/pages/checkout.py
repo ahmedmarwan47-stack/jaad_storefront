@@ -71,7 +71,7 @@ def build():
                the header lives inside the form column. At lg every order resets
                and this spans row 1, leaving the desktop columns as they were. -->
           <div class="flex flex-col gap-3 order-1 lg:order-none lg:col-span-2 min-w-0">
-            <h1 class="font-bold text-[#003616] text-2xl xl:text-3xl">إتمام عملية الشراء بأمان</h1>
+            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">إتمام عملية الشراء بأمان</h1>
             <nav aria-label="خطوات الشراء" class="flex flex-wrap items-center gap-2">{steps_html}</nav>
           </div>
 

@@ -70,7 +70,7 @@ def build():
             </div>
 
             <div class="flex flex-col gap-3">
-              <h2 class="font-bold text-[#003616] text-lg">القسائم المتاحة</h2>
+              <h2 class="font-bold text-[#29612F] text-lg">القسائم المتاحة</h2>
               <div class="flex flex-col gap-3" data-vouchers-list>{rows}
               </div>
               <p data-vouchers-empty hidden class="bg-interaction-base py-10 rounded-2xl text-neutral-secondary text-sm text-center">فعّلت كل القسائم المتاحة — تابعنا للعروض الجاية.</p>
@@ -80,7 +80,7 @@ def build():
                  vouchers are prepended into [data-vouchers-history-dynamic] by
                  scripts.js; the static rows below are demo placeholder. -->
             <div class="flex flex-col gap-3">
-              <h2 class="font-bold text-[#003616] text-lg">القسائم السابقة</h2>
+              <h2 class="font-bold text-[#29612F] text-lg">القسائم السابقة</h2>
               <div class="flex flex-col gap-3">
                 <div data-vouchers-history-dynamic class="flex flex-col gap-3"></div>
 {old_rows}

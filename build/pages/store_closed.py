@@ -14,7 +14,7 @@ def build():
               <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
             </svg>
           </span>
-          <h1 class="font-bold text-[#003616] text-3xl xl:text-4xl">المتجر مغلق حالياً</h1>
+          <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">المتجر مغلق حالياً</h1>
           <p class="text-neutral-secondary text-base xl:text-lg leading-8">
             مواعيد العمل من <span class="latin">9</span> صباحاً حتى <span class="latin">11</span> مساءً يومياً.
             تقدر تتصفح المنتجات دلوقتي وتكمل طلبك في المواعيد.

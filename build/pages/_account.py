@@ -145,7 +145,7 @@ def account_title(active_slug, title):
     icon = (f'<span class="place-items-center grid bg-interaction-base rounded-xl size-11 shrink-0">{inner}</span>'
             if icon_key else "")
     return (f'<div class="flex items-center gap-3">{icon}'
-            f'<h1 class="font-bold text-[#003616] text-2xl xl:text-3xl">{e(title)}</h1></div>')
+            f'<h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">{e(title)}</h1></div>')
 
 
 def _nav_badge(href):
@@ -183,7 +183,7 @@ def sidebar(active_slug):
     return f"""
           <aside class="hidden lg:flex flex-col gap-1 bg-white shadow-custom4 p-5 rounded-[20px] lg:sticky lg:top-4 min-w-0 h-max">
             {tier_badge(CUSTOMER['tier'])}
-            <h2 class="mt-2 mb-3 font-bold text-[#003616] text-xl">مرحبا {e(CUSTOMER['name'])}</h2>
+            <h2 class="mt-2 mb-3 font-bold text-[#29612F] text-xl">مرحبا {e(CUSTOMER['name'])}</h2>
             {items}
             <div class="flex flex-col gap-2 mt-4 pt-4 border-neutral-divider border-t">
               <span class="font-semibold text-neutral-secondary text-sm">تحتاج مساعدة؟</span>
@@ -226,7 +226,7 @@ def mobile_nav(active_slug):
     return f"""
           <div class="lg:hidden flex flex-col gap-3 min-w-0">
             {tier_badge(CUSTOMER['tier'])}
-            <h2 class="font-bold text-[#003616] text-xl">مرحبا {e(CUSTOMER['name'])}</h2>
+            <h2 class="font-bold text-[#29612F] text-xl">مرحبا {e(CUSTOMER['name'])}</h2>
             <button type="button" data-open="accountMenu" class="flex justify-between items-center gap-3 bg-white px-5 py-3.5 border border-neutral-divider rounded-full w-full font-semibold text-[#003616] text-base">
               <span class="flex items-center gap-3 min-w-0">
                 <span class="text-cta shrink-0">{_icon('menu')}</span>
@@ -239,7 +239,7 @@ def mobile_nav(active_slug):
           <div data-sheet="account-menu" class="lg:hidden bottom-sheet">
             <div class="bg-neutral-200 mx-auto mb-4 rounded-full w-10 h-1"></div>
             <div class="flex justify-between items-center mb-2">
-              <h2 class="font-bold text-[#003616] text-lg">القائمة</h2>
+              <h2 class="font-bold text-[#29612F] text-lg">القائمة</h2>
               <button type="button" data-close class="place-items-center grid hover:bg-interaction-base border border-neutral-divider rounded-full w-8 h-8 text-[#003616]" aria-label="إغلاق">{_icon('close', 'w-4 h-4')}</button>
             </div>
             <nav class="flex flex-col">{rows}
@@ -286,7 +286,7 @@ def card(heading, inner, cta=None, cta_href="#"):
     # the only heading above them is the page h1, so h3 skipped a level and
     # broke heading-by-heading navigation on all seven account pages.
     head = (f'<div class="flex justify-between items-center gap-3">'
-            f'<h2 class="font-bold text-[#003616] text-base">{e(heading)}</h2>{action}</div>'
+            f'<h2 class="font-bold text-[#29612F] text-base">{e(heading)}</h2>{action}</div>'
             ) if heading else ""
     return (f'<div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px]">'
             f'{head}{inner}</div>')
@@ -495,7 +495,7 @@ def order_panel(o):
     return f"""
               <div data-order-panel data-order-id="{e(o['no'])}" hidden class="flex flex-col gap-4">
                 <div class="flex flex-wrap justify-between items-center gap-2">
-                  <h3 class="font-bold text-[#003616] text-base">طلب رقم <span class="latin">{e(o['no'])}</span></h3>
+                  <h3 class="font-bold text-[#29612F] text-base">طلب رقم <span class="latin">{e(o['no'])}</span></h3>
                   {status_badge(o)}
                 </div>
                 {tracker}
@@ -525,7 +525,7 @@ def order_drawer(orders):
     <aside data-drawer="order" class="side-drawer side-drawer--left" aria-label="تفاصيل الطلب">
       <button type="button" data-close aria-label="إغلاق" class="drawer-close place-items-center grid bg-white shadow-custom3 rounded-full size-8 text-[#003616]">{_icon('close', 'w-3.5 h-3.5')}</button>
       <div class="flex justify-between items-center px-5 py-4 border-neutral-divider border-b">
-        <h2 class="font-bold text-[#003616] text-lg">تفاصيل الطلب</h2>
+        <h2 class="font-bold text-[#29612F] text-lg">تفاصيل الطلب</h2>
       </div>
       <div class="flex-1 px-5 py-4 overflow-y-auto" data-order-panels>{panels}
       </div>

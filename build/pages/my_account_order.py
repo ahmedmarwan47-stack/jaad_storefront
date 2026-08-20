@@ -35,7 +35,7 @@ def build():
 
     content = f"""
             <div class="flex flex-wrap justify-between items-center gap-3">
-              <h1 class="font-bold text-[#003616] text-2xl xl:text-3xl">طلب رقم <span class="latin">#30941</span></h1>
+              <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">طلب رقم <span class="latin">#30941</span></h1>
               <span class="bg-accent-yellow px-4 py-1.5 rounded-full font-semibold text-[#003616] text-xs">تحت التحضير</span>
             </div>
             {card("", f'<ol class="flex gap-2">{steps}</ol>')}

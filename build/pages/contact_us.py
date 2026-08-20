@@ -45,7 +45,7 @@ def build():
           </div>
 
           <form class="flex flex-col gap-5 bg-white shadow-custom4 p-6 xl:p-8 rounded-[20px]">
-            <h2 class="font-bold text-[#003616] text-xl">ابعتلنا رسالة</h2>
+            <h2 class="font-bold text-[#29612F] text-xl">ابعتلنا رسالة</h2>
             <div class="gap-4 grid sm:grid-cols-2">
 {field("الاسم", "name", required=True)}
 {field("رقم الهاتف", "phone", "tel", required=True)}

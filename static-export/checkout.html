@@ -33,7 +33,7 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=bc7a14f0" />
+    <link rel="stylesheet" href="tailwind.css?v=04d8ab23" />
     <link rel="stylesheet" href="styles.css?v=45b31927" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
@@ -45,7 +45,7 @@
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js?v=f91551f4"></script>
+    <script defer src="i18n-en.js?v=907988ea"></script>
     <script defer src="scripts.js?v=1fea04ac"></script>
   </head>
   <body data-page="checkout" data-path="/checkout" class="antialiased bg-white">
@@ -83,7 +83,7 @@
                the header lives inside the form column. At lg every order resets
                and this spans row 1, leaving the desktop columns as they were. -->
           <div class="flex flex-col gap-3 order-1 lg:order-none lg:col-span-2 min-w-0">
-            <h1 class="font-bold text-[#003616] text-2xl xl:text-3xl">إتمام عملية الشراء بأمان</h1>
+            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">إتمام عملية الشراء بأمان</h1>
             <nav aria-label="خطوات الشراء" class="flex flex-wrap items-center gap-2"><a href="cart.html" class="flex items-center gap-2 rounded-md focus-visible:outline-none"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-[#E9F3E6] text-accent-green">✓</span><span class="text-accent-green text-sm link-sweep">سلة التسوق</span></a><span aria-hidden="true" class="text-neutral-outline">/</span><span class="flex items-center gap-2"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-cta text-white">2</span><span class="font-semibold text-[#003616] text-sm">بيانات العميل</span></span><span aria-hidden="true" class="text-neutral-outline">/</span><span class="flex items-center gap-2"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-interaction-base text-neutral-secondary">3</span><span class="text-neutral-secondary text-sm">طريقة الدفع</span></span><span aria-hidden="true" class="text-neutral-outline">/</span><span class="flex items-center gap-2"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-interaction-base text-neutral-secondary">4</span><span class="text-neutral-secondary text-sm">تأكيد عملية الشراء</span></span></nav>
           </div>
 
@@ -376,7 +376,7 @@
 
           <aside class="lg:top-4 lg:sticky flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px] order-2 lg:order-none min-w-0">
             <div class="flex justify-between items-center gap-3">
-              <h2 class="font-bold text-[#003616] text-xl">ملخص السلة</h2>
+              <h2 class="font-bold text-[#29612F] text-xl">ملخص السلة</h2>
               <a href="cart.html" class="link-sweep font-semibold text-cta text-sm">تعديل</a>
             </div>
             <div class="flex flex-col gap-4" data-cart-lines>

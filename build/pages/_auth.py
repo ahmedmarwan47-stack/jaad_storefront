@@ -70,7 +70,7 @@ SIDE_CARD = f"""
                  centres at the same offset as the sign-in card's button (both
                  cards are equal height). -->
             <aside class="flex flex-col gap-6 bg-interaction-base p-8 xl:p-10 rounded-[20px] order-last lg:order-none min-w-0">
-              <h2 class="font-bold text-[#003616] text-2xl xl:text-3xl text-center">إنشاء حساب جديد</h2>
+              <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2] text-center">إنشاء حساب جديد</h2>
               <div class="flex flex-1 flex-col justify-center gap-6">
                 <div class="flex justify-center items-center gap-3">
                   <span class="place-items-center grid bg-white rounded-full text-cta size-11">{ICON_HOME}</span>
@@ -137,7 +137,7 @@ def auth_page(title_text, description, heading, form_html, page_id, path,
                on the same line as the create-account button (Ahmed, 2026-08-04). -->
           <div class="flex flex-col gap-6 bg-white shadow-custom4 p-8 xl:p-10 rounded-[20px] min-w-0">
             {hero_html}
-            <h1 class="font-bold text-[#003616] text-2xl xl:text-3xl text-center">{e(heading)}</h1>
+            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2] text-center">{e(heading)}</h1>
             <form class="{form_class}"{attrs}>{form_html}
             </form>
             {SOCIAL if social else ''}

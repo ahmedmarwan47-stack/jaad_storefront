@@ -61,7 +61,7 @@ def build():
                lg — line items first, summary beneath (804:32907). -->
           <aside class="flex flex-col gap-4 lg:sticky lg:top-4 order-last lg:order-2 min-w-0">
             <div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px]">
-              <h2 class="font-bold text-[#003616] text-xl">ملخص السلة</h2>
+              <h2 class="font-bold text-[#29612F] text-xl">ملخص السلة</h2>
 {freeship_bar()}
               <!-- Wallet, promo and the note editor grouped together (Ahmed,
                    2026-08-04), the same grouping the checkout summary uses, so

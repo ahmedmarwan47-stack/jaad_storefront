@@ -251,7 +251,7 @@ def _story_html(p):
       </section>
       <section data-story-faq class="product-story-faq">
         <div class="mx-auto px-4 max-w-[760px]">
-          <h2 class="mb-6 font-bold text-[#003616] text-2xl xl:text-3xl text-center">الأسئلة الشائعة</h2>
+          <h2 class="mb-6 font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2] text-center">الأسئلة الشائعة</h2>
           {accordion(FAQ_ITEMS)}
         </div>
       </section>"""
@@ -314,7 +314,7 @@ def _render(p):
         rows = "".join(bundle_item(x) for x in picks)
         related_list = f"""
           <div data-bundle class="flex flex-col bg-white shadow-custom4 p-4 xl:p-5 rounded-[20px]">
-            <h2 class="mb-1 px-2 font-bold text-[#003616] text-base xl:text-lg">قد يعجبك أيضاً</h2>
+            <h2 class="mb-1 px-2 font-bold text-[#29612F] text-base xl:text-lg">قد يعجبك أيضاً</h2>
             <div class="flex flex-col">{rows}
             </div>
             <div class="flex flex-wrap justify-between items-center gap-3 mt-3 px-2 pt-3 border-neutral-divider border-t">
@@ -331,7 +331,7 @@ def _render(p):
     # uniform rather than per-product.
     faq_html = f"""
             <div class="flex flex-col gap-2">
-              <h2 class="mt-1 font-bold text-[#003616] text-lg xl:text-xl">الأسئلة الشائعة</h2>
+              <h2 class="mt-1 font-bold text-[#29612F] text-lg xl:text-xl">الأسئلة الشائعة</h2>
               {accordion(FAQ_ITEMS)}
             </div>"""
 
@@ -381,7 +381,7 @@ def _render(p):
                data-price="{p.get('sale') or p.get('price') or 0}" data-image="{e(p['image'])}">
             <div class="flex flex-col gap-3">
               {best_seller_badge(p)}
-              <h1 class="font-bold text-[#003616] text-2xl xl:text-4xl leading-tight">{e(title(p))}</h1>
+              <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">{e(title(p))}</h1>
               <!-- Points callout sits with the rating + social-proof line, right
                    beside the red "best seller" proof text (Ahmed, 2026-08-04) —
                    not up by the yellow best-seller badge. Wraps on a narrow

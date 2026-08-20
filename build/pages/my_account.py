@@ -66,7 +66,7 @@ def build():
                  shopper sees is where their current order is. -->
             <div class="flex flex-col gap-4">
               <div class="flex flex-wrap justify-between items-center gap-3">
-                <h2 class="font-bold text-[#003616] text-lg">طلباتي</h2>
+                <h2 class="font-bold text-[#29612F] text-lg">طلباتي</h2>
                 <a href="my-account-orders.html" class="hover:bg-interaction-base px-5 py-2 border border-neutral-divider rounded-full font-semibold text-[#003616] text-xs transition-colors">كل الطلبات</a>
               </div>
               {order_tracking_card(current)}
@@ -89,7 +89,7 @@ def build():
                 <button type="button" data-copy-ref class="bg-cta hover:bg-cta-hover px-4 py-1.5 rounded-full font-semibold text-white text-xs transition-colors">نسخ</button>
               </div>''')}
 
-            <h2 class="font-bold text-[#003616] text-lg">بياناتي</h2>
+            <h2 class="font-bold text-[#29612F] text-lg">بياناتي</h2>
             <div class="gap-6 grid md:grid-cols-2">
               {card("بيانات الحساب", f'''
                 <div class="flex flex-col gap-1 text-sm">

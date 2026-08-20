@@ -238,13 +238,22 @@ def button(label, href="#", variant="primary", size="md", extra="", full_mobile=
 
 
 def section_heading(heading, cta_label=None, cta_href="#", centered=False):
-    """Section title with an optional trailing link — Figma 'Section Header'."""
+    """Section title with an optional trailing link — Figma 'Section Header'.
+
+    Type treatment matches the homepage's section headings (Ahmed, 2026-08-20):
+    Figma's Primary/Dark Green #29612F at `font-medium` 32/40px, not the old
+    `font-bold text-[#003616] text-3xl xl:text-4xl`. That older pairing came
+    from the brand-manual-derived config, before the real Figma variables were
+    pulled; it left every inner page's section titles heavier and a different
+    green from the homepage that links to them.
+    """
     if centered:
-        return (f'<h2 class="mb-10 xl:mb-12 font-bold text-[#003616] text-3xl xl:text-4xl '
-                f'text-center">{e(heading)}</h2>')
+        return (f'<h2 class="mb-10 xl:mb-12 font-medium text-[#29612F] text-[32px] md:text-[40px] '
+                f'leading-[1.2] text-center">{e(heading)}</h2>')
     cta = button(cta_label, cta_href, "secondary", "sm", full_mobile=False) if cta_label else ""
     return (f'<div class="flex flex-wrap justify-between items-center gap-4 mb-10">'
-            f'<h2 class="font-bold text-[#003616] text-3xl xl:text-4xl">{e(heading)}</h2>{cta}</div>')
+            f'<h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">'
+            f'{e(heading)}</h2>{cta}</div>')
 
 
 def carousel(slides_html, gap=24, arrows_top="130px", autoplay=False, dots=False, extra="", track_attr=""):
@@ -399,8 +408,10 @@ def page_header(heading, trail=None):
     113 pages with two h1s, the first of them silent.
     """
     crumbs = f"{breadcrumb(trail)}" if trail else ""
+    # Same Figma heading treatment as section_heading / the homepage h2s.
     head = (
-        f'\n          <h1 class="font-bold text-[#003616] text-3xl xl:text-5xl">{e(heading)}</h1>'
+        f'\n          <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] '
+        f'leading-[1.2]">{e(heading)}</h1>'
         if heading
         else ""
     )
@@ -1058,7 +1069,7 @@ def specs_block(tagline, desc, points):
     return f"""
             <div class="flex flex-col gap-4 bg-interaction-base p-5 rounded-2xl">
               <div class="flex flex-col gap-0.5">
-                <h2 class="font-bold text-[#003616] text-base xl:text-lg">{e(tagline)}</h2>
+                <h2 class="font-bold text-[#29612F] text-base xl:text-lg">{e(tagline)}</h2>
                 <p class="text-neutral-secondary text-sm leading-6">{e(desc)}</p>
               </div>
               <ul class="flex flex-col gap-2.5">{bullets}
@@ -1302,7 +1313,7 @@ def checkout_summary(lines_html, subtotal, total, delivery_fee, interactive=True
     return f"""
           <aside class="lg:top-4 lg:sticky flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px] order-2 lg:order-none min-w-0">
             <div class="flex justify-between items-center gap-3">
-              <h2 class="font-bold text-[#003616] text-xl">ملخص السلة</h2>
+              <h2 class="font-bold text-[#29612F] text-xl">ملخص السلة</h2>
               {edit_link}
             </div>
             <div class="flex flex-col gap-4" data-cart-lines>{lines_html}
@@ -1653,7 +1664,7 @@ def cart_line(p, qty=1, weight="250 جم"):
               <article data-cart-static class="flex flex-wrap sm:flex-nowrap items-center gap-4 py-5 border-neutral-divider border-b">
                 <img src="{e(p['image'])}" alt="{e(_title(p))}" class="bg-interaction-base p-2 rounded-xl w-20 h-20 object-contain shrink-0" loading="lazy" />
                 <div class="flex flex-col flex-1 gap-1 min-w-[7rem]">
-                  <h3 class="font-semibold text-[#003616] text-base line-clamp-2">{e(_title(p))}</h3>
+                  <h3 class="font-semibold text-[#29612F] text-base line-clamp-2">{e(_title(p))}</h3>
                   <span class="text-neutral-secondary text-xs">{e(weight)}</span>
                   <button type="button" class="mt-1 text-accent-error text-xs underline self-start">حذف</button>
                 </div>
@@ -1955,7 +1966,7 @@ def info_card(img, heading, body, cta_label, cta_href, img_class="w-[100px] h-[1
     return f"""
             <div class="flex flex-col items-center gap-4 bg-interaction-base px-6 py-12 xl:py-16 rounded-[20px] text-center">
               <img src="{e(img)}" alt="" class="{img_class} object-contain" loading="lazy" />
-              <h3 class="mt-4 font-bold text-[#003616] text-2xl xl:text-3xl">{e(heading)}</h3>
+              <h3 class="mt-4 font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">{e(heading)}</h3>
               <p class="max-w-[280px] text-neutral-800 text-base xl:text-lg leading-7">{body}</p>
               {button(cta_label, cta_href, "primary", "lg", "mt-4")}
             </div>"""

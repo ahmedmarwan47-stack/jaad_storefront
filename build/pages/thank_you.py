@@ -74,7 +74,7 @@ def build():
         <div class="flex flex-col gap-3 mx-auto px-4 max-w-[1200px]">
           <div class="flex items-center gap-3">
             <span class="place-items-center grid bg-primary rounded-full text-white size-8">{CHECK}</span>
-            <h1 class="font-bold text-[#003616] text-2xl xl:text-3xl">شكراً لك</h1>
+            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">شكراً لك</h1>
           </div>
           <p class="font-semibold text-[#003616] text-base">تم تقديم طلبك بنجاح</p>
           <p class="text-neutral-secondary text-sm leading-7">
@@ -105,7 +105,7 @@ def build():
              and the two now read as a balanced pair. -->
         <div class="items-stretch gap-6 xl:gap-8 grid grid-cols-1 lg:grid-cols-[1fr_400px] mx-auto px-4 max-w-[1200px]">
           <div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 xl:p-8 rounded-[20px] min-w-0">
-            <h2 class="font-bold text-[#003616] text-xl">طلب رقم <span class="latin">#{ORDER_NO}</span></h2>
+            <h2 class="font-bold text-[#29612F] text-xl">طلب رقم <span class="latin">#{ORDER_NO}</span></h2>
             <div class="flex flex-col">{lines}
             </div>
             <!-- mt-auto sinks the totals to the bottom so the (shorter) order box
@@ -129,7 +129,7 @@ def build():
 
           <div class="flex flex-col gap-5 bg-interaction-base p-6 rounded-[20px]">
             <div class="flex flex-col gap-3">
-              <h2 class="font-bold text-[#003616] text-base">بيانات العميل</h2>
+              <h2 class="font-bold text-[#29612F] text-base">بيانات العميل</h2>
               <!-- Two columns at EVERY width (Ahmed, 2026-08-05): stacked in a
                    single column on a phone, this info left half the card empty
                    down its side. The values are short (the long email spans both
@@ -138,7 +138,7 @@ def build():
               </div>
             </div>
             <div class="flex flex-col gap-3 pt-5 border-neutral-divider border-t">
-              <h2 class="font-bold text-[#003616] text-base">بيانات التوصيل</h2>
+              <h2 class="font-bold text-[#29612F] text-base">بيانات التوصيل</h2>
               <div class="gap-x-4 gap-y-4 grid grid-cols-2">{_rows(DELIVERY)}
               </div>
             </div>

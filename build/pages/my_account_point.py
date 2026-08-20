@@ -88,13 +88,13 @@ def build():
             </div>
 
             <div class="flex flex-col gap-3">
-              <h2 class="font-bold text-[#003616] text-lg">مستويات العضوية</h2>
+              <h2 class="font-bold text-[#29612F] text-lg">مستويات العضوية</h2>
               <div class="gap-3 grid grid-cols-3" data-tier-cards>{_tier_cards(tp['idx'])}
               </div>
             </div>
 
             <div class="flex flex-col gap-3">
-              <h2 class="font-bold text-[#003616] text-lg">إزاي تكسب نقاط؟</h2>
+              <h2 class="font-bold text-[#29612F] text-lg">إزاي تكسب نقاط؟</h2>
               <div class="gap-3 grid grid-cols-2 lg:grid-cols-4">{earn}
               </div>
             </div>"""
