@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=613004fc" />
-    <link rel="stylesheet" href="styles.css?v=28ec1c87" />
+    <link rel="stylesheet" href="tailwind.css?v=6ce2e172" />
+    <link rel="stylesheet" href="styles.css?v=30183d6d" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -46,7 +46,7 @@
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
     <script defer src="i18n-en.js?v=24ccd6ef"></script>
-    <script defer src="scripts.js?v=ff94e0be"></script>
+    <script defer src="scripts.js?v=19037dd3"></script>
   </head>
   <body data-page="verify" data-path="/verify" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -61,7 +61,7 @@
     <main id="main" tabindex="-1" class="overflow-x-clip">
       <section data-reveal class="pt-6">
         <div class="flex flex-col gap-4 mx-auto px-4 max-w-[1536px]">
-          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-neutral-secondary hover:text-primary transition-colors">الرئيسية</a><span aria-hidden="true" class="text-neutral-outline">/</span><span class="font-semibold text-[#003616]">التحقق</span></nav>
+          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-muted hover:text-primary transition-colors">الرئيسية</a><span aria-hidden="true" class="text-outline">/</span><span class="font-semibold text-ink">التحقق</span></nav>
         </div>
       </section>
 
@@ -74,16 +74,16 @@
                on the same line as the create-account button (Ahmed, 2026-08-04). -->
           <div class="flex flex-col gap-6 bg-white shadow-custom4 p-8 xl:p-10 rounded-[20px] min-w-0">
             <div class="flex justify-center"><img src="images/jaad/icons/otp-3d.png" alt="" class="w-20 h-20 object-contain" /></div>
-            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2] text-center">التحقق من رقم الموبايل</h1>
+            <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2] text-center">التحقق من رقم الموبايل</h1>
             <form class="flex flex-col gap-5" data-otp-form>
-              <p class="text-neutral-secondary text-sm text-center leading-6">
+              <p class="text-muted text-sm text-center leading-6">
                 أدخل رمز التحقق المكوّن من 6 أرقام المُرسل إلى
-                <span class="font-semibold text-[#003616] latin" data-otp-mobile>—</span>
+                <span class="font-semibold text-ink latin" data-otp-mobile>—</span>
               </p>
               <div class="flex gap-2 sm:gap-3" dir="ltr">
-<input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" placeholder=" " data-otp-box aria-label="خانة رقم 1" class="otp-box flex-1 min-w-0 h-14 rounded-xl text-center font-bold text-[#003616] text-2xl latin" /><input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" placeholder=" " data-otp-box aria-label="خانة رقم 2" class="otp-box flex-1 min-w-0 h-14 rounded-xl text-center font-bold text-[#003616] text-2xl latin" /><input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" placeholder=" " data-otp-box aria-label="خانة رقم 3" class="otp-box flex-1 min-w-0 h-14 rounded-xl text-center font-bold text-[#003616] text-2xl latin" /><input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" placeholder=" " data-otp-box aria-label="خانة رقم 4" class="otp-box flex-1 min-w-0 h-14 rounded-xl text-center font-bold text-[#003616] text-2xl latin" /><input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" placeholder=" " data-otp-box aria-label="خانة رقم 5" class="otp-box flex-1 min-w-0 h-14 rounded-xl text-center font-bold text-[#003616] text-2xl latin" /><input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" placeholder=" " data-otp-box aria-label="خانة رقم 6" class="otp-box flex-1 min-w-0 h-14 rounded-xl text-center font-bold text-[#003616] text-2xl latin" />
+<input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" placeholder=" " data-otp-box aria-label="خانة رقم 1" class="otp-box flex-1 min-w-0 h-14 rounded-xl text-center font-bold text-ink text-2xl latin" /><input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" placeholder=" " data-otp-box aria-label="خانة رقم 2" class="otp-box flex-1 min-w-0 h-14 rounded-xl text-center font-bold text-ink text-2xl latin" /><input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" placeholder=" " data-otp-box aria-label="خانة رقم 3" class="otp-box flex-1 min-w-0 h-14 rounded-xl text-center font-bold text-ink text-2xl latin" /><input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" placeholder=" " data-otp-box aria-label="خانة رقم 4" class="otp-box flex-1 min-w-0 h-14 rounded-xl text-center font-bold text-ink text-2xl latin" /><input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" placeholder=" " data-otp-box aria-label="خانة رقم 5" class="otp-box flex-1 min-w-0 h-14 rounded-xl text-center font-bold text-ink text-2xl latin" /><input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" placeholder=" " data-otp-box aria-label="خانة رقم 6" class="otp-box flex-1 min-w-0 h-14 rounded-xl text-center font-bold text-ink text-2xl latin" />
               </div>
-              <p data-otp-msg hidden class="font-semibold text-accent-error text-sm text-center"></p>
+              <p data-otp-msg hidden class="font-semibold text-error text-sm text-center"></p>
               <button type="submit" data-otp-submit class="btn-elevate bg-cta hover:bg-cta-hover py-4 rounded-full font-semibold text-white text-base transition-colors">تأكيد وتسجيل الدخول</button>
               <button type="button" data-resend-otp class="link-sweep self-center font-semibold text-cta text-sm">إعادة إرسال الرمز</button>
             </form>

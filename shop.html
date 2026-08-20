@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=613004fc" />
-    <link rel="stylesheet" href="styles.css?v=28ec1c87" />
+    <link rel="stylesheet" href="tailwind.css?v=6ce2e172" />
+    <link rel="stylesheet" href="styles.css?v=30183d6d" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -46,7 +46,7 @@
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
     <script defer src="i18n-en.js?v=24ccd6ef"></script>
-    <script defer src="scripts.js?v=ff94e0be"></script>
+    <script defer src="scripts.js?v=19037dd3"></script>
   </head>
   <body data-page="shop" data-path="/shop" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -61,8 +61,8 @@
     <main id="main" tabindex="-1" class="overflow-x-clip">
       <section data-reveal class="pt-6">
         <div class="flex flex-col gap-4 mx-auto px-4 max-w-[1536px]">
-          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-neutral-secondary hover:text-primary transition-colors">الرئيسية</a><span aria-hidden="true" class="text-neutral-outline">/</span><span class="font-semibold text-[#003616]">كل المنتجات</span></nav>
-          <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">كل المنتجات</h1>
+          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-muted hover:text-primary transition-colors">الرئيسية</a><span aria-hidden="true" class="text-outline">/</span><span class="font-semibold text-ink">كل المنتجات</span></nav>
+          <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">كل المنتجات</h1>
         </div>
       </section>
 
@@ -87,7 +87,7 @@
                  the row reaches both screen edges and the last chip crops at the
                  edge (signalling more) rather than 32px short of it. At xl it
                  becomes flex-1 so it shares the row with the sort pill. -->
-            <div data-drag-scroll class="flex gap-2 -mx-4 px-4 xl:mx-0 xl:px-0 w-[calc(100%_+_2rem)] xl:w-auto xl:flex-1 min-w-0 overflow-x-auto no-scrollbar xl:flex-wrap xl:overflow-visible"><a href="#all" data-filter="all" class="inline-flex items-center min-h-11 xl:min-h-9 px-5 xl:px-4 py-2 xl:py-1.5 border rounded-full font-semibold text-sm xl:text-[13px] whitespace-nowrap transition-colors bg-cta text-white border-cta">كل المنتجات</a><a href="#coffee" data-filter="coffee" class="inline-flex items-center min-h-11 xl:min-h-9 px-5 xl:px-4 py-2 xl:py-1.5 border rounded-full font-semibold text-sm xl:text-[13px] whitespace-nowrap transition-colors chip-filter bg-white text-[#003616] border-neutral-divider hover:border-cta">القهوة</a><a href="#nuts" data-filter="nuts" class="inline-flex items-center min-h-11 xl:min-h-9 px-5 xl:px-4 py-2 xl:py-1.5 border rounded-full font-semibold text-sm xl:text-[13px] whitespace-nowrap transition-colors chip-filter bg-white text-[#003616] border-neutral-divider hover:border-cta">المكسرات</a><a href="#spices" data-filter="spices" class="inline-flex items-center min-h-11 xl:min-h-9 px-5 xl:px-4 py-2 xl:py-1.5 border rounded-full font-semibold text-sm xl:text-[13px] whitespace-nowrap transition-colors chip-filter bg-white text-[#003616] border-neutral-divider hover:border-cta">البهارات</a>
+            <div data-drag-scroll class="flex gap-2 -mx-4 px-4 xl:mx-0 xl:px-0 w-[calc(100%_+_2rem)] xl:w-auto xl:flex-1 min-w-0 overflow-x-auto no-scrollbar xl:flex-wrap xl:overflow-visible"><a href="#all" data-filter="all" class="inline-flex items-center min-h-11 xl:min-h-9 px-5 xl:px-4 py-2 xl:py-1.5 border rounded-full font-semibold text-sm xl:text-[13px] whitespace-nowrap transition-colors bg-cta text-white border-cta">كل المنتجات</a><a href="#coffee" data-filter="coffee" class="inline-flex items-center min-h-11 xl:min-h-9 px-5 xl:px-4 py-2 xl:py-1.5 border rounded-full font-semibold text-sm xl:text-[13px] whitespace-nowrap transition-colors chip-filter bg-white text-ink border-divider hover:border-cta">القهوة</a><a href="#nuts" data-filter="nuts" class="inline-flex items-center min-h-11 xl:min-h-9 px-5 xl:px-4 py-2 xl:py-1.5 border rounded-full font-semibold text-sm xl:text-[13px] whitespace-nowrap transition-colors chip-filter bg-white text-ink border-divider hover:border-cta">المكسرات</a><a href="#spices" data-filter="spices" class="inline-flex items-center min-h-11 xl:min-h-9 px-5 xl:px-4 py-2 xl:py-1.5 border rounded-full font-semibold text-sm xl:text-[13px] whitespace-nowrap transition-colors chip-filter bg-white text-ink border-divider hover:border-cta">البهارات</a>
             </div>
 
             <div class="relative shrink-0 text-start" data-fancy-select>
@@ -99,38 +99,38 @@
                    untouched. -->
               <label class="inline-flex items-center gap-2 xl:bg-white px-0 xl:px-4 py-2 rounded-full" aria-label="ترتيب حسب" data-fancy-fallback>
                 <span class="text-cta shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4" aria-hidden="true"><path d="M7 4v16m0 0-3-3m3 3 3-3M17 20V4m0 0-3 3m3-3 3 3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                <select class="select-sort bg-transparent font-semibold text-[#003616] text-sm outline-none cursor-pointer appearance-none border-0"><option value="popular">الأكثر مبيعاً</option><option value="newest">وصل حديثاً</option><option value="price-asc">السعر: من الأقل</option><option value="price-desc">السعر: من الأعلى</option></select>
-                <span class="text-neutral-secondary w-3.5 h-3.5 shrink-0 pointer-events-none"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <select class="select-sort bg-transparent font-semibold text-ink text-sm outline-none cursor-pointer appearance-none border-0"><option value="popular">الأكثر مبيعاً</option><option value="newest">وصل حديثاً</option><option value="price-asc">السعر: من الأقل</option><option value="price-desc">السعر: من الأعلى</option></select>
+                <span class="text-muted w-3.5 h-3.5 shrink-0 pointer-events-none"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </label>
 
               <!-- Custom dropdown (desktop). Starts fully hidden so no-JS keeps
                    the native select; JS switches it to `hidden xl:block`. -->
               <div class="hidden" data-fancy-ui>
                 <button type="button" data-fancy-trigger aria-haspopup="listbox" aria-expanded="false" aria-label="ترتيب حسب"
-                        class="inline-flex items-center gap-2 bg-interaction-base hover:bg-interaction-tertiary-hover px-4 py-2 rounded-full font-semibold text-[#003616] text-sm transition-colors">
+                        class="inline-flex items-center gap-2 bg-cream hover:bg-cream-hover px-4 py-2 rounded-full font-semibold text-ink text-sm transition-colors">
                   <span class="text-cta shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4" aria-hidden="true"><path d="M7 4v16m0 0-3-3m3 3 3-3M17 20V4m0 0-3 3m3-3 3 3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   <span data-fancy-label class="whitespace-nowrap">الأكثر مبيعاً</span>
-                  <span class="text-neutral-secondary w-3.5 h-3.5 shrink-0 pointer-events-none"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  <span class="text-muted w-3.5 h-3.5 shrink-0 pointer-events-none"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </button>
                 <ul role="listbox" tabindex="-1" data-fancy-pop
-                    class="hidden top-full end-0 z-40 absolute bg-white shadow-custom3 mt-2 p-1.5 border border-neutral-divider rounded-2xl min-w-[220px]">
+                    class="hidden top-full end-0 z-40 absolute bg-white shadow-custom3 mt-2 p-1.5 border border-divider rounded-2xl min-w-[220px]">
                 <li role="option" data-fancy-opt data-value="popular" aria-selected="true"
-                    class="flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer text-sm font-medium text-[#003616] hover:bg-interaction-base focus-visible:bg-interaction-base focus:outline-none transition-colors">
+                    class="flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer text-sm font-medium text-ink hover:bg-cream focus-visible:bg-cream focus:outline-none transition-colors">
                   <span class="w-4 h-4 shrink-0 text-cta" data-fancy-check><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   <span data-opt-text class="whitespace-nowrap">الأكثر مبيعاً</span>
                 </li>
                 <li role="option" data-fancy-opt data-value="newest" aria-selected="false"
-                    class="flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer text-sm font-medium text-[#003616] hover:bg-interaction-base focus-visible:bg-interaction-base focus:outline-none transition-colors">
+                    class="flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer text-sm font-medium text-ink hover:bg-cream focus-visible:bg-cream focus:outline-none transition-colors">
                   <span class="w-4 h-4 shrink-0 text-cta" data-fancy-check><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   <span data-opt-text class="whitespace-nowrap">وصل حديثاً</span>
                 </li>
                 <li role="option" data-fancy-opt data-value="price-asc" aria-selected="false"
-                    class="flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer text-sm font-medium text-[#003616] hover:bg-interaction-base focus-visible:bg-interaction-base focus:outline-none transition-colors">
+                    class="flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer text-sm font-medium text-ink hover:bg-cream focus-visible:bg-cream focus:outline-none transition-colors">
                   <span class="w-4 h-4 shrink-0 text-cta" data-fancy-check><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   <span data-opt-text class="whitespace-nowrap">السعر: من الأقل</span>
                 </li>
                 <li role="option" data-fancy-opt data-value="price-desc" aria-selected="false"
-                    class="flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer text-sm font-medium text-[#003616] hover:bg-interaction-base focus-visible:bg-interaction-base focus:outline-none transition-colors">
+                    class="flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer text-sm font-medium text-ink hover:bg-cream focus-visible:bg-cream focus:outline-none transition-colors">
                   <span class="w-4 h-4 shrink-0 text-cta" data-fancy-check><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   <span data-opt-text class="whitespace-nowrap">السعر: من الأعلى</span>
                 </li>
@@ -148,10 +148,10 @@
                the cards' h3 was skipping — the page h1 sat directly above
                them. Not painted: the visible label is the result count. -->
           <h2 class="sr-only">قائمة المنتجات</h2>
-          <p class="mb-6 text-neutral-secondary text-sm">
+          <p class="mb-6 text-muted text-sm">
             <span class="latin" data-result-count>26</span> منتج
           </p>
-          <p data-empty-state hidden class="py-10 text-neutral-secondary text-base text-center">
+          <p data-empty-state hidden class="py-10 text-muted text-base text-center">
             لا توجد منتجات في هذا القسم حالياً.
           </p>
           <div data-product-grid class="gap-4 xl:gap-6 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
@@ -178,16 +178,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">45</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -195,7 +195,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-1.html" data-product-title class="hover:text-[#29612F] transition-colors">Light Roasted Coffee</a>
+                <a href="product-1.html" data-product-title class="hover:text-heading transition-colors">Light Roasted Coffee</a>
               </h3>
             </div>
           </article>
@@ -222,16 +222,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">45</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -239,7 +239,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-2.html" data-product-title class="hover:text-[#29612F] transition-colors">Medium Roasted Coffee</a>
+                <a href="product-2.html" data-product-title class="hover:text-heading transition-colors">Medium Roasted Coffee</a>
               </h3>
             </div>
           </article>
@@ -266,16 +266,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">45</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -283,7 +283,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-3.html" data-product-title class="hover:text-[#29612F] transition-colors">Dark Roasted Coffee</a>
+                <a href="product-3.html" data-product-title class="hover:text-heading transition-colors">Dark Roasted Coffee</a>
               </h3>
             </div>
           </article>
@@ -310,16 +310,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">50</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -327,7 +327,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-4.html" data-product-title class="hover:text-[#29612F] transition-colors">Light Roasted with Cardamom</a>
+                <a href="product-4.html" data-product-title class="hover:text-heading transition-colors">Light Roasted with Cardamom</a>
               </h3>
             </div>
           </article>
@@ -354,16 +354,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">50</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -371,7 +371,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-5.html" data-product-title class="hover:text-[#29612F] transition-colors">Medium Roasted with Cardamom</a>
+                <a href="product-5.html" data-product-title class="hover:text-heading transition-colors">Medium Roasted with Cardamom</a>
               </h3>
             </div>
           </article>
@@ -398,16 +398,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">50</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -415,7 +415,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-6.html" data-product-title class="hover:text-[#29612F] transition-colors">Dark Roasted with Cardamom</a>
+                <a href="product-6.html" data-product-title class="hover:text-heading transition-colors">Dark Roasted with Cardamom</a>
               </h3>
             </div>
           </article>
@@ -442,16 +442,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">65</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -459,7 +459,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-7.html" data-product-title class="hover:text-[#29612F] transition-colors">Espresso</a>
+                <a href="product-7.html" data-product-title class="hover:text-heading transition-colors">Espresso</a>
               </h3>
             </div>
           </article>
@@ -486,16 +486,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">85</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -503,7 +503,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-8.html" data-product-title class="hover:text-[#29612F] transition-colors">Cashew</a>
+                <a href="product-8.html" data-product-title class="hover:text-heading transition-colors">Cashew</a>
               </h3>
             </div>
           </article>
@@ -530,16 +530,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">80</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -547,7 +547,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-9.html" data-product-title class="hover:text-[#29612F] transition-colors">Hazelnut</a>
+                <a href="product-9.html" data-product-title class="hover:text-heading transition-colors">Hazelnut</a>
               </h3>
             </div>
           </article>
@@ -574,16 +574,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">90</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -591,7 +591,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-10.html" data-product-title class="hover:text-[#29612F] transition-colors">Pistachio</a>
+                <a href="product-10.html" data-product-title class="hover:text-heading transition-colors">Pistachio</a>
               </h3>
             </div>
           </article>
@@ -618,16 +618,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">85</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -635,7 +635,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-11.html" data-product-title class="hover:text-[#29612F] transition-colors">Almond</a>
+                <a href="product-11.html" data-product-title class="hover:text-heading transition-colors">Almond</a>
               </h3>
             </div>
           </article>
@@ -662,16 +662,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">65</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -679,7 +679,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-12.html" data-product-title class="hover:text-[#29612F] transition-colors">Walnut</a>
+                <a href="product-12.html" data-product-title class="hover:text-heading transition-colors">Walnut</a>
               </h3>
             </div>
           </article>
@@ -706,16 +706,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">35</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -723,7 +723,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-13.html" data-product-title class="hover:text-[#29612F] transition-colors">Chili Peppers</a>
+                <a href="product-13.html" data-product-title class="hover:text-heading transition-colors">Chili Peppers</a>
               </h3>
             </div>
           </article>
@@ -750,16 +750,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">35</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -767,7 +767,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-14.html" data-product-title class="hover:text-[#29612F] transition-colors">Turmeric</a>
+                <a href="product-14.html" data-product-title class="hover:text-heading transition-colors">Turmeric</a>
               </h3>
             </div>
           </article>
@@ -794,16 +794,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">35</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -811,7 +811,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-15.html" data-product-title class="hover:text-[#29612F] transition-colors">Ginger</a>
+                <a href="product-15.html" data-product-title class="hover:text-heading transition-colors">Ginger</a>
               </h3>
             </div>
           </article>
@@ -838,16 +838,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">30</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -855,7 +855,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-16.html" data-product-title class="hover:text-[#29612F] transition-colors">Coriander</a>
+                <a href="product-16.html" data-product-title class="hover:text-heading transition-colors">Coriander</a>
               </h3>
             </div>
           </article>
@@ -882,16 +882,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">40</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -899,7 +899,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-17.html" data-product-title class="hover:text-[#29612F] transition-colors">Nutmeg</a>
+                <a href="product-17.html" data-product-title class="hover:text-heading transition-colors">Nutmeg</a>
               </h3>
             </div>
           </article>
@@ -926,16 +926,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">35</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -943,7 +943,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-18.html" data-product-title class="hover:text-[#29612F] transition-colors">Cinnamon</a>
+                <a href="product-18.html" data-product-title class="hover:text-heading transition-colors">Cinnamon</a>
               </h3>
             </div>
           </article>
@@ -970,16 +970,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">35</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -987,7 +987,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-19.html" data-product-title class="hover:text-[#29612F] transition-colors">Paprika</a>
+                <a href="product-19.html" data-product-title class="hover:text-heading transition-colors">Paprika</a>
               </h3>
             </div>
           </article>
@@ -1014,16 +1014,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">40</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -1031,7 +1031,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-20.html" data-product-title class="hover:text-[#29612F] transition-colors">Black Pepper</a>
+                <a href="product-20.html" data-product-title class="hover:text-heading transition-colors">Black Pepper</a>
               </h3>
             </div>
           </article>
@@ -1058,16 +1058,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">55</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -1075,7 +1075,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-21.html" data-product-title class="hover:text-[#29612F] transition-colors">Cardamom</a>
+                <a href="product-21.html" data-product-title class="hover:text-heading transition-colors">Cardamom</a>
               </h3>
             </div>
           </article>
@@ -1102,16 +1102,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">40</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -1119,7 +1119,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-22.html" data-product-title class="hover:text-[#29612F] transition-colors">Cloves</a>
+                <a href="product-22.html" data-product-title class="hover:text-heading transition-colors">Cloves</a>
               </h3>
             </div>
           </article>
@@ -1146,16 +1146,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">35</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -1163,7 +1163,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-23.html" data-product-title class="hover:text-[#29612F] transition-colors">Cumin</a>
+                <a href="product-23.html" data-product-title class="hover:text-heading transition-colors">Cumin</a>
               </h3>
             </div>
           </article>
@@ -1190,16 +1190,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">40</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -1207,7 +1207,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-24.html" data-product-title class="hover:text-[#29612F] transition-colors">Meat Spices</a>
+                <a href="product-24.html" data-product-title class="hover:text-heading transition-colors">Meat Spices</a>
               </h3>
             </div>
           </article>
@@ -1234,16 +1234,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">40</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -1251,7 +1251,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-25.html" data-product-title class="hover:text-[#29612F] transition-colors">Chicken Spices</a>
+                <a href="product-25.html" data-product-title class="hover:text-heading transition-colors">Chicken Spices</a>
               </h3>
             </div>
           </article>
@@ -1278,16 +1278,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">40</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -1295,13 +1295,13 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-26.html" data-product-title class="hover:text-[#29612F] transition-colors">Fish Spices</a>
+                <a href="product-26.html" data-product-title class="hover:text-heading transition-colors">Fish Spices</a>
               </h3>
             </div>
           </article>
           </div>
           <div class="flex justify-center mt-12">
-            <button type="button" class="hover:bg-interaction-base px-10 py-3 border border-cta rounded-full font-semibold text-cta text-base transition-colors">
+            <button type="button" class="hover:bg-cream px-10 py-3 border border-cta rounded-full font-semibold text-cta text-base transition-colors">
               عرض المزيد
             </button>
           </div>

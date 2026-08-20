@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=613004fc" />
-    <link rel="stylesheet" href="styles.css?v=28ec1c87" />
+    <link rel="stylesheet" href="tailwind.css?v=6ce2e172" />
+    <link rel="stylesheet" href="styles.css?v=30183d6d" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -46,7 +46,7 @@
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
     <script defer src="i18n-en.js?v=24ccd6ef"></script>
-    <script defer src="scripts.js?v=ff94e0be"></script>
+    <script defer src="scripts.js?v=19037dd3"></script>
   </head>
   <body data-page="my-account-addresses" data-path="/my-account/addresses" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -61,7 +61,7 @@
     <main id="main" tabindex="-1" class="overflow-x-clip">
       <section data-reveal class="pt-6">
         <div class="flex flex-col gap-4 mx-auto px-4 max-w-[1536px]">
-          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-neutral-secondary hover:text-primary transition-colors">الرئيسية</a><span aria-hidden="true" class="text-neutral-outline">/</span><a href="my-account.html" class="link-sweep text-neutral-secondary hover:text-primary transition-colors">حسابي</a><span aria-hidden="true" class="text-neutral-outline">/</span><span class="font-semibold text-[#003616]">عناويني</span></nav>
+          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-muted hover:text-primary transition-colors">الرئيسية</a><span aria-hidden="true" class="text-outline">/</span><a href="my-account.html" class="link-sweep text-muted hover:text-primary transition-colors">حسابي</a><span aria-hidden="true" class="text-outline">/</span><span class="font-semibold text-ink">عناويني</span></nav>
         </div>
       </section>
 
@@ -70,78 +70,78 @@
 
           <div class="lg:hidden flex flex-col gap-3 min-w-0">
             <span class="tier-badge tier-badge--gold inline-flex items-center self-start px-3 py-1 rounded-full font-bold text-xs "><span class="relative z-10">عضوية ذهبية</span></span>
-            <h2 class="font-bold text-[#29612F] text-xl">مرحبا محمد</h2>
-            <button type="button" data-open="accountMenu" class="flex justify-between items-center gap-3 bg-white px-5 py-3.5 border border-neutral-divider rounded-full w-full font-semibold text-[#003616] text-base">
+            <h2 class="font-bold text-heading text-xl">مرحبا محمد</h2>
+            <button type="button" data-open="accountMenu" class="flex justify-between items-center gap-3 bg-white px-5 py-3.5 border border-divider rounded-full w-full font-semibold text-ink text-base">
               <span class="flex items-center gap-3 min-w-0">
                 <span class="text-cta shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
                 <span class="truncate">عناويني</span>
               </span>
-              <span class="-rotate-90 text-neutral-secondary shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="-rotate-90 text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             </button>
           </div>
 
           <div data-sheet="account-menu" class="lg:hidden bottom-sheet">
             <div class="bg-neutral-200 mx-auto mb-4 rounded-full w-10 h-1"></div>
             <div class="flex justify-between items-center mb-2">
-              <h2 class="font-bold text-[#29612F] text-lg">القائمة</h2>
-              <button type="button" data-close class="place-items-center grid hover:bg-interaction-base border border-neutral-divider rounded-full w-8 h-8 text-[#003616]" aria-label="إغلاق"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+              <h2 class="font-bold text-heading text-lg">القائمة</h2>
+              <button type="button" data-close class="place-items-center grid hover:bg-cream border border-divider rounded-full w-8 h-8 text-ink" aria-label="إغلاق"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
             </div>
             <nav class="flex flex-col">
-              <a href="my-account.html" class="flex items-center gap-3 px-1 py-4 border-neutral-divider border-b font-semibold text-base text-[#003616]">
+              <a href="my-account.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-ink">
                 <img src="images/jaad/icons/home-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
                   <span class="truncate">الرئيسية</span>
                 </span>
-                <span class="text-neutral-secondary shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
-              <a href="my-account-orders.html" class="flex items-center gap-3 px-1 py-4 border-neutral-divider border-b font-semibold text-base text-[#003616]">
+              <a href="my-account-orders.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-ink">
                 <img src="images/jaad/icons/orders-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
                   <span class="truncate">طلباتي</span>
                 </span>
-                <span class="text-neutral-secondary shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
-              <a href="my-account-favorites.html" class="flex items-center gap-3 px-1 py-4 border-neutral-divider border-b font-semibold text-base text-[#003616]">
+              <a href="my-account-favorites.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-ink">
                 <img src="images/jaad/icons/favorites-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
-                  <span class="truncate">المفضلة</span><span class="inline-flex items-center justify-center shrink-0 bg-[#E9F3E6] rounded-full px-2 min-w-[26px] h-6 font-bold text-[#00451C] text-xs latin" data-favs-count>0</span>
+                  <span class="truncate">المفضلة</span><span class="inline-flex items-center justify-center shrink-0 bg-mint rounded-full px-2 min-w-[26px] h-6 font-bold text-ink-800 text-xs latin" data-favs-count>0</span>
                 </span>
-                <span class="text-neutral-secondary shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
-              <a href="my-account-addresses.html" class="flex items-center gap-3 px-1 py-4 border-neutral-divider border-b font-semibold text-base text-cta">
+              <a href="my-account-addresses.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-cta">
                 <img src="images/jaad/icons/addresses-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
                   <span class="truncate">عناويني</span>
                 </span>
-                <span class="text-neutral-secondary shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
-              <a href="my-account-wallet.html" class="flex items-center gap-3 px-1 py-4 border-neutral-divider border-b font-semibold text-base text-[#003616]">
+              <a href="my-account-wallet.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-ink">
                 <img src="images/jaad/icons/wallet-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
-                  <span class="truncate">محفظتي</span><span class="inline-flex items-center justify-center shrink-0 bg-[#E9F3E6] rounded-full px-2 min-w-[26px] h-6 font-bold text-[#00451C] text-xs latin" data-wallet-amount>EGP 1200</span>
+                  <span class="truncate">محفظتي</span><span class="inline-flex items-center justify-center shrink-0 bg-mint rounded-full px-2 min-w-[26px] h-6 font-bold text-ink-800 text-xs latin" data-wallet-amount>EGP 1200</span>
                 </span>
-                <span class="text-neutral-secondary shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
-              <a href="my-account-vouchers.html" class="flex items-center gap-3 px-1 py-4 border-neutral-divider border-b font-semibold text-base text-[#003616]">
+              <a href="my-account-vouchers.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-ink">
                 <img src="images/jaad/icons/voucher-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
-                  <span class="truncate">القسائم</span><span class="inline-flex items-center justify-center shrink-0 bg-[#E9F3E6] rounded-full px-2 min-w-[26px] h-6 font-bold text-[#00451C] text-xs latin" data-vouchers-count>3</span>
+                  <span class="truncate">القسائم</span><span class="inline-flex items-center justify-center shrink-0 bg-mint rounded-full px-2 min-w-[26px] h-6 font-bold text-ink-800 text-xs latin" data-vouchers-count>3</span>
                 </span>
-                <span class="text-neutral-secondary shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
-              <a href="my-account-point.html" class="flex items-center gap-3 px-1 py-4 border-neutral-divider border-b font-semibold text-base text-[#003616]">
+              <a href="my-account-point.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-ink">
                 <img src="images/jaad/icons/points-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
-                  <span class="truncate">نقاطي</span><span class="inline-flex items-center justify-center shrink-0 bg-[#E9F3E6] rounded-full px-2 min-w-[26px] h-6 font-bold text-[#00451C] text-xs latin" data-points-badge>3200</span>
+                  <span class="truncate">نقاطي</span><span class="inline-flex items-center justify-center shrink-0 bg-mint rounded-full px-2 min-w-[26px] h-6 font-bold text-ink-800 text-xs latin" data-points-badge>3200</span>
                 </span>
-                <span class="text-neutral-secondary shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
-              <a href="my-account-profile.html" class="flex items-center gap-3 px-1 py-4 border-neutral-divider border-b font-semibold text-base text-[#003616]">
+              <a href="my-account-profile.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-ink">
                 <img src="images/jaad/icons/profile-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
                   <span class="truncate">بيانات الحساب</span>
                 </span>
-                <span class="text-neutral-secondary shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
             </nav>
             <!-- No "تأكيد" here (Ahmed, 2026-08-19): the rows are plain links
@@ -149,65 +149,65 @@
                  Its slot carries the LOGOUT instead — the desktop sidebar's
                  data-logout button, which the phone otherwise had no way to
                  reach (the sidebar is hidden below lg). -->
-            <button type="button" data-logout class="flex justify-center items-center gap-2 mt-4 py-3 border border-neutral-divider hover:border-cta rounded-full w-full font-semibold text-[#003616] text-sm transition-colors">
+            <button type="button" data-logout class="flex justify-center items-center gap-2 mt-4 py-3 border border-divider hover:border-cta rounded-full w-full font-semibold text-ink text-sm transition-colors">
               <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="M15 17l5-5-5-5M20 12H9M12 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg> تسجيل الخروج
             </button>
           </div>
 
           <aside class="hidden lg:flex flex-col gap-1 bg-white shadow-custom4 p-5 rounded-[20px] lg:sticky lg:top-4 min-w-0 h-max">
             <span class="tier-badge tier-badge--gold inline-flex items-center self-start px-3 py-1 rounded-full font-bold text-xs "><span class="relative z-10">عضوية ذهبية</span></span>
-            <h2 class="mt-2 mb-3 font-bold text-[#29612F] text-xl">مرحبا محمد</h2>
+            <h2 class="mt-2 mb-3 font-bold text-heading text-xl">مرحبا محمد</h2>
             
-              <a href="my-account.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-interaction-base">
+              <a href="my-account.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-cream">
                 <img src="images/jaad/icons/home-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex items-center gap-2 min-w-0">
                   <span class="truncate">الرئيسية</span>
                 </span>
               </a>
-              <a href="my-account-orders.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-interaction-base">
+              <a href="my-account-orders.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-cream">
                 <img src="images/jaad/icons/orders-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex items-center gap-2 min-w-0">
                   <span class="truncate">طلباتي</span>
                 </span>
               </a>
-              <a href="my-account-favorites.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-interaction-base">
+              <a href="my-account-favorites.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-cream">
                 <img src="images/jaad/icons/favorites-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex items-center gap-2 min-w-0">
-                  <span class="truncate">المفضلة</span><span class="inline-flex items-center justify-center shrink-0 bg-[#E9F3E6] rounded-full px-2 min-w-[26px] h-6 font-bold text-[#00451C] text-xs latin" data-favs-count>0</span>
+                  <span class="truncate">المفضلة</span><span class="inline-flex items-center justify-center shrink-0 bg-mint rounded-full px-2 min-w-[26px] h-6 font-bold text-ink-800 text-xs latin" data-favs-count>0</span>
                 </span>
               </a>
-              <a href="my-account-addresses.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors bg-interaction-base text-[#003616]">
+              <a href="my-account-addresses.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors bg-cream text-ink">
                 <img src="images/jaad/icons/addresses-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex items-center gap-2 min-w-0">
                   <span class="truncate">عناويني</span>
                 </span>
               </a>
-              <a href="my-account-wallet.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-interaction-base">
+              <a href="my-account-wallet.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-cream">
                 <img src="images/jaad/icons/wallet-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex items-center gap-2 min-w-0">
-                  <span class="truncate">محفظتي</span><span class="inline-flex items-center justify-center shrink-0 bg-[#E9F3E6] rounded-full px-2 min-w-[26px] h-6 font-bold text-[#00451C] text-xs latin" data-wallet-amount>EGP 1200</span>
+                  <span class="truncate">محفظتي</span><span class="inline-flex items-center justify-center shrink-0 bg-mint rounded-full px-2 min-w-[26px] h-6 font-bold text-ink-800 text-xs latin" data-wallet-amount>EGP 1200</span>
                 </span>
               </a>
-              <a href="my-account-vouchers.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-interaction-base">
+              <a href="my-account-vouchers.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-cream">
                 <img src="images/jaad/icons/voucher-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex items-center gap-2 min-w-0">
-                  <span class="truncate">القسائم</span><span class="inline-flex items-center justify-center shrink-0 bg-[#E9F3E6] rounded-full px-2 min-w-[26px] h-6 font-bold text-[#00451C] text-xs latin" data-vouchers-count>3</span>
+                  <span class="truncate">القسائم</span><span class="inline-flex items-center justify-center shrink-0 bg-mint rounded-full px-2 min-w-[26px] h-6 font-bold text-ink-800 text-xs latin" data-vouchers-count>3</span>
                 </span>
               </a>
-              <a href="my-account-point.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-interaction-base">
+              <a href="my-account-point.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-cream">
                 <img src="images/jaad/icons/points-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex items-center gap-2 min-w-0">
-                  <span class="truncate">نقاطي</span><span class="inline-flex items-center justify-center shrink-0 bg-[#E9F3E6] rounded-full px-2 min-w-[26px] h-6 font-bold text-[#00451C] text-xs latin" data-points-badge>3200</span>
+                  <span class="truncate">نقاطي</span><span class="inline-flex items-center justify-center shrink-0 bg-mint rounded-full px-2 min-w-[26px] h-6 font-bold text-ink-800 text-xs latin" data-points-badge>3200</span>
                 </span>
               </a>
-              <a href="my-account-profile.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-interaction-base">
+              <a href="my-account-profile.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-cream">
                 <img src="images/jaad/icons/profile-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex items-center gap-2 min-w-0">
                   <span class="truncate">بيانات الحساب</span>
                 </span>
               </a>
-            <div class="flex flex-col gap-2 mt-4 pt-4 border-neutral-divider border-t">
-              <span class="font-semibold text-neutral-secondary text-sm">تحتاج مساعدة؟</span>
+            <div class="flex flex-col gap-2 mt-4 pt-4 border-divider border-t">
+              <span class="font-semibold text-muted text-sm">تحتاج مساعدة؟</span>
               <a href="faqs.html" class="link-sweep self-start font-semibold text-cta text-sm">الأسئلة المتداولة</a>
               <a href="contact-us.html" class="link-sweep self-start font-semibold text-cta text-sm">تواصل معنا</a>
             </div>
@@ -215,28 +215,28 @@
                  The old red "تسجيل الخروج" text button AND this one shipped
                  together — and the second merely linked home without logging
                  out, so there were two controls, one of them lying. -->
-            <button type="button" data-logout class="flex justify-center items-center gap-2 mt-4 py-3 border border-neutral-divider hover:border-cta rounded-full font-semibold text-[#003616] text-sm transition-colors">
+            <button type="button" data-logout class="flex justify-center items-center gap-2 mt-4 py-3 border border-divider hover:border-cta rounded-full font-semibold text-ink text-sm transition-colors">
               <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="M15 17l5-5-5-5M20 12H9M12 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg> تسجيل الخروج
             </button>
           </aside>
           <div class="flex flex-col gap-6 min-w-0">
             <div class="flex flex-wrap justify-between items-center gap-3">
-              <div class="flex items-center gap-3"><span class="place-items-center grid bg-interaction-base rounded-xl size-11 shrink-0"><img src="images/jaad/icons/addresses-3d.png" alt="" class="w-8 h-8 object-contain shrink-0" /></span><h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">عناويني</h1></div>
+              <div class="flex items-center gap-3"><span class="place-items-center grid bg-cream rounded-xl size-11 shrink-0"><img src="images/jaad/icons/addresses-3d.png" alt="" class="w-8 h-8 object-contain shrink-0" /></span><h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">عناويني</h1></div>
               <button type="button" data-address-add class="bg-cta hover:bg-cta-hover px-6 py-2.5 rounded-full font-semibold text-white text-sm transition-colors">اضف عنوان</button>
             </div>
-            <div class="gap-6 grid md:grid-cols-2" data-addresses-grid><div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px]"><div class="flex justify-between items-center gap-3"><h2 class="font-bold text-[#29612F] text-base">المنزل</h2></div><div class="flex flex-col gap-1 text-neutral-secondary text-sm">
+            <div class="gap-6 grid md:grid-cols-2" data-addresses-grid><div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px]"><div class="flex justify-between items-center gap-3"><h2 class="font-bold text-heading text-base">المنزل</h2></div><div class="flex flex-col gap-1 text-muted text-sm">
               <span>شقة 3 - 220 شارع الحرية - الدور الأول</span><span>مصر الجديدة، القاهرة</span>
             </div>
-            <span class="bg-interaction-base px-3 py-1 rounded-full font-semibold text-primary text-xs self-start">العنوان الرئيسي</span>
+            <span class="bg-cream px-3 py-1 rounded-full font-semibold text-primary text-xs self-start">العنوان الرئيسي</span>
             <!-- mt-auto pins the actions to the card bottom so تعديل/حذف line up
                  across cards: without it, a card that lacks the main-address
                  badge floats its actions up under the address while the badged
                  card's sit a row lower. Grid rows already stretch to equal
                  height, so the shorter card just distributes the slack above. -->
             <div class="flex gap-2 mt-auto">
-              <button type="button" class="hover:bg-interaction-base px-4 py-1.5 border border-neutral-divider rounded-full font-semibold text-[#003616] text-xs transition-colors">تعديل</button>
-              <button type="button" class="px-4 py-1.5 font-semibold text-accent-error text-xs">حذف</button>
-            </div></div><div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px]"><div class="flex justify-between items-center gap-3"><h2 class="font-bold text-[#29612F] text-base">العمل</h2></div><div class="flex flex-col gap-1 text-neutral-secondary text-sm">
+              <button type="button" class="hover:bg-cream px-4 py-1.5 border border-divider rounded-full font-semibold text-ink text-xs transition-colors">تعديل</button>
+              <button type="button" class="px-4 py-1.5 font-semibold text-error text-xs">حذف</button>
+            </div></div><div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px]"><div class="flex justify-between items-center gap-3"><h2 class="font-bold text-heading text-base">العمل</h2></div><div class="flex flex-col gap-1 text-muted text-sm">
               <span>مبنى 12 - شارع التسعين الشمالي</span><span>التجمع الخامس، القاهرة</span>
             </div>
             
@@ -246,8 +246,8 @@
                  card's sit a row lower. Grid rows already stretch to equal
                  height, so the shorter card just distributes the slack above. -->
             <div class="flex gap-2 mt-auto">
-              <button type="button" class="hover:bg-interaction-base px-4 py-1.5 border border-neutral-divider rounded-full font-semibold text-[#003616] text-xs transition-colors">تعديل</button>
-              <button type="button" class="px-4 py-1.5 font-semibold text-accent-error text-xs">حذف</button>
+              <button type="button" class="hover:bg-cream px-4 py-1.5 border border-divider rounded-full font-semibold text-ink text-xs transition-colors">تعديل</button>
+              <button type="button" class="px-4 py-1.5 font-semibold text-error text-xs">حذف</button>
             </div></div></div>
           </div>
         </div>

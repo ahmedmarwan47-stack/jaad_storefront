@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=613004fc" />
-    <link rel="stylesheet" href="styles.css?v=28ec1c87" />
+    <link rel="stylesheet" href="tailwind.css?v=6ce2e172" />
+    <link rel="stylesheet" href="styles.css?v=30183d6d" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -46,7 +46,7 @@
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
     <script defer src="i18n-en.js?v=24ccd6ef"></script>
-    <script defer src="scripts.js?v=ff94e0be"></script>
+    <script defer src="scripts.js?v=19037dd3"></script>
   </head>
   <body data-page="blogs" data-path="/blogs" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -61,16 +61,16 @@
     <main id="main" tabindex="-1" class="overflow-x-clip">
       <section data-reveal class="pt-6">
         <div class="flex flex-col gap-4 mx-auto px-4 max-w-[1536px]">
-          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-neutral-secondary hover:text-primary transition-colors">Home</a><span aria-hidden="true" class="text-neutral-outline">/</span><span class="font-semibold text-[#003616]">Blog</span></nav>
+          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-muted hover:text-primary transition-colors">Home</a><span aria-hidden="true" class="text-outline">/</span><span class="font-semibold text-ink">Blog</span></nav>
         </div>
       </section>
 
-      <section data-reveal class="bg-[#FDF8F1] py-10 xl:py-14">
+      <section data-reveal class="bg-cream py-10 xl:py-14">
         <div class="flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="flex flex-col gap-3">
-            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-[#006328] text-[13px] uppercase tracking-[1px]">Media Center</span>
-            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-none tracking-[-1px]">Latest from JAAD</h1>
-            <p class="max-w-[630px] text-[#4b5563] text-base leading-[1.5]">
+            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-greenDeep text-[13px] uppercase tracking-[1px]">Media Center</span>
+            <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-none tracking-[-1px]">Latest from JAAD</h1>
+            <p class="max-w-[630px] text-bodyMuted text-base leading-[1.5]">
               Guides, recipes and notes on coffee, nuts, dates and spices — written by the JAAD team.
             </p>
           </div>
@@ -80,66 +80,66 @@
                   <img src="images/jaad/site/article-1.jpg" alt="The Art of Turkish Coffee: A Tradition Worth Preserving" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                 </div>
                 <div class="flex flex-wrap justify-between items-center gap-2">
-                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Coffee</span><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Wellness</span></div>
-                  <span class="font-medium text-[#636959] text-[13px] whitespace-nowrap">July 15, 2026 — 5 min read</span>
+                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Coffee</span><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Wellness</span></div>
+                  <span class="font-medium text-metaGray text-[13px] whitespace-nowrap">July 15, 2026 — 5 min read</span>
                 </div>
-                <h3 class="font-bold text-[#006328] text-lg leading-[1.4] group-hover:underline">The Art of Turkish Coffee: A Tradition Worth Preserving</h3>
-                <p class="text-[#1e2219] text-sm leading-[1.5] line-clamp-3">Discover the centuries-old craft behind authentic Turkish coffee, from selecting the finest beans to the perfect brew technique.</p>
+                <h3 class="font-bold text-greenDeep text-lg leading-[1.4] group-hover:underline">The Art of Turkish Coffee: A Tradition Worth Preserving</h3>
+                <p class="text-bodyInk text-sm leading-[1.5] line-clamp-3">Discover the centuries-old craft behind authentic Turkish coffee, from selecting the finest beans to the perfect brew technique.</p>
               </a>
               <a href="blog.html?post=mediterranean-nuts" class="group flex flex-col gap-4 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] p-4 rounded-3xl ">
                 <div class="relative rounded-2xl h-[200px] xl:h-[260px] overflow-hidden">
                   <img src="images/jaad/site/article-2.jpg" alt="Why Mediterranean Nuts Are the World&#x27;s Best Kept Secret" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                 </div>
                 <div class="flex flex-wrap justify-between items-center gap-2">
-                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Nutrition</span><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Nuts</span></div>
-                  <span class="font-medium text-[#636959] text-[13px] whitespace-nowrap">June 28, 2026 — 4 min read</span>
+                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Nutrition</span><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Nuts</span></div>
+                  <span class="font-medium text-metaGray text-[13px] whitespace-nowrap">June 28, 2026 — 4 min read</span>
                 </div>
-                <h3 class="font-bold text-[#006328] text-lg leading-[1.4] group-hover:underline">Why Mediterranean Nuts Are the World&#x27;s Best Kept Secret</h3>
-                <p class="text-[#1e2219] text-sm leading-[1.5] line-clamp-3">From the groves of the Mediterranean come the finest walnuts and almonds, packed with nutrients and unmatched flavor.</p>
+                <h3 class="font-bold text-greenDeep text-lg leading-[1.4] group-hover:underline">Why Mediterranean Nuts Are the World&#x27;s Best Kept Secret</h3>
+                <p class="text-bodyInk text-sm leading-[1.5] line-clamp-3">From the groves of the Mediterranean come the finest walnuts and almonds, packed with nutrients and unmatched flavor.</p>
               </a>
               <a href="blog.html?post=essential-spice-blends" class="group flex flex-col gap-4 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] p-4 rounded-3xl ">
                 <div class="relative rounded-2xl h-[200px] xl:h-[260px] overflow-hidden">
                   <img src="images/jaad/site/article-3.jpg" alt="Spice Up Your Kitchen: 5 Essential Blends Every Home Cook Needs" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                 </div>
                 <div class="flex flex-wrap justify-between items-center gap-2">
-                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Spices</span><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Recipes</span></div>
-                  <span class="font-medium text-[#636959] text-[13px] whitespace-nowrap">June 10, 2026 — 6 min read</span>
+                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Spices</span><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Recipes</span></div>
+                  <span class="font-medium text-metaGray text-[13px] whitespace-nowrap">June 10, 2026 — 6 min read</span>
                 </div>
-                <h3 class="font-bold text-[#006328] text-lg leading-[1.4] group-hover:underline">Spice Up Your Kitchen: 5 Essential Blends Every Home Cook Needs</h3>
-                <p class="text-[#1e2219] text-sm leading-[1.5] line-clamp-3">Transform your everyday cooking with these aromatic spice blends sourced from the world&#x27;s finest growing regions.</p>
+                <h3 class="font-bold text-greenDeep text-lg leading-[1.4] group-hover:underline">Spice Up Your Kitchen: 5 Essential Blends Every Home Cook Needs</h3>
+                <p class="text-bodyInk text-sm leading-[1.5] line-clamp-3">Transform your everyday cooking with these aromatic spice blends sourced from the world&#x27;s finest growing regions.</p>
               </a>
               <a href="blog.html?post=coffee-roast-guide" class="group flex flex-col gap-4 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] p-4 rounded-3xl ">
                 <div class="relative rounded-2xl h-[200px] xl:h-[260px] overflow-hidden">
                   <img src="images/jaad/site/article-1.jpg" alt="Light, Medium or Dark: Choosing Your Coffee Roast" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                 </div>
                 <div class="flex flex-wrap justify-between items-center gap-2">
-                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Coffee</span><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Guide</span></div>
-                  <span class="font-medium text-[#636959] text-[13px] whitespace-nowrap">May 22, 2026 — 6 min read</span>
+                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Coffee</span><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Guide</span></div>
+                  <span class="font-medium text-metaGray text-[13px] whitespace-nowrap">May 22, 2026 — 6 min read</span>
                 </div>
-                <h3 class="font-bold text-[#006328] text-lg leading-[1.4] group-hover:underline">Light, Medium or Dark: Choosing Your Coffee Roast</h3>
-                <p class="text-[#1e2219] text-sm leading-[1.5] line-clamp-3">Every roast level has its own character. Learn what separates them and find the one that suits your taste.</p>
+                <h3 class="font-bold text-greenDeep text-lg leading-[1.4] group-hover:underline">Light, Medium or Dark: Choosing Your Coffee Roast</h3>
+                <p class="text-bodyInk text-sm leading-[1.5] line-clamp-3">Every roast level has its own character. Learn what separates them and find the one that suits your taste.</p>
               </a>
               <a href="blog.html?post=healthy-snack-box" class="group flex flex-col gap-4 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] p-4 rounded-3xl ">
                 <div class="relative rounded-2xl h-[200px] xl:h-[260px] overflow-hidden">
                   <img src="images/jaad/site/article-2.jpg" alt="Building a Snack Box That Kids Actually Finish" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                 </div>
                 <div class="flex flex-wrap justify-between items-center gap-2">
-                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Nutrition</span><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Family</span></div>
-                  <span class="font-medium text-[#636959] text-[13px] whitespace-nowrap">May 3, 2026 — 4 min read</span>
+                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Nutrition</span><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Family</span></div>
+                  <span class="font-medium text-metaGray text-[13px] whitespace-nowrap">May 3, 2026 — 4 min read</span>
                 </div>
-                <h3 class="font-bold text-[#006328] text-lg leading-[1.4] group-hover:underline">Building a Snack Box That Kids Actually Finish</h3>
-                <p class="text-[#1e2219] text-sm leading-[1.5] line-clamp-3">A mix of nuts, dried fruit and simple staples that balances real nutrition against what children will genuinely eat.</p>
+                <h3 class="font-bold text-greenDeep text-lg leading-[1.4] group-hover:underline">Building a Snack Box That Kids Actually Finish</h3>
+                <p class="text-bodyInk text-sm leading-[1.5] line-clamp-3">A mix of nuts, dried fruit and simple staples that balances real nutrition against what children will genuinely eat.</p>
               </a>
               <a href="blog.html?post=homemade-granola" class="group flex flex-col gap-4 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] p-4 rounded-3xl ">
                 <div class="relative rounded-2xl h-[200px] xl:h-[260px] overflow-hidden">
                   <img src="images/jaad/site/article-3.jpg" alt="Homemade Granola with Nuts and Honey" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                 </div>
                 <div class="flex flex-wrap justify-between items-center gap-2">
-                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Recipes</span><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Breakfast</span></div>
-                  <span class="font-medium text-[#636959] text-[13px] whitespace-nowrap">April 18, 2026 — 8 min read</span>
+                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Recipes</span><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Breakfast</span></div>
+                  <span class="font-medium text-metaGray text-[13px] whitespace-nowrap">April 18, 2026 — 8 min read</span>
                 </div>
-                <h3 class="font-bold text-[#006328] text-lg leading-[1.4] group-hover:underline">Homemade Granola with Nuts and Honey</h3>
-                <p class="text-[#1e2219] text-sm leading-[1.5] line-clamp-3">A simple recipe you can make at home that keeps for a full week — ideal for fast breakfasts.</p>
+                <h3 class="font-bold text-greenDeep text-lg leading-[1.4] group-hover:underline">Homemade Granola with Nuts and Honey</h3>
+                <p class="text-bodyInk text-sm leading-[1.5] line-clamp-3">A simple recipe you can make at home that keeps for a full week — ideal for fast breakfasts.</p>
               </a>
           </div>
         </div>
