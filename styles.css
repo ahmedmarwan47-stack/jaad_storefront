@@ -878,12 +878,16 @@ body.no-scroll {
   bottom: 2px;
   left: 0;
   width: 0;
-  /* Match the green/orange switcher's active pill CORNER RADIUS (~14px), not a
-     full stadium (Ahmed, 2026-08-19): the tab pill is much taller than the
-     switcher's, so a full 9999px read visibly rounder than the switcher even
-     though both are "pill" shaped. A fixed 14px makes the two selected pills
-     share the same corner curve. The container stays rounded-full. */
-  border-radius: 14px;
+  /* FULLY ROUNDED, to nest inside the track (Ahmed, 2026-08-20).
+     This was a fixed 14px, chosen on 2026-08-19 to echo the green/orange
+     switcher's pill. It does not survive contact with the track it sits in:
+     the container is rounded-full, so at ~54px tall its corner curves inward by
+     ~27px, while the pill is inset only 2px and curved just 14px. At the first
+     and last chip the pill's squarer corner therefore pushes OUT past the
+     track's curve and white bleeds over the green edge.
+     A stadium pill (25px at 50px tall) sits inside the track's 27px curve with
+     the inset to spare, so the two curves nest at every position. */
+  border-radius: 9999px;
   background: #fff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
   transform: translateX(0);
