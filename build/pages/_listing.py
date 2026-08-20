@@ -29,7 +29,7 @@ def listing(title_text, description, heading, trail, chips, products,
     )
     filterable = any(len(c) > 2 for c in chips)
     intro_html = (
-        f'<p class="max-w-[720px] text-neutral-secondary text-base xl:text-lg leading-8">{e(intro)}</p>'
+        f'<p class="max-w-[720px] text-muted text-base xl:text-lg leading-8">{e(intro)}</p>'
         if intro else ""
     )
 
@@ -70,15 +70,15 @@ def listing(title_text, description, heading, trail, chips, products,
                the cards' h3 was skipping — the page h1 sat directly above
                them. Not painted: the visible label is the result count. -->
           <h2 class="sr-only">قائمة المنتجات</h2>
-          <p class="mb-6 text-neutral-secondary text-sm">
+          <p class="mb-6 text-muted text-sm">
             <span class="latin" data-result-count>{len(products)}</span> منتج
           </p>
-          <p data-empty-state hidden class="py-10 text-neutral-secondary text-base text-center">
+          <p data-empty-state hidden class="py-10 text-muted text-base text-center">
             لا توجد منتجات في هذا القسم حالياً.
           </p>
           {product_grid(products, cat_of=cat_of)}
           <div class="flex justify-center mt-12">
-            <button type="button" class="hover:bg-interaction-base px-10 py-3 border border-cta rounded-full font-semibold text-cta text-base transition-colors">
+            <button type="button" class="hover:bg-cream px-10 py-3 border border-cta rounded-full font-semibold text-cta text-base transition-colors">
               عرض المزيد
             </button>
           </div>

@@ -24,8 +24,8 @@ def build():
             <h2 class="sr-only">المنتجات المحفوظة</h2>
             {product_grid(PRODUCTS, "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5", attrs="data-favs-grid")}
             <div data-favs-empty hidden class="flex flex-col items-center gap-3 py-16 text-center">
-              <p class="font-bold text-[#003616] text-lg">لا توجد منتجات في المفضلة</p>
-              <p class="text-neutral-secondary text-sm">المنتجات اللي تحفظها هتظهر هنا.</p>
+              <p class="font-bold text-ink text-lg">لا توجد منتجات في المفضلة</p>
+              <p class="text-muted text-sm">المنتجات اللي تحفظها هتظهر هنا.</p>
               <a href="shop.html"
                  class="flex justify-center items-center bg-cta hover:bg-cta-hover mt-2 px-6 rounded-full min-h-11 font-semibold text-white text-sm transition-colors">تصفح المنتجات</a>
             </div>"""

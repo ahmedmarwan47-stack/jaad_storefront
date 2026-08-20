@@ -22,21 +22,21 @@ def _otp_boxes(n=6):
         '<input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" '
         'placeholder=" " data-otp-box aria-label="خانة رقم ' + str(i + 1) + '" '
         'class="otp-box flex-1 min-w-0 h-14 rounded-xl text-center font-bold '
-        'text-[#003616] text-2xl latin" />'
+        'text-ink text-2xl latin" />'
         for i in range(n)
     )
 
 
 def build():
     form = f"""
-              <p class="text-neutral-secondary text-sm text-center leading-6">
+              <p class="text-muted text-sm text-center leading-6">
                 أدخل رمز التحقق المكوّن من 6 أرقام المُرسل إلى
-                <span class="font-semibold text-[#003616] latin" data-otp-mobile>—</span>
+                <span class="font-semibold text-ink latin" data-otp-mobile>—</span>
               </p>
               <div class="flex gap-2 sm:gap-3" dir="ltr">
 {_otp_boxes()}
               </div>
-              <p data-otp-msg hidden class="font-semibold text-accent-error text-sm text-center"></p>
+              <p data-otp-msg hidden class="font-semibold text-error text-sm text-center"></p>
               <button type="submit" data-otp-submit class="btn-elevate bg-cta hover:bg-cta-hover py-4 rounded-full font-semibold text-white text-base transition-colors">تأكيد وتسجيل الدخول</button>
               <button type="button" data-resend-otp class="link-sweep self-center font-semibold text-cta text-sm">إعادة إرسال الرمز</button>"""
     # The 3D OTP icon sits bare above the heading (Ahmed, 2026-08-04) — no

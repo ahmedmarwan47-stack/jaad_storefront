@@ -22,8 +22,8 @@ def _sel(options, selected=""):
         f'<option{" selected" if str(o) == str(selected) else ""}>{o}</option>'
         for o in options
     )
-    return ('<select class="select-control bg-white px-3 py-3 border-2 border-neutral-divider '
-            'focus:border-cta rounded-xl outline-none w-full text-[#003616] text-base '
+    return ('<select class="select-control bg-white px-3 py-3 border-2 border-divider '
+            'focus:border-cta rounded-xl outline-none w-full text-ink text-base '
             f'transition-colors">{opts}</select>')
 
 
@@ -34,9 +34,9 @@ def _gender_card(val, label, checked):
     return f"""
                   <label class="cursor-pointer">
                     <input type="radio" name="gender" value="{val}"{' checked' if checked else ''} class="peer sr-only" />
-                    <span class="flex items-center gap-2.5 bg-white px-4 py-3 border-2 border-neutral-divider peer-checked:border-cta rounded-xl transition-colors">
+                    <span class="flex items-center gap-2.5 bg-white px-4 py-3 border-2 border-divider peer-checked:border-cta rounded-xl transition-colors">
                       <span class="radio-dot shrink-0"></span>
-                      <span class="font-medium text-[#003616] text-sm">{label}</span>
+                      <span class="font-medium text-ink text-sm">{label}</span>
                     </span>
                   </label>"""
 
@@ -57,22 +57,22 @@ def build():
                      A span, not an input — read-only text truncates cleanly
                      rather than scrolling inside a fixed-width field. -->
                 <div class="flex flex-col gap-1.5">
-                  <span class="font-medium text-neutral-secondary text-sm">البريد الالكتروني</span>
-                  <div class="flex items-center gap-2 bg-interaction-base px-4 py-3 border-2 border-transparent rounded-xl">
-                    <span class="flex-1 min-w-0 truncate text-neutral-secondary text-base latin">{CUSTOMER['email']}</span>
-                    <!-- Opaque tint, NOT bg-accent-error/10: an alpha tint reads
+                  <span class="font-medium text-muted text-sm">البريد الالكتروني</span>
+                  <div class="flex items-center gap-2 bg-cream px-4 py-3 border-2 border-transparent rounded-xl">
+                    <span class="flex-1 min-w-0 truncate text-muted text-base latin">{CUSTOMER['email']}</span>
+                    <!-- Opaque tint, NOT bg-error/10: an alpha tint reads
                          ~1:1 to the contrast sweep (ink on its own colour); the
                          opaque blend (#F6E9E7 ≈ error at 10% over white) is
                          legible to both the eye and the checker — the same trap
                          the checkout stepper's #E9F3E6 documents. -->
-                    <span class="inline-flex items-center shrink-0 bg-[#F6E9E7] px-2 py-0.5 rounded-full font-semibold text-accent-error text-[11px]">غير مؤكد</span>
+                    <span class="inline-flex items-center shrink-0 bg-blush px-2 py-0.5 rounded-full font-semibold text-error text-[11px]">غير مؤكد</span>
                   </div>
                 </div>
 
 {field("رقم الهاتف", "phone", "tel", value=CUSTOMER['phone'], required=True)}
 
                 <div class="flex flex-col gap-1.5">
-                  <span class="font-medium text-neutral-secondary text-sm">تاريخ الميلاد</span>
+                  <span class="font-medium text-muted text-sm">تاريخ الميلاد</span>
                   <div class="gap-3 grid grid-cols-3">
                     {_sel(range(1, 32), dob_day)}
                     {_sel(_MONTHS, dob_month)}
@@ -81,7 +81,7 @@ def build():
                 </div>
 
                 <div class="flex flex-col gap-1.5">
-                  <span class="font-medium text-neutral-secondary text-sm">النوع</span>
+                  <span class="font-medium text-muted text-sm">النوع</span>
                   <div class="gap-3 grid grid-cols-2">
 {_gender_card("female", "أنثى", True)}
 {_gender_card("male", "ذكر", False)}

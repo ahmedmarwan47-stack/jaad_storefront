@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=613004fc" />
-    <link rel="stylesheet" href="styles.css?v=28ec1c87" />
+    <link rel="stylesheet" href="tailwind.css?v=6ce2e172" />
+    <link rel="stylesheet" href="styles.css?v=30183d6d" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -46,7 +46,7 @@
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
     <script defer src="i18n-en.js?v=24ccd6ef"></script>
-    <script defer src="scripts.js?v=ff94e0be"></script>
+    <script defer src="scripts.js?v=19037dd3"></script>
   </head>
   <body data-page="about" data-path="/about" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -61,7 +61,7 @@
     <main id="main" tabindex="-1" class="overflow-x-clip">
       <section data-reveal class="pt-6">
         <div class="flex flex-col gap-4 mx-auto px-4 max-w-[1536px]">
-          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-neutral-secondary hover:text-primary transition-colors">الرئيسية</a><span aria-hidden="true" class="text-neutral-outline">/</span><span class="font-semibold text-[#003616]">قصتنا</span></nav>
+          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-muted hover:text-primary transition-colors">الرئيسية</a><span aria-hidden="true" class="text-outline">/</span><span class="font-semibold text-ink">قصتنا</span></nav>
         </div>
       </section>
 
@@ -69,9 +69,9 @@
       <section data-reveal class="about-hero">
         <div class="flex flex-col gap-6 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="flex flex-col gap-3">
-            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-[#006328] text-[13px] uppercase tracking-[1px]">عن جاد</span>
-            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[52px] leading-none tracking-[-1px]">من الطبيعة إليك</h1>
-            <p class="max-w-[560px] text-[#4b5563] text-base xl:text-lg leading-[1.6]">
+            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-greenDeep text-[13px] uppercase tracking-[1px]">عن جاد</span>
+            <h1 class="font-medium text-heading text-[32px] md:text-[52px] leading-none tracking-[-1px]">من الطبيعة إليك</h1>
+            <p class="max-w-[560px] text-bodyMuted text-base xl:text-lg leading-[1.6]">
               قهوة ومكسرات وبهارات طبيعية، مصدرها الأصلي في قلب كل منتج.
             </p>
           </div>
@@ -187,13 +187,13 @@
       <!-- =============================== CTA =============================== -->
       <section data-reveal class="about-cta">
         <div class="flex flex-col items-center gap-5 mx-auto px-4 max-w-[720px] text-center">
-          <h2 class="font-medium text-[#29612F] text-[28px] md:text-[36px] leading-[1.2]">جرب جاد بنفسك</h2>
-          <p class="text-[#4b5563] text-base leading-[1.6]">
+          <h2 class="font-medium text-heading text-[28px] md:text-[36px] leading-[1.2]">جرب جاد بنفسك</h2>
+          <p class="text-bodyMuted text-base leading-[1.6]">
             كل منتج بنقدمه بيعدي بنفس الرحلة — من مصدره لحد ما يوصلك.
           </p>
           <div class="flex flex-wrap justify-center gap-3">
             <a href="shop.html" class="btn btn--primary inline-flex justify-center items-center rounded-full font-semibold transition-colors w-full sm:w-auto px-8 py-3 text-base bg-cta hover:bg-cta-hover text-white ">تسوق الآن</a>
-            <a href="contact-us.html" class="btn inline-flex justify-center items-center rounded-full font-semibold transition-colors w-full sm:w-auto px-8 py-3 text-base border border-cta text-cta hover:bg-interaction-base ">تواصل معنا</a>
+            <a href="contact-us.html" class="btn inline-flex justify-center items-center rounded-full font-semibold transition-colors w-full sm:w-auto px-8 py-3 text-base border border-cta text-cta hover:bg-cream ">تواصل معنا</a>
           </div>
         </div>
       </section>

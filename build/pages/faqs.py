@@ -38,7 +38,7 @@ GROUPS = [
 def build():
     groups = "".join(f"""
             <div class="flex flex-col gap-3">
-              <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">{heading}</h2>
+              <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">{heading}</h2>
               <div class="bg-white shadow-custom4 px-6 rounded-[20px]">
                 {accordion([(q, f'<p class="leading-8">{a}</p>') for q, a in qs], multi=True)}
               </div>
@@ -48,9 +48,9 @@ def build():
 
       <section class="py-8 xl:py-10">
         <div class="flex flex-col gap-10 mx-auto px-4 xl:px-[190px] max-w-[1000px]">{groups}
-          <div class="flex flex-col items-center gap-3 bg-interaction-base p-8 rounded-[20px] text-center">
-            <h2 class="font-bold text-[#29612F] text-xl">لسه عندك سؤال؟</h2>
-            <p class="text-neutral-secondary text-sm">فريق خدمة العملاء جاهز يساعدك</p>
+          <div class="flex flex-col items-center gap-3 bg-cream p-8 rounded-[20px] text-center">
+            <h2 class="font-bold text-heading text-xl">لسه عندك سؤال؟</h2>
+            <p class="text-muted text-sm">فريق خدمة العملاء جاهز يساعدك</p>
             <a href="contact-us.html" class="bg-cta hover:bg-cta-hover mt-2 px-8 py-3 rounded-full w-full sm:w-auto font-semibold text-white text-sm text-center transition-colors">تواصل معنا</a>
           </div>
         </div>

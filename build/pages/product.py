@@ -103,8 +103,8 @@ BENEFITS_UNIFORM = '<ul class="flex flex-col gap-4">' + "".join(f"""
                         <li class="flex gap-2.5">
                           <span class="mt-1.5 bg-cta rounded-full size-1.5 shrink-0"></span>
                           <div class="min-w-0">
-                            <p class="font-semibold text-[#003616] text-sm">{t}</p>
-                            <p class="text-neutral-secondary text-xs leading-6">{d}</p>
+                            <p class="font-semibold text-ink text-sm">{t}</p>
+                            <p class="text-muted text-xs leading-6">{d}</p>
                           </div>
                         </li>""" for t, d in _BENEFIT_ITEMS) + """
                       </ul>"""
@@ -234,8 +234,8 @@ def _story_html(p):
             <div data-story-panel data-step="{i}" style="top:{top}" class="product-story__panel {side}">
               <img src="{e(icon)}" alt="" class="product-story__ico" loading="lazy" />
               <div class="min-w-0">
-                <p class="font-bold text-[#003616] text-sm sm:text-lg xl:text-xl leading-tight">{e(title_)}</p>
-                <p class="mt-0.5 sm:mt-1 text-neutral-secondary text-xs sm:text-sm leading-snug sm:leading-6">{e(desc_)}</p>
+                <p class="font-bold text-ink text-sm sm:text-lg xl:text-xl leading-tight">{e(title_)}</p>
+                <p class="mt-0.5 sm:mt-1 text-muted text-xs sm:text-sm leading-snug sm:leading-6">{e(desc_)}</p>
               </div>
             </div>"""
     return f"""
@@ -251,7 +251,7 @@ def _story_html(p):
       </section>
       <section data-story-faq class="product-story-faq">
         <div class="mx-auto px-4 max-w-[760px]">
-          <h2 class="mb-6 font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2] text-center">الأسئلة الشائعة</h2>
+          <h2 class="mb-6 font-medium text-heading text-[32px] md:text-[40px] leading-[1.2] text-center">الأسئلة الشائعة</h2>
           {accordion(FAQ_ITEMS)}
         </div>
       </section>"""
@@ -264,7 +264,7 @@ def _render(p):
     story_html = _story_html(p) if story_on else ""
     on_sale = p.get("sale") and p["sale"] < p["regular"]
     old_price = (
-        f'<span class="text-neutral-secondary text-xl line-through latin">EGP {money(p["regular"])}</span>'
+        f'<span class="text-muted text-xl line-through latin">EGP {money(p["regular"])}</span>'
         if on_sale else ""
     )
 
@@ -314,13 +314,13 @@ def _render(p):
         rows = "".join(bundle_item(x) for x in picks)
         related_list = f"""
           <div data-bundle class="flex flex-col bg-white shadow-custom4 p-4 xl:p-5 rounded-[20px]">
-            <h2 class="mb-1 px-2 font-bold text-[#29612F] text-base xl:text-lg">قد يعجبك أيضاً</h2>
+            <h2 class="mb-1 px-2 font-bold text-heading text-base xl:text-lg">قد يعجبك أيضاً</h2>
             <div class="flex flex-col">{rows}
             </div>
-            <div class="flex flex-wrap justify-between items-center gap-3 mt-3 px-2 pt-3 border-neutral-divider border-t">
+            <div class="flex flex-wrap justify-between items-center gap-3 mt-3 px-2 pt-3 border-divider border-t">
               <div class="flex flex-col">
-                <span class="text-neutral-secondary text-xs">الإجمالي</span>
-                <span class="font-bold text-[#003616] text-lg latin" data-bundle-total>EGP {money(related_total)}</span>
+                <span class="text-muted text-xs">الإجمالي</span>
+                <span class="font-bold text-ink text-lg latin" data-bundle-total>EGP {money(related_total)}</span>
               </div>
               <button type="button" data-bundle-add class="bg-cta hover:bg-cta-hover px-5 py-2.5 rounded-full font-semibold text-white text-sm whitespace-nowrap transition-colors">أضف الكل للسلة</button>
             </div>
@@ -331,7 +331,7 @@ def _render(p):
     # uniform rather than per-product.
     faq_html = f"""
             <div class="flex flex-col gap-2">
-              <h2 class="mt-1 font-bold text-[#29612F] text-lg xl:text-xl">الأسئلة الشائعة</h2>
+              <h2 class="mt-1 font-bold text-heading text-lg xl:text-xl">الأسئلة الشائعة</h2>
               {accordion(FAQ_ITEMS)}
             </div>"""
 
@@ -381,7 +381,7 @@ def _render(p):
                data-price="{p.get('sale') or p.get('price') or 0}" data-image="{e(p['image'])}">
             <div class="flex flex-col gap-3">
               {best_seller_badge(p)}
-              <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">{e(title(p))}</h1>
+              <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">{e(title(p))}</h1>
               <!-- Points callout sits with the rating + social-proof line, right
                    beside the red "best seller" proof text (Ahmed, 2026-08-04) —
                    not up by the yellow best-seller badge. Wraps on a narrow
@@ -406,7 +406,7 @@ def _render(p):
             <div class="flex flex-wrap items-center gap-3">
               {old_price}
               <span data-price-display data-unit-price="{p.get('sale') or p.get('price') or 0}"
-                    class="inline-flex items-center bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-3 py-1 rounded-tl-[20px] rounded-br-[20px] font-bold text-white text-2xl latin">EGP {money(p['price'])}</span>
+                    class="inline-flex items-center bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-3 py-1 rounded-tl-[20px] rounded-br-[20px] font-bold text-white text-2xl latin">EGP {money(p['price'])}</span>
             </div>
 
             <!-- The stepper IS the add control (Ahmed, 2026-07-26). There is
@@ -437,11 +437,11 @@ def _render(p):
                  plain flex child, so it sits inside the card's own p-6/xl:p-8
                  padding and lines up with every other row rather than bleeding
                  to the card edges (Ahmed, 2026-07-29). -->
-            <div class="border-neutral-divider border-t" role="separator"></div>
+            <div class="border-divider border-t" role="separator"></div>
 
             {trust_html}
 
-            <div class="flex flex-wrap justify-between items-center gap-3 bg-interaction-base px-4 py-3 rounded-xl">
+            <div class="flex flex-wrap justify-between items-center gap-3 bg-cream px-4 py-3 rounded-xl">
               <span class="flex items-center gap-2 font-semibold text-primary text-sm">
                 <span class="place-items-center grid bg-primary rounded-full text-white size-5 text-xs">✓</span>
                 التوصيل خلال ساعتين في القاهرة الكبرى
@@ -502,12 +502,12 @@ def _render(p):
            only toggles .is-visible. -->
       <div data-sticky-buybar aria-hidden="true"
            class="sticky-buybar fixed inset-x-0 bottom-0 lg:bottom-auto lg:top-12 z-30
-                  bg-white border-neutral-divider border-t lg:border-t-0 lg:border-b">
+                  bg-white border-divider border-t lg:border-t-0 lg:border-b">
         <div class="flex items-center gap-3 lg:gap-6 mx-auto px-4 max-w-[1536px] py-3">
           <img src="{e(p['image'])}" alt=""
-               class="hidden sm:block bg-interaction-base p-1 rounded-xl w-12 xl:w-14 h-12 xl:h-14 object-contain shrink-0" />
+               class="hidden sm:block bg-cream p-1 rounded-xl w-12 xl:w-14 h-12 xl:h-14 object-contain shrink-0" />
           <div class="flex items-center flex-1 gap-3 min-w-0">
-            <p class="font-bold text-[#003616] text-sm xl:text-base truncate">{e(title(p))}</p>
+            <p class="font-bold text-ink text-sm xl:text-base truncate">{e(title(p))}</p>
             <!-- The green price sticker (not plain text) so the bar carries the
                  same price badge the cards and the buy block use (Ahmed,
                  2026-08-19). Static: the JS price mirror is dropped with the
@@ -519,10 +519,10 @@ def _render(p):
                in the page's RTL flow the − would otherwise take the right slot.
                The digit is latin already, so forcing LTR here changes nothing
                but the button order. -->
-          <div dir="ltr" class="inline-flex items-center gap-1 bg-white p-1 border border-neutral-divider rounded-full shrink-0">
+          <div dir="ltr" class="inline-flex items-center gap-1 bg-white p-1 border border-divider rounded-full shrink-0">
             <button type="button" data-sticky-step="-1" aria-label="إنقاص"
-                    class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-9 text-[#003616] transition-colors"><span class="w-4 h-4">{ICON['minus']}</span></button>
-            <span data-sticky-qty class="min-w-[2ch] font-bold text-[#003616] text-sm text-center latin">1</span>
+                    class="place-items-center grid border border-divider hover:bg-cream rounded-full size-9 text-ink transition-colors"><span class="w-4 h-4">{ICON['minus']}</span></button>
+            <span data-sticky-qty class="min-w-[2ch] font-bold text-ink text-sm text-center latin">1</span>
             <button type="button" data-sticky-step="1" aria-label="زيادة"
                     class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-9 text-white transition-colors"><span class="w-4 h-4">{ICON['plus']}</span></button>
           </div>

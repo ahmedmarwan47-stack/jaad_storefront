@@ -17,12 +17,12 @@ def _stat(icon, label, value_html, href):
     the interaction-base tile."""
     return f"""
               <a href="{href}" class="tile-lift group flex items-center gap-3 bg-white shadow-custom4 p-4 xl:p-5 rounded-[20px] hover:-translate-y-0.5">
-                <span class="place-items-center grid bg-interaction-base rounded-2xl size-12 shrink-0" aria-hidden="true"><img src="{icon}" alt="" class="w-9 h-9 object-contain" /></span>
+                <span class="place-items-center grid bg-cream rounded-2xl size-12 shrink-0" aria-hidden="true"><img src="{icon}" alt="" class="w-9 h-9 object-contain" /></span>
                 <div class="flex flex-col flex-1 min-w-0">
-                  <span class="text-neutral-secondary text-xs">{label}</span>
-                  <span class="font-bold text-[#003616] text-xl">{value_html}</span>
+                  <span class="text-muted text-xs">{label}</span>
+                  <span class="font-bold text-ink text-xl">{value_html}</span>
                 </div>
-                <span class="text-neutral-secondary group-hover:text-cta shrink-0 transition-colors">{_icon('chev', 'w-4 h-4')}</span>
+                <span class="text-muted group-hover:text-cta shrink-0 transition-colors">{_icon('chev', 'w-4 h-4')}</span>
               </a>"""
 
 
@@ -45,20 +45,20 @@ def build():
                 <svg viewBox="0 0 24 24" fill="none" class="w-5 h-5"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="m2 7 10 6 10-6" stroke="currentColor" stroke-width="1.7"/></svg>
               </span>
               <span class="flex-1 min-w-0 text-sm leading-6">
-                <span class="font-semibold text-[#003616]">أكّد بريدك الإلكتروني</span>
+                <span class="font-semibold text-ink">أكّد بريدك الإلكتروني</span>
                 <span class="text-[#5f5035]"> — بعتنالك رسالة تأكيد على بريدك، أكّده عشان يوصلك كل جديد عن طلباتك.</span>
               </span>
               <button type="button" data-verify-email class="shrink-0 bg-cta hover:bg-cta-hover px-5 py-2.5 rounded-full font-semibold text-white text-sm transition-colors">تأكيد البريد</button>
             </div>
 
-            <div class="flex items-center gap-3 bg-interaction-base px-5 py-4 rounded-xl">
+            <div class="flex items-center gap-3 bg-cream px-5 py-4 rounded-xl">
               <span class="place-items-center grid bg-primary rounded-full text-white size-7 text-sm">✓</span>
-              <span class="font-semibold text-[#003616] text-sm">شكرا لتسجيلك حساب معنا !</span>
+              <span class="font-semibold text-ink text-sm">شكرا لتسجيلك حساب معنا !</span>
             </div>
 
             <div class="flex flex-col gap-1">
               {account_title("my-account.html", "صفحة حسابي الرئيسية")}
-              <p class="text-neutral-secondary text-sm">يمكنك إدارة الطلبات والمحفظة ومعلومات الحساب الخاصة بك هنا.</p>
+              <p class="text-muted text-sm">يمكنك إدارة الطلبات والمحفظة ومعلومات الحساب الخاصة بك هنا.</p>
             </div>
 
             <!-- Order tracking leads the dashboard (Ahmed, 2026-08-04): the live
@@ -66,8 +66,8 @@ def build():
                  shopper sees is where their current order is. -->
             <div class="flex flex-col gap-4">
               <div class="flex flex-wrap justify-between items-center gap-3">
-                <h2 class="font-bold text-[#29612F] text-lg">طلباتي</h2>
-                <a href="my-account-orders.html" class="hover:bg-interaction-base px-5 py-2 border border-neutral-divider rounded-full font-semibold text-[#003616] text-xs transition-colors">كل الطلبات</a>
+                <h2 class="font-bold text-heading text-lg">طلباتي</h2>
+                <a href="my-account-orders.html" class="hover:bg-cream px-5 py-2 border border-divider rounded-full font-semibold text-ink text-xs transition-colors">كل الطلبات</a>
               </div>
               {order_tracking_card(current)}
               {reorder_card(last)}
@@ -77,28 +77,28 @@ def build():
                  not the wallet alone. The wallet value keeps data-wallet-amount
                  so syncWalletBalance updates it with redeemed points. -->
             <div class="gap-4 grid grid-cols-1 sm:grid-cols-3">
-              {_stat("images/jaad/icons/points-3d.png", "نقاط الولاء", f'<span class="latin" data-points-balance>{CUSTOMER["points"]:,}</span> <span class="font-medium text-neutral-secondary text-xs">نقطة</span>', "my-account-point.html")}
+              {_stat("images/jaad/icons/points-3d.png", "نقاط الولاء", f'<span class="latin" data-points-balance>{CUSTOMER["points"]:,}</span> <span class="font-medium text-muted text-xs">نقطة</span>', "my-account-point.html")}
               {_stat("images/jaad/icons/wallet-3d.png", "رصيد المحفظة", f'<span class="latin" data-wallet-amount>EGP {CUSTOMER["wallet"]}</span>', "my-account-wallet.html")}
-              {_stat("images/jaad/icons/orders-3d.png", "إجمالي الطلبات", f'<span class="latin">{len(ORDERS)}</span> <span class="font-medium text-neutral-secondary text-xs">طلب</span>', "my-account-orders.html")}
+              {_stat("images/jaad/icons/orders-3d.png", "إجمالي الطلبات", f'<span class="latin">{len(ORDERS)}</span> <span class="font-medium text-muted text-xs">طلب</span>', "my-account-orders.html")}
             </div>
 
             {card("شارك الموقع مع الأصحاب والعائلة", '''
-              <p class="text-neutral-secondary text-sm">أنسخ الرابط أدناه وشاركه مع عائلتك وأصدقائك واحصل على خصومات حصرية</p>
-              <div class="flex items-center gap-2 bg-interaction-base px-4 py-2 rounded-xl">
-                <span data-ref-link class="flex-1 min-w-0 text-neutral-secondary text-xs truncate latin">WWW.JAD.COM/REF/1-0200,20409</span>
+              <p class="text-muted text-sm">أنسخ الرابط أدناه وشاركه مع عائلتك وأصدقائك واحصل على خصومات حصرية</p>
+              <div class="flex items-center gap-2 bg-cream px-4 py-2 rounded-xl">
+                <span data-ref-link class="flex-1 min-w-0 text-muted text-xs truncate latin">WWW.JAD.COM/REF/1-0200,20409</span>
                 <button type="button" data-copy-ref class="bg-cta hover:bg-cta-hover px-4 py-1.5 rounded-full font-semibold text-white text-xs transition-colors">نسخ</button>
               </div>''')}
 
-            <h2 class="font-bold text-[#29612F] text-lg">بياناتي</h2>
+            <h2 class="font-bold text-heading text-lg">بياناتي</h2>
             <div class="gap-6 grid md:grid-cols-2">
               {card("بيانات الحساب", f'''
                 <div class="flex flex-col gap-1 text-sm">
-                  <span class="text-[#003616]">{e(CUSTOMER['full'])}</span>
-                  <span class="text-neutral-secondary latin">{e(CUSTOMER['email'])}</span>
-                  <span class="text-neutral-secondary latin">{e(CUSTOMER['phone'])}</span>
+                  <span class="text-ink">{e(CUSTOMER['full'])}</span>
+                  <span class="text-muted latin">{e(CUSTOMER['email'])}</span>
+                  <span class="text-muted latin">{e(CUSTOMER['phone'])}</span>
                 </div>''', "تعديل", "my-account-profile.html")}
               {card("عنواني الرئيسي", '''
-                <div class="flex flex-col gap-1 text-neutral-secondary text-sm">
+                <div class="flex flex-col gap-1 text-muted text-sm">
                   <span>شقة 3 - 220 شارع الحرية - الدور الأول</span>
                   <span>مصر الجديدة</span>
                   <span>القاهرة، مصر</span>

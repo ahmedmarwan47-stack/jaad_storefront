@@ -60,16 +60,20 @@
  * RADIUS scale (named): pill (9999px) · card (16px) · panel (20px).
  * SHADOW scale: function-named tokens under boxShadow (cart-*, custom*, …).
  *
- * LEGACY Abu-Auf names are KEPT as ALIASES — they are still referenced across
- * the generated markup, scripts.js and build/**​/*.py, so deleting them breaks
- * the build. Each is tagged inline `// legacy Abu-Auf alias -> JAAD <name>`
- * and resolves to a canonical value above; NO legacy value has been changed.
- * A future pass can rename usages to the canonical tokens, then drop the
- * aliases. Notable mappings:
- *   accent.yellow / accent.green -> lime      interaction.base        -> cream
- *   beige / neutral.cream        -> cream      neutral.divider         -> divider
- *   interaction.primary          -> cta        neutral.secondary       -> gray
- *   primaryColor/primaryDark/…   -> primary/ink   offWhite/lightBlue/…  -> cream
+ * LEGACY ALIASES — MOSTLY GONE (Ahmed, 2026-08-20). Every usage across the
+ * markup, scripts.js and build/**​/*.py was renamed to the canonical token
+ * carrying the IDENTICAL value, then the 19 flat aliases that fell to zero
+ * usages were deleted outright. That is deliberate: while both names worked,
+ * a new page could pick either and the site drifted back apart. Renames done:
+ *   interaction.base / .tertiary -> cream      neutral.divider   -> divider
+ *   accent.yellow / accent.green -> lime       neutral.secondary -> muted
+ *   beige                        -> cream      neutral.outline   -> outline
+ *   accent.error                 -> error
+ * Verified by a 62-image before/after pixel diff: no rendered pixel changed.
+ *
+ * A few nested legacy keys remain because their PARENT bucket still holds live
+ * keys (interaction.*, neutral.*, accent.*). Prefer the canonical names above
+ * in all new markup; do not reintroduce the deleted ones.
  * ─────────────────────────────────────────────────────────────────────────
  */
 module.exports = {
@@ -153,6 +157,25 @@ module.exports = {
         heading: "#29612F", // Figma Primary/Dark Green — headings, section titles
         limeFigma: "#98CA55", // Figma Primary/Green — badges, chips, top strip
         greenDeep: "#006328", // second, deeper green — price badge, add-to-cart
+        greenDeepest: "#0D3711", // Figma reviews band — deepest green surface
+
+        /* ---- Semantic tints + text tones (Ahmed, 2026-08-20) --------------
+         * These shipped as bare hex literals repeated across the markup, with
+         * no token behind them — so nothing stopped a near-miss shade being
+         * introduced next to them. Each is the EXACT value already in use, so
+         * naming them changes no rendered pixel; it only gives the next person
+         * a name to reach for.
+         * ------------------------------------------------------------------ */
+        mint: "#E9F3E6", // "good news" tint — count pills, success rows
+        blush: "#F6E9E7", // error/destructive tint — warning rows
+        muted: "#5F5F5F", // muted body text on light surfaces (AA on white/cream)
+        bodyInk: "#1e2219", // near-black body copy (homepage/blog/about prose)
+        bodyMuted: "#4b5563", // secondary body copy — intros, deck text
+        metaGray: "#636959", // small meta text — timestamps, stat labels
+        greenTint: "#D5EBB8", // Figma Green 20 — soft green fills
+        greenTintSoft: "#E3F2D1", // lighter green fill
+        outline: "#868685", // input/control outlines (was neutral.outline)
+        error: "#A8200D", // destructive text + fills (was accent.error)
 
         /* ---- JAAD core brand ------------------------------------------- */
         // Primary/Green — masthead, brand surfaces, section bands.
@@ -316,7 +339,6 @@ module.exports = {
            Verified against WCAG 2.1 AA by computed contrast ratio, 2026-08-17. */
         // Light text legible on the dark green footer/#006328 surfaces — lime
         // tinted 25% toward white clears 4.54:1 (plain lime is ~3.4:1, fails).
-        onDarkGreen: "#A7D96E",
         // Muted text on a BLACK bar — carried over from Abu Auf's fix
         // (#949494, 6.92:1); generic gray-on-black, not brand-tuned.
         onBlack: "#949494",
@@ -328,28 +350,10 @@ module.exports = {
            Kept for any markup not yet rebuilt against the new token names.
            Every name below is a legacy Abu-Auf alias -> a JAAD canonical
            value (mapping noted inline). No value changed; rename later. */
-        success: "#618F2B", // legacy Abu-Auf alias -> JAAD lime.800
         border: { light: "#D6D7D9" }, // legacy Abu-Auf alias -> gray.300 (neutral)
-        primaryDark: "#00451C", // legacy Abu-Auf alias -> JAAD ink.800 / cta
-        primaryExtraDark: "#003616", // legacy Abu-Auf alias -> JAAD ink
-        primaryColor: "#006328", // legacy Abu-Auf alias -> JAAD primary
-        primaryLight: "#FDF8F1", // legacy Abu-Auf alias -> JAAD cream
-        offWhite: "#FDF8F1", // legacy Abu-Auf alias -> JAAD cream
         // Sale/discount badge — Jaad's rule reserves orange for exactly this,
         // unlike Abu Auf's generic red. Badge TEXT must be dark (see note above).
-        cardbadgecolor: "#F7931E", // legacy Abu-Auf alias -> JAAD orange
-        bordercolor: "#868685", // legacy Abu-Auf alias -> neutral.outline
-        black900: "#00000090", // legacy Abu-Auf alias -> black @ 56% (overlay)
         textSecondary: "#2C3340", // legacy Abu-Auf alias -> neutral (slate text)
-        primaryText: "#969696", // legacy Abu-Auf alias -> neutral (muted text)
-        secondaryText: "#757575", // legacy Abu-Auf alias -> neutral (muted text)
-        blackText: "#2b2525", // legacy Abu-Auf alias -> neutral (near-black text)
-        customGray: "#EAEBEC", // legacy Abu-Auf alias -> neutral (light gray)
-        customGrayMedium: "#979BA0", // legacy Abu-Auf alias -> neutral (mid gray)
-        ctaBackground: "#FDF8F1", // legacy Abu-Auf alias -> JAAD cream
-        dividerText: "#C1C3C6", // legacy Abu-Auf alias -> divider (muted)
-        lightBlue: "#FDF8F1", // legacy Abu-Auf alias -> JAAD cream
-        backgroundLocationBar: "#FDF8F1", // legacy Abu-Auf alias -> JAAD cream
       },
       /* ---- JAAD shadow scale (named tokens) --------------------------
          Function-named elevations carried over from Abu Auf; the green-tinted

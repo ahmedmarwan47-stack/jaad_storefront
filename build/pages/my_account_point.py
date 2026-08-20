@@ -55,9 +55,9 @@ def build():
               if tp["next"] else "وصلت لأعلى مستوى عضوية 🎉")
     earn = "".join(f"""
                 <div class="flex flex-col gap-1 bg-white shadow-custom4 p-4 rounded-2xl">
-                  <span class="place-items-center grid bg-interaction-base rounded-xl size-11 text-2xl" aria-hidden="true">{emoji}</span>
-                  <span class="mt-1 font-bold text-[#003616] text-sm">{title}</span>
-                  <span class="text-neutral-secondary text-xs leading-5">{sub}</span>
+                  <span class="place-items-center grid bg-cream rounded-xl size-11 text-2xl" aria-hidden="true">{emoji}</span>
+                  <span class="mt-1 font-bold text-ink text-sm">{title}</span>
+                  <span class="text-muted text-xs leading-5">{sub}</span>
                 </div>""" for emoji, title, sub in _EARN)
 
     content = f"""
@@ -81,20 +81,20 @@ def build():
               </div>
               <div>
                 <div class="bg-white/20 rounded-full w-full h-2.5 overflow-hidden">
-                  <div data-points-progress class="bg-accent-yellow rounded-full h-full transition-[width] duration-500" style="width:{tp['pct']}%"></div>
+                  <div data-points-progress class="bg-lime rounded-full h-full transition-[width] duration-500" style="width:{tp['pct']}%"></div>
                 </div>
                 <p class="mt-2 text-white/80 text-xs text-end" data-points-tonext>{tonext}</p>
               </div>
             </div>
 
             <div class="flex flex-col gap-3">
-              <h2 class="font-bold text-[#29612F] text-lg">مستويات العضوية</h2>
+              <h2 class="font-bold text-heading text-lg">مستويات العضوية</h2>
               <div class="gap-3 grid grid-cols-3" data-tier-cards>{_tier_cards(tp['idx'])}
               </div>
             </div>
 
             <div class="flex flex-col gap-3">
-              <h2 class="font-bold text-[#29612F] text-lg">إزاي تكسب نقاط؟</h2>
+              <h2 class="font-bold text-heading text-lg">إزاي تكسب نقاط؟</h2>
               <div class="gap-3 grid grid-cols-2 lg:grid-cols-4">{earn}
               </div>
             </div>"""

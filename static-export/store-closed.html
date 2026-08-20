@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=613004fc" />
-    <link rel="stylesheet" href="styles.css?v=28ec1c87" />
+    <link rel="stylesheet" href="tailwind.css?v=6ce2e172" />
+    <link rel="stylesheet" href="styles.css?v=30183d6d" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -46,7 +46,7 @@
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
     <script defer src="i18n-en.js?v=24ccd6ef"></script>
-    <script defer src="scripts.js?v=ff94e0be"></script>
+    <script defer src="scripts.js?v=19037dd3"></script>
   </head>
   <body data-page="store-closed" data-path="/store-closed" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -61,14 +61,14 @@
     <main id="main" tabindex="-1" class="overflow-x-clip">
       <section data-reveal class="py-20">
         <div class="flex flex-col items-center gap-5 mx-auto px-4 max-w-[560px] text-center">
-          <span class="place-items-center grid bg-interaction-base rounded-full size-24">
+          <span class="place-items-center grid bg-cream rounded-full size-24">
             <svg viewBox="0 0 24 24" fill="none" class="w-12 h-12 text-cta">
               <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/>
               <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
             </svg>
           </span>
-          <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">المتجر مغلق حالياً</h1>
-          <p class="text-neutral-secondary text-base xl:text-lg leading-8">
+          <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">المتجر مغلق حالياً</h1>
+          <p class="text-muted text-base xl:text-lg leading-8">
             مواعيد العمل من <span class="latin">9</span> صباحاً حتى <span class="latin">11</span> مساءً يومياً.
             تقدر تتصفح المنتجات دلوقتي وتكمل طلبك في المواعيد.
           </p>

@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=613004fc" />
-    <link rel="stylesheet" href="styles.css?v=28ec1c87" />
+    <link rel="stylesheet" href="tailwind.css?v=6ce2e172" />
+    <link rel="stylesheet" href="styles.css?v=30183d6d" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -46,7 +46,7 @@
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
     <script defer src="i18n-en.js?v=24ccd6ef"></script>
-    <script defer src="scripts.js?v=ff94e0be"></script>
+    <script defer src="scripts.js?v=19037dd3"></script>
   </head>
   <body data-page="home" data-path="/" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -83,7 +83,7 @@
                class="hero-pic hero-pic--ar-mobile w-full aspect-[3/4] object-cover" />
           <div class="absolute inset-x-0 top-0 sm:inset-y-0 flex flex-col justify-start sm:justify-center items-start gap-3 sm:gap-4 md:gap-5 pt-[16%] sm:pt-0 ps-6 md:ps-10 xl:ps-[60px] pe-4 max-w-[80%] sm:max-w-[62%]">
             <div class="flex flex-col items-start isolate">
-              <span class="z-[2] -mb-2 -rotate-2 inline-flex items-center bg-[#98CA55] px-2.5 pb-1 sm:pb-0 rounded-tl-[20px] rounded-br-[20px] font-normal text-[#29612F] text-[28px] md:text-[36px] xl:text-[42px] leading-none tracking-[-0.21px]">Natural Snacks</span>
+              <span class="z-[2] -mb-2 -rotate-2 inline-flex items-center bg-limeFigma px-2.5 pb-1 sm:pb-0 rounded-tl-[20px] rounded-br-[20px] font-normal text-heading text-[28px] md:text-[36px] xl:text-[42px] leading-none tracking-[-0.21px]">Natural Snacks</span>
               <span class="z-[1] inline-flex items-center whitespace-nowrap bg-white px-2.5 pt-1.5 sm:pt-0 pb-1 rounded-[12px] font-bold text-[#333] text-[34px] md:text-[50px] xl:text-[62px] leading-[1.15] sm:leading-[1.2]">For Every Event</span>
             </div>
             <a href="shop.html" class="inline-flex items-center gap-2.5 bg-cta hover:bg-cta-hover px-6 py-3 rounded-[8px] font-medium text-white text-base transition-colors">
@@ -105,7 +105,7 @@
       <section data-reveal id="categories" class="bg-white py-14 xl:py-[60px]">
         <div class="flex flex-col items-center gap-10 xl:gap-[54px] mx-auto px-4 max-w-[1512px]">
           <h2 class="font-medium text-black text-[28px] md:text-[40px] text-center leading-[1.2]">
-            Explore <span class="font-bold text-[#29612F]">JAAD&rsquo;s</span> Categories
+            Explore <span class="font-bold text-heading">JAAD&rsquo;s</span> Categories
           </h2>
           <div class="justify-items-center gap-12 xl:gap-[58px] grid grid-cols-1 sm:grid-cols-3 w-full max-w-[1392px]">
           <a href="shop.html" data-cat-card class="group flex flex-col items-center gap-3 sm:gap-[18px] w-full max-w-[240px] sm:max-w-[356px]">
@@ -122,7 +122,7 @@
                    class="top-0 left-[27%] absolute w-[73%] aspect-square object-contain rotate-[1.56deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-y-[6%] group-hover:rotate-[7deg] group-hover:scale-[1.05] group-[.in-view]:-translate-y-[6%] group-[.in-view]:rotate-[7deg] group-[.in-view]:scale-[1.05]" />
             </div>
             <div class="flex flex-col items-center gap-1.5 sm:gap-3 text-center">
-              <h3 class="font-bold text-[#29612F] text-lg sm:text-2xl leading-[1.4]">Nuts</h3>
+              <h3 class="font-bold text-heading text-lg sm:text-2xl leading-[1.4]">Nuts</h3>
               <p class="max-w-[341px] text-[#4a4a4a] text-sm sm:text-base leading-[1.4]">Premium hand-picked selections for every taste</p>
             </div>
           </a>
@@ -140,7 +140,7 @@
                    class="top-0 left-[27%] absolute w-[73%] aspect-square object-contain rotate-[1.56deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-y-[6%] group-hover:rotate-[7deg] group-hover:scale-[1.05] group-[.in-view]:-translate-y-[6%] group-[.in-view]:rotate-[7deg] group-[.in-view]:scale-[1.05]" />
             </div>
             <div class="flex flex-col items-center gap-1.5 sm:gap-3 text-center">
-              <h3 class="font-bold text-[#29612F] text-lg sm:text-2xl leading-[1.4]">Spices</h3>
+              <h3 class="font-bold text-heading text-lg sm:text-2xl leading-[1.4]">Spices</h3>
               <p class="max-w-[341px] text-[#4a4a4a] text-sm sm:text-base leading-[1.4]">Aromatic blends from the world&#x27;s finest regions</p>
             </div>
           </a>
@@ -158,7 +158,7 @@
                    class="top-0 left-[27%] absolute w-[73%] aspect-square object-contain rotate-[1.56deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-y-[6%] group-hover:rotate-[7deg] group-hover:scale-[1.05] group-[.in-view]:-translate-y-[6%] group-[.in-view]:rotate-[7deg] group-[.in-view]:scale-[1.05]" />
             </div>
             <div class="flex flex-col items-center gap-1.5 sm:gap-3 text-center">
-              <h3 class="font-bold text-[#29612F] text-lg sm:text-2xl leading-[1.4]">Coffee</h3>
+              <h3 class="font-bold text-heading text-lg sm:text-2xl leading-[1.4]">Coffee</h3>
               <p class="max-w-[341px] text-[#4a4a4a] text-sm sm:text-base leading-[1.4]">Rich, authentic flavors brewed to perfection</p>
             </div>
           </a>
@@ -169,11 +169,11 @@
       <!-- ============================ PERFECT PICKS ============================ -->
       <!-- Figma node 9946:16770. Heading + segmented pill tabs on the same row,
            then a row of five product widgets per tab. -->
-      <section data-reveal id="perfect-picks" class="bg-[#FDF8F1] py-14 xl:py-[60px]">
+      <section data-reveal id="perfect-picks" class="bg-cream py-14 xl:py-[60px]">
         <div data-tabs class="flex flex-col gap-8 xl:gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="flex flex-wrap justify-between items-end gap-4">
-            <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">Perfect Picks</h2>
-            <div class="pp-tabs relative inline-flex items-center gap-1 bg-[#E3F2D1] p-1 rounded-full"><span data-tab-indicator aria-hidden="true"></span><button type="button" class="tab-btn is-active" data-tab="best">Best Selling</button><button type="button" class="tab-btn" data-tab="new">New</button><button type="button" class="tab-btn" data-tab="offers">Offers</button></div>
+            <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">Perfect Picks</h2>
+            <div class="pp-tabs relative inline-flex items-center gap-1 bg-greenTintSoft p-1 rounded-full"><span data-tab-indicator aria-hidden="true"></span><button type="button" class="tab-btn is-active" data-tab="best">Best Selling</button><button type="button" class="tab-btn" data-tab="new">New</button><button type="button" class="tab-btn" data-tab="offers">Offers</button></div>
           </div>
 <div class="tab-panel" data-panel="best"><div class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 scroll-pl-4 xl:scroll-pl-0 overflow-x-auto xl:overflow-visible no-scrollbar snap-x">
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
@@ -199,16 +199,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">45</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -216,7 +216,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-1.html" data-product-title class="hover:text-[#29612F] transition-colors">Light Roasted Coffee</a>
+                <a href="product-1.html" data-product-title class="hover:text-heading transition-colors">Light Roasted Coffee</a>
               </h3>
             </div>
           </article>
@@ -243,16 +243,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">45</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -260,7 +260,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-2.html" data-product-title class="hover:text-[#29612F] transition-colors">Medium Roasted Coffee</a>
+                <a href="product-2.html" data-product-title class="hover:text-heading transition-colors">Medium Roasted Coffee</a>
               </h3>
             </div>
           </article>
@@ -287,16 +287,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">45</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -304,7 +304,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-3.html" data-product-title class="hover:text-[#29612F] transition-colors">Dark Roasted Coffee</a>
+                <a href="product-3.html" data-product-title class="hover:text-heading transition-colors">Dark Roasted Coffee</a>
               </h3>
             </div>
           </article>
@@ -331,16 +331,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">65</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -348,7 +348,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-12.html" data-product-title class="hover:text-[#29612F] transition-colors">Walnut</a>
+                <a href="product-12.html" data-product-title class="hover:text-heading transition-colors">Walnut</a>
               </h3>
             </div>
           </article>
@@ -375,16 +375,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">85</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -392,7 +392,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-11.html" data-product-title class="hover:text-[#29612F] transition-colors">Almond</a>
+                <a href="product-11.html" data-product-title class="hover:text-heading transition-colors">Almond</a>
               </h3>
             </div>
           </article></div></div><div class="tab-panel" data-panel="new" hidden><div class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 scroll-pl-4 xl:scroll-pl-0 overflow-x-auto xl:overflow-visible no-scrollbar snap-x">
@@ -419,16 +419,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">50</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -436,7 +436,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-4.html" data-product-title class="hover:text-[#29612F] transition-colors">Light Roasted with Cardamom</a>
+                <a href="product-4.html" data-product-title class="hover:text-heading transition-colors">Light Roasted with Cardamom</a>
               </h3>
             </div>
           </article>
@@ -463,16 +463,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">85</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -480,7 +480,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-8.html" data-product-title class="hover:text-[#29612F] transition-colors">Cashew</a>
+                <a href="product-8.html" data-product-title class="hover:text-heading transition-colors">Cashew</a>
               </h3>
             </div>
           </article>
@@ -507,16 +507,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">90</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -524,7 +524,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-10.html" data-product-title class="hover:text-[#29612F] transition-colors">Pistachio</a>
+                <a href="product-10.html" data-product-title class="hover:text-heading transition-colors">Pistachio</a>
               </h3>
             </div>
           </article>
@@ -551,16 +551,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">55</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -568,7 +568,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-21.html" data-product-title class="hover:text-[#29612F] transition-colors">Cardamom</a>
+                <a href="product-21.html" data-product-title class="hover:text-heading transition-colors">Cardamom</a>
               </h3>
             </div>
           </article>
@@ -595,16 +595,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">50</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -612,7 +612,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-5.html" data-product-title class="hover:text-[#29612F] transition-colors">Medium Roasted with Cardamom</a>
+                <a href="product-5.html" data-product-title class="hover:text-heading transition-colors">Medium Roasted with Cardamom</a>
               </h3>
             </div>
           </article></div></div><div class="tab-panel" data-panel="offers" hidden><div class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 scroll-pl-4 xl:scroll-pl-0 overflow-x-auto xl:overflow-visible no-scrollbar snap-x">
@@ -639,24 +639,24 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">64</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
                 </span>
-                <span class="text-neutral-secondary text-sm line-through latin">EGP 80</span>
+                <span class="text-muted text-sm line-through latin">EGP 80</span>
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-9.html" data-product-title class="hover:text-[#29612F] transition-colors">Hazelnut</a>
+                <a href="product-9.html" data-product-title class="hover:text-heading transition-colors">Hazelnut</a>
               </h3>
             </div>
           </article>
@@ -683,24 +683,24 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">28</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
                 </span>
-                <span class="text-neutral-secondary text-sm line-through latin">EGP 35</span>
+                <span class="text-muted text-sm line-through latin">EGP 35</span>
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-23.html" data-product-title class="hover:text-[#29612F] transition-colors">Cumin</a>
+                <a href="product-23.html" data-product-title class="hover:text-heading transition-colors">Cumin</a>
               </h3>
             </div>
           </article>
@@ -727,24 +727,24 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">32</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
                 </span>
-                <span class="text-neutral-secondary text-sm line-through latin">EGP 40</span>
+                <span class="text-muted text-sm line-through latin">EGP 40</span>
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-20.html" data-product-title class="hover:text-[#29612F] transition-colors">Black Pepper</a>
+                <a href="product-20.html" data-product-title class="hover:text-heading transition-colors">Black Pepper</a>
               </h3>
             </div>
           </article>
@@ -771,24 +771,24 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">40</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
                 </span>
-                <span class="text-neutral-secondary text-sm line-through latin">EGP 50</span>
+                <span class="text-muted text-sm line-through latin">EGP 50</span>
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-6.html" data-product-title class="hover:text-[#29612F] transition-colors">Dark Roasted with Cardamom</a>
+                <a href="product-6.html" data-product-title class="hover:text-heading transition-colors">Dark Roasted with Cardamom</a>
               </h3>
             </div>
           </article>
@@ -815,24 +815,24 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">32</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
                 </span>
-                <span class="text-neutral-secondary text-sm line-through latin">EGP 40</span>
+                <span class="text-muted text-sm line-through latin">EGP 40</span>
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-22.html" data-product-title class="hover:text-[#29612F] transition-colors">Cloves</a>
+                <a href="product-22.html" data-product-title class="hover:text-heading transition-colors">Cloves</a>
               </h3>
             </div>
           </article></div></div>
@@ -842,58 +842,58 @@
       <!-- ============================== REVIEWS ============================== -->
       <!-- Figma node 9950:17989. Dark-green band, medium-green cards with a lime
            quote mark, slider with bottom-right arrows, scattered leaves. -->
-      <section data-reveal id="reviews" class="relative bg-[#0D3711] overflow-hidden">
+      <section data-reveal id="reviews" class="relative bg-greenDeepest overflow-hidden">
         <div class="relative flex flex-col items-center gap-10 mx-auto px-4 xl:px-[60px] py-16 xl:py-20 max-w-[1512px]">
           <img src="images/jaad/decor/leaf-1.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-7 md:w-12 h-auto opacity-90 brightness-150 pointer-events-none z-0" style="top:4%;left:1%;--lr:15deg" /><img src="images/jaad/decor/leaf-2.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-5 md:w-9 h-auto opacity-90 brightness-150 pointer-events-none z-0" style="top:0%;left:23%;--lr:-35deg" /><img src="images/jaad/decor/leaf-3.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-5 md:w-8 h-auto opacity-90 brightness-150 pointer-events-none z-0" style="top:2%;left:72%;--lr:25deg" /><img src="images/jaad/decor/leaf-4.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-6 md:w-11 h-auto opacity-90 brightness-150 pointer-events-none z-0" style="top:0%;left:91%;--lr:-65deg" /><img src="images/jaad/decor/leaf-5.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-5 md:w-9 h-auto opacity-90 brightness-150 pointer-events-none z-0" style="top:40%;left:1%;--lr:-95deg" /><img src="images/jaad/decor/leaf-2.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-5 md:w-9 h-auto opacity-90 brightness-150 pointer-events-none z-0" style="top:46%;left:95%;--lr:120deg" /><img src="images/jaad/decor/leaf-3.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-9 md:w-16 h-auto opacity-90 brightness-150 pointer-events-none z-0" style="top:80%;left:2%;--lr:-145deg" /><img src="images/jaad/decor/leaf-1.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-8 md:w-14 h-auto opacity-90 brightness-150 pointer-events-none z-0" style="top:86%;left:87%;--lr:50deg" /><img src="images/jaad/decor/leaf-4.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-6 md:w-10 h-auto opacity-90 brightness-150 pointer-events-none z-0" style="top:90%;left:38%;--lr:-160deg" /><img src="images/jaad/decor/leaf-5.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-5 md:w-8 h-auto opacity-90 brightness-150 pointer-events-none z-0" style="top:92%;left:61%;--lr:70deg" />
-          <h2 class="z-10 relative font-medium text-[#D5EBB8] text-[32px] md:text-[40px] text-center tracking-[-0.2px]">Customer Reviews</h2>
+          <h2 class="z-10 relative font-medium text-greenTint text-[32px] md:text-[40px] text-center tracking-[-0.2px]">Customer Reviews</h2>
           <div class="z-10 relative w-full carousel" style="--carousel-gap:20px">
             <div class="carousel-track">
               <article class="flex flex-col gap-6 bg-[#008536] shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
-                <span class="font-bold text-[#98CA55] text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
-                <p class="flex-1 text-[#FDF8F1] text-base leading-[1.5] overflow-hidden">The coffee and nuts are always fresh and consistently good, and every order arrives quickly.</p>
+                <span class="font-bold text-limeFigma text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
+                <p class="flex-1 text-cream text-base leading-[1.5] overflow-hidden">The coffee and nuts are always fresh and consistently good, and every order arrives quickly.</p>
                 <div class="flex flex-col gap-1">
-                  <p class="font-bold text-[#FDF8F1] text-base">- Mona Abdallah</p>
+                  <p class="font-bold text-cream text-base">- Mona Abdallah</p>
                   <p class="text-[#BDEAC1] text-sm">Loyal Customer</p>
                 </div>
               </article>
               <article class="flex flex-col gap-6 bg-[#008536] shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
-                <span class="font-bold text-[#98CA55] text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
-                <p class="flex-1 text-[#FDF8F1] text-base leading-[1.5] overflow-hidden">Their Turkish coffee is one of the best I&#x27;ve tried, and the packaging keeps the aroma locked in.</p>
+                <span class="font-bold text-limeFigma text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
+                <p class="flex-1 text-cream text-base leading-[1.5] overflow-hidden">Their Turkish coffee is one of the best I&#x27;ve tried, and the packaging keeps the aroma locked in.</p>
                 <div class="flex flex-col gap-1">
-                  <p class="font-bold text-[#FDF8F1] text-base">- Ahmed Fouad</p>
+                  <p class="font-bold text-cream text-base">- Ahmed Fouad</p>
                   <p class="text-[#BDEAC1] text-sm">Coffee Lover</p>
                 </div>
               </article>
               <article class="flex flex-col gap-6 bg-[#008536] shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
-                <span class="font-bold text-[#98CA55] text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
-                <p class="flex-1 text-[#FDF8F1] text-base leading-[1.5] overflow-hidden">The spices have a strong, authentic aroma that genuinely changed my cooking — I&#x27;ll order again.</p>
+                <span class="font-bold text-limeFigma text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
+                <p class="flex-1 text-cream text-base leading-[1.5] overflow-hidden">The spices have a strong, authentic aroma that genuinely changed my cooking — I&#x27;ll order again.</p>
                 <div class="flex flex-col gap-1">
-                  <p class="font-bold text-[#FDF8F1] text-base">- Sara Mahmoud</p>
+                  <p class="font-bold text-cream text-base">- Sara Mahmoud</p>
                   <p class="text-[#BDEAC1] text-sm">Home Cook</p>
                 </div>
               </article>
               <article class="flex flex-col gap-6 bg-[#008536] shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
-                <span class="font-bold text-[#98CA55] text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
-                <p class="flex-1 text-[#FDF8F1] text-base leading-[1.5] overflow-hidden">Excellent nut selection and fair prices for the quality you get. Highly recommended.</p>
+                <span class="font-bold text-limeFigma text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
+                <p class="flex-1 text-cream text-base leading-[1.5] overflow-hidden">Excellent nut selection and fair prices for the quality you get. Highly recommended.</p>
                 <div class="flex flex-col gap-1">
-                  <p class="font-bold text-[#FDF8F1] text-base">- Karim Samir</p>
+                  <p class="font-bold text-cream text-base">- Karim Samir</p>
                   <p class="text-[#BDEAC1] text-sm">Regular Customer</p>
                 </div>
               </article>
               <article class="flex flex-col gap-6 bg-[#008536] shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
-                <span class="font-bold text-[#98CA55] text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
-                <p class="flex-1 text-[#FDF8F1] text-base leading-[1.5] overflow-hidden">From the very first cup I could taste the care — rich flavor, beautiful packaging, fast delivery.</p>
+                <span class="font-bold text-limeFigma text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
+                <p class="flex-1 text-cream text-base leading-[1.5] overflow-hidden">From the very first cup I could taste the care — rich flavor, beautiful packaging, fast delivery.</p>
                 <div class="flex flex-col gap-1">
-                  <p class="font-bold text-[#FDF8F1] text-base">- Omar Abdulrahman</p>
+                  <p class="font-bold text-cream text-base">- Omar Abdulrahman</p>
                   <p class="text-[#BDEAC1] text-sm">Celebrating Customer</p>
                 </div>
               </article>
             </div>
             <div class="flex justify-end gap-4 mt-8">
-              <button type="button" class="place-items-center grid bg-white hover:bg-white/90 shadow-custom4 rounded-full size-[42px] text-[#0D3711] transition carousel-prev" aria-label="Previous">
+              <button type="button" class="place-items-center grid bg-white hover:bg-white/90 shadow-custom4 rounded-full size-[42px] text-greenDeepest transition carousel-prev" aria-label="Previous">
                 <svg viewBox="0 0 24 24" fill="none" class="w-[18px] h-[18px]"><path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
-              <button type="button" class="place-items-center grid bg-white hover:bg-white/90 shadow-custom4 rounded-full size-[42px] text-[#0D3711] transition carousel-next" aria-label="Next">
+              <button type="button" class="place-items-center grid bg-white hover:bg-white/90 shadow-custom4 rounded-full size-[42px] text-greenDeepest transition carousel-next" aria-label="Next">
                 <svg viewBox="0 0 24 24" fill="none" class="w-[18px] h-[18px]"><path d="M10 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
             </div>
@@ -904,16 +904,16 @@
       <!-- ============================== OUR STORY ============================== -->
       <!-- Figma node 9943:16606. Cap (logo, heading, copy, link) + a rounded
            three-column image banner with gradient captions; scattered leaves. -->
-      <section data-reveal id="our-story" class="relative bg-[#FDF8F1] py-14 xl:py-[60px] overflow-hidden">
+      <section data-reveal id="our-story" class="relative bg-cream py-14 xl:py-[60px] overflow-hidden">
         <div class="relative flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="relative"><img src="images/jaad/decor/leaf-1.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-5 md:w-9 h-auto opacity-80 pointer-events-none z-0" style="top:6%;left:91%;--lr:-50deg" /><img src="images/jaad/decor/leaf-2.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-8 md:w-14 h-auto opacity-80 pointer-events-none z-0" style="top:14%;left:46%;--lr:20deg" /><img src="images/jaad/decor/leaf-3.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-11 md:w-20 h-auto opacity-80 pointer-events-none z-0" style="top:72%;left:37%;--lr:-140deg" /><img src="images/jaad/decor/leaf-4.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-5 md:w-9 h-auto opacity-80 pointer-events-none z-0" style="top:30%;left:75%;--lr:-30deg" /><img src="images/jaad/decor/leaf-5.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-6 md:w-10 h-auto opacity-80 pointer-events-none z-0" style="top:76%;left:61%;--lr:80deg" />
             <div class="relative z-10 flex flex-col gap-6 max-w-[502px]">
               <div class="flex flex-col gap-2">
                 <img src="images/jaad/brand/logo-jaad-mark.svg" alt="JAAD" class="w-[84px] xl:w-[112px] h-auto" />
-                <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">Our Story</h2>
+                <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">Our Story</h2>
               </div>
               <p class="text-black text-base leading-[1.4]">At JAAD, we carefully select the finest natural products from their original sources to deliver a pure and authentic experience.</p>
-              <a href="about.html" class="group/link inline-flex items-center gap-2 w-fit font-normal text-[#006328] text-base">
+              <a href="about.html" class="group/link inline-flex items-center gap-2 w-fit font-normal text-greenDeep text-base">
                 Read More
                 <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 transition-transform group-hover/link:translate-x-1"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
@@ -954,7 +954,7 @@
            it is never sparse. -->
       <section data-reveal id="recently-viewed" class="bg-white py-14 xl:py-[60px]" data-recently-viewed data-recent-min="5">
         <div class="flex flex-col gap-8 xl:gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
-          <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">Recently Viewed</h2>
+          <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">Recently Viewed</h2>
           <div data-recent-track class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 scroll-pl-4 xl:scroll-pl-0 overflow-x-auto xl:overflow-visible no-scrollbar snap-x"></div>
         </div>
       </section>
@@ -962,13 +962,13 @@
       <!-- ========================= LATEST FROM JAAD ========================= -->
       <!-- Figma node 9974:21059. Media Center badge, heading + explore link,
            three article cards with tag pills and read-time meta. -->
-      <section data-reveal id="latest" class="bg-[#FDF8F1] py-14 xl:py-[60px]">
+      <section data-reveal id="latest" class="bg-cream py-14 xl:py-[60px]">
         <div class="flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="flex flex-col gap-3">
-            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-[#006328] text-[13px] uppercase tracking-[1px]">Media Center</span>
+            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-greenDeep text-[13px] uppercase tracking-[1px]">Media Center</span>
             <div class="flex flex-wrap justify-between items-end gap-4">
-              <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-none tracking-[-1px]">Latest from JAAD</h2>
-              <a href="blogs.html" class="group/link inline-flex items-center gap-2 font-bold text-[#29612F] text-base">
+              <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-none tracking-[-1px]">Latest from JAAD</h2>
+              <a href="blogs.html" class="group/link inline-flex items-center gap-2 font-bold text-heading text-base">
                 Explore All Articles
                 <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 transition-transform group-hover/link:translate-x-1"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
@@ -985,33 +985,33 @@
                   <img src="images/jaad/site/article-1.jpg" alt="The Art of Turkish Coffee: A Tradition Worth Preserving" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                 </div>
                 <div class="flex flex-wrap justify-between items-center gap-2">
-                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Coffee</span><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Wellness</span></div>
-                  <span class="font-medium text-[#636959] text-[13px] whitespace-nowrap">July 15, 2026 — 5 min read</span>
+                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Coffee</span><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Wellness</span></div>
+                  <span class="font-medium text-metaGray text-[13px] whitespace-nowrap">July 15, 2026 — 5 min read</span>
                 </div>
-                <h3 class="font-bold text-[#006328] text-lg leading-[1.4] group-hover:underline">The Art of Turkish Coffee: A Tradition Worth Preserving</h3>
-                <p class="text-[#1e2219] text-sm leading-[1.5] line-clamp-3">Discover the centuries-old craft behind authentic Turkish coffee, from selecting the finest beans to the perfect brew technique.</p>
+                <h3 class="font-bold text-greenDeep text-lg leading-[1.4] group-hover:underline">The Art of Turkish Coffee: A Tradition Worth Preserving</h3>
+                <p class="text-bodyInk text-sm leading-[1.5] line-clamp-3">Discover the centuries-old craft behind authentic Turkish coffee, from selecting the finest beans to the perfect brew technique.</p>
               </a>
               <a href="blog.html?post=mediterranean-nuts" class="group flex flex-col gap-4 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] p-4 rounded-3xl w-[82vw] max-w-[330px] shrink-0 snap-start md:w-auto md:max-w-none">
                 <div class="relative rounded-2xl h-[200px] xl:h-[260px] overflow-hidden">
                   <img src="images/jaad/site/article-2.jpg" alt="Why Mediterranean Nuts Are the World&#x27;s Best Kept Secret" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                 </div>
                 <div class="flex flex-wrap justify-between items-center gap-2">
-                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Nutrition</span><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Nuts</span></div>
-                  <span class="font-medium text-[#636959] text-[13px] whitespace-nowrap">June 28, 2026 — 4 min read</span>
+                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Nutrition</span><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Nuts</span></div>
+                  <span class="font-medium text-metaGray text-[13px] whitespace-nowrap">June 28, 2026 — 4 min read</span>
                 </div>
-                <h3 class="font-bold text-[#006328] text-lg leading-[1.4] group-hover:underline">Why Mediterranean Nuts Are the World&#x27;s Best Kept Secret</h3>
-                <p class="text-[#1e2219] text-sm leading-[1.5] line-clamp-3">From the groves of the Mediterranean come the finest walnuts and almonds, packed with nutrients and unmatched flavor.</p>
+                <h3 class="font-bold text-greenDeep text-lg leading-[1.4] group-hover:underline">Why Mediterranean Nuts Are the World&#x27;s Best Kept Secret</h3>
+                <p class="text-bodyInk text-sm leading-[1.5] line-clamp-3">From the groves of the Mediterranean come the finest walnuts and almonds, packed with nutrients and unmatched flavor.</p>
               </a>
               <a href="blog.html?post=essential-spice-blends" class="group flex flex-col gap-4 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] p-4 rounded-3xl w-[82vw] max-w-[330px] shrink-0 snap-start md:w-auto md:max-w-none">
                 <div class="relative rounded-2xl h-[200px] xl:h-[260px] overflow-hidden">
                   <img src="images/jaad/site/article-3.jpg" alt="Spice Up Your Kitchen: 5 Essential Blends Every Home Cook Needs" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                 </div>
                 <div class="flex flex-wrap justify-between items-center gap-2">
-                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Spices</span><span class="inline-flex items-center px-3 py-1 border border-[#29612F] rounded-full font-medium text-[#29612F] text-xs">Recipes</span></div>
-                  <span class="font-medium text-[#636959] text-[13px] whitespace-nowrap">June 10, 2026 — 6 min read</span>
+                  <div class="flex flex-wrap gap-2"><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Spices</span><span class="inline-flex items-center px-3 py-1 border border-heading rounded-full font-medium text-heading text-xs">Recipes</span></div>
+                  <span class="font-medium text-metaGray text-[13px] whitespace-nowrap">June 10, 2026 — 6 min read</span>
                 </div>
-                <h3 class="font-bold text-[#006328] text-lg leading-[1.4] group-hover:underline">Spice Up Your Kitchen: 5 Essential Blends Every Home Cook Needs</h3>
-                <p class="text-[#1e2219] text-sm leading-[1.5] line-clamp-3">Transform your everyday cooking with these aromatic spice blends sourced from the world&#x27;s finest growing regions.</p>
+                <h3 class="font-bold text-greenDeep text-lg leading-[1.4] group-hover:underline">Spice Up Your Kitchen: 5 Essential Blends Every Home Cook Needs</h3>
+                <p class="text-bodyInk text-sm leading-[1.5] line-clamp-3">Transform your everyday cooking with these aromatic spice blends sourced from the world&#x27;s finest growing regions.</p>
               </a>
           </div>
         </div>
@@ -1019,83 +1019,83 @@
 
       <!-- =============================== FAQ =============================== -->
       <!-- Figma node 9967:21115. Centered header + accordion; first row open. -->
-      <section data-reveal id="faq" class="bg-[#FDF8F1] py-14 xl:py-[60px]">
+      <section data-reveal id="faq" class="bg-cream py-14 xl:py-[60px]">
         <div class="flex flex-col items-center gap-10 mx-auto px-4 max-w-[1512px]">
           <div class="flex flex-col items-center gap-4 max-w-[800px] text-center">
-            <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">Frequently Asked Questions</h2>
-            <p class="max-w-[630px] text-[#4b5563] text-base leading-[1.5]">Have questions about our premium coffee, fresh Mediterranean nuts, or natural spices? Find quick answers below.</p>
+            <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">Frequently Asked Questions</h2>
+            <p class="max-w-[630px] text-bodyMuted text-base leading-[1.5]">Have questions about our premium coffee, fresh Mediterranean nuts, or natural spices? Find quick answers below.</p>
           </div>
           <div data-accordion class="flex flex-col gap-4 w-full max-w-[800px]">
               <div class="faq-card accordion-item rounded-2xl overflow-hidden is-open">
                 <button type="button" class="accordion-trigger flex justify-between items-center gap-4 p-6 w-full text-start">
                   <span class="faq-q text-lg leading-snug">What makes JAAD products different?</span>
-                  <span class="place-items-center grid size-6 text-[#006328] shrink-0">
+                  <span class="place-items-center grid size-6 text-greenDeep shrink-0">
                     <span class="faq-plus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     <span class="faq-minus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                   </span>
                 </button>
                 <div class="accordion-panel">
-                  <div class="px-6 pb-6 text-[#4b5563] text-[15px] leading-[1.6]">At JAAD, we source our products directly from their origins — premium Turkish coffee from Anatolia, fresh nuts from Mediterranean farms, and aromatic spices from the finest growers. Every product is carefully selected and naturally processed to preserve its authentic flavor.</div>
+                  <div class="px-6 pb-6 text-bodyMuted text-[15px] leading-[1.6]">At JAAD, we source our products directly from their origins — premium Turkish coffee from Anatolia, fresh nuts from Mediterranean farms, and aromatic spices from the finest growers. Every product is carefully selected and naturally processed to preserve its authentic flavor.</div>
                 </div>
               </div>
               <div class="faq-card accordion-item rounded-2xl overflow-hidden">
                 <button type="button" class="accordion-trigger flex justify-between items-center gap-4 p-6 w-full text-start">
                   <span class="faq-q text-lg leading-snug">How should I store my coffee after opening?</span>
-                  <span class="place-items-center grid size-6 text-[#006328] shrink-0">
+                  <span class="place-items-center grid size-6 text-greenDeep shrink-0">
                     <span class="faq-plus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     <span class="faq-minus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                   </span>
                 </button>
                 <div class="accordion-panel">
-                  <div class="px-6 pb-6 text-[#4b5563] text-[15px] leading-[1.6]">Keep your coffee in an airtight container away from heat, light and moisture. For the freshest cup, grind the beans just before brewing.</div>
+                  <div class="px-6 pb-6 text-bodyMuted text-[15px] leading-[1.6]">Keep your coffee in an airtight container away from heat, light and moisture. For the freshest cup, grind the beans just before brewing.</div>
                 </div>
               </div>
               <div class="faq-card accordion-item rounded-2xl overflow-hidden">
                 <button type="button" class="accordion-trigger flex justify-between items-center gap-4 p-6 w-full text-start">
                   <span class="faq-q text-lg leading-snug">Do you offer international shipping?</span>
-                  <span class="place-items-center grid size-6 text-[#006328] shrink-0">
+                  <span class="place-items-center grid size-6 text-greenDeep shrink-0">
                     <span class="faq-plus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     <span class="faq-minus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                   </span>
                 </button>
                 <div class="accordion-panel">
-                  <div class="px-6 pb-6 text-[#4b5563] text-[15px] leading-[1.6]">We currently deliver across Egypt — two-hour delivery in Greater Cairo and one to three working days for other governorates. International shipping is on the way.</div>
+                  <div class="px-6 pb-6 text-bodyMuted text-[15px] leading-[1.6]">We currently deliver across Egypt — two-hour delivery in Greater Cairo and one to three working days for other governorates. International shipping is on the way.</div>
                 </div>
               </div>
               <div class="faq-card accordion-item rounded-2xl overflow-hidden">
                 <button type="button" class="accordion-trigger flex justify-between items-center gap-4 p-6 w-full text-start">
                   <span class="faq-q text-lg leading-snug">Are your products organic?</span>
-                  <span class="place-items-center grid size-6 text-[#006328] shrink-0">
+                  <span class="place-items-center grid size-6 text-greenDeep shrink-0">
                     <span class="faq-plus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     <span class="faq-minus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                   </span>
                 </button>
                 <div class="accordion-panel">
-                  <div class="px-6 pb-6 text-[#4b5563] text-[15px] leading-[1.6]">Our products are 100% natural and carefully sourced. We roast and pack in small batches to preserve flavor, aroma and nutritional value, with no additives.</div>
+                  <div class="px-6 pb-6 text-bodyMuted text-[15px] leading-[1.6]">Our products are 100% natural and carefully sourced. We roast and pack in small batches to preserve flavor, aroma and nutritional value, with no additives.</div>
                 </div>
               </div>
               <div class="faq-card accordion-item rounded-2xl overflow-hidden">
                 <button type="button" class="accordion-trigger flex justify-between items-center gap-4 p-6 w-full text-start">
                   <span class="faq-q text-lg leading-snug">What is your return policy?</span>
-                  <span class="place-items-center grid size-6 text-[#006328] shrink-0">
+                  <span class="place-items-center grid size-6 text-greenDeep shrink-0">
                     <span class="faq-plus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     <span class="faq-minus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                   </span>
                 </button>
                 <div class="accordion-panel">
-                  <div class="px-6 pb-6 text-[#4b5563] text-[15px] leading-[1.6]">You can request a return within 14 days of delivery as long as the product is unopened and in its original condition. Opened food products cannot be returned, for food-safety reasons.</div>
+                  <div class="px-6 pb-6 text-bodyMuted text-[15px] leading-[1.6]">You can request a return within 14 days of delivery as long as the product is unopened and in its original condition. Opened food products cannot be returned, for food-safety reasons.</div>
                 </div>
               </div>
               <div class="faq-card accordion-item rounded-2xl overflow-hidden">
                 <button type="button" class="accordion-trigger flex justify-between items-center gap-4 p-6 w-full text-start">
                   <span class="faq-q text-lg leading-snug">How can I track my order?</span>
-                  <span class="place-items-center grid size-6 text-[#006328] shrink-0">
+                  <span class="place-items-center grid size-6 text-greenDeep shrink-0">
                     <span class="faq-plus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     <span class="faq-minus w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                   </span>
                 </button>
                 <div class="accordion-panel">
-                  <div class="px-6 pb-6 text-[#4b5563] text-[15px] leading-[1.6]">Once your order ships you&#x27;ll get a confirmation by email and SMS, and you can follow its status any time from the My Orders page in your account.</div>
+                  <div class="px-6 pb-6 text-bodyMuted text-[15px] leading-[1.6]">Once your order ships you&#x27;ll get a confirmation by email and SMS, and you can follow its status any time from the My Orders page in your account.</div>
                 </div>
               </div>
           </div>

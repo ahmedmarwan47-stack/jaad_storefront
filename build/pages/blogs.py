@@ -25,12 +25,12 @@ def build():
     # page_header would otherwise emit a second one above it.
     body = f"""{page_header("", [("Home", "index.html"), ("Blog", None)])}
 
-      <section class="bg-[#FDF8F1] py-10 xl:py-14">
+      <section class="bg-cream py-10 xl:py-14">
         <div class="flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="flex flex-col gap-3">
-            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-[#006328] text-[13px] uppercase tracking-[1px]">Media Center</span>
-            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-none tracking-[-1px]">Latest from JAAD</h1>
-            <p class="max-w-[630px] text-[#4b5563] text-base leading-[1.5]">
+            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-greenDeep text-[13px] uppercase tracking-[1px]">Media Center</span>
+            <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-none tracking-[-1px]">Latest from JAAD</h1>
+            <p class="max-w-[630px] text-bodyMuted text-base leading-[1.5]">
               Guides, recipes and notes on coffee, nuts, dates and spices — written by the JAAD team.
             </p>
           </div>

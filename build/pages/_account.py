@@ -142,10 +142,10 @@ def account_title(active_slug, title):
     title changes — only the glyph is added."""
     icon_key = next((ic for _l, href, ic in NAV if href == active_slug), None)
     inner = nav_icon(active_slug, icon_key, cls="w-5 h-5", img_cls="w-8 h-8") if icon_key else ""
-    icon = (f'<span class="place-items-center grid bg-interaction-base rounded-xl size-11 shrink-0">{inner}</span>'
+    icon = (f'<span class="place-items-center grid bg-cream rounded-xl size-11 shrink-0">{inner}</span>'
             if icon_key else "")
     return (f'<div class="flex items-center gap-3">{icon}'
-            f'<h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">{e(title)}</h1></div>')
+            f'<h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">{e(title)}</h1></div>')
 
 
 def _nav_badge(href):
@@ -155,8 +155,8 @@ def _nav_badge(href):
     both the white sidebar and the interaction-base active row, and the dark
     green ink clears AA on it. The favourites count is live (scripts.js keeps
     every [data-favs-count] in step); wallet and points are the demo figures."""
-    pill = ('inline-flex items-center justify-center shrink-0 bg-[#E9F3E6] '
-            'rounded-full px-2 min-w-[26px] h-6 font-bold text-[#00451C] text-xs latin')
+    pill = ('inline-flex items-center justify-center shrink-0 bg-mint '
+            'rounded-full px-2 min-w-[26px] h-6 font-bold text-ink-800 text-xs latin')
     if href == "my-account-favorites.html":
         return f'<span class="{pill}" data-favs-count>0</span>'
     if href == "my-account-wallet.html":
@@ -173,7 +173,7 @@ def sidebar(active_slug):
     # is NOT flex-1, so the badge hugs the title instead of being pushed to the
     # row's far end).
     items = "".join(f"""
-              <a href="{href}" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors {'bg-interaction-base text-[#003616]' if href == active_slug else 'text-neutral-800 hover:bg-interaction-base'}">
+              <a href="{href}" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors {'bg-cream text-ink' if href == active_slug else 'text-neutral-800 hover:bg-cream'}">
                 {nav_icon(href, icon)}
                 <span class="flex items-center gap-2 min-w-0">
                   <span class="truncate">{e(label)}</span>{_nav_badge(href)}
@@ -183,10 +183,10 @@ def sidebar(active_slug):
     return f"""
           <aside class="hidden lg:flex flex-col gap-1 bg-white shadow-custom4 p-5 rounded-[20px] lg:sticky lg:top-4 min-w-0 h-max">
             {tier_badge(CUSTOMER['tier'])}
-            <h2 class="mt-2 mb-3 font-bold text-[#29612F] text-xl">مرحبا {e(CUSTOMER['name'])}</h2>
+            <h2 class="mt-2 mb-3 font-bold text-heading text-xl">مرحبا {e(CUSTOMER['name'])}</h2>
             {items}
-            <div class="flex flex-col gap-2 mt-4 pt-4 border-neutral-divider border-t">
-              <span class="font-semibold text-neutral-secondary text-sm">تحتاج مساعدة؟</span>
+            <div class="flex flex-col gap-2 mt-4 pt-4 border-divider border-t">
+              <span class="font-semibold text-muted text-sm">تحتاج مساعدة؟</span>
               <a href="faqs.html" class="link-sweep self-start font-semibold text-cta text-sm">الأسئلة المتداولة</a>
               <a href="contact-us.html" class="link-sweep self-start font-semibold text-cta text-sm">تواصل معنا</a>
             </div>
@@ -194,7 +194,7 @@ def sidebar(active_slug):
                  The old red "تسجيل الخروج" text button AND this one shipped
                  together — and the second merely linked home without logging
                  out, so there were two controls, one of them lying. -->
-            <button type="button" data-logout class="flex justify-center items-center gap-2 mt-4 py-3 border border-neutral-divider hover:border-cta rounded-full font-semibold text-[#003616] text-sm transition-colors">
+            <button type="button" data-logout class="flex justify-center items-center gap-2 mt-4 py-3 border border-divider hover:border-cta rounded-full font-semibold text-ink text-sm transition-colors">
               {_icon('out', 'w-4 h-4')} تسجيل الخروج
             </button>
           </aside>"""
@@ -215,32 +215,32 @@ def mobile_nav(active_slug):
     sheet render from NAV, so a new account page appears in both or neither.
     """
     rows = "".join(f"""
-              <a href="{href}" class="flex items-center gap-3 px-1 py-4 border-neutral-divider border-b font-semibold text-base {'text-cta' if href == active_slug else 'text-[#003616]'}">
+              <a href="{href}" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base {'text-cta' if href == active_slug else 'text-ink'}">
                 {nav_icon(href, icon)}
                 <span class="flex flex-1 items-center gap-2 min-w-0">
                   <span class="truncate">{e(label)}</span>{_nav_badge(href)}
                 </span>
-                <span class="text-neutral-secondary shrink-0">{_icon('chev', 'w-4 h-4')}</span>
+                <span class="text-muted shrink-0">{_icon('chev', 'w-4 h-4')}</span>
               </a>""" for label, href, icon in NAV)
 
     return f"""
           <div class="lg:hidden flex flex-col gap-3 min-w-0">
             {tier_badge(CUSTOMER['tier'])}
-            <h2 class="font-bold text-[#29612F] text-xl">مرحبا {e(CUSTOMER['name'])}</h2>
-            <button type="button" data-open="accountMenu" class="flex justify-between items-center gap-3 bg-white px-5 py-3.5 border border-neutral-divider rounded-full w-full font-semibold text-[#003616] text-base">
+            <h2 class="font-bold text-heading text-xl">مرحبا {e(CUSTOMER['name'])}</h2>
+            <button type="button" data-open="accountMenu" class="flex justify-between items-center gap-3 bg-white px-5 py-3.5 border border-divider rounded-full w-full font-semibold text-ink text-base">
               <span class="flex items-center gap-3 min-w-0">
                 <span class="text-cta shrink-0">{_icon('menu')}</span>
                 <span class="truncate">{e(_active_label(active_slug))}</span>
               </span>
-              <span class="-rotate-90 text-neutral-secondary shrink-0">{_icon('chev', 'w-4 h-4')}</span>
+              <span class="-rotate-90 text-muted shrink-0">{_icon('chev', 'w-4 h-4')}</span>
             </button>
           </div>
 
           <div data-sheet="account-menu" class="lg:hidden bottom-sheet">
             <div class="bg-neutral-200 mx-auto mb-4 rounded-full w-10 h-1"></div>
             <div class="flex justify-between items-center mb-2">
-              <h2 class="font-bold text-[#29612F] text-lg">القائمة</h2>
-              <button type="button" data-close class="place-items-center grid hover:bg-interaction-base border border-neutral-divider rounded-full w-8 h-8 text-[#003616]" aria-label="إغلاق">{_icon('close', 'w-4 h-4')}</button>
+              <h2 class="font-bold text-heading text-lg">القائمة</h2>
+              <button type="button" data-close class="place-items-center grid hover:bg-cream border border-divider rounded-full w-8 h-8 text-ink" aria-label="إغلاق">{_icon('close', 'w-4 h-4')}</button>
             </div>
             <nav class="flex flex-col">{rows}
             </nav>
@@ -249,7 +249,7 @@ def mobile_nav(active_slug):
                  Its slot carries the LOGOUT instead — the desktop sidebar's
                  data-logout button, which the phone otherwise had no way to
                  reach (the sidebar is hidden below lg). -->
-            <button type="button" data-logout class="flex justify-center items-center gap-2 mt-4 py-3 border border-neutral-divider hover:border-cta rounded-full w-full font-semibold text-[#003616] text-sm transition-colors">
+            <button type="button" data-logout class="flex justify-center items-center gap-2 mt-4 py-3 border border-divider hover:border-cta rounded-full w-full font-semibold text-ink text-sm transition-colors">
               {_icon('out', 'w-4 h-4')} تسجيل الخروج
             </button>
           </div>"""
@@ -279,14 +279,14 @@ def account_page(title_text, description, content, page_id, path,
 
 
 def card(heading, inner, cta=None, cta_href="#"):
-    action = (f'<a href="{cta_href}" class="hover:bg-interaction-base px-5 py-2 border '
-              f'border-neutral-divider rounded-full font-semibold text-[#003616] text-xs '
+    action = (f'<a href="{cta_href}" class="hover:bg-cream px-5 py-2 border '
+              f'border-divider rounded-full font-semibold text-ink text-xs '
               f'transition-colors">{e(cta)}</a>') if cta else ""
     # h2, not h3: these cards are the account page's top-level sections and
     # the only heading above them is the page h1, so h3 skipped a level and
     # broke heading-by-heading navigation on all seven account pages.
     head = (f'<div class="flex justify-between items-center gap-3">'
-            f'<h2 class="font-bold text-[#29612F] text-base">{e(heading)}</h2>{action}</div>'
+            f'<h2 class="font-bold text-heading text-base">{e(heading)}</h2>{action}</div>'
             ) if heading else ""
     return (f'<div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px]">'
             f'{head}{inner}</div>')
@@ -316,8 +316,8 @@ ORDERS = [
 ]
 
 STATUS_STYLE = {
-    "amber": "bg-accent-yellow text-[#003616]",
-    "red": "bg-accent-error text-white",
+    "amber": "bg-lime text-ink",
+    "red": "bg-error text-white",
     "green": "bg-primary text-white",
 }
 
@@ -475,13 +475,13 @@ def order_tracker_ride(step, subs=None):
 
 def _order_lines(o):
     return "".join(f"""
-                <div class="flex items-center gap-3 py-3 border-neutral-divider border-b last:border-0">
-                  <img src="{e(p['image'])}" alt="" class="bg-interaction-base p-1.5 rounded-lg w-14 h-14 object-contain shrink-0" loading="lazy" />
+                <div class="flex items-center gap-3 py-3 border-divider border-b last:border-0">
+                  <img src="{e(p['image'])}" alt="" class="bg-cream p-1.5 rounded-lg w-14 h-14 object-contain shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 min-w-0">
-                    <span class="font-semibold text-[#003616] text-sm line-clamp-2">{e(p.get('nameAr') or p['name'])}</span>
-                    <span class="text-neutral-secondary text-xs">عدد <span class="latin">{q}</span></span>
+                    <span class="font-semibold text-ink text-sm line-clamp-2">{e(p.get('nameAr') or p['name'])}</span>
+                    <span class="text-muted text-xs">عدد <span class="latin">{q}</span></span>
                   </div>
-                  <span class="font-bold text-[#003616] text-sm latin shrink-0">EGP {money(p['price'] * q)}</span>
+                  <span class="font-bold text-ink text-sm latin shrink-0">EGP {money(p['price'] * q)}</span>
                 </div>""" for p, q in o["items"])
 
 
@@ -495,19 +495,19 @@ def order_panel(o):
     return f"""
               <div data-order-panel data-order-id="{e(o['no'])}" hidden class="flex flex-col gap-4">
                 <div class="flex flex-wrap justify-between items-center gap-2">
-                  <h3 class="font-bold text-[#29612F] text-base">طلب رقم <span class="latin">{e(o['no'])}</span></h3>
+                  <h3 class="font-bold text-heading text-base">طلب رقم <span class="latin">{e(o['no'])}</span></h3>
                   {status_badge(o)}
                 </div>
                 {tracker}
                 <div class="flex flex-col">{_order_lines(o)}
                 </div>
-                <div class="flex flex-col gap-2 pt-3 border-neutral-divider border-t text-sm">
-                  <div class="flex justify-between"><span class="text-neutral-secondary">الإجمالي الفرعي</span><span class="font-semibold text-[#003616] latin">EGP {money(subtotal)}</span></div>
-                  <div class="flex justify-between"><span class="text-neutral-secondary">مصاريف التوصيل</span><span class="font-semibold text-[#003616] latin">EGP {money(DELIVERY_FEE)}</span></div>
-                  <div class="flex justify-between items-center pt-2 border-neutral-divider border-t"><span class="font-bold text-[#003616]">الإجمالي</span><span class="font-bold text-[#003616] text-lg latin">EGP {money(order_total(o))}</span></div>
+                <div class="flex flex-col gap-2 pt-3 border-divider border-t text-sm">
+                  <div class="flex justify-between"><span class="text-muted">الإجمالي الفرعي</span><span class="font-semibold text-ink latin">EGP {money(subtotal)}</span></div>
+                  <div class="flex justify-between"><span class="text-muted">مصاريف التوصيل</span><span class="font-semibold text-ink latin">EGP {money(DELIVERY_FEE)}</span></div>
+                  <div class="flex justify-between items-center pt-2 border-divider border-t"><span class="font-bold text-ink">الإجمالي</span><span class="font-bold text-ink text-lg latin">EGP {money(order_total(o))}</span></div>
                 </div>
-                <div class="flex flex-col gap-1 bg-interaction-base p-3 rounded-xl text-neutral-secondary text-sm">
-                  <span class="font-semibold text-[#003616]">عنوان التوصيل</span>
+                <div class="flex flex-col gap-1 bg-cream p-3 rounded-xl text-muted text-sm">
+                  <span class="font-semibold text-ink">عنوان التوصيل</span>
                   <span>شقة 3 - 220 شارع الحرية - الدور الأول</span>
                   <span>مصر الجديدة، القاهرة</span>
                 </div>
@@ -523,9 +523,9 @@ def order_drawer(orders):
     # widened past the 340px --left default in styles.css.
     return f"""
     <aside data-drawer="order" class="side-drawer side-drawer--left" aria-label="تفاصيل الطلب">
-      <button type="button" data-close aria-label="إغلاق" class="drawer-close place-items-center grid bg-white shadow-custom3 rounded-full size-8 text-[#003616]">{_icon('close', 'w-3.5 h-3.5')}</button>
-      <div class="flex justify-between items-center px-5 py-4 border-neutral-divider border-b">
-        <h2 class="font-bold text-[#29612F] text-lg">تفاصيل الطلب</h2>
+      <button type="button" data-close aria-label="إغلاق" class="drawer-close place-items-center grid bg-white shadow-custom3 rounded-full size-8 text-ink">{_icon('close', 'w-3.5 h-3.5')}</button>
+      <div class="flex justify-between items-center px-5 py-4 border-divider border-b">
+        <h2 class="font-bold text-heading text-lg">تفاصيل الطلب</h2>
       </div>
       <div class="flex-1 px-5 py-4 overflow-y-auto" data-order-panels>{panels}
       </div>
@@ -538,12 +538,12 @@ def order_rows(orders):
     chevron is the affordance; role/tabindex + the keydown handler in scripts.js
     keep it keyboard-operable."""
     return "".join(f"""
-                  <tr data-order-open="{e(o['no'])}" tabindex="0" role="button" aria-label="عرض تفاصيل الطلب {e(o['no'])}" class="group border-neutral-divider border-b last:border-0 cursor-pointer hover:bg-interaction-base focus-visible:bg-interaction-base transition-colors">
-                    <td class="py-4 ps-2 font-semibold text-[#003616] text-sm latin">{e(o['no'])}</td>
-                    <td class="py-4 text-neutral-secondary text-sm">{e(o['date'])}</td>
+                  <tr data-order-open="{e(o['no'])}" tabindex="0" role="button" aria-label="عرض تفاصيل الطلب {e(o['no'])}" class="group border-divider border-b last:border-0 cursor-pointer hover:bg-cream focus-visible:bg-cream transition-colors">
+                    <td class="py-4 ps-2 font-semibold text-ink text-sm latin">{e(o['no'])}</td>
+                    <td class="py-4 text-muted text-sm">{e(o['date'])}</td>
                     <td class="py-4">{status_badge(o)}</td>
-                    <td class="py-4 font-semibold text-[#003616] text-sm latin">EGP {money(order_total(o))}</td>
-                    <td class="py-4 pe-2 text-end"><span class="inline-flex justify-center items-center text-neutral-secondary group-hover:text-cta transition-colors size-8">{_icon('chev', 'w-4 h-4')}</span></td>
+                    <td class="py-4 font-semibold text-ink text-sm latin">EGP {money(order_total(o))}</td>
+                    <td class="py-4 pe-2 text-end"><span class="inline-flex justify-center items-center text-muted group-hover:text-cta transition-colors size-8">{_icon('chev', 'w-4 h-4')}</span></td>
                   </tr>""" for o in orders)
 
 
@@ -558,8 +558,8 @@ def order_tracking_card(o):
             <div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px]">
               <div class="flex flex-wrap justify-between items-center gap-3">
                 <div class="flex items-center gap-2">
-                  <span class="font-bold text-[#003616] text-base">تتبع طلبك الحالي</span>
-                  <span class="font-semibold text-neutral-secondary text-sm latin">{e(o['no'])}</span>
+                  <span class="font-bold text-ink text-base">تتبع طلبك الحالي</span>
+                  <span class="font-semibold text-muted text-sm latin">{e(o['no'])}</span>
                 </div>
                 <button type="button" data-order-open="{e(o['no'])}" class="bg-cta hover:bg-cta-hover px-6 py-2.5 rounded-full font-semibold text-white text-sm transition-colors">تفاصيل الطلب</button>
               </div>
@@ -577,7 +577,7 @@ def reorder_card(o):
         for p, q in o["items"]
     )
     thumbs = "".join(
-        f'<img src="{e(p["image"])}" alt="" class="bg-interaction-base p-1 rounded-lg w-12 h-12 object-contain shrink-0" loading="lazy" />'
+        f'<img src="{e(p["image"])}" alt="" class="bg-cream p-1 rounded-lg w-12 h-12 object-contain shrink-0" loading="lazy" />'
         for p, q in o["items"][:4]
     )
     return f"""
@@ -587,12 +587,12 @@ def reorder_card(o):
                 <div class="flex gap-1 shrink-0">{thumbs}
                 </div>
                 <div class="flex flex-col min-w-0">
-                  <span class="font-bold text-[#003616] text-sm">آخر طلب <span class="latin">{e(o['no'])}</span></span>
-                  <span class="text-neutral-secondary text-xs">{e(o['date'])} · <span class="latin">EGP {money(order_total(o))}</span></span>
+                  <span class="font-bold text-ink text-sm">آخر طلب <span class="latin">{e(o['no'])}</span></span>
+                  <span class="text-muted text-xs">{e(o['date'])} · <span class="latin">EGP {money(order_total(o))}</span></span>
                 </div>
               </div>
               <div class="flex items-center gap-2">
-                <button type="button" data-order-open="{e(o['no'])}" class="hover:bg-interaction-base px-4 py-2 border border-neutral-divider rounded-full font-semibold text-[#003616] text-xs transition-colors">التفاصيل</button>
+                <button type="button" data-order-open="{e(o['no'])}" class="hover:bg-cream px-4 py-2 border border-divider rounded-full font-semibold text-ink text-xs transition-colors">التفاصيل</button>
                 <button type="button" data-reorder class="bg-cta hover:bg-cta-hover px-5 py-2 rounded-full font-semibold text-white text-xs transition-colors">إعادة الطلب</button>
               </div>
             </div>"""

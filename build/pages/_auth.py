@@ -37,10 +37,10 @@ def password_field(label="كلمة السر", name="password", autocomplete="cur
     """
     return f"""
                 <div class="flex flex-col gap-1.5">
-                  <label for="{e(name)}" class="font-medium text-neutral-secondary text-sm">{e(label)}</label>
+                  <label for="{e(name)}" class="font-medium text-muted text-sm">{e(label)}</label>
                   <div class="relative">
                     <input type="password" id="{e(name)}" name="{e(name)}" required autocomplete="{e(autocomplete)}"
-                           class="bg-white px-4 py-3 pe-12 border-2 border-neutral-divider focus:border-cta rounded-xl outline-none w-full text-[#003616] text-base transition-colors" />
+                           class="bg-white px-4 py-3 pe-12 border-2 border-divider focus:border-cta rounded-xl outline-none w-full text-ink text-base transition-colors" />
                     <!-- data-pw-toggle, NOT data-reveal: the site-wide entrance
                          animation keys off [data-reveal] on sections, and an eye
                          button that also carried data-reveal got swept into it —
@@ -49,7 +49,7 @@ def password_field(label="كلمة السر", name="password", autocomplete="cur
                          the button's -translate-y-1/2, dropping the icon to the
                          field's bottom edge (Ahmed, 2026-08-03). -->
                     <button type="button" data-pw-toggle="{e(name)}" aria-label="إظهار كلمة السر"
-                            class="top-1/2 end-1 absolute place-items-center grid w-11 h-11 text-neutral-secondary hover:text-cta -translate-y-1/2 transition-colors">
+                            class="top-1/2 end-1 absolute place-items-center grid w-11 h-11 text-muted hover:text-cta -translate-y-1/2 transition-colors">
                       <svg viewBox="0 0 24 24" fill="none" class="w-5 h-5">
                         <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.7"/>
                         <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/>
@@ -69,8 +69,8 @@ SIDE_CARD = f"""
                  notes. The CTA sits between two equal-growing regions, so it
                  centres at the same offset as the sign-in card's button (both
                  cards are equal height). -->
-            <aside class="flex flex-col gap-6 bg-interaction-base p-8 xl:p-10 rounded-[20px] order-last lg:order-none min-w-0">
-              <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2] text-center">إنشاء حساب جديد</h2>
+            <aside class="flex flex-col gap-6 bg-cream p-8 xl:p-10 rounded-[20px] order-last lg:order-none min-w-0">
+              <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2] text-center">إنشاء حساب جديد</h2>
               <div class="flex flex-1 flex-col justify-center gap-6">
                 <div class="flex justify-center items-center gap-3">
                   <span class="place-items-center grid bg-white rounded-full text-cta size-11">{ICON_HOME}</span>
@@ -86,12 +86,12 @@ SIDE_CARD = f"""
                    the primary action, so create-account is an outline button —
                    same size (py-4) so it aligns with متابعة, lighter weight. -->
               <a href="register.html" class="bg-transparent hover:bg-white py-4 border-2 border-cta rounded-full font-semibold text-cta text-base text-center transition-colors">إنشاء حساب</a>
-              <div class="flex flex-1 flex-col justify-center gap-4 pt-6 border-neutral-divider border-t">
-                <p class="flex items-start gap-3 text-neutral-secondary text-sm leading-6">
+              <div class="flex flex-1 flex-col justify-center gap-4 pt-6 border-divider border-t">
+                <p class="flex items-start gap-3 text-muted text-sm leading-6">
                   <span class="mt-0.5 text-cta shrink-0">{ICON_MAIL}</span>
                   في حالة عمل طلب من قبل كضيف (بدون حساب)، الرجاء عمل حساب الآن بنفس الإيميل المستخدم في الطلب لمتابعة حالة الشحن.
                 </p>
-                <p class="flex items-start gap-3 text-neutral-secondary text-sm leading-6">
+                <p class="flex items-start gap-3 text-muted text-sm leading-6">
                   <span class="mt-0.5 text-cta shrink-0">{ICON_BAG2}</span>
                   الدخول بقى برقم موبايلك ورمز تحقق سريع — من غير كلمة مرور. لو عندك حساب قديم، سجّل الدخول بنفس رقم موبايلك المسجّل.
                 </p>
@@ -99,12 +99,12 @@ SIDE_CARD = f"""
             </aside>"""
 
 SOCIAL = f"""
-                <div class="flex flex-col gap-3 pt-6 border-neutral-divider border-t">
+                <div class="flex flex-col gap-3 pt-6 border-divider border-t">
                   <div class="gap-3 grid sm:grid-cols-2">
-                    <button type="button" class="flex justify-center items-center gap-2 hover:bg-interaction-base py-3 border border-neutral-divider rounded-full font-semibold text-[#003616] text-sm transition-colors">
+                    <button type="button" class="flex justify-center items-center gap-2 hover:bg-cream py-3 border border-divider rounded-full font-semibold text-ink text-sm transition-colors">
                       {ICON_GOOGLE}<span>سجل بأستخدام جوجل</span>
                     </button>
-                    <button type="button" class="flex justify-center items-center gap-2 hover:bg-interaction-base py-3 border border-neutral-divider rounded-full font-semibold text-[#003616] text-sm transition-colors">
+                    <button type="button" class="flex justify-center items-center gap-2 hover:bg-cream py-3 border border-divider rounded-full font-semibold text-ink text-sm transition-colors">
                       {ICON_FB}<span>سجل بأستخدام فيسبوك</span>
                     </button>
                   </div>
@@ -137,7 +137,7 @@ def auth_page(title_text, description, heading, form_html, page_id, path,
                on the same line as the create-account button (Ahmed, 2026-08-04). -->
           <div class="flex flex-col gap-6 bg-white shadow-custom4 p-8 xl:p-10 rounded-[20px] min-w-0">
             {hero_html}
-            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2] text-center">{e(heading)}</h1>
+            <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2] text-center">{e(heading)}</h1>
             <form class="{form_class}"{attrs}>{form_html}
             </form>
             {SOCIAL if social else ''}

@@ -40,7 +40,7 @@ def build():
     # Alert glyph (Ahmed's alert-01.svg) in an error-ink wrapper, replacing the
     # bare ⚠ emoji so the notice matches the rest of the UI's iconography.
     warning = (
-        '<p data-cart-warning hidden class="flex items-start gap-2 text-accent-error '
+        '<p data-cart-warning hidden class="flex items-start gap-2 text-error '
         'text-xs leading-5"><span class="w-4 h-4 shrink-0 mt-px" aria-hidden="true">'
         f'{ICON["alert"]}</span>'
         '<span>متبقي <span class="latin" data-cart-shortfall></span> '
@@ -61,7 +61,7 @@ def build():
                lg — line items first, summary beneath (804:32907). -->
           <aside class="flex flex-col gap-4 lg:sticky lg:top-4 order-last lg:order-2 min-w-0">
             <div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px]">
-              <h2 class="font-bold text-[#29612F] text-xl">ملخص السلة</h2>
+              <h2 class="font-bold text-heading text-xl">ملخص السلة</h2>
 {freeship_bar()}
               <!-- Wallet, promo and the note editor grouped together (Ahmed,
                    2026-08-04), the same grouping the checkout summary uses, so
@@ -71,14 +71,14 @@ def build():
 {promo_field()}
               <div class="pt-1">{order_notes()}
               </div>
-              <div class="flex flex-col gap-2 pt-3 border-neutral-divider border-t text-sm">
+              <div class="flex flex-col gap-2 pt-3 border-divider border-t text-sm">
                 <div class="flex justify-between">
-                  <span class="text-neutral-secondary">مصاريف التوصيل</span>
-                  <span class="font-semibold text-[#003616] latin" data-cart-delivery>EGP {money(DELIVERY_FEE)}</span>
+                  <span class="text-muted">مصاريف التوصيل</span>
+                  <span class="font-semibold text-ink latin" data-cart-delivery>EGP {money(DELIVERY_FEE)}</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-neutral-secondary">الإجمالي</span>
-                  <span class="font-semibold text-[#003616] latin" data-cart-subtotal>EGP {money(subtotal)}</span>
+                  <span class="text-muted">الإجمالي</span>
+                  <span class="font-semibold text-ink latin" data-cart-subtotal>EGP {money(subtotal)}</span>
                 </div>
                 <!-- Wallet and promo discounts, each its own row — hidden
                      until applied; renderCart owns both the visibility and
@@ -87,19 +87,19 @@ def build():
                      combined figure that hides what the code itself took
                      off. -->
                 <div class="flex justify-between items-center" data-cart-discount-row hidden>
-                  <span class="text-neutral-secondary">خصم المحفظة</span>
+                  <span class="text-muted">خصم المحفظة</span>
                   <!-- The green counterpart of the yellow price chip: a saving
                        is good news and should read as one at a glance. -->
-                  <span class="inline-flex items-center -me-2 bg-[#E9F3E6] px-2 py-0.5 rounded-full font-bold text-[#00451C] text-sm latin" data-cart-discount></span>
+                  <span class="inline-flex items-center -me-2 bg-mint px-2 py-0.5 rounded-full font-bold text-ink-800 text-sm latin" data-cart-discount></span>
                 </div>
                 <div class="flex justify-between items-center" data-cart-promo-row hidden>
-                  <span class="text-neutral-secondary">خصم كود الخصم</span>
-                  <span class="inline-flex items-center -me-2 bg-[#E9F3E6] px-2 py-0.5 rounded-full font-bold text-[#00451C] text-sm latin" data-cart-promo-discount></span>
+                  <span class="text-muted">خصم كود الخصم</span>
+                  <span class="inline-flex items-center -me-2 bg-mint px-2 py-0.5 rounded-full font-bold text-ink-800 text-sm latin" data-cart-promo-discount></span>
                 </div>
               </div>
-              <div class="flex justify-between items-center pt-3 border-neutral-divider border-t">
-                <span class="font-bold text-[#003616] text-base">الإجمالي</span>
-                <span class="font-bold text-[#003616] text-2xl latin" data-cart-total>EGP {money(total)}</span>
+              <div class="flex justify-between items-center pt-3 border-divider border-t">
+                <span class="font-bold text-ink text-base">الإجمالي</span>
+                <span class="font-bold text-ink text-2xl latin" data-cart-total>EGP {money(total)}</span>
               </div>
               {order_btn}
               {warning}

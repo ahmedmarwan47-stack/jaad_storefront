@@ -195,7 +195,7 @@ def category_card(title, desc, href, back, front):
                    class="top-0 left-[27%] absolute w-[73%] aspect-square object-contain rotate-[1.56deg] transition-transform duration-500 ease-out will-change-transform group-hover:-translate-y-[6%] group-hover:rotate-[7deg] group-hover:scale-[1.05] group-[.in-view]:-translate-y-[6%] group-[.in-view]:rotate-[7deg] group-[.in-view]:scale-[1.05]" />
             </div>
             <div class="flex flex-col items-center gap-1.5 sm:gap-3 text-center">
-              <h3 class="font-bold text-[#29612F] text-lg sm:text-2xl leading-[1.4]">{e(title)}</h3>
+              <h3 class="font-bold text-heading text-lg sm:text-2xl leading-[1.4]">{e(title)}</h3>
               <p class="max-w-[341px] text-[#4a4a4a] text-sm sm:text-base leading-[1.4]">{e(desc)}</p>
             </div>
           </a>"""
@@ -256,13 +256,13 @@ def build():
               <div class="faq-card accordion-item rounded-2xl overflow-hidden{' is-open' if i == 0 else ''}">
                 <button type="button" class="accordion-trigger flex justify-between items-center gap-4 p-6 w-full text-start">
                   <span class="faq-q text-lg leading-snug">{e(q)}</span>
-                  <span class="place-items-center grid size-6 text-[#006328] shrink-0">
+                  <span class="place-items-center grid size-6 text-greenDeep shrink-0">
                     <span class="faq-plus w-5 h-5">{ICON['plus']}</span>
                     <span class="faq-minus w-5 h-5">{ICON['minus']}</span>
                   </span>
                 </button>
                 <div class="accordion-panel">
-                  <div class="px-6 pb-6 text-[#4b5563] text-[15px] leading-[1.6]">{e(a)}</div>
+                  <div class="px-6 pb-6 text-bodyMuted text-[15px] leading-[1.6]">{e(a)}</div>
                 </div>
               </div>"""
         for i, (q, a) in enumerate(FAQS)
@@ -271,10 +271,10 @@ def build():
     review_cards = "".join(
         f"""
               <article class="flex flex-col gap-6 bg-[#008536] shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
-                <span class="font-bold text-[#98CA55] text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
-                <p class="flex-1 text-[#FDF8F1] text-base leading-[1.5] overflow-hidden">{e(text)}</p>
+                <span class="font-bold text-limeFigma text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
+                <p class="flex-1 text-cream text-base leading-[1.5] overflow-hidden">{e(text)}</p>
                 <div class="flex flex-col gap-1">
-                  <p class="font-bold text-[#FDF8F1] text-base">- {e(name)}</p>
+                  <p class="font-bold text-cream text-base">- {e(name)}</p>
                   <p class="text-[#BDEAC1] text-sm">{e(role)}</p>
                 </div>
               </article>"""
@@ -306,7 +306,7 @@ def build():
                class="hero-pic hero-pic--ar-mobile w-full aspect-[3/4] object-cover" />
           <div class="absolute inset-x-0 top-0 sm:inset-y-0 flex flex-col justify-start sm:justify-center items-start gap-3 sm:gap-4 md:gap-5 pt-[16%] sm:pt-0 ps-6 md:ps-10 xl:ps-[60px] pe-4 max-w-[80%] sm:max-w-[62%]">
             <div class="flex flex-col items-start isolate">
-              <span class="z-[2] -mb-2 -rotate-2 inline-flex items-center bg-[#98CA55] px-2.5 pb-1 sm:pb-0 rounded-tl-[20px] rounded-br-[20px] font-normal text-[#29612F] text-[28px] md:text-[36px] xl:text-[42px] leading-none tracking-[-0.21px]">Natural Snacks</span>
+              <span class="z-[2] -mb-2 -rotate-2 inline-flex items-center bg-limeFigma px-2.5 pb-1 sm:pb-0 rounded-tl-[20px] rounded-br-[20px] font-normal text-heading text-[28px] md:text-[36px] xl:text-[42px] leading-none tracking-[-0.21px]">Natural Snacks</span>
               <span class="z-[1] inline-flex items-center whitespace-nowrap bg-white px-2.5 pt-1.5 sm:pt-0 pb-1 rounded-[12px] font-bold text-[#333] text-[34px] md:text-[50px] xl:text-[62px] leading-[1.15] sm:leading-[1.2]">For Every Event</span>
             </div>
             <a href="shop.html" class="inline-flex items-center gap-2.5 bg-cta hover:bg-cta-hover px-6 py-3 rounded-[8px] font-medium text-white text-base transition-colors">
@@ -328,7 +328,7 @@ def build():
       <section id="categories" class="bg-white py-14 xl:py-[60px]">
         <div class="flex flex-col items-center gap-10 xl:gap-[54px] mx-auto px-4 max-w-[1512px]">
           <h2 class="font-medium text-black text-[28px] md:text-[40px] text-center leading-[1.2]">
-            Explore <span class="font-bold text-[#29612F]">JAAD&rsquo;s</span> Categories
+            Explore <span class="font-bold text-heading">JAAD&rsquo;s</span> Categories
           </h2>
           <div class="justify-items-center gap-12 xl:gap-[58px] grid grid-cols-1 sm:grid-cols-3 w-full max-w-[1392px]">{cards}
           </div>
@@ -338,11 +338,11 @@ def build():
       <!-- ============================ PERFECT PICKS ============================ -->
       <!-- Figma node 9946:16770. Heading + segmented pill tabs on the same row,
            then a row of five product widgets per tab. -->
-      <section id="perfect-picks" class="bg-[#FDF8F1] py-14 xl:py-[60px]">
+      <section id="perfect-picks" class="bg-cream py-14 xl:py-[60px]">
         <div data-tabs class="flex flex-col gap-8 xl:gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="flex flex-wrap justify-between items-end gap-4">
-            <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">Perfect Picks</h2>
-            <div class="pp-tabs relative inline-flex items-center gap-1 bg-[#E3F2D1] p-1 rounded-full"><span data-tab-indicator aria-hidden="true"></span>{pp_chips}</div>
+            <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">Perfect Picks</h2>
+            <div class="pp-tabs relative inline-flex items-center gap-1 bg-greenTintSoft p-1 rounded-full"><span data-tab-indicator aria-hidden="true"></span>{pp_chips}</div>
           </div>
 {pp_panels}
         </div>
@@ -351,18 +351,18 @@ def build():
       <!-- ============================== REVIEWS ============================== -->
       <!-- Figma node 9950:17989. Dark-green band, medium-green cards with a lime
            quote mark, slider with bottom-right arrows, scattered leaves. -->
-      <section id="reviews" class="relative bg-[#0D3711] overflow-hidden">
+      <section id="reviews" class="relative bg-greenDeepest overflow-hidden">
         <div class="relative flex flex-col items-center gap-10 mx-auto px-4 xl:px-[60px] py-16 xl:py-20 max-w-[1512px]">
           {render_leaves(REVIEW_LEAVES, dark=True)}
-          <h2 class="z-10 relative font-medium text-[#D5EBB8] text-[32px] md:text-[40px] text-center tracking-[-0.2px]">Customer Reviews</h2>
+          <h2 class="z-10 relative font-medium text-greenTint text-[32px] md:text-[40px] text-center tracking-[-0.2px]">Customer Reviews</h2>
           <div class="z-10 relative w-full carousel" style="--carousel-gap:20px">
             <div class="carousel-track">{review_cards}
             </div>
             <div class="flex justify-end gap-4 mt-8">
-              <button type="button" class="place-items-center grid bg-white hover:bg-white/90 shadow-custom4 rounded-full size-[42px] text-[#0D3711] transition carousel-prev" aria-label="Previous">
+              <button type="button" class="place-items-center grid bg-white hover:bg-white/90 shadow-custom4 rounded-full size-[42px] text-greenDeepest transition carousel-prev" aria-label="Previous">
                 <svg viewBox="0 0 24 24" fill="none" class="w-[18px] h-[18px]"><path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
-              <button type="button" class="place-items-center grid bg-white hover:bg-white/90 shadow-custom4 rounded-full size-[42px] text-[#0D3711] transition carousel-next" aria-label="Next">
+              <button type="button" class="place-items-center grid bg-white hover:bg-white/90 shadow-custom4 rounded-full size-[42px] text-greenDeepest transition carousel-next" aria-label="Next">
                 <svg viewBox="0 0 24 24" fill="none" class="w-[18px] h-[18px]"><path d="M10 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
             </div>
@@ -373,16 +373,16 @@ def build():
       <!-- ============================== OUR STORY ============================== -->
       <!-- Figma node 9943:16606. Cap (logo, heading, copy, link) + a rounded
            three-column image banner with gradient captions; scattered leaves. -->
-      <section id="our-story" class="relative bg-[#FDF8F1] py-14 xl:py-[60px] overflow-hidden">
+      <section id="our-story" class="relative bg-cream py-14 xl:py-[60px] overflow-hidden">
         <div class="relative flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="relative">{story_leaves}
             <div class="relative z-10 flex flex-col gap-6 max-w-[502px]">
               <div class="flex flex-col gap-2">
                 <img src="images/jaad/brand/logo-jaad-mark.svg" alt="JAAD" class="w-[84px] xl:w-[112px] h-auto" />
-                <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">Our Story</h2>
+                <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">Our Story</h2>
               </div>
               <p class="text-black text-base leading-[1.4]">At JAAD, we carefully select the finest natural products from their original sources to deliver a pure and authentic experience.</p>
-              <a href="about.html" class="group/link inline-flex items-center gap-2 w-fit font-normal text-[#006328] text-base">
+              <a href="about.html" class="group/link inline-flex items-center gap-2 w-fit font-normal text-greenDeep text-base">
                 Read More
                 <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 transition-transform group-hover/link:translate-x-1"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
@@ -399,7 +399,7 @@ def build():
            it is never sparse. -->
       <section id="recently-viewed" class="bg-white py-14 xl:py-[60px]" data-recently-viewed data-recent-min="5">
         <div class="flex flex-col gap-8 xl:gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
-          <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">Recently Viewed</h2>
+          <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">Recently Viewed</h2>
           <div data-recent-track class="flex xl:justify-between gap-4 xl:gap-0 -mx-4 xl:mx-0 px-4 xl:px-0 scroll-pl-4 xl:scroll-pl-0 overflow-x-auto xl:overflow-visible no-scrollbar snap-x"></div>
         </div>
       </section>
@@ -407,13 +407,13 @@ def build():
       <!-- ========================= LATEST FROM JAAD ========================= -->
       <!-- Figma node 9974:21059. Media Center badge, heading + explore link,
            three article cards with tag pills and read-time meta. -->
-      <section id="latest" class="bg-[#FDF8F1] py-14 xl:py-[60px]">
+      <section id="latest" class="bg-cream py-14 xl:py-[60px]">
         <div class="flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="flex flex-col gap-3">
-            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-[#006328] text-[13px] uppercase tracking-[1px]">Media Center</span>
+            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-greenDeep text-[13px] uppercase tracking-[1px]">Media Center</span>
             <div class="flex flex-wrap justify-between items-end gap-4">
-              <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-none tracking-[-1px]">Latest from JAAD</h2>
-              <a href="blogs.html" class="group/link inline-flex items-center gap-2 font-bold text-[#29612F] text-base">
+              <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-none tracking-[-1px]">Latest from JAAD</h2>
+              <a href="blogs.html" class="group/link inline-flex items-center gap-2 font-bold text-heading text-base">
                 Explore All Articles
                 <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 transition-transform group-hover/link:translate-x-1"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
@@ -431,11 +431,11 @@ def build():
 
       <!-- =============================== FAQ =============================== -->
       <!-- Figma node 9967:21115. Centered header + accordion; first row open. -->
-      <section id="faq" class="bg-[#FDF8F1] py-14 xl:py-[60px]">
+      <section id="faq" class="bg-cream py-14 xl:py-[60px]">
         <div class="flex flex-col items-center gap-10 mx-auto px-4 max-w-[1512px]">
           <div class="flex flex-col items-center gap-4 max-w-[800px] text-center">
-            <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">Frequently Asked Questions</h2>
-            <p class="max-w-[630px] text-[#4b5563] text-base leading-[1.5]">Have questions about our premium coffee, fresh Mediterranean nuts, or natural spices? Find quick answers below.</p>
+            <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">Frequently Asked Questions</h2>
+            <p class="max-w-[630px] text-bodyMuted text-base leading-[1.5]">Have questions about our premium coffee, fresh Mediterranean nuts, or natural spices? Find quick answers below.</p>
           </div>
           <div data-accordion class="flex flex-col gap-4 w-full max-w-[800px]">{faq_rows}
           </div>

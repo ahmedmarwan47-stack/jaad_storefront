@@ -39,11 +39,11 @@ def build():
     # products the shopper had never added.
     summary_lines = "".join(f"""
                 <div data-cart-static class="flex items-center gap-3">
-                  <img src="{e(p['image'])}" alt="" class="bg-interaction-base p-1.5 rounded-lg w-16 h-16 object-contain shrink-0" loading="lazy" />
+                  <img src="{e(p['image'])}" alt="" class="bg-cream p-1.5 rounded-lg w-16 h-16 object-contain shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 gap-0.5 min-w-0">
-                    <span class="font-semibold text-[#003616] text-sm line-clamp-2">{e(p.get('nameAr') or p['name'])}</span>
+                    <span class="font-semibold text-ink text-sm line-clamp-2">{e(p.get('nameAr') or p['name'])}</span>
                   </div>
-                  <span class="font-bold text-[#003616] text-sm latin shrink-0">EGP {money(p['price'])}</span>
+                  <span class="font-bold text-ink text-sm latin shrink-0">EGP {money(p['price'])}</span>
                 </div>""" for p in items)
 
     body = f"""
@@ -71,7 +71,7 @@ def build():
                the header lives inside the form column. At lg every order resets
                and this spans row 1, leaving the desktop columns as they were. -->
           <div class="flex flex-col gap-3 order-1 lg:order-none lg:col-span-2 min-w-0">
-            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">إتمام عملية الشراء بأمان</h1>
+            <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">إتمام عملية الشراء بأمان</h1>
             <nav aria-label="خطوات الشراء" class="flex flex-wrap items-center gap-2">{steps_html}</nav>
           </div>
 
@@ -80,8 +80,8 @@ def build():
             <form class="flex flex-col gap-8">
               <fieldset class="flex flex-col gap-4">
                 <div class="flex flex-wrap justify-between items-center gap-2 mb-1">
-                  <legend class="font-bold text-[#003616] text-lg">بيانات العميل</legend>
-                  <p class="text-neutral-secondary text-sm">
+                  <legend class="font-bold text-ink text-lg">بيانات العميل</legend>
+                  <p class="text-muted text-sm">
                     هل لديك حساب بالفعل؟
                     <!-- ?next=checkout.html so a shopper who signs in mid-flow
                          lands back HERE after the OTP, not on the dashboard
@@ -104,7 +104,7 @@ def build():
 {gift_toggle()}
 
               <fieldset class="flex flex-col gap-4">
-                <legend class="mb-3 font-bold text-[#003616] text-lg">وقت التوصيل</legend>
+                <legend class="mb-3 font-bold text-ink text-lg">وقت التوصيل</legend>
                 <div class="flex sm:flex-row flex-col gap-4">
 {radio_card("delivery-time", "now", "اليوم", "في غضون 60 دقيقة", ICON_CAL, checked=True)}
 {radio_card("delivery-time", "later", "أختار تاريخ", "", ICON_CAL,
@@ -113,7 +113,7 @@ def build():
               </fieldset>
 
               <fieldset class="flex flex-col gap-4">
-                <legend class="mb-3 font-bold text-[#003616] text-lg">طريقة التوصيل</legend>
+                <legend class="mb-3 font-bold text-ink text-lg">طريقة التوصيل</legend>
                 <!-- Delivery only — Jaad has no physical branches, so the
                      in-store pickup option this build forked from (and its
                      branch picker modal) was dropped, not carried over disabled. -->
@@ -123,7 +123,7 @@ def build():
               </fieldset>
 
               <fieldset class="flex flex-col gap-4">
-                <legend class="mb-3 font-bold text-[#003616] text-lg">عنوان التوصيل</legend>
+                <legend class="mb-3 font-bold text-ink text-lg">عنوان التوصيل</legend>
 {select_field("المدينة", "city", GOVERNORATES, required=True)}
                 <div class="gap-4 grid sm:grid-cols-2">
 {select_field("الحي", "district", CAIRO_AREAS, required=True)}
@@ -131,15 +131,15 @@ def build():
                 </div>
 {field("رقم العقار و الشارع", "street", required=True)}
                 <div class="flex flex-col gap-2">
-                  <span class="font-medium text-neutral-secondary text-sm">نوع العقار<span class="text-accent-error">*</span></span>
+                  <span class="font-medium text-muted text-sm">نوع العقار<span class="text-error">*</span></span>
                   <div class="flex items-center gap-6">
                     <label class="flex items-center gap-2 cursor-pointer">
-                      <input type="radio" name="property-type" value="apartment" checked class="accent-[#00451C] w-4 h-4" />
-                      <span class="text-[#003616] text-sm">شقة</span>
+                      <input type="radio" name="property-type" value="apartment" checked class="accent-ink-800 w-4 h-4" />
+                      <span class="text-ink text-sm">شقة</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer">
-                      <input type="radio" name="property-type" value="villa" class="accent-[#00451C] w-4 h-4" />
-                      <span class="text-[#003616] text-sm">فيلا</span>
+                      <input type="radio" name="property-type" value="villa" class="accent-ink-800 w-4 h-4" />
+                      <span class="text-ink text-sm">فيلا</span>
                     </label>
                   </div>
                 </div>

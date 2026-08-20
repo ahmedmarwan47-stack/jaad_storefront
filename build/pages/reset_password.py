@@ -6,7 +6,7 @@ SLUG = "reset-password.html"
 
 def build():
     form = f"""
-              <p class="text-neutral-secondary text-sm text-center leading-7">
+              <p class="text-muted text-sm text-center leading-7">
                 اختر كلمة مرور جديدة لحسابك.
               </p>
 {password_field("كلمة السر الجديدة", "password")}

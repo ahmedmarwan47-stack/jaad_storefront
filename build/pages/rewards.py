@@ -38,8 +38,8 @@ def build():
     steps = "".join(f"""
               <div class="flex flex-col gap-3 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] p-6 rounded-3xl">
                 <img src="{e(img)}" alt="" class="w-14 h-14 object-contain" loading="lazy" />
-                <h3 class="font-bold text-[#29612F] text-lg">{e(title)}</h3>
-                <p class="text-[#1e2219] text-sm leading-[1.6]">{e(copy)}</p>
+                <h3 class="font-bold text-heading text-lg">{e(title)}</h3>
+                <p class="text-bodyInk text-sm leading-[1.6]">{e(copy)}</p>
               </div>""" for img, title, copy in STEPS)
 
     # The real tier ladder the account pages use, so the two agree.
@@ -47,9 +47,9 @@ def build():
     # ("{mn}+ نقطة") produced a unique string per tier that the dictionary
     # could never match, so it stayed Arabic on the English site.
     tiers = "".join(f"""
-              <div class="flex justify-between items-center gap-4 px-5 py-4 border-neutral-divider border-b last:border-0">
-                <span class="font-bold text-[#29612F] text-base">عضوية {e(label)}</span>
-                <span class="flex items-center gap-1 text-[#636959] text-sm">
+              <div class="flex justify-between items-center gap-4 px-5 py-4 border-divider border-b last:border-0">
+                <span class="font-bold text-heading text-base">عضوية {e(label)}</span>
+                <span class="flex items-center gap-1 text-metaGray text-sm">
                   <span class="latin">{mn:,}+</span><span>نقطة</span>
                 </span>
               </div>""" for label, mn in POINT_TIERS)
@@ -60,9 +60,9 @@ def build():
       <section class="py-8 xl:py-10">
         <div class="flex flex-col gap-8 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="flex flex-col gap-3">
-            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-[#006328] text-[13px] uppercase tracking-[1px]">المكافآت</span>
-            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-none tracking-[-1px]">{e(HEADING)}</h1>
-            <p class="max-w-[630px] text-[#4b5563] text-base leading-[1.6]">
+            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-greenDeep text-[13px] uppercase tracking-[1px]">المكافآت</span>
+            <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-none tracking-[-1px]">{e(HEADING)}</h1>
+            <p class="max-w-[630px] text-bodyMuted text-base leading-[1.6]">
               اجمع نقاطك مع كل طلب من جاد، وتابع رصيدك ومستوى عضويتك من صفحة النقاط في حسابك.
             </p>
           </div>
@@ -81,13 +81,13 @@ def build():
         </div>
       </section>
 
-      <section class="bg-[#FDF8F1] py-12 xl:py-14">
+      <section class="bg-cream py-12 xl:py-14">
         <div class="flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
-          <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">إزاي بتشتغل</h2>
+          <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">إزاي بتشتغل</h2>
           <div class="gap-6 grid grid-cols-1 md:grid-cols-3">{steps}
           </div>
           <div class="flex flex-col gap-6 max-w-[620px]">
-            <h2 class="font-medium text-[#29612F] text-[28px] md:text-[32px] leading-[1.2]">مستويات العضوية</h2>
+            <h2 class="font-medium text-heading text-[28px] md:text-[32px] leading-[1.2]">مستويات العضوية</h2>
             <div class="flex flex-col bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] rounded-3xl">{tiers}
             </div>
           </div>

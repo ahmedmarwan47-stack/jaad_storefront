@@ -107,9 +107,9 @@ def build():
       <section class="about-hero">
         <div class="flex flex-col gap-6 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="flex flex-col gap-3">
-            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-[#006328] text-[13px] uppercase tracking-[1px]">عن جاد</span>
-            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[52px] leading-none tracking-[-1px]">من الطبيعة إليك</h1>
-            <p class="max-w-[560px] text-[#4b5563] text-base xl:text-lg leading-[1.6]">
+            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-greenDeep text-[13px] uppercase tracking-[1px]">عن جاد</span>
+            <h1 class="font-medium text-heading text-[32px] md:text-[52px] leading-none tracking-[-1px]">من الطبيعة إليك</h1>
+            <p class="max-w-[560px] text-bodyMuted text-base xl:text-lg leading-[1.6]">
               قهوة ومكسرات وبهارات طبيعية، مصدرها الأصلي في قلب كل منتج.
             </p>
           </div>
@@ -159,8 +159,8 @@ def build():
       <!-- =============================== CTA =============================== -->
       <section class="about-cta">
         <div class="flex flex-col items-center gap-5 mx-auto px-4 max-w-[720px] text-center">
-          <h2 class="font-medium text-[#29612F] text-[28px] md:text-[36px] leading-[1.2]">جرب جاد بنفسك</h2>
-          <p class="text-[#4b5563] text-base leading-[1.6]">
+          <h2 class="font-medium text-heading text-[28px] md:text-[36px] leading-[1.2]">جرب جاد بنفسك</h2>
+          <p class="text-bodyMuted text-base leading-[1.6]">
             كل منتج بنقدمه بيعدي بنفس الرحلة — من مصدره لحد ما يوصلك.
           </p>
           <div class="flex flex-wrap justify-center gap-3">

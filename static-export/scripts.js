@@ -787,7 +787,7 @@
     return `
       <button type="button" data-open="locale" class="flex items-center gap-1.5 min-h-11 px-4 py-0.5 rounded-full hover:bg-black/5 transition-colors shrink-0">
         <img src="${c.flag}" alt="" data-country-flag class="rounded-full w-4 h-4 object-cover" />
-        <span class="font-semibold text-[#00451C] text-base leading-[26px] whitespace-nowrap" data-lang-label>${esc(label)}</span>
+        <span class="font-semibold text-ink-800 text-base leading-[26px] whitespace-nowrap" data-lang-label>${esc(label)}</span>
       </button>`;
   }
 
@@ -885,8 +885,8 @@
       return `<li>
         <a href="${pageHref(item.url)}" data-mega-cat="${i}" data-active="${i === 0}"
            class="mega-cat flex items-center gap-3 ps-2 pe-3 py-2 rounded-2xl w-full min-h-[60px] text-start">
-          <span class="mega-cat__thumb place-items-center grid bg-interaction-base rounded-xl w-12 h-12 overflow-hidden shrink-0">${thumb}</span>
-          <span class="flex-1 min-w-0 font-semibold text-[#003616] text-[15px] leading-tight truncate">${esc(t(item.name))}</span>
+          <span class="mega-cat__thumb place-items-center grid bg-cream rounded-xl w-12 h-12 overflow-hidden shrink-0">${thumb}</span>
+          <span class="flex-1 min-w-0 font-semibold text-ink text-[15px] leading-tight truncate">${esc(t(item.name))}</span>
           <span class="mega-cat__arrow place-items-center grid w-5 h-5 text-primary rtl:scale-flip shrink-0">${ICON.arrowRight}</span>
         </a>
       </li>`;
@@ -906,11 +906,11 @@
     const promoCard = (item) => {
       const name = esc(t(item.name));
       return `
-        <a href="${pageHref(item.url)}" class="group/promo flex items-center gap-4 tile-lift mt-4 p-3 bg-interaction-base rounded-2xl overflow-hidden">
+        <a href="${pageHref(item.url)}" class="group/promo flex items-center gap-4 tile-lift mt-4 p-3 bg-cream rounded-2xl overflow-hidden">
           <span class="flex flex-col flex-1 gap-1.5 min-w-0 ps-3">
-            <span class="block font-bold text-[#003616] text-xl leading-tight">${name}</span>
-            <span class="text-neutral-secondary text-[13px] leading-snug">${esc(t("اكتشف تشكيلة"))} ${name} ${esc(t("كاملة من جاد."))}</span>
-            <span class="inline-flex items-center gap-1.5 mt-1 font-semibold text-[#00451C] text-sm">
+            <span class="block font-bold text-ink text-xl leading-tight">${name}</span>
+            <span class="text-muted text-[13px] leading-snug">${esc(t("اكتشف تشكيلة"))} ${name} ${esc(t("كاملة من جاد."))}</span>
+            <span class="inline-flex items-center gap-1.5 mt-1 font-semibold text-ink-800 text-sm">
               ${esc(t("تسوّق الكل"))}
               <span class="w-4 h-4 rtl:scale-flip">${ICON.arrowRight}</span>
             </span>
@@ -942,15 +942,15 @@
 
       // No truncate: two lines fit inside the 52px tile, so a long name wraps
       // and stays whole rather than losing its tail.
-      const tiles = kids.map((c) => `<a href="${pageHref(c.url)}" class="mega-tile group/tile flex justify-between items-center gap-2 px-4 py-2 rounded-xl min-h-[52px] text-[#003616]">
+      const tiles = kids.map((c) => `<a href="${pageHref(c.url)}" class="mega-tile group/tile flex justify-between items-center gap-2 px-4 py-2 rounded-xl min-h-[52px] text-ink">
             <span class="min-w-0 leading-tight">${esc(t(c.name))}</span>
-            <span class="w-4 h-4 text-neutral-secondary rtl:scale-flip shrink-0 mega-tile__arrow">${ICON.arrowRight}</span>
+            <span class="w-4 h-4 text-muted rtl:scale-flip shrink-0 mega-tile__arrow">${ICON.arrowRight}</span>
           </a>`).join("");
 
       return `<div data-mega-sub="${i}" ${shown} class="flex flex-col flex-1 mega-stage">
         <!-- No uppercase/tracking: both are Latin-centric and letter-spacing
              breaks Arabic's cursive joining. -->
-        <h3 class="mb-3 font-bold text-neutral-secondary text-[13px]">تصفّح ${name}</h3>
+        <h3 class="mb-3 font-bold text-muted text-[13px]">تصفّح ${name}</h3>
         <div class="content-start gap-2 grid grid-cols-2">${tiles}</div>
         ${promoCard(item)}
       </div>`;
@@ -971,7 +971,7 @@
           <!-- Rail is a fixed 300; the stage (tiles + promo) takes the rest, up
                to the 800 cap, so the tiles stay right beside the rail. -->
           <div class="pointer-events-auto gap-6 grid grid-cols-[300px_minmax(0,1fr)] bg-white shadow-custom3 p-5 rounded-b-2xl max-w-[800px] me-auto">
-            <ul data-mega-rail class="flex flex-col gap-0.5 pe-5 border-neutral-divider border-e">${rail}</ul>
+            <ul data-mega-rail class="flex flex-col gap-0.5 pe-5 border-divider border-e">${rail}</ul>
             <div data-mega-stages class="relative flex flex-col min-w-0">${stages}</div>
           </div>
         </div>
@@ -987,12 +987,12 @@
        (initFlashCountdown), since the catalog carries no real sale window. */
     const flashBox = (key, label, w) =>
       `<span class="flex flex-col justify-center items-center bg-white px-1 py-0.5 rounded" style="min-width:${w}px">
-         <span class="font-bold text-[#29612F] text-sm leading-[1.2] latin" data-flash="${key}">00</span>
-         <span class="font-bold text-[#29612F] text-[10px] leading-[1.2]">${esc(t(label))}</span>
+         <span class="font-bold text-heading text-sm leading-[1.2] latin" data-flash="${key}">00</span>
+         <span class="font-bold text-heading text-[10px] leading-[1.2]">${esc(t(label))}</span>
        </span>`;
     const flashBar = checkout
       ? ""
-      : `<div data-flash-sale class="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 bg-[#006328] px-4 py-[7px] text-white">
+      : `<div data-flash-sale class="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 bg-greenDeep px-4 py-[7px] text-white">
            <span class="flex items-center gap-1">${flashBox("days", "Days", 40)}${flashBox("hours", "Hours", 35)}${flashBox("mins", "Mins", 33)}</span>
            <span class="flex items-center gap-1.5">
              <span class="font-bold text-white text-xs">${esc(t("Flash Sale Within"))}</span>
@@ -1004,7 +1004,7 @@
     /* --- support (utility) menu --- */
     const support = SUPPORT_MENU.map(
       (i) =>
-        `<a href="${pageHref(i.url)}" class="font-medium text-black hover:text-[#29612F] text-sm uppercase whitespace-nowrap transition-colors">${esc(t(i.title))}</a>`,
+        `<a href="${pageHref(i.url)}" class="font-medium text-black hover:text-heading text-sm uppercase whitespace-nowrap transition-colors">${esc(t(i.title))}</a>`,
     ).join("");
 
     /* --- desktop primary nav --- */
@@ -1021,17 +1021,17 @@
         ${
           checkout
             ? ""
-            : `<div class="bg-[#98CA55]">
+            : `<div class="bg-limeFigma">
                  <div class="flex justify-between items-center gap-6 mx-auto px-4 xl:px-[60px] py-1.5 max-w-[1512px]">
                    <span class="font-medium text-black text-sm whitespace-nowrap">${esc(t("100% Natural Based Products"))}</span>
                    <nav class="flex items-center gap-4 xl:gap-6 min-w-0 overflow-hidden">
                      ${support}
-                     <button type="button" data-lang-toggle data-no-i18n class="shrink-0 font-medium text-[#29612F] text-sm underline whitespace-nowrap">${currentLang() === "ar" ? "English" : "العربية"}</button>
+                     <button type="button" data-lang-toggle data-no-i18n class="shrink-0 font-medium text-heading text-sm underline whitespace-nowrap">${currentLang() === "ar" ? "English" : "العربية"}</button>
                    </nav>
                  </div>
                </div>`
         }
-        <div data-navbar class="relative z-40 bg-[#29612F]">
+        <div data-navbar class="relative z-40 bg-heading">
           <div class="flex ${checkout ? "justify-center" : "items-center justify-between"} gap-4 mx-auto px-4 xl:px-[60px] h-[56px] max-w-[1512px]">
             ${
               checkout
@@ -1059,8 +1059,8 @@
                      </button>
                      <div data-sticky-actions class="flex items-center gap-5 xl:gap-6">
                        <button type="button" data-open="cart" aria-label="${esc(t("السلة"))}" class="relative place-items-center grid bg-white shadow-custom4 rounded-full size-11">
-                         <span class="w-6 h-6 text-[#003616]">${ICON.cart}</span>
-                         <span class="-top-1 -end-1 absolute place-items-center grid bg-[#ACD574] px-1 rounded-full min-w-[20px] h-5 font-semibold text-[#00451C] text-xs latin" data-cart-count>2</span>
+                         <span class="w-6 h-6 text-ink">${ICON.cart}</span>
+                         <span class="-top-1 -end-1 absolute place-items-center grid bg-[#ACD574] px-1 rounded-full min-w-[20px] h-5 font-semibold text-ink-800 text-xs latin" data-cart-count>2</span>
                        </button>
                      </div>
                    </div>`
@@ -1109,7 +1109,7 @@
                      <span class="w-7 h-7" data-cart-glyph>${ICON.cart}</span>
                      <!-- Yellow chip ringed in the masthead green, matching the
                           desktop badge so the two mastheads never disagree. -->
-                     <span class="-top-1 -end-1 absolute place-items-center grid bg-accent-yellow ring-2 ring-primary rounded-full w-5 h-5 font-bold text-[10px] text-[#00451C] latin" data-cart-count>2</span>
+                     <span class="-top-1 -end-1 absolute place-items-center grid bg-lime ring-2 ring-primary rounded-full w-5 h-5 font-bold text-[10px] text-ink-800 latin" data-cart-count>2</span>
                    </button>
                    </div>
                  </div>`
@@ -1119,7 +1119,7 @@
       ${
         checkout
           ? ""
-          : `<div class="md:hidden block bg-interaction-base px-4 py-2">
+          : `<div class="md:hidden block bg-cream px-4 py-2">
                <button type="button" data-open="location" class="flex justify-between items-center gap-1 bg-cta px-5 py-2.5 rounded-full w-full min-h-11 text-white">
                  <span class="font-semibold text-xs truncate">التوصيل الى الشروق - القاهرة</span>
                  <span class="shrink-0 w-4 h-4 chevron">${ICON.chevronDown}</span>
@@ -1151,7 +1151,7 @@
         <!-- Etisalat Cash ships as white artwork on its own opaque black
              plate, so it gets no white chip — it would read as a black box. -->
         <img src="images/jaad/payments/pay-etisalat-cash.png" alt="اتصالات كاش" class="${card} ${radius} object-cover shrink-0" />
-        <span class="inline-flex justify-center items-center bg-white border border-neutral-divider ${card} ${radius} shrink-0">
+        <span class="inline-flex justify-center items-center bg-white border border-divider ${card} ${radius} shrink-0">
           <img src="images/jaad/payments/pay-mastercard-alt.svg" alt="Mastercard" style="width:${glyphW}px;height:${glyphH}px" />
         </span>
         <img src="images/jaad/payments/pay-visa.svg" alt="Visa" class="${card} ${radius} shrink-0" />
@@ -1176,7 +1176,7 @@
           ${col.links
             .map(
               (l) =>
-                `<li><a href="${pageHref(l.url)}" class="font-normal text-white hover:text-accent-green text-base transition-colors whitespace-nowrap">${esc(t(l.title))}</a></li>`,
+                `<li><a href="${pageHref(l.url)}" class="font-normal text-white hover:text-lime text-base transition-colors whitespace-nowrap">${esc(t(l.title))}</a></li>`,
             )
             .join("")}
         </ul>
@@ -1212,7 +1212,7 @@
               ${col.links
                 .map(
                   (l) =>
-                    `<li><a href="${pageHref(l.url)}" class="font-normal text-white hover:text-accent-yellow text-base leading-6 transition-colors">${esc(t(l.title))}</a></li>`,
+                    `<li><a href="${pageHref(l.url)}" class="font-normal text-white hover:text-lime text-base leading-6 transition-colors">${esc(t(l.title))}</a></li>`,
                 )
                 .join("")}
             </ul>
@@ -1230,11 +1230,11 @@
 
     /* --- pre-footer: newsletter + FAQ, split 50/50 on desktop --- */
     const preFooter = `
-      <div class="bg-beige border-primary border-b">
+      <div class="bg-cream border-primary border-b">
         <div class="flex md:flex-row flex-col justify-center items-stretch gap-8 md:gap-12 mx-auto px-4 py-6 max-w-[1536px]">
           <div class="flex flex-col justify-center gap-6 py-6 md:py-[42px] flex-1">
             <div class="flex flex-col gap-2">
-              <h2 class="font-bold text-[#003616] text-2xl md:text-3xl xl:text-4xl leading-tight xl:leading-[48px]">عندك اي اسئلة؟ كل حاجة هنا..</h2>
+              <h2 class="font-bold text-ink text-2xl md:text-3xl xl:text-4xl leading-tight xl:leading-[48px]">عندك اي اسئلة؟ كل حاجة هنا..</h2>
               <p class="font-semibold text-primary text-sm xl:text-xl leading-relaxed">لو عندك أي استفسار أو عايز تطرح أي سؤال ، هتلاقي كل حاجة هنا</p>
             </div>
             <a href="faqs.html" class="self-start bg-cta hover:bg-cta-hover px-8 xl:px-10 py-3 xl:py-[18px] rounded-full font-semibold text-white text-sm xl:text-xl transition-colors">الاسئلة و الاجابات</a>
@@ -1242,14 +1242,14 @@
 
           <div class="flex flex-col justify-center gap-6 py-6 md:py-[42px] flex-1">
             <div class="flex flex-col gap-2">
-              <h2 class="font-bold text-[#003616] text-2xl md:text-3xl xl:text-4xl leading-tight xl:leading-[48px]">اشترك لتعرف على أجدد العروض والخصومات</h2>
+              <h2 class="font-bold text-ink text-2xl md:text-3xl xl:text-4xl leading-tight xl:leading-[48px]">اشترك لتعرف على أجدد العروض والخصومات</h2>
               <p class="font-semibold text-primary text-sm xl:text-xl leading-relaxed">كن أول من يعرف كل ما هو جديد في جاد</p>
             </div>
-            <form data-newsletter class="flex flex-row-reverse items-center gap-2 bg-transparent py-2 xl:py-[9px] pe-5 ps-2.5 border-2 border-neutral-outline rounded-2xl w-full">
-              <span class="text-neutral-secondary shrink-0" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-6 h-6"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="m3 7 8.4 5.6a1 1 0 0 0 1.2 0L21 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+            <form data-newsletter class="flex flex-row-reverse items-center gap-2 bg-transparent py-2 xl:py-[9px] pe-5 ps-2.5 border-2 border-outline rounded-2xl w-full">
+              <span class="text-muted shrink-0" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-6 h-6"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="m3 7 8.4 5.6a1 1 0 0 0 1.2 0L21 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
               <input type="email" required aria-label="البريد الالكتروني"
                      placeholder="أدخل عنوان البريد الالكتروني"
-                     class="flex-1 bg-transparent outline-none min-w-0 font-normal text-[#003616] placeholder:text-onBeigeMuted text-sm xl:text-base" />
+                     class="flex-1 bg-transparent outline-none min-w-0 font-normal text-ink placeholder:text-onBeigeMuted text-sm xl:text-base" />
               <button type="submit" class="bg-cta hover:bg-cta-hover px-5 py-2 xl:py-2.5 rounded-full font-bold text-white text-sm xl:text-base whitespace-nowrap transition-colors">اشتراك</button>
             </form>
           </div>
@@ -1263,11 +1263,11 @@
         <div class="flex items-center gap-4 bg-[#EA983E] p-5 xl:p-8 rounded-[20px] w-full max-w-[519px]">
           <img src="images/jaad/site/newsletter-mail.png" alt="" class="w-[92px] xl:w-[122px] shrink-0 object-contain" />
           <div class="flex flex-col gap-4 min-w-0">
-            <p class="font-medium text-[#003616] text-lg leading-[1.4]">${esc(t("Stay Connected With Our Exclusive Offers"))}</p>
+            <p class="font-medium text-ink text-lg leading-[1.4]">${esc(t("Stay Connected With Our Exclusive Offers"))}</p>
             <form data-newsletter class="flex items-center gap-2 bg-white ps-4 pe-2 py-2 border border-[#FEFCFA] rounded-full w-full">
               <input type="email" required aria-label="${esc(t("Email"))}" placeholder="${esc(t("Enter your email"))}"
                      class="flex-1 bg-transparent outline-none min-w-0 text-black text-sm placeholder:text-black/50" />
-              <button type="submit" class="bg-[#29612F] hover:bg-[#1f4a24] px-6 py-2 rounded-full text-white text-sm whitespace-nowrap transition-colors">${esc(t("Subscribe"))}</button>
+              <button type="submit" class="bg-heading hover:bg-[#1f4a24] px-6 py-2 rounded-full text-white text-sm whitespace-nowrap transition-colors">${esc(t("Subscribe"))}</button>
             </form>
           </div>
         </div>
@@ -1295,15 +1295,15 @@
       )
       .join("");
 
-    return `<footer class="relative bg-[#0D3711] overflow-hidden">
+    return `<footer class="relative bg-greenDeepest overflow-hidden">
       <div class="relative flex flex-col gap-8 mx-auto px-4 xl:px-[60px] pt-12 xl:pt-[60px] pb-6 max-w-[1512px]">
         ${footerLeaves}
         <!-- logo + contact -->
         <div class="flex justify-between items-center gap-4">
           <img src="images/jaad/brand/logo-jaad-mark.svg" alt="جاد" class="w-[64px] xl:w-[88px] h-auto" />
           <div class="flex flex-col gap-0.5 text-white text-sm xl:text-base text-end latin">
-            <a href="tel:${CONTACT.hotline}" class="hover:text-accent-green transition-colors">${CONTACT.hotline}</a>
-            <a href="mailto:${CONTACT.email}" class="hover:text-accent-green transition-colors">${CONTACT.email}</a>
+            <a href="tel:${CONTACT.hotline}" class="hover:text-lime transition-colors">${CONTACT.hotline}</a>
+            <a href="mailto:${CONTACT.email}" class="hover:text-lime transition-colors">${CONTACT.email}</a>
           </div>
         </div>
         <div class="bg-white/15 w-full h-px"></div>
@@ -1331,12 +1331,12 @@
     const menuLinks = MAIN_MENU.map(
       (i) => `
       <li class="border-b border-neutral-100">
-        <a href="${pageHref(i.url)}" class="flex items-center justify-between min-h-11 py-3.5 text-textSecondary font-medium">${esc(t(i.name))}${i.children ? `<span class="w-4 h-4 text-neutral-secondary">${ICON.arrowRight}</span>` : ""}</a>
+        <a href="${pageHref(i.url)}" class="flex items-center justify-between min-h-11 py-3.5 text-textSecondary font-medium">${esc(t(i.name))}${i.children ? `<span class="w-4 h-4 text-muted">${ICON.arrowRight}</span>` : ""}</a>
       </li>`,
     ).join("");
     const supportLinks = SUPPORT_MENU.map(
       (i) =>
-        `<li><a href="${pageHref(i.url)}" class="flex items-center min-h-11 py-2 text-neutral-secondary text-sm">${esc(t(i.title))}</a></li>`,
+        `<li><a href="${pageHref(i.url)}" class="flex items-center min-h-11 py-2 text-muted text-sm">${esc(t(i.title))}</a></li>`,
     ).join("");
 
     /* Seed contents for a first-ever visit, so the drawer and cart page are
@@ -1388,8 +1388,8 @@
              UNDER the bar were moved down into the totals group, so nothing
              clutters right below the bar. -->
         <div data-freeship hidden class="flex flex-col gap-1.5">
-          <p class="text-[#003616] text-xs leading-5" data-freeship-msg></p>
-          <div class="bg-interaction-base rounded-full w-full h-2 overflow-hidden">
+          <p class="text-ink text-xs leading-5" data-freeship-msg></p>
+          <div class="bg-cream rounded-full w-full h-2 overflow-hidden">
             <div data-freeship-fill class="bg-cta rounded-full h-full transition-[width] duration-500" style="width:0%"></div>
           </div>
         </div>
@@ -1397,7 +1397,7 @@
              renderCart's syncPromoUI keeps the drawer and the page in step and a
              code applied here drops the total below. The handlers scope to the
              clicked [data-promo], so the two fields never cross wires. -->
-        <div data-promo class="flex flex-col gap-2 py-1 border-neutral-divider border-y">
+        <div data-promo class="flex flex-col gap-2 py-1 border-divider border-y">
           <button type="button" data-promo-open class="flex items-center gap-2 self-start min-h-11 font-semibold text-cta text-sm underline">
             <span class="inline-flex w-[18px] h-[18px] shrink-0" aria-hidden="true"><svg viewBox="0 0 25.2 25.2" fill="currentColor" class="w-full h-full"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.5799 0.820101C13.4864 -0.273367 11.7136 -0.273367 10.6201 0.820101L9.87077 1.56943C9.08312 2.35708 8.01483 2.79958 6.90092 2.79958H5.6C4.0536 2.79958 2.8 4.05318 2.8 5.59958V6.9005C2.8 8.01441 2.3575 9.0827 1.56985 9.87035L0.8201 10.6201C-0.273368 11.7136 -0.273366 13.4864 0.820102 14.5799L1.56985 15.3296C2.3575 16.1173 2.8 17.1856 2.8 18.2995V19.5996C2.8 21.146 4.0536 22.3996 5.6 22.3996H6.90008C8.01399 22.3996 9.08228 22.8421 9.86993 23.6297L10.6201 24.3799C11.7136 25.4734 13.4864 25.4734 14.5799 24.3799L15.3301 23.6297C16.1177 22.8421 17.186 22.3996 18.2999 22.3996H19.6C21.1464 22.3996 22.4 21.146 22.4 19.5996V18.2995C22.4 17.1856 22.8425 16.1173 23.6301 15.3296L24.3799 14.5799C25.4734 13.4864 25.4734 11.7136 24.3799 10.6201L23.6301 9.87035C22.8425 9.0827 22.4 8.01441 22.4 6.90051V5.59958C22.4 4.05318 21.1464 2.79958 19.6 2.79958H18.2991C17.1852 2.79958 16.1169 2.35708 15.3292 1.56942L14.5799 0.820101ZM16.5649 9.17658C16.9938 8.53324 16.8199 7.66402 16.1766 7.23513C15.5332 6.80624 14.664 6.98008 14.2351 7.62342L8.63513 16.0234C8.20624 16.6668 8.38008 17.536 9.02342 17.9649C9.66676 18.3938 10.536 18.2199 10.9649 17.5766L16.5649 9.17658ZM7.7 11.2C8.8598 11.2 9.8 10.2598 9.8 9.1C9.8 7.9402 8.8598 7 7.7 7C6.5402 7 5.6 7.9402 5.6 9.1C5.6 10.2598 6.5402 11.2 7.7 11.2ZM19.6 16.1C19.6 17.2598 18.6598 18.2 17.5 18.2C16.3402 18.2 15.4 17.2598 15.4 16.1C15.4 14.9402 16.3402 14 17.5 14C18.6598 14 19.6 14.9402 19.6 16.1Z"/></svg></span>
             ${esc(t("هل لديك برومو كود؟"))}
@@ -1406,18 +1406,18 @@
             <div class="flex items-center gap-2">
               <input type="text" data-promo-input inputmode="latin" autocomplete="off"
                      placeholder="${esc(t("أدخل كود الخصم"))}"
-                     class="flex-1 bg-white px-3 py-2 border border-neutral-divider focus:border-cta rounded-xl outline-none min-w-0 text-[#003616] text-sm transition-colors latin" />
+                     class="flex-1 bg-white px-3 py-2 border border-divider focus:border-cta rounded-xl outline-none min-w-0 text-ink text-sm transition-colors latin" />
               <button type="button" data-promo-apply
-                      class="bg-white hover:bg-interaction-base px-4 border border-cta rounded-full min-h-11 font-semibold text-cta text-sm whitespace-nowrap transition-colors">${esc(t("تطبيق"))}</button>
+                      class="bg-white hover:bg-cream px-4 border border-cta rounded-full min-h-11 font-semibold text-cta text-sm whitespace-nowrap transition-colors">${esc(t("تطبيق"))}</button>
             </div>
             <p data-promo-msg hidden class="text-xs leading-5"></p>
           </div>
-          <div data-promo-applied hidden class="flex justify-between items-center gap-2 bg-[#E9F3E6] px-3 py-2 rounded-xl">
-            <span class="flex items-center gap-2 min-w-0 text-[#00451C] text-sm">
+          <div data-promo-applied hidden class="flex justify-between items-center gap-2 bg-mint px-3 py-2 rounded-xl">
+            <span class="flex items-center gap-2 min-w-0 text-ink-800 text-sm">
               <img src="images/jaad/icons/discount-tag-3d.png" alt="" class="w-auto h-8 shrink-0" />
               <span class="truncate">${esc(t("تم تطبيق"))} <span class="font-bold latin" data-promo-applied-code></span></span>
             </span>
-            <button type="button" data-promo-remove class="shrink-0 font-semibold text-accent-error text-xs underline">${esc(t("إلغاء"))}</button>
+            <button type="button" data-promo-remove class="shrink-0 font-semibold text-error text-xs underline">${esc(t("إلغاء"))}</button>
           </div>
         </div>
         <!-- Delivery fee sits WITH the total now (Ahmed, 2026-08-04): free
@@ -1432,16 +1432,16 @@
                total. The full wallet breakdown lives on the cart/checkout pages.
                The total below still reflects the wallet spend. -->
           <div class="flex justify-between items-center text-sm" data-cart-promo-row hidden>
-            <span class="text-neutral-secondary">${esc(t("خصم كود الخصم"))}</span>
-            <span class="inline-flex items-center h-[13px] -me-2 bg-[#E9F3E6] px-2 rounded font-bold text-[#00451C] text-sm latin" data-cart-promo-discount></span>
+            <span class="text-muted">${esc(t("خصم كود الخصم"))}</span>
+            <span class="inline-flex items-center h-[13px] -me-2 bg-mint px-2 rounded font-bold text-ink-800 text-sm latin" data-cart-promo-discount></span>
           </div>
           <div class="flex justify-between text-sm">
-            <span class="text-neutral-secondary">${esc(t("مصاريف التوصيل"))}</span>
-            <span class="font-semibold text-[#003616] latin" data-cart-delivery>${egp(DELIVERY_FEE)}</span>
+            <span class="text-muted">${esc(t("مصاريف التوصيل"))}</span>
+            <span class="font-semibold text-ink latin" data-cart-delivery>${egp(DELIVERY_FEE)}</span>
           </div>
           <div class="flex justify-between items-center">
-            <span class="text-neutral-secondary text-sm">${esc(t("الإجمالي"))}</span>
-            <span class="font-bold text-[#003616] text-lg latin" data-cart-total>${egp(0)}</span>
+            <span class="text-muted text-sm">${esc(t("الإجمالي"))}</span>
+            <span class="font-bold text-ink text-lg latin" data-cart-total>${egp(0)}</span>
           </div>
         </div>
         <!-- Two full-width buttons stacked, not side by side (Ahmed,
@@ -1450,21 +1450,21 @@
              "إتمام الطلب" (Ahmed, 2026-08-04), matching the cart page. -->
         <div class="flex flex-col gap-2 mt-1">
           <a href="checkout.html" data-cart-checkout class="flex justify-center items-center bg-cta hover:bg-cta-hover rounded-full w-full min-h-11 font-semibold text-white text-sm text-center transition-colors">${esc(t("إتمام الطلب"))}</a>
-          <a href="shop.html" class="flex justify-center items-center border-cta hover:bg-interaction-base border rounded-full w-full min-h-11 font-semibold text-cta text-sm transition-colors">${esc(t("مواصلة التسوق"))}</a>
+          <a href="shop.html" class="flex justify-center items-center border-cta hover:bg-cream border rounded-full w-full min-h-11 font-semibold text-cta text-sm transition-colors">${esc(t("مواصلة التسوق"))}</a>
         </div>
         <!-- One-line delivery note, no background box (Ahmed, 2026-08-02): the
              boxed two-line version ate too much of the drawer's height. Scooter
              icon + a single line; truncates rather than wrapping. -->
         <div class="flex items-center gap-2 mt-1 min-w-0">
           <img src="images/jaad/icons/spec-delivery.png" alt="" class="w-6 h-6 shrink-0 object-contain" loading="lazy" />
-          <p class="text-neutral-secondary text-xs leading-5 truncate">
-            <span class="font-semibold text-[#003616]">${esc(t("توصيل خلال ساعتين"))}</span> ${esc(t("داخل القاهرة الكبرى"))}
+          <p class="text-muted text-xs leading-5 truncate">
+            <span class="font-semibold text-ink">${esc(t("توصيل خلال ساعتين"))}</span> ${esc(t("داخل القاهرة الكبرى"))}
           </p>
         </div>
         <!-- Same icon width (w-6) and items-center as the delivery note above,
              so both lines' text starts at exactly the same point from the
              inline start (Ahmed, 2026-08-04). -->
-        <p data-cart-warning hidden class="flex items-center gap-2 mt-1 text-accent-error text-xs leading-5">
+        <p data-cart-warning hidden class="flex items-center gap-2 mt-1 text-error text-xs leading-5">
           <span class="w-6 h-6 shrink-0" aria-hidden="true">${ICON.alert}</span>
           <span>متبقي <span class="latin" data-cart-shortfall></span> لاستكمال الحد الأدنى للطلب</span>
         </p>`;
@@ -1478,9 +1478,9 @@
            floated just past the drawer's inner edge, over the backdrop. Its old
            header slot is taken by a "view cart" link to the full cart page. -->
       <button type="button" data-close aria-label="إغلاق"
-              class="drawer-close place-items-center grid bg-white shadow-custom3 rounded-full size-8 text-[#003616]"><span class="w-3.5 h-3.5">${ICON.close}</span></button>
-      <div class="flex justify-between items-center px-5 py-4 border-neutral-divider border-b">
-        <h2 class="font-bold text-[#003616] text-lg">${esc(t("سلة التسوق"))}</h2>
+              class="drawer-close place-items-center grid bg-white shadow-custom3 rounded-full size-8 text-ink"><span class="w-3.5 h-3.5">${ICON.close}</span></button>
+      <div class="flex justify-between items-center px-5 py-4 border-divider border-b">
+        <h2 class="font-bold text-ink text-lg">${esc(t("سلة التسوق"))}</h2>
         <a href="cart.html" class="link-sweep font-semibold text-cta text-sm underline">${esc(t("عرض السلة"))}</a>
       </div>
       <div class="flex-1 px-5 overflow-y-auto">
@@ -1498,12 +1498,12 @@
              frame update and the idempotent init for free. -->
         <div class="mt-4 carousel" data-carousel-loop style="--carousel-gap:8px">
           <div class="flex justify-between items-center gap-2 mb-2">
-            <p class="font-bold text-[#003616] text-sm">${esc(t("قد يعجبك أيضا"))}</p>
+            <p class="font-bold text-ink text-sm">${esc(t("قد يعجبك أيضا"))}</p>
             <div class="flex items-center gap-1.5 shrink-0">
-              <button type="button" class="place-items-center grid bg-interaction-base hover:bg-interaction-tertiary-hover rounded-full text-cta transition size-8 carousel-prev" aria-label="السابق">
+              <button type="button" class="place-items-center grid bg-cream hover:bg-cream-hover rounded-full text-cta transition size-8 carousel-prev" aria-label="السابق">
                 <span class="w-4 h-4 rtl:scale-flip">${ICON.arrowLeft}</span>
               </button>
-              <button type="button" class="place-items-center grid bg-interaction-base hover:bg-interaction-tertiary-hover rounded-full text-cta transition size-8 carousel-next" aria-label="التالي">
+              <button type="button" class="place-items-center grid bg-cream hover:bg-cream-hover rounded-full text-cta transition size-8 carousel-next" aria-label="التالي">
                 <span class="w-4 h-4 ltr:scale-flip">${ICON.arrowLeft}</span>
               </button>
             </div>
@@ -1511,7 +1511,7 @@
           <div class="carousel-track">${upsell}</div>
         </div>
       </div>
-      <div class="flex flex-col gap-2 shadow-cart-overview px-5 py-4 border-neutral-divider border-t">
+      <div class="flex flex-col gap-2 shadow-cart-overview px-5 py-4 border-divider border-t">
         ${cartFooter}
       </div>
     </aside>
@@ -1528,7 +1528,7 @@
       <div class="flex-1 px-5 py-4 overflow-y-auto">
         <ul>${menuLinks}</ul>
         <div class="mt-6">
-          <p class="mb-1 text-neutral-secondary text-xs">${esc(t("روابط أخرى"))}</p>
+          <p class="mb-1 text-muted text-xs">${esc(t("روابط أخرى"))}</p>
           <ul>${supportLinks}</ul>
         </div>
       </div>
@@ -1538,7 +1538,7 @@
            bar account link is desktop-only (hidden lg:flex), so paintAccountLinks
            toggles this anon/authed pair here — sign-in out, dashboard in — the
            same mechanism the header already uses, always within thumb reach. -->
-      <div class="flex flex-col gap-3 bg-white shadow-[0_-4px_12px_rgba(0,0,0,0.06)] px-5 pt-4 pb-5 border-neutral-divider border-t shrink-0">
+      <div class="flex flex-col gap-3 bg-white shadow-[0_-4px_12px_rgba(0,0,0,0.06)] px-5 pt-4 pb-5 border-divider border-t shrink-0">
         <a href="login.html" data-anon-only class="flex justify-center items-center min-h-11 py-2.5 border border-cta rounded-full font-medium text-cta text-sm text-center">تسجيل الدخول</a>
         <a href="my-account.html" data-authed-only hidden class="flex justify-center items-center gap-2 min-h-11 py-2.5 bg-cta rounded-full font-medium text-white text-sm text-center">
           <img src="images/jaad/icons/hdr-user.svg" alt="" class="w-5 h-5" />
@@ -1554,20 +1554,20 @@
         <!-- Header: overlay title + close. The close is delegated via
              [data-close], so it works from here just as it did in the row. -->
         <div class="flex justify-between items-center gap-3 px-6 pt-6 pb-4">
-          <h2 class="font-bold text-[#003616] text-lg">${esc(t("بحث"))}</h2>
-          <button type="button" data-close class="place-items-center grid hover:bg-interaction-base rounded-full w-11 h-11 -me-2 text-[#003616] shrink-0" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
+          <h2 class="font-bold text-ink text-lg">${esc(t("بحث"))}</h2>
+          <button type="button" data-close class="place-items-center grid hover:bg-cream rounded-full w-11 h-11 -me-2 text-ink shrink-0" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
         </div>
 
         <!-- Roomy JAAD search field: neutral outline that turns green on focus,
              with a lime focus ring. focus-within lets the wrapper react while
              the real focus stays on the input inside. -->
         <div class="px-6">
-          <div class="flex items-center gap-3 bg-white px-4 py-3.5 border-2 border-neutral-outline rounded-2xl transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-[#98CA55] search-row">
-            <span class="w-5 h-5 text-neutral-secondary shrink-0">${ICON.search}</span>
+          <div class="flex items-center gap-3 bg-white px-4 py-3.5 border-2 border-outline rounded-2xl transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-limeFigma search-row">
+            <span class="w-5 h-5 text-muted shrink-0">${ICON.search}</span>
             <label class="sr-only" for="site-search">${esc(t("ابحث عن قهوة، مكسرات، بهارات…"))}</label>
             <input type="search" id="site-search" data-search-input autocomplete="off"
                    placeholder="ابحث عن قهوة، مكسرات، بهارات…"
-                   class="flex-1 bg-transparent outline-none min-w-0 text-[#003616] placeholder:text-neutral-secondary text-base" />
+                   class="flex-1 bg-transparent outline-none min-w-0 text-ink placeholder:text-muted text-base" />
           </div>
         </div>
 
@@ -1581,12 +1581,12 @@
              maamoul, protein — none of which are Jaad products), so a chip
              always lands on real results. -->
         <div class="px-6 py-6" data-search-idle>
-          <p class="mb-3 text-neutral-secondary text-xs">${esc(t("اقتراحات البحث"))}</p>
+          <p class="mb-3 text-muted text-xs">${esc(t("اقتراحات البحث"))}</p>
           <div class="flex flex-wrap gap-2">
             ${["Coffee", "Nuts", "Spices"]
               .map(
                 (s) =>
-                  `<button type="button" data-search-seed="${esc(s)}" class="bg-[#98CA55] hover:bg-cta px-4 py-2 rounded-full min-h-11 font-medium text-[#003616] hover:text-white text-sm transition-colors">${esc(s)}</button>`,
+                  `<button type="button" data-search-seed="${esc(s)}" class="bg-limeFigma hover:bg-cta px-4 py-2 rounded-full min-h-11 font-medium text-ink hover:text-white text-sm transition-colors">${esc(s)}</button>`,
               )
               .join("")}
           </div>
@@ -1595,7 +1595,7 @@
         <!-- Result count is a live region so a screen reader hears the list
              change; the list itself is plain anchors, which stay operable if
              the fetch or the JS ever fails. -->
-        <p class="px-6 text-neutral-secondary text-xs" data-search-status role="status" aria-live="polite" hidden></p>
+        <p class="px-6 text-muted text-xs" data-search-status role="status" aria-live="polite" hidden></p>
         <div class="max-h-[52vh] overflow-y-auto overscroll-contain" data-search-results hidden></div>
       </div>
     </div>
@@ -1622,33 +1622,33 @@
       <!-- Drag affordance: meaningless once this is a centred dialog. -->
       <div class="xl:hidden bg-neutral-200 mx-auto mb-4 rounded-full w-10 h-1"></div>
       <div class="flex justify-between items-center mb-4">
-        <h2 id="locale-sheet-title" class="font-bold text-[#003616] text-lg">${esc(t("الدولة واللغة"))}</h2>
-        <button type="button" data-close class="place-items-center grid hover:bg-interaction-base rounded-full w-9 h-9 -me-1.5 text-[#003616]" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
+        <h2 id="locale-sheet-title" class="font-bold text-ink text-lg">${esc(t("الدولة واللغة"))}</h2>
+        <button type="button" data-close class="place-items-center grid hover:bg-cream rounded-full w-9 h-9 -me-1.5 text-ink" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
       </div>
       <div class="flex flex-col gap-5">
         <fieldset class="flex flex-col gap-2">
-          <legend class="mb-2 font-bold text-[#003616] text-sm">${esc(t("الدولة و العملة"))}</legend>
+          <legend class="mb-2 font-bold text-ink text-sm">${esc(t("الدولة و العملة"))}</legend>
           ${COUNTRIES.map(
             (c) => `
           <label class="cursor-pointer">
             <input type="radio" name="locale-country" value="${c.code}" class="peer sr-only"${c.code === currentCountry().code ? " checked" : ""} />
-            <span class="flex items-center gap-3 px-4 py-2.5 border-2 border-neutral-divider peer-checked:border-cta rounded-xl min-h-11 transition-colors">
+            <span class="flex items-center gap-3 px-4 py-2.5 border-2 border-divider peer-checked:border-cta rounded-xl min-h-11 transition-colors">
               <img src="${c.flag}" alt="" class="rounded-full w-6 h-6 object-cover shrink-0" />
-              <span class="flex-1 min-w-0 text-[#003616] text-sm">${esc(c.ar)} <span class="latin">(${c.currency})</span></span>
+              <span class="flex-1 min-w-0 text-ink text-sm">${esc(c.ar)} <span class="latin">(${c.currency})</span></span>
               <span class="radio-dot shrink-0" aria-hidden="true"></span>
             </span>
           </label>`,
           ).join("")}
         </fieldset>
         <fieldset class="flex flex-col gap-2">
-          <legend class="mb-2 font-bold text-[#003616] text-sm">${esc(t("اللغة"))}</legend>
+          <legend class="mb-2 font-bold text-ink text-sm">${esc(t("اللغة"))}</legend>
           ${LANGS.map(
             (l) => `
           <label class="cursor-pointer">
             <input type="radio" name="locale-lang" value="${l.code}" class="peer sr-only"${l.code === currentLang() ? " checked" : ""} />
-            <span class="flex items-center gap-3 px-4 py-2.5 border-2 border-neutral-divider peer-checked:border-cta rounded-xl min-h-11 transition-colors">
-              <span class="w-5 h-5 text-neutral-secondary shrink-0" aria-hidden="true">${ICON.globe}</span>
-              <span class="flex-1 min-w-0 text-[#003616] text-sm">${l.label}</span>
+            <span class="flex items-center gap-3 px-4 py-2.5 border-2 border-divider peer-checked:border-cta rounded-xl min-h-11 transition-colors">
+              <span class="w-5 h-5 text-muted shrink-0" aria-hidden="true">${ICON.globe}</span>
+              <span class="flex-1 min-w-0 text-ink text-sm">${l.label}</span>
               <span class="radio-dot shrink-0" aria-hidden="true"></span>
             </span>
           </label>`,
@@ -1665,28 +1665,28 @@
     <div data-sheet="address" class="bottom-sheet bottom-sheet--modal" role="dialog" aria-modal="true" aria-labelledby="address-sheet-title">
       <div class="xl:hidden bg-neutral-200 mx-auto mb-4 rounded-full w-10 h-1"></div>
       <div class="flex justify-between items-center mb-4">
-        <h2 id="address-sheet-title" class="font-bold text-[#003616] text-lg" data-address-form-title>${esc(t("اضف عنوان"))}</h2>
-        <button type="button" data-close class="place-items-center grid hover:bg-interaction-base rounded-full w-9 h-9 -me-1.5 text-[#003616]" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
+        <h2 id="address-sheet-title" class="font-bold text-ink text-lg" data-address-form-title>${esc(t("اضف عنوان"))}</h2>
+        <button type="button" data-close class="place-items-center grid hover:bg-cream rounded-full w-9 h-9 -me-1.5 text-ink" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
       </div>
       <form data-address-form data-address-id="" class="flex flex-col gap-3">
           <label class="block">
             <span class="label">${esc(t("اسم العنوان"))}</span>
             <input type="text" name="label" required placeholder="المنزل، العمل…"
-                   class="mt-1 px-3 border border-neutral-divider focus:border-cta rounded-lg outline-none w-full h-12 text-[#003616] text-sm transition-colors" />
+                   class="mt-1 px-3 border border-divider focus:border-cta rounded-lg outline-none w-full h-12 text-ink text-sm transition-colors" />
           </label>
           <label class="block">
             <span class="label">${esc(t("العنوان"))}</span>
             <input type="text" name="line1" required placeholder="رقم الشقة والمبنى واسم الشارع"
-                   class="mt-1 px-3 border border-neutral-divider focus:border-cta rounded-lg outline-none w-full h-12 text-[#003616] text-sm transition-colors" />
+                   class="mt-1 px-3 border border-divider focus:border-cta rounded-lg outline-none w-full h-12 text-ink text-sm transition-colors" />
           </label>
           <label class="block">
             <span class="label">${esc(t("المنطقة والمدينة"))}</span>
             <input type="text" name="line2" required placeholder="المنطقة، المدينة"
-                   class="mt-1 px-3 border border-neutral-divider focus:border-cta rounded-lg outline-none w-full h-12 text-[#003616] text-sm transition-colors" />
+                   class="mt-1 px-3 border border-divider focus:border-cta rounded-lg outline-none w-full h-12 text-ink text-sm transition-colors" />
           </label>
           <label class="flex items-center gap-2 py-1 cursor-pointer">
-            <input type="checkbox" name="main" class="accent-[#00451C] size-4" />
-            <span class="text-[#003616] text-sm">${esc(t("اجعله العنوان الرئيسي"))}</span>
+            <input type="checkbox" name="main" class="accent-ink-800 size-4" />
+            <span class="text-ink text-sm">${esc(t("اجعله العنوان الرئيسي"))}</span>
           </label>
           <button type="submit" class="bg-cta hover:bg-cta-hover mt-1 py-3 rounded-full font-semibold text-white text-sm transition-colors">${esc(t("حفظ العنوان"))}</button>
         </form>
@@ -1700,13 +1700,13 @@
       <!-- Drag affordance: meaningless once this is a centred dialog. -->
       <div class="xl:hidden bg-neutral-200 mx-auto mb-4 rounded-full w-10 h-1"></div>
       <div class="flex justify-between items-center mb-4">
-        <h2 class="font-bold text-[#003616] text-lg">أختار منطقة التوصيل</h2>
-        <button type="button" data-close class="place-items-center grid hover:bg-interaction-base rounded-full w-9 h-9 -me-1.5 text-[#003616]" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
+        <h2 class="font-bold text-ink text-lg">أختار منطقة التوصيل</h2>
+        <button type="button" data-close class="place-items-center grid hover:bg-cream rounded-full w-9 h-9 -me-1.5 text-ink" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
       </div>
       <form data-location-form class="flex flex-col gap-3">
         <label class="block">
           <span class="label">المدينة</span>
-          <select class="select-control mt-1 px-3 border border-neutral-divider rounded-lg w-full h-12 text-[#003616]">
+          <select class="select-control mt-1 px-3 border border-divider rounded-lg w-full h-12 text-ink">
             ${["القاهرة", "الجيزه", "الاسكندريه", "القليوبيه", "الشرقيه", "الدقهليه", "المنوفيه", "الغربيه"]
               .map((c) => `<option>${c}</option>`)
               .join("")}
@@ -1714,7 +1714,7 @@
         </label>
         <label class="block">
           <span class="label">المنطقة</span>
-          <select class="select-control mt-1 px-3 border border-neutral-divider rounded-lg w-full h-12 text-[#003616]">
+          <select class="select-control mt-1 px-3 border border-divider rounded-lg w-full h-12 text-ink">
             ${["التجمع الخامس", "مدينه نصر", "المعادي", "الزمالك", "هليوبوليس", "الشروق", "الرحاب", "المقطم"]
               .map((a) => `<option>${a}</option>`)
               .join("")}
@@ -1730,14 +1730,14 @@
          the row's meta can never resolve to nothing. -->
     <div data-modal="storepicker" class="modal-shell">
       <div class="bg-white shadow-custom3 rounded-2xl w-full max-w-[480px] overflow-hidden" data-modal-box>
-        <div class="flex justify-between items-center px-5 py-4 border-neutral-divider border-b">
-          <h2 class="font-bold text-[#003616] text-lg">${esc(t("اختر الفرع"))}</h2>
-          <button type="button" data-close class="place-items-center grid hover:bg-interaction-base rounded-full w-9 h-9 -me-1.5 text-[#003616]" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
+        <div class="flex justify-between items-center px-5 py-4 border-divider border-b">
+          <h2 class="font-bold text-ink text-lg">${esc(t("اختر الفرع"))}</h2>
+          <button type="button" data-close class="place-items-center grid hover:bg-cream rounded-full w-9 h-9 -me-1.5 text-ink" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
         </div>
         <div class="flex flex-col gap-3 p-5">
           <label class="block">
             <span class="label">${esc(t("المحافظة"))}</span>
-            <select data-store-gov class="select-control mt-1 px-3 border border-neutral-divider rounded-lg w-full h-12 text-[#003616]"></select>
+            <select data-store-gov class="select-control mt-1 px-3 border border-divider rounded-lg w-full h-12 text-ink"></select>
           </label>
           <div data-store-list class="flex flex-col gap-2 pe-1 max-h-[280px] overflow-y-auto"></div>
         </div>
@@ -1753,9 +1753,9 @@
          morning and silently offers a delivery slot in the past. -->
     <div data-modal="schedule" class="modal-shell">
       <div class="bg-white shadow-custom3 rounded-2xl w-full max-w-[480px] overflow-hidden" data-modal-box>
-        <div class="flex justify-between items-center px-5 py-4 border-neutral-divider border-b">
-          <h2 class="font-bold text-[#003616] text-lg">${esc(t("حدد اليوم والوقت"))}</h2>
-          <button type="button" data-close class="place-items-center grid hover:bg-interaction-base rounded-full w-9 h-9 -me-1.5 text-[#003616]" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
+        <div class="flex justify-between items-center px-5 py-4 border-divider border-b">
+          <h2 class="font-bold text-ink text-lg">${esc(t("حدد اليوم والوقت"))}</h2>
+          <button type="button" data-close class="place-items-center grid hover:bg-cream rounded-full w-9 h-9 -me-1.5 text-ink" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
         </div>
         <div class="flex flex-col gap-4 p-5">
           <!-- The arrows sit OUTSIDE [data-sched-days] deliberately:
@@ -1764,12 +1764,12 @@
                lose its listeners. -->
           <div class="flex items-center gap-2">
             <button type="button" data-sched-nav="-1" aria-label="أيام سابقة"
-                    class="sched-arrow place-items-center grid shrink-0 border border-neutral-divider rounded-full size-8 text-cta transition-colors">
+                    class="sched-arrow place-items-center grid shrink-0 border border-divider rounded-full size-8 text-cta transition-colors">
               <span class="w-4 h-4 rtl:scale-flip">${ICON.arrowLeft}</span>
             </button>
             <div data-sched-days class="flex flex-1 gap-2 -mx-1 px-1 min-w-0 overflow-x-auto no-scrollbar scroll-smooth"></div>
             <button type="button" data-sched-nav="1" aria-label="أيام تالية"
-                    class="sched-arrow place-items-center grid shrink-0 border border-neutral-divider rounded-full size-8 text-cta transition-colors">
+                    class="sched-arrow place-items-center grid shrink-0 border border-divider rounded-full size-8 text-cta transition-colors">
               <span class="w-4 h-4 rtl:scale-flip">${ICON.arrowRight}</span>
             </button>
           </div>
@@ -1788,16 +1788,16 @@
     <div data-sheet="voucherAdd" class="bottom-sheet bottom-sheet--modal" role="dialog" aria-modal="true" aria-labelledby="voucherAdd-sheet-title">
       <div class="xl:hidden bg-neutral-200 mx-auto mb-4 rounded-full w-10 h-1"></div>
       <div class="flex justify-between items-center mb-4">
-        <h2 id="voucherAdd-sheet-title" class="font-bold text-[#003616] text-lg">${esc(t("أضف كود قسيمة"))}</h2>
-        <button type="button" data-close class="place-items-center grid hover:bg-interaction-base rounded-full w-9 h-9 -me-1.5 text-[#003616]" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
+        <h2 id="voucherAdd-sheet-title" class="font-bold text-ink text-lg">${esc(t("أضف كود قسيمة"))}</h2>
+        <button type="button" data-close class="place-items-center grid hover:bg-cream rounded-full w-9 h-9 -me-1.5 text-ink" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
       </div>
       <form data-voucher-add-form class="flex flex-col gap-3">
         <label class="block">
           <span class="label">${esc(t("الكود"))}</span>
           <input type="text" name="code" required placeholder="مثال: JAAD150" dir="ltr"
-                 class="mt-1 px-3 border border-neutral-divider focus:border-cta rounded-lg outline-none w-full h-12 text-[#003616] text-sm text-start transition-colors latin" />
+                 class="mt-1 px-3 border border-divider focus:border-cta rounded-lg outline-none w-full h-12 text-ink text-sm text-start transition-colors latin" />
         </label>
-        <p class="text-neutral-secondary text-xs">${esc(t("الكود صالح للاستخدام مرة واحدة فقط."))}</p>
+        <p class="text-muted text-xs">${esc(t("الكود صالح للاستخدام مرة واحدة فقط."))}</p>
         <button type="submit" class="bg-cta hover:bg-cta-hover mt-1 py-3 rounded-full font-semibold text-white text-sm transition-colors">${esc(t("أضف القسيمة"))}</button>
       </form>
     </div>
@@ -1805,12 +1805,12 @@
     <div data-sheet="voucherActivate" class="bottom-sheet bottom-sheet--modal" role="dialog" aria-modal="true" aria-labelledby="voucherActivate-sheet-title">
       <div class="xl:hidden bg-neutral-200 mx-auto mb-4 rounded-full w-10 h-1"></div>
       <div class="flex justify-between items-center mb-4">
-        <h2 id="voucherActivate-sheet-title" class="font-bold text-[#003616] text-lg">${esc(t("تفعيل القسيمة"))}</h2>
-        <button type="button" data-close class="place-items-center grid hover:bg-interaction-base rounded-full w-9 h-9 -me-1.5 text-[#003616]" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
+        <h2 id="voucherActivate-sheet-title" class="font-bold text-ink text-lg">${esc(t("تفعيل القسيمة"))}</h2>
+        <button type="button" data-close class="place-items-center grid hover:bg-cream rounded-full w-9 h-9 -me-1.5 text-ink" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
       </div>
       <div class="flex flex-col items-center gap-3 text-center">
         <img src="images/jaad/icons/discount-tag-3d.png" alt="" class="w-16 h-16 object-contain" />
-        <p class="text-[#003616] text-sm leading-6">${esc(t("سيتم إضافة"))} <span class="font-bold text-cta latin" data-voucher-activate-value></span> ${esc(t("إلى رصيد محفظتك"))}</p>
+        <p class="text-ink text-sm leading-6">${esc(t("سيتم إضافة"))} <span class="font-bold text-cta latin" data-voucher-activate-value></span> ${esc(t("إلى رصيد محفظتك"))}</p>
         <button type="button" data-voucher-activate-confirm class="bg-cta hover:bg-cta-hover mt-1 py-3 rounded-full w-full font-semibold text-white text-sm transition-colors">${esc(t("تفعيل القسيمة"))}</button>
       </div>
     </div>
@@ -1819,26 +1819,26 @@
       <div class="xl:hidden bg-neutral-200 mx-auto mb-4 rounded-full w-10 h-1"></div>
       <div class="flex justify-between items-start mb-4">
         <div class="flex flex-col">
-          <h2 id="pointsRedeem-sheet-title" class="font-bold text-[#003616] text-lg">${esc(t("استبدال النقاط"))}</h2>
-          <span class="text-neutral-secondary text-xs">${esc(t("حوّل نقاطك إلى رصيد في محفظتك"))}</span>
+          <h2 id="pointsRedeem-sheet-title" class="font-bold text-ink text-lg">${esc(t("استبدال النقاط"))}</h2>
+          <span class="text-muted text-xs">${esc(t("حوّل نقاطك إلى رصيد في محفظتك"))}</span>
         </div>
-        <button type="button" data-close class="place-items-center grid hover:bg-interaction-base rounded-full w-9 h-9 -me-1.5 text-[#003616]" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
+        <button type="button" data-close class="place-items-center grid hover:bg-cream rounded-full w-9 h-9 -me-1.5 text-ink" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
       </div>
       <div class="flex flex-col gap-4">
-        <div class="flex items-center gap-2 bg-interaction-base px-3 py-2 rounded-xl">
+        <div class="flex items-center gap-2 bg-cream px-3 py-2 rounded-xl">
           <img src="images/jaad/icons/points-3d.png" alt="" class="w-6 h-6 object-contain" />
-          <span class="text-[#003616] text-sm"><span class="font-bold latin" data-redeem-available>0</span> ${esc(t("نقطة متاحة"))}</span>
+          <span class="text-ink text-sm"><span class="font-bold latin" data-redeem-available>0</span> ${esc(t("نقطة متاحة"))}</span>
         </div>
         <div class="flex items-end gap-2">
           <label class="flex flex-col flex-1 gap-1">
-            <span class="font-medium text-neutral-secondary text-xs">${esc(t("عدد النقاط"))}</span>
+            <span class="font-medium text-muted text-xs">${esc(t("عدد النقاط"))}</span>
             <input type="number" inputmode="numeric" data-redeem-input min="0" step="10"
-                   class="bg-white px-3 border-2 border-neutral-divider focus:border-cta rounded-xl outline-none w-full h-11 text-[#003616] text-base transition-colors latin" />
+                   class="bg-white px-3 border-2 border-divider focus:border-cta rounded-xl outline-none w-full h-11 text-ink text-base transition-colors latin" />
           </label>
-          <button type="button" data-redeem-all class="bg-interaction-base hover:bg-interaction-tertiary-hover px-4 border border-neutral-divider rounded-xl h-11 font-semibold text-cta text-xs whitespace-nowrap transition-colors">${esc(t("كل النقاط"))}</button>
+          <button type="button" data-redeem-all class="bg-cream hover:bg-cream-hover px-4 border border-divider rounded-xl h-11 font-semibold text-cta text-xs whitespace-nowrap transition-colors">${esc(t("كل النقاط"))}</button>
         </div>
-        <p class="text-neutral-secondary text-sm">${esc(t("القيمة"))}: <span class="font-bold text-cta latin" data-redeem-egp>EGP 0</span></p>
-        <p data-redeem-msg hidden class="font-semibold text-accent-error text-xs"></p>
+        <p class="text-muted text-sm">${esc(t("القيمة"))}: <span class="font-bold text-cta latin" data-redeem-egp>EGP 0</span></p>
+        <p data-redeem-msg hidden class="font-semibold text-error text-xs"></p>
         <div class="pt-1">
           <button type="button" data-redeem-confirm class="bg-cta hover:bg-cta-hover px-6 py-3 rounded-full w-full font-semibold text-white text-sm transition-colors">${esc(t("تأكيد الاستبدال"))}</button>
         </div>
@@ -1972,11 +1972,11 @@
     const img = (p.images && p.images[0]) || p.image || "";
     return `
       <a href="product-${esc(String(p.id))}.html"
-         class="flex items-center gap-3 hover:bg-interaction-base px-5 py-3 border-neutral-divider border-b last:border-b-0 transition-colors">
+         class="flex items-center gap-3 hover:bg-cream px-5 py-3 border-divider border-b last:border-b-0 transition-colors">
         <img src="${esc(img)}" alt="" loading="lazy"
-             class="bg-interaction-base shrink-0 p-1 rounded-lg w-12 h-12 object-contain" />
-        <span class="flex-1 min-w-0 font-semibold text-[#003616] text-sm line-clamp-2">${esc(name)}</span>
-        <span class="bg-accent-yellow shrink-0 px-2 py-0.5 rounded font-bold text-[#003616] text-xs latin">EGP ${esc(
+             class="bg-cream shrink-0 p-1 rounded-lg w-12 h-12 object-contain" />
+        <span class="flex-1 min-w-0 font-semibold text-ink text-sm line-clamp-2">${esc(name)}</span>
+        <span class="bg-lime shrink-0 px-2 py-0.5 rounded font-bold text-ink text-xs latin">EGP ${esc(
           String(p.price),
         )}</span>
       </a>`;
@@ -2980,8 +2980,8 @@
      filtering by them would empty the grid (see DESIGN-NOTES).
      --------------------------------------------------------------- */
   const CHIP_ON = ["bg-cta", "text-white", "border-cta"];
-  const CHIP_OFF = ["chip-filter", "bg-white", "text-[#003616]",
-                    "border-neutral-divider", "hover:border-cta"];
+  const CHIP_OFF = ["chip-filter", "bg-white", "text-ink",
+                    "border-divider", "hover:border-cta"];
 
   /* ---------------------------------------------------------------
      Cart store
@@ -4014,11 +4014,11 @@
   function cartEmptyHTML() {
     return (
       '<div class="cart-empty flex flex-col items-center gap-2 px-4 py-12 text-center">' +
-      '<span class="cart-empty__badge place-items-center grid bg-interaction-base mb-1 rounded-full text-cta size-16">' +
+      '<span class="cart-empty__badge place-items-center grid bg-cream mb-1 rounded-full text-cta size-16">' +
       '<span class="w-8 h-8">' + ICON.cart + "</span>" +
       "</span>" +
-      '<p class="font-bold text-[#003616] text-lg">' + esc(t("سلتك فارغة")) + "</p>" +
-      '<p class="max-w-[30ch] text-neutral-secondary text-sm leading-6">' +
+      '<p class="font-bold text-ink text-lg">' + esc(t("سلتك فارغة")) + "</p>" +
+      '<p class="max-w-[30ch] text-muted text-sm leading-6">' +
       esc(t("المنتجات اللي تضيفها هتظهر هنا.")) + "</p>" +
       '<a href="shop.html" class="btn-elevate flex justify-center items-center bg-cta hover:bg-cta-hover mt-3 px-6 rounded-full min-h-11 font-semibold text-white text-sm transition-colors">' +
       esc(t("تصفح المنتجات")) + "</a>" +
@@ -4036,17 +4036,17 @@
        reconcile works for either shape. */
     if (isCheckout()) {
       return `
-      <div class="flex items-center gap-3 py-2.5 border-neutral-divider border-b last:border-b-0" data-cart-line data-id="${esc(String(it.id))}">
-        <img src="${esc(it.image)}" alt="${esc(it.name)}" class="bg-interaction-base shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
+      <div class="flex items-center gap-3 py-2.5 border-divider border-b last:border-b-0" data-cart-line data-id="${esc(String(it.id))}">
+        <img src="${esc(it.image)}" alt="${esc(it.name)}" class="bg-cream shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
         <div class="flex flex-col flex-1 min-w-0">
-          <p class="font-semibold text-[#003616] text-sm line-clamp-1">${esc(it.name)}</p>
-          <p class="text-neutral-secondary text-xs">${esc(t("العدد"))}: <span class="latin" data-line-qty>${it.qty}</span></p>
+          <p class="font-semibold text-ink text-sm line-clamp-1">${esc(it.name)}</p>
+          <p class="text-muted text-xs">${esc(t("العدد"))}: <span class="latin" data-line-qty>${it.qty}</span></p>
         </div>
-        <span data-line-total class="font-bold text-[#003616] text-sm latin shrink-0">${egp(it.price * it.qty)}</span>
+        <span data-line-total class="font-bold text-ink text-sm latin shrink-0">${egp(it.price * it.qty)}</span>
       </div>`;
     }
     return `
-      <div class="flex items-stretch gap-3 py-4 border-neutral-divider border-b last:border-b-0" data-cart-line data-id="${esc(String(it.id))}">
+      <div class="flex items-stretch gap-3 py-4 border-divider border-b last:border-b-0" data-cart-line data-id="${esc(String(it.id))}">
         <!-- The thumb fills the row's height rather than sitting as a fixed
              72px square with dead space beneath it: self-stretch plus h-auto
              lets the cross size follow the row, whose height the text column
@@ -4059,16 +4059,16 @@
              reintroduce exactly the overflow the flex-wrap below exists to
              prevent. 96px from the sm breakpoint up, where the space actually
              exists; 72px at 320, where it does not. -->
-        <img src="${esc(it.image)}" alt="${esc(it.name)}" class="bg-interaction-base self-stretch shrink-0 p-1.5 rounded-lg w-[72px] sm:w-24 h-auto min-h-[72px] object-contain" />
+        <img src="${esc(it.image)}" alt="${esc(it.name)}" class="bg-cream self-stretch shrink-0 p-1.5 rounded-lg w-[72px] sm:w-24 h-auto min-h-[72px] object-contain" />
         <!-- justify-between, so the three rows distribute across whatever
              height the line has instead of bunching at the top and leaving a
              gap under the stepper — the misalignment Ahmed flagged. -->
         <div class="flex flex-col flex-1 justify-between gap-1 min-w-0">
           <div class="flex justify-between items-start gap-2">
-            <p class="flex-1 min-w-0 font-semibold text-[#003616] text-sm line-clamp-2">${esc(it.name)}</p>
-            <span data-line-total class="bg-accent-yellow shrink-0 px-2 py-0.5 rounded font-bold text-[#003616] text-xs latin">${egp(it.price * it.qty)}</span>
+            <p class="flex-1 min-w-0 font-semibold text-ink text-sm line-clamp-2">${esc(it.name)}</p>
+            <span data-line-total class="bg-lime shrink-0 px-2 py-0.5 rounded font-bold text-ink text-xs latin">${egp(it.price * it.qty)}</span>
           </div>
-          <p class="mt-1 text-neutral-secondary text-xs">العدد: <span class="latin" data-line-qty>${it.qty}</span></p>
+          <p class="mt-1 text-muted text-xs">العدد: <span class="latin" data-line-qty>${it.qty}</span></p>
           <!-- gap-1 until sm: at 320 the stepper (122) + حذف (24) + gap (8)
                came to 154 inside a 141px column, overflowing the row by 13px.
                The tighter gap brings it to 138. The baseline sweep missed
@@ -4093,7 +4093,7 @@
                  handling is delegated off [data-cart-step] on the buttons, so
                  this attribute deliberately does not match [data-stepper],
                  which initStepper would bind a second, conflicting handler to. -->
-            <div data-cart-stepper class="inline-flex items-center gap-1 sm:gap-3 p-1 border border-neutral-divider rounded-full">
+            <div data-cart-stepper class="inline-flex items-center gap-1 sm:gap-3 p-1 border border-divider rounded-full">
               <!-- At quantity 1 the − becomes a trash can and removing is what
                    it does (Ahmed, 2026-07-26). The behaviour was already this:
                    the handler removes the line when the step would take it
@@ -4111,9 +4111,9 @@
                    being rewritten: the rows are keyed-reconciled and keep their
                    DOM nodes, so swapping markup under a live row would discard
                    whatever the icon was doing mid-transition. -->
-              <button type="button" data-cart-step="-1" class="place-items-center grid shrink-0 w-8 h-8 text-[#003616]" aria-label="إنقاص" data-line-dec>
+              <button type="button" data-cart-step="-1" class="place-items-center grid shrink-0 w-8 h-8 text-ink" aria-label="إنقاص" data-line-dec>
                 <span class="w-3.5 h-3.5" data-line-dec-minus>${ICON.minus}</span>
-                <span class="w-3.5 h-3.5 text-neutral-secondary" data-line-dec-trash hidden>${ICON.trash}</span>
+                <span class="w-3.5 h-3.5 text-muted" data-line-dec-trash hidden>${ICON.trash}</span>
               </button>
               <span class="w-4 text-sm text-center latin" data-line-qty-num>${it.qty}</span>
               <button type="button" data-cart-step="1" class="place-items-center grid shrink-0 bg-cta hover:bg-cta-hover rounded-full w-8 h-8 text-white transition-colors" aria-label="زيادة"><span class="w-3.5 h-3.5">${ICON.plus}</span></button>
@@ -4217,7 +4217,7 @@
       // as a broken picker, which is the same failure the search modal's empty
       // state exists to avoid.
       list.innerHTML =
-        '<p class="py-6 text-neutral-secondary text-sm text-center">' +
+        '<p class="py-6 text-muted text-sm text-center">' +
         esc(t("لا توجد فروع في هذه المحافظة")) +
         "</p>";
       return;
@@ -4226,9 +4226,9 @@
       .map(
         (b, i) => `
         <button type="button" data-store-pick="${i}"
-                class="store-option flex flex-col items-start gap-0.5 bg-white p-3 border border-neutral-divider rounded-xl w-full text-start transition-colors">
-          <span class="font-semibold text-[#003616] text-sm">${esc(b.t)}</span>
-          ${b.a ? `<span class="text-neutral-secondary text-xs leading-5">${esc(b.a)}</span>` : ""}
+                class="store-option flex flex-col items-start gap-0.5 bg-white p-3 border border-divider rounded-xl w-full text-start transition-colors">
+          <span class="font-semibold text-ink text-sm">${esc(b.t)}</span>
+          ${b.a ? `<span class="text-muted text-xs leading-5">${esc(b.a)}</span>` : ""}
         </button>`,
       )
       .join("");
@@ -4699,8 +4699,8 @@
       msg.textContent = ok
         ? t("تم تطبيق الكود") + " " + code
         : t("كود غير صالح");
-      msg.classList.toggle("text-accent-green", ok);
-      msg.classList.toggle("text-accent-error", !ok);
+      msg.classList.toggle("text-lime", ok);
+      msg.classList.toggle("text-error", !ok);
     }
   }
 
@@ -4930,7 +4930,7 @@
     document.querySelectorAll("[data-cart-delivery]").forEach((el) => {
       const free = !empty && deliveryFee === 0;
       el.textContent = free ? t("مجاني") : egp(deliveryFee);
-      el.classList.toggle("text-accent-green", free);
+      el.classList.toggle("text-lime", free);
       el.classList.toggle("font-bold", free);
     });
     /* "Add X more for free delivery" progress bar. Hidden on an empty basket;
@@ -4939,7 +4939,7 @@
     document.querySelectorAll("[data-freeship]").forEach((el) => (el.hidden = empty));
     document.querySelectorAll("[data-freeship-fill]").forEach((el) => {
       el.style.width = (empty ? 0 : Math.min(100, (sub / FREE_SHIP) * 100)) + "%";
-      el.classList.toggle("bg-accent-green", toFree === 0);
+      el.classList.toggle("bg-lime", toFree === 0);
       el.classList.toggle("bg-cta", toFree !== 0);
     });
     document.querySelectorAll("[data-freeship-msg]").forEach((el) => {
@@ -5719,21 +5719,21 @@
                     class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full ${btnSize} text-white transition-colors">
               <span class="${cartIco}">${ICON.cart}</span>
             </button>
-            <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-              <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full ${stepBtn} text-[#003616] shrink-0 transition-colors"><span class="${stepIco}">${ICON.minus}</span></button>
-              <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+            <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+              <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full ${stepBtn} text-ink shrink-0 transition-colors"><span class="${stepIco}">${ICON.minus}</span></button>
+              <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
               <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full ${stepBtn} text-white shrink-0 transition-colors"><span class="${stepIco}">${ICON.plus}</span></button>
             </div>
           </div>
         </div>
         <div class="flex flex-col ${pad}">
-          <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] ${bSh} ${bPad} ${bRad} text-white latin">
+          <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep ${bSh} ${bPad} ${bRad} text-white latin">
             <span class="${sEGP} leading-[1.4]">EGP</span>
             <span class="${sWhole} leading-[1.2]">${whole}</span>
             <span class="${sEGP} leading-[1.4]">.${dec}</span>
           </span>
           <h3 class="font-semibold text-black ${titleCls} leading-snug">
-            <a href="product-${id}.html" data-product-title class="hover:text-[#29612F] transition-colors">${name}</a>
+            <a href="product-${id}.html" data-product-title class="hover:text-heading transition-colors">${name}</a>
           </h3>
         </div>
       </article>`;
@@ -6625,11 +6625,11 @@
   const fmtDateAr = (d) => d.getDate() + " " + AR_MONTHS[d.getMonth()] + " " + d.getFullYear();
   const vouchersHistory = () => { try { return JSON.parse(localStorage.getItem(V_HIST_KEY) || "[]"); } catch (e) { return []; } };
   function voucherHistRow(label, dateStr) {
-    return '<div class="flex items-center gap-3 bg-white/70 p-4 border border-neutral-divider rounded-2xl">'
+    return '<div class="flex items-center gap-3 bg-white/70 p-4 border border-divider rounded-2xl">'
       + '<img src="images/jaad/icons/discount-tag-3d.png" alt="" class="w-11 h-11 object-contain shrink-0 opacity-60 grayscale" />'
-      + '<div class="flex flex-col flex-1 min-w-0"><span class="font-bold text-neutral-secondary text-sm">' + esc(label) + '</span>'
-      + '<span class="text-neutral-secondary text-xs">' + esc(t("تم الاستخدام")) + ' ' + esc(dateStr) + '</span></div>'
-      + '<span class="inline-flex items-center bg-[#E9F3E6] px-2.5 py-1 rounded-full font-semibold text-[#00451C] text-xs shrink-0">' + esc(t("مستخدمة")) + '</span></div>';
+      + '<div class="flex flex-col flex-1 min-w-0"><span class="font-bold text-muted text-sm">' + esc(label) + '</span>'
+      + '<span class="text-muted text-xs">' + esc(t("تم الاستخدام")) + ' ' + esc(dateStr) + '</span></div>'
+      + '<span class="inline-flex items-center bg-mint px-2.5 py-1 rounded-full font-semibold text-ink-800 text-xs shrink-0">' + esc(t("مستخدمة")) + '</span></div>';
   }
   function renderVoucherHistory() {
     const host = document.querySelector("[data-vouchers-history-dynamic]");
@@ -6652,9 +6652,9 @@
     return '<div data-voucher data-voucher-id="' + esc(v.id) + '" class="flex items-center gap-3 bg-white shadow-custom4 p-4 rounded-2xl">'
       + '<img src="images/jaad/icons/discount-tag-3d.png" alt="" class="w-11 h-11 object-contain shrink-0" />'
       + '<div class="flex flex-col flex-1 min-w-0"><span class="font-bold text-cta text-sm">' + esc(v.label) + '</span>'
-      + '<span class="text-neutral-secondary text-xs">' + esc(v.validity) + '</span></div>'
+      + '<span class="text-muted text-xs">' + esc(v.validity) + '</span></div>'
       + '<button type="button" data-voucher-activate data-value="' + esc(String(v.value)) + '" data-label="' + esc(v.label) + '" aria-label="' + esc("تفعيل " + v.label) + '" '
-      + 'class="place-items-center grid bg-interaction-base hover:bg-cta hover:text-white border border-neutral-divider rounded-full size-10 text-cta shrink-0 transition-colors"><span class="w-4 h-4">' + V_PLUS + '</span></button>'
+      + 'class="place-items-center grid bg-cream hover:bg-cta hover:text-white border border-divider rounded-full size-10 text-cta shrink-0 transition-colors"><span class="w-4 h-4">' + V_PLUS + '</span></button>'
       + '</div>';
   }
   function initVouchers() {
@@ -6839,15 +6839,15 @@
     return `
       <div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px]" data-address-card data-id="${esc(a.id)}">
         <div class="flex justify-between items-center gap-3">
-          <h3 class="font-bold text-[#003616] text-base">${esc(a.label)}</h3>
+          <h3 class="font-bold text-ink text-base">${esc(a.label)}</h3>
         </div>
-        <div class="flex flex-col gap-1 text-neutral-secondary text-sm">
+        <div class="flex flex-col gap-1 text-muted text-sm">
           <span>${esc(a.line1)}</span><span>${esc(a.line2)}</span>
         </div>
-        ${a.main ? `<span class="bg-interaction-base px-3 py-1 rounded-full font-semibold text-primary text-xs self-start">${esc(t("العنوان الرئيسي"))}</span>` : ""}
+        ${a.main ? `<span class="bg-cream px-3 py-1 rounded-full font-semibold text-primary text-xs self-start">${esc(t("العنوان الرئيسي"))}</span>` : ""}
         <div class="flex gap-2 mt-auto">
-          <button type="button" data-address-edit class="hover:bg-interaction-base px-4 py-1.5 border border-neutral-divider rounded-full font-semibold text-[#003616] text-xs transition-colors">${esc(t("تعديل"))}</button>
-          <button type="button" data-address-remove class="px-4 py-1.5 font-semibold text-accent-error text-xs">${esc(t("حذف"))}</button>
+          <button type="button" data-address-edit class="hover:bg-cream px-4 py-1.5 border border-divider rounded-full font-semibold text-ink text-xs transition-colors">${esc(t("تعديل"))}</button>
+          <button type="button" data-address-remove class="px-4 py-1.5 font-semibold text-error text-xs">${esc(t("حذف"))}</button>
         </div>
       </div>`;
   }
@@ -6858,7 +6858,7 @@
     const list = addrAll();
     grid.innerHTML = list.length
       ? list.map(addressCardHTML).join("")
-      : `<p class="col-span-full py-8 text-neutral-secondary text-sm">${esc(t("لا توجد عناوين محفوظة بعد."))}</p>`;
+      : `<p class="col-span-full py-8 text-muted text-sm">${esc(t("لا توجد عناوين محفوظة بعد."))}</p>`;
   }
 
   function openAddressForm(addr) {
@@ -7482,10 +7482,10 @@
     set("[data-post-meta]", esc(p.meta));
     set("[data-post-excerpt]", esc(p.excerpt));
     set("[data-post-tags]", (p.tags || []).map((t) =>
-      '<span class="inline-flex items-center px-3 py-1 border border-[#29612F] ' +
-      'rounded-full font-medium text-[#29612F] text-xs">' + esc(t) + "</span>").join(""));
+      '<span class="inline-flex items-center px-3 py-1 border border-heading ' +
+      'rounded-full font-medium text-heading text-xs">' + esc(t) + "</span>").join(""));
     set("[data-post-body]", (p.body || []).map((par) =>
-      '<p class="text-[#1e2219] text-base xl:text-lg leading-[1.9]">' + esc(par) + "</p>").join(""));
+      '<p class="text-bodyInk text-base xl:text-lg leading-[1.9]">' + esc(par) + "</p>").join(""));
     set("[data-post-tips]", (p.tips || []).map((t) => "<li>" + esc(t) + "</li>").join(""));
     const img = article.querySelector("[data-post-image]");
     if (img && p.image) { img.src = p.image; img.alt = p.title || ""; }

@@ -21,13 +21,13 @@ def build():
 {phone_field("رقم الموبايل", "phone")}
 {field("البريد الالكتروني", "email", "email", required=True)}
               <label class="flex items-start gap-2 cursor-pointer">
-                <input type="checkbox" required class="mt-1 accent-[#00451C] w-4 h-4" />
-                <span class="text-neutral-secondary text-sm leading-6">
+                <input type="checkbox" required class="mt-1 accent-ink-800 w-4 h-4" />
+                <span class="text-muted text-sm leading-6">
                   أوافق على <a href="terms-conditions.html" class="font-semibold text-cta underline">الشروط والأحكام</a>
                 </span>
               </label>
               <button type="submit" class="bg-cta hover:bg-cta-hover py-4 rounded-full font-semibold text-white text-base transition-colors">إنشاء حساب</button>
-              <p class="text-neutral-secondary text-sm text-center">
+              <p class="text-muted text-sm text-center">
                 لديك حساب بالفعل؟ <a href="login.html" class="font-semibold text-cta underline">تسجيل الدخول</a>
               </p>"""
     return auth_page("إنشاء حساب | جاد",

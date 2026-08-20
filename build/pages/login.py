@@ -24,7 +24,7 @@ def build():
               </div>
               <button type="submit" class="btn-elevate bg-cta hover:bg-cta-hover py-4 rounded-full font-semibold text-white text-base">متابعة</button>
               <div class="flex flex-1 flex-col justify-center gap-5">
-                <p class="text-neutral-secondary text-sm text-center">
+                <p class="text-muted text-sm text-center">
                   لسه معندكش حساب؟ <a href="register.html" class="font-semibold text-cta underline">أنشئ حساب جديد</a>
                 </p>
                 {SOCIAL}

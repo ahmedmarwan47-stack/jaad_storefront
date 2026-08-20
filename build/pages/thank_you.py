@@ -46,8 +46,8 @@ def _rows(pairs):
         span = " col-span-2" if len(pair) > 2 and pair[2] else ""
         out.append(
             f'<div class="flex flex-col gap-0.5{span}">'
-            f'<span class="text-neutral-secondary text-xs">{e(k)}</span>'
-            f'<span class="font-semibold text-[#003616] text-sm break-words">{e(v)}</span></div>'
+            f'<span class="text-muted text-xs">{e(k)}</span>'
+            f'<span class="font-semibold text-ink text-sm break-words">{e(v)}</span></div>'
         )
     return "".join(out)
 
@@ -59,14 +59,14 @@ def build():
     more = rail_products("Nuts", "Spices", limit=10)
 
     lines = "".join(f"""
-                <div class="flex items-center gap-3 py-3 border-neutral-divider border-b last:border-0">
-                  <img src="{e(p['image'])}" alt="" class="bg-interaction-base p-1.5 rounded-lg w-16 h-16 object-contain shrink-0" loading="lazy" />
+                <div class="flex items-center gap-3 py-3 border-divider border-b last:border-0">
+                  <img src="{e(p['image'])}" alt="" class="bg-cream p-1.5 rounded-lg w-16 h-16 object-contain shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 gap-0.5 min-w-0">
-                    <span class="font-semibold text-[#003616] text-sm line-clamp-2">{e(p.get('nameAr') or p['name'])}</span>
-                    <span class="text-neutral-secondary text-xs">250 جم</span>
-                    <span class="text-neutral-secondary text-xs">عدد <span class="latin">1</span></span>
+                    <span class="font-semibold text-ink text-sm line-clamp-2">{e(p.get('nameAr') or p['name'])}</span>
+                    <span class="text-muted text-xs">250 جم</span>
+                    <span class="text-muted text-xs">عدد <span class="latin">1</span></span>
                   </div>
-                  <span class="font-bold text-[#003616] text-sm latin shrink-0">EGP {money(p['price'])}</span>
+                  <span class="font-bold text-ink text-sm latin shrink-0">EGP {money(p['price'])}</span>
                 </div>""" for p in items)
 
     body = f"""
@@ -74,10 +74,10 @@ def build():
         <div class="flex flex-col gap-3 mx-auto px-4 max-w-[1200px]">
           <div class="flex items-center gap-3">
             <span class="place-items-center grid bg-primary rounded-full text-white size-8">{CHECK}</span>
-            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">شكراً لك</h1>
+            <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">شكراً لك</h1>
           </div>
-          <p class="font-semibold text-[#003616] text-base">تم تقديم طلبك بنجاح</p>
-          <p class="text-neutral-secondary text-sm leading-7">
+          <p class="font-semibold text-ink text-base">تم تقديم طلبك بنجاح</p>
+          <p class="text-muted text-sm leading-7">
             إذا كانت لديك أسئلة حول طلبك، يمكنك مراسلتنا عبر البريد الإلكتروني على
             <a href="mailto:info@jad.com" class="font-semibold text-cta hover:text-primary underline transition-colors latin">INFO@JAD.COM</a>
             أو الاتصال بنا على <a href="tel:01200000000" class="font-semibold text-cta hover:text-primary underline transition-colors latin">01200000000</a>
@@ -105,31 +105,31 @@ def build():
              and the two now read as a balanced pair. -->
         <div class="items-stretch gap-6 xl:gap-8 grid grid-cols-1 lg:grid-cols-[1fr_400px] mx-auto px-4 max-w-[1200px]">
           <div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 xl:p-8 rounded-[20px] min-w-0">
-            <h2 class="font-bold text-[#29612F] text-xl">طلب رقم <span class="latin">#{ORDER_NO}</span></h2>
+            <h2 class="font-bold text-heading text-xl">طلب رقم <span class="latin">#{ORDER_NO}</span></h2>
             <div class="flex flex-col">{lines}
             </div>
             <!-- mt-auto sinks the totals to the bottom so the (shorter) order box
                  fills the height the taller customer box sets — the two columns
                  are items-stretch, so they end level (Ahmed, 2026-08-02). -->
-            <div class="flex flex-col gap-2 mt-auto pt-3 border-neutral-divider border-t text-sm">
+            <div class="flex flex-col gap-2 mt-auto pt-3 border-divider border-t text-sm">
               <div class="flex justify-between">
-                <span class="text-neutral-secondary">مصاريف التوصيل</span>
-                <span class="font-semibold text-[#003616] latin">EGP {money(DELIVERY_FEE)}</span>
+                <span class="text-muted">مصاريف التوصيل</span>
+                <span class="font-semibold text-ink latin">EGP {money(DELIVERY_FEE)}</span>
               </div>
               <div class="flex justify-between">
-                <span class="text-neutral-secondary">الإجمالي</span>
-                <span class="font-semibold text-[#003616] latin">EGP {money(subtotal)}</span>
+                <span class="text-muted">الإجمالي</span>
+                <span class="font-semibold text-ink latin">EGP {money(subtotal)}</span>
               </div>
             </div>
-            <div class="flex justify-between items-center pt-3 border-neutral-divider border-t">
-              <span class="font-bold text-[#003616] text-base">الإجمالي</span>
-              <span class="font-bold text-[#003616] text-2xl latin">EGP {money(total)}</span>
+            <div class="flex justify-between items-center pt-3 border-divider border-t">
+              <span class="font-bold text-ink text-base">الإجمالي</span>
+              <span class="font-bold text-ink text-2xl latin">EGP {money(total)}</span>
             </div>
           </div>
 
-          <div class="flex flex-col gap-5 bg-interaction-base p-6 rounded-[20px]">
+          <div class="flex flex-col gap-5 bg-cream p-6 rounded-[20px]">
             <div class="flex flex-col gap-3">
-              <h2 class="font-bold text-[#29612F] text-base">بيانات العميل</h2>
+              <h2 class="font-bold text-heading text-base">بيانات العميل</h2>
               <!-- Two columns at EVERY width (Ahmed, 2026-08-05): stacked in a
                    single column on a phone, this info left half the card empty
                    down its side. The values are short (the long email spans both
@@ -137,8 +137,8 @@ def build():
               <div class="gap-x-4 gap-y-4 grid grid-cols-2">{_rows(CUSTOMER)}
               </div>
             </div>
-            <div class="flex flex-col gap-3 pt-5 border-neutral-divider border-t">
-              <h2 class="font-bold text-[#29612F] text-base">بيانات التوصيل</h2>
+            <div class="flex flex-col gap-3 pt-5 border-divider border-t">
+              <h2 class="font-bold text-heading text-base">بيانات التوصيل</h2>
               <div class="gap-x-4 gap-y-4 grid grid-cols-2">{_rows(DELIVERY)}
               </div>
             </div>
@@ -146,7 +146,7 @@ def build():
                  order is placed the natural next step is back to the store, not
                  a second solid-green CTA competing with the confirmation. Full
                  width on mobile, content-width aligned to the end from sm up. -->
-            <a href="shop.html" class="bg-white hover:bg-interaction-base px-8 py-3 border border-cta rounded-full w-full sm:w-auto sm:self-end font-semibold text-cta text-sm text-center transition-colors">متابعة التسوق</a>
+            <a href="shop.html" class="bg-white hover:bg-cream px-8 py-3 border border-cta rounded-full w-full sm:w-auto sm:self-end font-semibold text-cta text-sm text-center transition-colors">متابعة التسوق</a>
           </div>
         </div>
       </section>

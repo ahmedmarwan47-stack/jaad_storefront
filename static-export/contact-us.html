@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=613004fc" />
-    <link rel="stylesheet" href="styles.css?v=28ec1c87" />
+    <link rel="stylesheet" href="tailwind.css?v=6ce2e172" />
+    <link rel="stylesheet" href="styles.css?v=30183d6d" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -46,7 +46,7 @@
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
     <script defer src="i18n-en.js?v=24ccd6ef"></script>
-    <script defer src="scripts.js?v=ff94e0be"></script>
+    <script defer src="scripts.js?v=19037dd3"></script>
   </head>
   <body data-page="contact-us" data-path="/contact-us" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -61,8 +61,8 @@
     <main id="main" tabindex="-1" class="overflow-x-clip">
       <section data-reveal class="pt-6">
         <div class="flex flex-col gap-4 mx-auto px-4 max-w-[1536px]">
-          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-neutral-secondary hover:text-primary transition-colors">الرئيسية</a><span aria-hidden="true" class="text-neutral-outline">/</span><span class="font-semibold text-[#003616]">أتصل بنا</span></nav>
-          <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">أتصل بنا</h1>
+          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-muted hover:text-primary transition-colors">الرئيسية</a><span aria-hidden="true" class="text-outline">/</span><span class="font-semibold text-ink">أتصل بنا</span></nav>
+          <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">أتصل بنا</h1>
         </div>
       </section>
 
@@ -73,13 +73,13 @@
               لو عندك أي استفسار أو اقتراح، إحنا هنا. اختار الطريقة اللي تناسبك أو ابعتلنا رسالة وهنرد عليك في أقرب وقت.
             </p>
             <div class="flex flex-col gap-3">
-              <a href="tel:01200000000" class="flex flex-col gap-1 bg-interaction-base hover:bg-beige px-6 py-5 rounded-2xl transition-colors">
-                <span class="text-neutral-secondary text-sm">الخط الساخن</span>
-                <span class="font-bold text-[#003616] text-lg latin">01200000000</span>
+              <a href="tel:01200000000" class="flex flex-col gap-1 bg-cream hover:bg-cream px-6 py-5 rounded-2xl transition-colors">
+                <span class="text-muted text-sm">الخط الساخن</span>
+                <span class="font-bold text-ink text-lg latin">01200000000</span>
               </a>
-              <a href="mailto:info@jad.com" class="flex flex-col gap-1 bg-interaction-base hover:bg-beige px-6 py-5 rounded-2xl transition-colors">
-                <span class="text-neutral-secondary text-sm">البريد الالكتروني</span>
-                <span class="font-bold text-[#003616] text-lg latin">info@jad.com</span>
+              <a href="mailto:info@jad.com" class="flex flex-col gap-1 bg-cream hover:bg-cream px-6 py-5 rounded-2xl transition-colors">
+                <span class="text-muted text-sm">البريد الالكتروني</span>
+                <span class="font-bold text-ink text-lg latin">info@jad.com</span>
               </a>
             </div>
             <!-- The head-office card is GONE (Ahmed, 2026-08-20): the address
@@ -88,47 +88,47 @@
                  comes back when Jaad's own address exists. Working hours are
                  the honest thing to show in its place. -->
             <div class="flex flex-col gap-1 bg-white shadow-custom4 p-6 rounded-2xl">
-              <span class="font-bold text-[#003616] text-base">مواعيد العمل</span>
-              <span class="text-neutral-secondary text-sm leading-7">من السبت للخميس، من 9 صباحاً حتى 6 مساءً</span>
+              <span class="font-bold text-ink text-base">مواعيد العمل</span>
+              <span class="text-muted text-sm leading-7">من السبت للخميس، من 9 صباحاً حتى 6 مساءً</span>
             </div>
           </div>
 
           <form class="flex flex-col gap-5 bg-white shadow-custom4 p-6 xl:p-8 rounded-[20px]">
-            <h2 class="font-bold text-[#29612F] text-xl">ابعتلنا رسالة</h2>
+            <h2 class="font-bold text-heading text-xl">ابعتلنا رسالة</h2>
             <div class="gap-4 grid sm:grid-cols-2">
 
                 <div class="flex flex-col gap-1.5 ">
-                  <label for="name" class="font-medium text-neutral-secondary text-sm">الاسم<span class="text-accent-error">*</span></label>
+                  <label for="name" class="font-medium text-muted text-sm">الاسم<span class="text-error">*</span></label>
                   <input type="text" id="name" name="name" required autocomplete="name"
                          value="" placeholder=""
-                         class="bg-white border border-neutral-divider rounded-2xl px-4 h-12 w-full text-[#003616] text-base placeholder:text-neutral-secondary outline-none focus:border-primary focus:ring-2 focus:ring-[#98CA55] transition-colors" />
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors" />
                 </div>
 
                 <div class="flex flex-col gap-1.5 ">
-                  <label for="phone" class="font-medium text-neutral-secondary text-sm">رقم الهاتف<span class="text-accent-error">*</span></label>
+                  <label for="phone" class="font-medium text-muted text-sm">رقم الهاتف<span class="text-error">*</span></label>
                   <input type="tel" id="phone" name="phone" required autocomplete="tel"
                          value="" placeholder=""
-                         class="bg-white border border-neutral-divider rounded-2xl px-4 h-12 w-full text-[#003616] text-base placeholder:text-neutral-secondary outline-none focus:border-primary focus:ring-2 focus:ring-[#98CA55] transition-colors" />
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors" />
                 </div>
             </div>
 
                 <div class="flex flex-col gap-1.5 ">
-                  <label for="email" class="font-medium text-neutral-secondary text-sm">البريد الالكتروني<span class="text-accent-error">*</span></label>
+                  <label for="email" class="font-medium text-muted text-sm">البريد الالكتروني<span class="text-error">*</span></label>
                   <input type="email" id="email" name="email" required autocomplete="email"
                          value="" placeholder=""
-                         class="bg-white border border-neutral-divider rounded-2xl px-4 h-12 w-full text-[#003616] text-base placeholder:text-neutral-secondary outline-none focus:border-primary focus:ring-2 focus:ring-[#98CA55] transition-colors" />
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors" />
                 </div>
 
                 <div class="flex flex-col gap-1.5 ">
-                  <label for="subject" class="font-medium text-neutral-secondary text-sm">الموضوع</label>
+                  <label for="subject" class="font-medium text-muted text-sm">الموضوع</label>
                   <input type="text" id="subject" name="subject"
                          value="" placeholder=""
-                         class="bg-white border border-neutral-divider rounded-2xl px-4 h-12 w-full text-[#003616] text-base placeholder:text-neutral-secondary outline-none focus:border-primary focus:ring-2 focus:ring-[#98CA55] transition-colors" />
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors" />
                 </div>
             <div class="flex flex-col gap-1.5">
-              <label for="message" class="font-medium text-neutral-secondary text-sm">الرسالة<span class="text-accent-error">*</span></label>
+              <label for="message" class="font-medium text-muted text-sm">الرسالة<span class="text-error">*</span></label>
               <textarea id="message" name="message" rows="5" required
-                        class="bg-white px-4 py-3 border-2 border-neutral-divider focus:border-cta rounded-xl outline-none w-full text-[#003616] text-base transition-colors"></textarea>
+                        class="bg-white px-4 py-3 border-2 border-divider focus:border-cta rounded-xl outline-none w-full text-ink text-base transition-colors"></textarea>
             </div>
             <button type="submit" class="bg-cta hover:bg-cta-hover py-4 rounded-full font-semibold text-white text-base transition-colors">أرسال</button>
           </form>

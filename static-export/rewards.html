@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=613004fc" />
-    <link rel="stylesheet" href="styles.css?v=28ec1c87" />
+    <link rel="stylesheet" href="tailwind.css?v=6ce2e172" />
+    <link rel="stylesheet" href="styles.css?v=30183d6d" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -46,7 +46,7 @@
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
     <script defer src="i18n-en.js?v=24ccd6ef"></script>
-    <script defer src="scripts.js?v=ff94e0be"></script>
+    <script defer src="scripts.js?v=19037dd3"></script>
   </head>
   <body data-page="rewards" data-path="/rewards" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -61,16 +61,16 @@
     <main id="main" tabindex="-1" class="overflow-x-clip">
       <section data-reveal class="pt-6">
         <div class="flex flex-col gap-4 mx-auto px-4 max-w-[1536px]">
-          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-neutral-secondary hover:text-primary transition-colors">الرئيسية</a><span aria-hidden="true" class="text-neutral-outline">/</span><span class="font-semibold text-[#003616]">المكافآت</span></nav>
+          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-muted hover:text-primary transition-colors">الرئيسية</a><span aria-hidden="true" class="text-outline">/</span><span class="font-semibold text-ink">المكافآت</span></nav>
         </div>
       </section>
 
       <section data-reveal class="py-8 xl:py-10">
         <div class="flex flex-col gap-8 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="flex flex-col gap-3">
-            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-[#006328] text-[13px] uppercase tracking-[1px]">المكافآت</span>
-            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-none tracking-[-1px]">اجمع نقاط مع كل عملية شراء من جاد</h1>
-            <p class="max-w-[630px] text-[#4b5563] text-base leading-[1.6]">
+            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-greenDeep text-[13px] uppercase tracking-[1px]">المكافآت</span>
+            <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-none tracking-[-1px]">اجمع نقاط مع كل عملية شراء من جاد</h1>
+            <p class="max-w-[630px] text-bodyMuted text-base leading-[1.6]">
               اجمع نقاطك مع كل طلب من جاد، وتابع رصيدك ومستوى عضويتك من صفحة النقاط في حسابك.
             </p>
           </div>
@@ -84,49 +84,49 @@
           </div>
           <div class="flex flex-wrap gap-3">
             <a href="my-account-point.html" class="btn btn--primary inline-flex justify-center items-center rounded-full font-semibold transition-colors w-full sm:w-auto px-8 py-3 text-base bg-cta hover:bg-cta-hover text-white ">نقاطي</a>
-            <a href="my-account-wallet.html" class="btn inline-flex justify-center items-center rounded-full font-semibold transition-colors w-full sm:w-auto px-8 py-3 text-base border border-cta text-cta hover:bg-interaction-base ">محفظتي</a>
+            <a href="my-account-wallet.html" class="btn inline-flex justify-center items-center rounded-full font-semibold transition-colors w-full sm:w-auto px-8 py-3 text-base border border-cta text-cta hover:bg-cream ">محفظتي</a>
           </div>
         </div>
       </section>
 
-      <section data-reveal class="bg-[#FDF8F1] py-12 xl:py-14">
+      <section data-reveal class="bg-cream py-12 xl:py-14">
         <div class="flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
-          <h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">إزاي بتشتغل</h2>
+          <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">إزاي بتشتغل</h2>
           <div class="gap-6 grid grid-cols-1 md:grid-cols-3">
               <div class="flex flex-col gap-3 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] p-6 rounded-3xl">
                 <img src="images/jaad/icons/orders-3d.png" alt="" class="w-14 h-14 object-contain" loading="lazy" />
-                <h3 class="font-bold text-[#29612F] text-lg">اطلب</h3>
-                <p class="text-[#1e2219] text-sm leading-[1.6]">اجمع نقاط مع كل طلب تعمله من جاد، من غير أي تسجيل إضافي.</p>
+                <h3 class="font-bold text-heading text-lg">اطلب</h3>
+                <p class="text-bodyInk text-sm leading-[1.6]">اجمع نقاط مع كل طلب تعمله من جاد، من غير أي تسجيل إضافي.</p>
               </div>
               <div class="flex flex-col gap-3 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] p-6 rounded-3xl">
                 <img src="images/jaad/icons/points-3d.png" alt="" class="w-14 h-14 object-contain" loading="lazy" />
-                <h3 class="font-bold text-[#29612F] text-lg">اتابع رصيدك</h3>
-                <p class="text-[#1e2219] text-sm leading-[1.6]">رصيد نقاطك ومستوى عضويتك بيتحدثوا في صفحة النقاط في حسابك.</p>
+                <h3 class="font-bold text-heading text-lg">اتابع رصيدك</h3>
+                <p class="text-bodyInk text-sm leading-[1.6]">رصيد نقاطك ومستوى عضويتك بيتحدثوا في صفحة النقاط في حسابك.</p>
               </div>
               <div class="flex flex-col gap-3 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] p-6 rounded-3xl">
                 <img src="images/jaad/icons/wallet-3d.png" alt="" class="w-14 h-14 object-contain" loading="lazy" />
-                <h3 class="font-bold text-[#29612F] text-lg">اصرفها</h3>
-                <p class="text-[#1e2219] text-sm leading-[1.6]">كل 10 نقاط بتساوي جنيه واحد تقدر تستخدمه في طلبك الجاي.</p>
+                <h3 class="font-bold text-heading text-lg">اصرفها</h3>
+                <p class="text-bodyInk text-sm leading-[1.6]">كل 10 نقاط بتساوي جنيه واحد تقدر تستخدمه في طلبك الجاي.</p>
               </div>
           </div>
           <div class="flex flex-col gap-6 max-w-[620px]">
-            <h2 class="font-medium text-[#29612F] text-[28px] md:text-[32px] leading-[1.2]">مستويات العضوية</h2>
+            <h2 class="font-medium text-heading text-[28px] md:text-[32px] leading-[1.2]">مستويات العضوية</h2>
             <div class="flex flex-col bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] rounded-3xl">
-              <div class="flex justify-between items-center gap-4 px-5 py-4 border-neutral-divider border-b last:border-0">
-                <span class="font-bold text-[#29612F] text-base">عضوية فضية</span>
-                <span class="flex items-center gap-1 text-[#636959] text-sm">
+              <div class="flex justify-between items-center gap-4 px-5 py-4 border-divider border-b last:border-0">
+                <span class="font-bold text-heading text-base">عضوية فضية</span>
+                <span class="flex items-center gap-1 text-metaGray text-sm">
                   <span class="latin">0+</span><span>نقطة</span>
                 </span>
               </div>
-              <div class="flex justify-between items-center gap-4 px-5 py-4 border-neutral-divider border-b last:border-0">
-                <span class="font-bold text-[#29612F] text-base">عضوية ذهبية</span>
-                <span class="flex items-center gap-1 text-[#636959] text-sm">
+              <div class="flex justify-between items-center gap-4 px-5 py-4 border-divider border-b last:border-0">
+                <span class="font-bold text-heading text-base">عضوية ذهبية</span>
+                <span class="flex items-center gap-1 text-metaGray text-sm">
                   <span class="latin">2,000+</span><span>نقطة</span>
                 </span>
               </div>
-              <div class="flex justify-between items-center gap-4 px-5 py-4 border-neutral-divider border-b last:border-0">
-                <span class="font-bold text-[#29612F] text-base">عضوية بلاتينية</span>
-                <span class="flex items-center gap-1 text-[#636959] text-sm">
+              <div class="flex justify-between items-center gap-4 px-5 py-4 border-divider border-b last:border-0">
+                <span class="font-bold text-heading text-base">عضوية بلاتينية</span>
+                <span class="flex items-center gap-1 text-metaGray text-sm">
                   <span class="latin">4,000+</span><span>نقطة</span>
                 </span>
               </div>

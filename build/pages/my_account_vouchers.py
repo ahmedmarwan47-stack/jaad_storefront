@@ -31,23 +31,23 @@ def build():
                   <img src="images/jaad/icons/discount-tag-3d.png" alt="" class="w-11 h-11 object-contain shrink-0" />
                   <div class="flex flex-col flex-1 min-w-0">
                     <span class="font-bold text-cta text-sm">{label}</span>
-                    <span class="text-neutral-secondary text-xs">{validity}</span>
+                    <span class="text-muted text-xs">{validity}</span>
                   </div>
                   <button type="button" data-voucher-activate data-value="{value}" data-label="{label}"
                           aria-label="تفعيل {label}"
-                          class="place-items-center grid bg-interaction-base hover:bg-cta hover:text-white border border-neutral-divider rounded-full size-10 text-cta shrink-0 transition-colors">
+                          class="place-items-center grid bg-cream hover:bg-cta hover:text-white border border-divider rounded-full size-10 text-cta shrink-0 transition-colors">
                     <span class="w-4 h-4">{_PLUS}</span>
                   </button>
                 </div>""" for i, (label, validity, value) in enumerate(VOUCHERS))
 
     old_rows = "".join(f"""
-                <div class="flex items-center gap-3 bg-white/70 p-4 border border-neutral-divider rounded-2xl">
+                <div class="flex items-center gap-3 bg-white/70 p-4 border border-divider rounded-2xl">
                   <img src="images/jaad/icons/discount-tag-3d.png" alt="" class="w-11 h-11 object-contain shrink-0 opacity-60 grayscale" />
                   <div class="flex flex-col flex-1 min-w-0">
-                    <span class="font-bold text-neutral-secondary text-sm">{label}</span>
-                    <span class="text-neutral-secondary text-xs">{sub}</span>
+                    <span class="font-bold text-muted text-sm">{label}</span>
+                    <span class="text-muted text-xs">{sub}</span>
                   </div>
-                  <span class="inline-flex items-center shrink-0 px-2.5 py-1 rounded-full font-semibold text-xs {'bg-[#E9F3E6] text-[#00451C]' if used else 'bg-[#F6E9E7] text-accent-error'}">{pill}</span>
+                  <span class="inline-flex items-center shrink-0 px-2.5 py-1 rounded-full font-semibold text-xs {'bg-mint text-ink-800' if used else 'bg-blush text-error'}">{pill}</span>
                 </div>""" for label, sub, pill, used in OLD_VOUCHERS)
 
     content = f"""
@@ -63,24 +63,24 @@ def build():
             <div data-wallet-card class="flex flex-wrap items-center gap-4 bg-white shadow-custom4 p-6 rounded-[20px]">
               <img src="images/jaad/icons/wallet-3d.png" alt="" class="w-14 h-14 object-contain shrink-0" />
               <div class="flex flex-col">
-                <span class="text-neutral-secondary text-sm">رصيد المحفظة</span>
+                <span class="text-muted text-sm">رصيد المحفظة</span>
                 <span class="font-bold text-cta text-2xl latin" data-wallet-amount>EGP {CUSTOMER['wallet']}</span>
               </div>
-              <p class="flex-1 min-w-[200px] text-neutral-secondary text-sm leading-6 text-end">فعّل أي قسيمة وتُضاف قيمتها مباشرة إلى رصيد محفظتك.</p>
+              <p class="flex-1 min-w-[200px] text-muted text-sm leading-6 text-end">فعّل أي قسيمة وتُضاف قيمتها مباشرة إلى رصيد محفظتك.</p>
             </div>
 
             <div class="flex flex-col gap-3">
-              <h2 class="font-bold text-[#29612F] text-lg">القسائم المتاحة</h2>
+              <h2 class="font-bold text-heading text-lg">القسائم المتاحة</h2>
               <div class="flex flex-col gap-3" data-vouchers-list>{rows}
               </div>
-              <p data-vouchers-empty hidden class="bg-interaction-base py-10 rounded-2xl text-neutral-secondary text-sm text-center">فعّلت كل القسائم المتاحة — تابعنا للعروض الجاية.</p>
+              <p data-vouchers-empty hidden class="bg-cream py-10 rounded-2xl text-muted text-sm text-center">فعّلت كل القسائم المتاحة — تابعنا للعروض الجاية.</p>
             </div>
 
             <!-- History: used + expired vouchers (Ahmed, 2026-08-04). Activated
                  vouchers are prepended into [data-vouchers-history-dynamic] by
                  scripts.js; the static rows below are demo placeholder. -->
             <div class="flex flex-col gap-3">
-              <h2 class="font-bold text-[#29612F] text-lg">القسائم السابقة</h2>
+              <h2 class="font-bold text-heading text-lg">القسائم السابقة</h2>
               <div class="flex flex-col gap-3">
                 <div data-vouchers-history-dynamic class="flex flex-col gap-3"></div>
 {old_rows}

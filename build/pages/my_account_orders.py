@@ -12,7 +12,7 @@ def build():
               <div class="overflow-x-auto">
                 <table class="w-full min-w-[560px]">
                   <thead>
-                    <tr class="border-neutral-divider border-b text-neutral-secondary text-xs">
+                    <tr class="border-divider border-b text-muted text-xs">
                       <th class="py-3 ps-2 font-medium text-start">رقم الطلب</th>
                       <th class="py-3 font-medium text-start">التاريخ</th>
                       <th class="py-3 font-medium text-start">حالة الطلب</th>

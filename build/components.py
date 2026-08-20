@@ -220,9 +220,9 @@ def button(label, href="#", variant="primary", size="md", extra="", full_mobile=
     }
     variants = {
         "primary": "bg-cta hover:bg-cta-hover text-white",
-        "secondary": "border border-cta text-cta hover:bg-interaction-base",
-        "accent": "bg-accent-yellow hover:bg-accent-500 text-[#003616]",
-        "outline": "border border-neutral-divider hover:border-primary text-[#003616]",
+        "secondary": "border border-cta text-cta hover:bg-cream",
+        "accent": "bg-lime hover:bg-accent-500 text-ink",
+        "outline": "border border-divider hover:border-primary text-ink",
     }
     # `.btn` component hook. The legacy green `secondary` keeps the base only, so
     # the grey `.btn--secondary` rule (the `outline` look) never repaints it.
@@ -242,17 +242,17 @@ def section_heading(heading, cta_label=None, cta_href="#", centered=False):
 
     Type treatment matches the homepage's section headings (Ahmed, 2026-08-20):
     Figma's Primary/Dark Green #29612F at `font-medium` 32/40px, not the old
-    `font-bold text-[#003616] text-3xl xl:text-4xl`. That older pairing came
+    `font-bold text-ink text-3xl xl:text-4xl`. That older pairing came
     from the brand-manual-derived config, before the real Figma variables were
     pulled; it left every inner page's section titles heavier and a different
     green from the homepage that links to them.
     """
     if centered:
-        return (f'<h2 class="mb-10 xl:mb-12 font-medium text-[#29612F] text-[32px] md:text-[40px] '
+        return (f'<h2 class="mb-10 xl:mb-12 font-medium text-heading text-[32px] md:text-[40px] '
                 f'leading-[1.2] text-center">{e(heading)}</h2>')
     cta = button(cta_label, cta_href, "secondary", "sm", full_mobile=False) if cta_label else ""
     return (f'<div class="flex flex-wrap justify-between items-center gap-4 mb-10">'
-            f'<h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">'
+            f'<h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">'
             f'{e(heading)}</h2>{cta}</div>')
 
 
@@ -290,7 +290,7 @@ def breadcrumb(trail):
     for i, (label, href) in enumerate(trail):
         last = i == len(trail) - 1
         if last or not href:
-            parts.append(f'<span class="font-semibold text-[#003616]">{e(label)}</span>')
+            parts.append(f'<span class="font-semibold text-ink">{e(label)}</span>')
         else:
             parts.append(
                 # link-sweep: on hover the crumb darkens to primary AND an
@@ -298,10 +298,10 @@ def breadcrumb(trail):
                 # affordance the footer/account links already use — extend the
                 # shared interaction system rather than paint a one-off border
                 # (CLAUDE.md). self-start keeps the sweep tight to the text.
-                f'<a href="{href}" class="link-sweep text-neutral-secondary hover:text-primary transition-colors">{e(label)}</a>'
+                f'<a href="{href}" class="link-sweep text-muted hover:text-primary transition-colors">{e(label)}</a>'
                 # Decorative separator: hidden from assistive tech, and
                 # toned up from #C6C6C6 (1.71:1) so it is still visible.
-                f'<span aria-hidden="true" class="text-neutral-outline">/</span>')
+                f'<span aria-hidden="true" class="text-outline">/</span>')
     return (f'<nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm">'
             f'{"".join(parts)}</nav>')
 
@@ -314,7 +314,7 @@ def chip(label, href="#", active=False, filter_slug=None):
     white-on-outline treatment. Carry both rather than pick one.
     """
     style = ("bg-cta text-white border-cta" if active
-             else "chip-filter bg-white text-[#003616] border-neutral-divider hover:border-cta")
+             else "chip-filter bg-white text-ink border-divider hover:border-cta")
     # `filter_slug` turns the chip into a live client-side filter; without it
     # the chip stays a plain link. The href is kept either way so the control
     # still means something with JS off.
@@ -364,7 +364,7 @@ def sort_select(options, label="ترتيب حسب"):
     # <option>s). initFancySelect() in scripts.js only wires behaviour.
     li = "".join(f"""
                 <li role="option" data-fancy-opt data-value="{e(v)}" aria-selected="{'true' if i == 0 else 'false'}"
-                    class="flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer text-sm font-medium text-[#003616] hover:bg-interaction-base focus-visible:bg-interaction-base focus:outline-none transition-colors">
+                    class="flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer text-sm font-medium text-ink hover:bg-cream focus-visible:bg-cream focus:outline-none transition-colors">
                   <span class="w-4 h-4 shrink-0 text-cta" data-fancy-check>{ICON['check']}</span>
                   <span data-opt-text class="whitespace-nowrap">{e(t)}</span>
                 </li>""" for i, (v, t) in enumerate(options))
@@ -378,21 +378,21 @@ def sort_select(options, label="ترتيب حسب"):
                    untouched. -->
               <label class="inline-flex items-center gap-2 xl:bg-white px-0 xl:px-4 py-2 rounded-full" aria-label="{e(label)}" data-fancy-fallback>
                 <span class="text-cta shrink-0">{_SORT_ICON}</span>
-                <select class="select-sort bg-transparent font-semibold text-[#003616] text-sm outline-none cursor-pointer appearance-none border-0">{opts}</select>
-                <span class="text-neutral-secondary w-3.5 h-3.5 shrink-0 pointer-events-none">{_SORT_CHEVRON}</span>
+                <select class="select-sort bg-transparent font-semibold text-ink text-sm outline-none cursor-pointer appearance-none border-0">{opts}</select>
+                <span class="text-muted w-3.5 h-3.5 shrink-0 pointer-events-none">{_SORT_CHEVRON}</span>
               </label>
 
               <!-- Custom dropdown (desktop). Starts fully hidden so no-JS keeps
                    the native select; JS switches it to `hidden xl:block`. -->
               <div class="hidden" data-fancy-ui>
                 <button type="button" data-fancy-trigger aria-haspopup="listbox" aria-expanded="false" aria-label="{e(label)}"
-                        class="inline-flex items-center gap-2 bg-interaction-base hover:bg-interaction-tertiary-hover px-4 py-2 rounded-full font-semibold text-[#003616] text-sm transition-colors">
+                        class="inline-flex items-center gap-2 bg-cream hover:bg-cream-hover px-4 py-2 rounded-full font-semibold text-ink text-sm transition-colors">
                   <span class="text-cta shrink-0">{_SORT_ICON}</span>
                   <span data-fancy-label class="whitespace-nowrap">{first_text}</span>
-                  <span class="text-neutral-secondary w-3.5 h-3.5 shrink-0 pointer-events-none">{_SORT_CHEVRON}</span>
+                  <span class="text-muted w-3.5 h-3.5 shrink-0 pointer-events-none">{_SORT_CHEVRON}</span>
                 </button>
                 <ul role="listbox" tabindex="-1" data-fancy-pop
-                    class="hidden top-full end-0 z-40 absolute bg-white shadow-custom3 mt-2 p-1.5 border border-neutral-divider rounded-2xl min-w-[220px]">{li}
+                    class="hidden top-full end-0 z-40 absolute bg-white shadow-custom3 mt-2 p-1.5 border border-divider rounded-2xl min-w-[220px]">{li}
                 </ul>
               </div>
             </div>"""
@@ -410,7 +410,7 @@ def page_header(heading, trail=None):
     crumbs = f"{breadcrumb(trail)}" if trail else ""
     # Same Figma heading treatment as section_heading / the homepage h2s.
     head = (
-        f'\n          <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] '
+        f'\n          <h1 class="font-medium text-heading text-[32px] md:text-[40px] '
         f'leading-[1.2]">{e(heading)}</h1>'
         if heading
         else ""
@@ -476,12 +476,12 @@ def rating(score="4.8", count=None):
                 f'<span class="rating-mark">{ICON["star"]}'
                 f'<span class="rating-mark__fill" style="width:{pct}%">{ICON["star"]}</span>'
                 f'</span>')
-    tail = (f'<span class="text-neutral-secondary text-sm">(<span class="latin">{count}</span> تقييم)</span>'
+    tail = (f'<span class="text-muted text-sm">(<span class="latin">{count}</span> تقييم)</span>'
             if count else "")
     return (f'<div class="flex items-center gap-1.5">'
             f'<span class="rating-marks flex items-center" role="img" '
             f'aria-label="{e(score)} من 5">{"".join(marks)}</span>'
-            f'<span class="font-semibold text-[#003616] text-sm latin">{e(score)}</span>{tail}</div>')
+            f'<span class="font-semibold text-ink text-sm latin">{e(score)}</span>{tail}</div>')
 
 
 def variant_chips(options, name="variant"):
@@ -489,8 +489,8 @@ def variant_chips(options, name="variant"):
     items = "".join(
         f'<label class="cursor-pointer">'
         f'<input type="radio" name="{e(name)}" class="peer sr-only"{" checked" if active else ""} />'
-        f'<span class="inline-flex items-center px-5 py-2 border border-neutral-divider rounded-full '
-        f'font-semibold text-[#003616] text-sm transition-colors peer-checked:bg-cta '
+        f'<span class="inline-flex items-center px-5 py-2 border border-divider rounded-full '
+        f'font-semibold text-ink text-sm transition-colors peer-checked:bg-cta '
         f'peer-checked:border-cta peer-checked:text-white">{e(label)}</span></label>'
         for label, active in options
     )
@@ -525,15 +525,15 @@ def size_chips(p):
         f'{" checked" if str(s.get("id")) == str(current) else ""} '
         f'data-size-option data-size-id="{e(str(s.get("id")))}" '
         f'data-size-price="{s.get("price", 0)}" data-size-label="{e(s.get("label", ""))}" />'
-        f'<span class="inline-flex items-center px-5 py-2 border border-neutral-divider rounded-full '
-        f'font-semibold text-[#003616] text-sm transition-colors peer-checked:bg-cta '
+        f'<span class="inline-flex items-center px-5 py-2 border border-divider rounded-full '
+        f'font-semibold text-ink text-sm transition-colors peer-checked:bg-cta '
         f'peer-checked:border-cta peer-checked:text-white latin">{e(s.get("label", ""))}</span>'
         f'</label>'
         for s in sizes
     )
     return f"""
             <div class="flex flex-col gap-2">
-              <span class="font-semibold text-neutral-secondary text-xs">اختر الحجم</span>
+              <span class="font-semibold text-muted text-xs">اختر الحجم</span>
               <div class="flex flex-wrap gap-2" data-size-chips>{chips}
               </div>
             </div>"""
@@ -582,14 +582,14 @@ def qty_stepper(cart_bound=False):
     # measures 6.39:1 on white, so it stays AA.
     dec_inner = (
         f"""<span class="w-5 h-5" data-line-dec-minus>{ICON['minus']}</span>"""
-        f"""<span class="w-5 h-5 text-neutral-secondary" data-line-dec-trash hidden>{ICON['trash']}</span>"""
+        f"""<span class="w-5 h-5 text-muted" data-line-dec-trash hidden>{ICON['trash']}</span>"""
         if cart_bound else f"""<span class="w-5 h-5">{ICON['minus']}</span>"""
     )
     dec_attr = " data-line-dec" if cart_bound else ""
     return f"""
-              <div data-stepper{bound} class="inline-flex items-center gap-1 bg-white p-1 border border-neutral-divider rounded-full">
-                <button type="button" data-step="-1"{dec_attr} class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-11 text-[#003616] transition-colors" aria-label="إنقاص">{dec_inner}</button>
-                <span data-qty class="min-w-[2.5ch] font-bold text-[#003616] text-base text-center latin">1</span>
+              <div data-stepper{bound} class="inline-flex items-center gap-1 bg-white p-1 border border-divider rounded-full">
+                <button type="button" data-step="-1"{dec_attr} class="place-items-center grid border border-divider hover:bg-cream rounded-full size-11 text-ink transition-colors" aria-label="إنقاص">{dec_inner}</button>
+                <span data-qty class="min-w-[2.5ch] font-bold text-ink text-base text-center latin">1</span>
                 <button type="button" data-step="1" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-11 text-white transition-colors" aria-label="زيادة"><span class="w-5 h-5">{ICON['plus']}</span></button>
               </div>"""
 
@@ -600,13 +600,13 @@ def accordion(items, multi=False):
                 <div class="faq-card accordion-item rounded-xl overflow-hidden{' is-open' if i == 0 else ''}">
                   <button type="button" class="accordion-trigger flex justify-between items-center gap-3 px-4 py-3.5 w-full text-start">
                     <span class="faq-q text-[15px] leading-snug">{e(heading)}</span>
-                    <span class="place-items-center grid size-5 text-[#006328] shrink-0">
+                    <span class="place-items-center grid size-5 text-greenDeep shrink-0">
                       <span class="faq-plus w-4 h-4">{ICON['plus']}</span>
                       <span class="faq-minus w-4 h-4">{ICON['minus']}</span>
                     </span>
                   </button>
                   <div class="accordion-panel">
-                    <div class="px-4 pb-4 text-[#4b5563] text-sm leading-[1.55]">{body}</div>
+                    <div class="px-4 pb-4 text-bodyMuted text-sm leading-[1.55]">{body}</div>
                   </div>
                 </div>""" for i, (heading, body) in enumerate(items))
     return f'<div class="flex flex-col gap-2" data-accordion{" data-accordion-multi" if multi else ""}>{rows}\n              </div>'
@@ -675,7 +675,7 @@ def product_gallery(images, alt, p=None):
                 <button type="button" data-gallery-thumb aria-pressed="{'true' if i == 0 else 'false'}"
                         aria-label="عرض الصورة {i + 1} من {len(images)}"
                         data-fill="{'cover' if _is_photo(t) else 'contain'}"
-                        class="gallery-thumb bg-interaction-base rounded-xl w-20 h-20 shrink-0 overflow-hidden{'' if _is_photo(t) else ' p-2'}">
+                        class="gallery-thumb bg-cream rounded-xl w-20 h-20 shrink-0 overflow-hidden{'' if _is_photo(t) else ' p-2'}">
                   <img src="{e(t)}" alt=""
                        class="w-full h-full {'object-cover' if _is_photo(t) else 'object-contain'}" loading="lazy" />
                 </button>""" for i, t in enumerate(images))
@@ -716,7 +716,7 @@ def product_gallery(images, alt, p=None):
                  the whole page would jump on every thumbnail click. The height
                  is also what the thumbnail strip is capped to. -->
             <div data-gallery-plate data-fill="{'cover' if _is_photo(main_img) else 'contain'}"
-                 class="gallery-plate relative flex-1 bg-interaction-base rounded-[20px] min-w-0 overflow-hidden
+                 class="gallery-plate relative flex-1 bg-cream rounded-[20px] min-w-0 overflow-hidden
                         h-[348px] xl:h-[520px]">
               <img data-gallery-main src="{e(main_img)}" alt="{e(alt)}"
                    data-img-scene="{e(main_img)}" data-img-plain="{e(p['image']) if p else e(main_img)}"
@@ -813,7 +813,7 @@ def best_seller_badge(p):
     # Centre with the flex line box + a fixed pill height instead, which reads
     # centred in both fonts without a per-language nudge.
     return ('<span data-best-seller class="inline-flex self-start items-center bg-[#8ACC3E] px-3 '
-            'rounded-full h-7 font-bold text-[#003616] text-xs leading-none">'
+            'rounded-full h-7 font-bold text-ink text-xs leading-none">'
             f'{e(label)}</span>')
 
 
@@ -838,9 +838,9 @@ def points_callout(p):
     # it from the red proof line; the pill padding is trimmed and it centres in
     # the row rather than sitting to the top (Ahmed, 2026-08-04).
     return ('<span class="inline-flex items-center gap-2">'
-            '<span aria-hidden="true" class="bg-neutral-divider w-px h-4"></span>'
-            '<span class="inline-flex items-center gap-1 bg-[#E9F3E6] px-2.5 py-0.5 '
-            'rounded-full font-bold text-[#00451C] text-xs">'
+            '<span aria-hidden="true" class="bg-divider w-px h-4"></span>'
+            '<span class="inline-flex items-center gap-1 bg-mint px-2.5 py-0.5 '
+            'rounded-full font-bold text-ink-800 text-xs">'
             '<img src="images/jaad/icons/points-3d.png" alt="" class="w-4 h-4 shrink-0 object-contain" />'
             f'<span>اكسب <span class="latin">{pts}</span> نقطة</span></span></span>')
 
@@ -897,8 +897,8 @@ def sold_proof(p):
     flame on the first line rather than centring against a two-line block.
     """
     label = _sold_proof_label(p) or "ضمن الأكثر مبيعاً في جاد"
-    return ('<span data-sold-proof class="inline-flex items-start gap-1.5 font-semibold text-accent-error text-sm">'
-            '<span aria-hidden="true" class="bg-neutral-divider mt-0.5 me-0.5 w-px h-4 self-stretch"></span>'
+    return ('<span data-sold-proof class="inline-flex items-start gap-1.5 font-semibold text-error text-sm">'
+            '<span aria-hidden="true" class="bg-divider mt-0.5 me-0.5 w-px h-4 self-stretch"></span>'
             f'<span class="mt-0.5 w-4 h-4 shrink-0">{ICON["flame"]}</span>'
             f'<span>{label}</span></span>')
 
@@ -927,15 +927,15 @@ def trust_row(items):
     cells = ""
     for icon, title_, sub in items:
         sub_html = (
-            f'\n                <span class="text-neutral-secondary text-xs leading-4">{e(sub)}</span>'
+            f'\n                <span class="text-muted text-xs leading-4">{e(sub)}</span>'
             if sub else ""
         )
         cells += f"""
               <div class="flex flex-col items-center gap-2 text-center">
-                <span class="place-items-center grid bg-interaction-base rounded-full text-cta size-11 shrink-0">
+                <span class="place-items-center grid bg-cream rounded-full text-cta size-11 shrink-0">
                   <span class="w-5 h-5">{ICON[icon]}</span>
                 </span>
-                <span class="font-semibold text-[#003616] text-sm text-balance leading-5 line-clamp-3">{e(title_)}</span>{sub_html}
+                <span class="font-semibold text-ink text-sm text-balance leading-5 line-clamp-3">{e(title_)}</span>{sub_html}
               </div>"""
     return f"""
             <div class="gap-4 grid {cols} pt-1">{cells}
@@ -1000,14 +1000,14 @@ def trust_row_3d(items):
     for icon, title_, sub in items:
         src = _BENEFIT_ICONS_3D.get(icon, _BENEFIT_ICONS_3D["leaf"])
         sub_html = (
-            f'\n                  <span class="text-neutral-secondary text-xs leading-4">{e(sub)}</span>'
+            f'\n                  <span class="text-muted text-xs leading-4">{e(sub)}</span>'
             if sub else ""
         )
         cells += f"""
               <div class="flex items-center gap-1">
                 <img src="{src}" alt="" class="w-12 xl:w-14 h-12 xl:h-14 shrink-0 object-contain" loading="lazy" />
                 <span class="flex flex-col min-w-0">
-                  <span class="font-semibold text-[#003616] text-sm text-balance leading-5">{e(title_)}</span>{sub_html}
+                  <span class="font-semibold text-ink text-sm text-balance leading-5">{e(title_)}</span>{sub_html}
                 </span>
               </div>"""
     return f"""
@@ -1064,13 +1064,13 @@ def specs_block(tagline, desc, points):
     bullets = "".join(f"""
                 <li class="flex items-start gap-2.5">
                   <img src="{leaf3d}" alt="" class="mt-0.5 w-7 h-7 object-contain shrink-0" loading="lazy" />
-                  <span class="text-[#003616] text-sm leading-6">{e(point)}</span>
+                  <span class="text-ink text-sm leading-6">{e(point)}</span>
                 </li>""" for point in points)
     return f"""
-            <div class="flex flex-col gap-4 bg-interaction-base p-5 rounded-2xl">
+            <div class="flex flex-col gap-4 bg-cream p-5 rounded-2xl">
               <div class="flex flex-col gap-0.5">
-                <h2 class="font-bold text-[#29612F] text-base xl:text-lg">{e(tagline)}</h2>
-                <p class="text-neutral-secondary text-sm leading-6">{e(desc)}</p>
+                <h2 class="font-bold text-heading text-base xl:text-lg">{e(tagline)}</h2>
+                <p class="text-muted text-sm leading-6">{e(desc)}</p>
               </div>
               <ul class="flex flex-col gap-2.5">{bullets}
               </ul>
@@ -1124,14 +1124,14 @@ def _field_hints(name, type_, autocomplete=None):
 
 def field(label, name, type_="text", required=False, value="", placeholder="",
           wrap="", autocomplete=None):
-    star = '<span class="text-accent-error">*</span>' if required else ""
+    star = '<span class="text-error">*</span>' if required else ""
     hints = _field_hints(name, type_, autocomplete)
     return f"""
                 <div class="flex flex-col gap-1.5 {wrap}">
-                  <label for="{e(name)}" class="font-medium text-neutral-secondary text-sm">{e(label)}{star}</label>
+                  <label for="{e(name)}" class="font-medium text-muted text-sm">{e(label)}{star}</label>
                   <input type="{e(type_)}" id="{e(name)}" name="{e(name)}"{' required' if required else ''}{hints}
                          value="{e(value)}" placeholder="{e(placeholder)}"
-                         class="bg-white border border-neutral-divider rounded-2xl px-4 h-12 w-full text-[#003616] text-base placeholder:text-neutral-secondary outline-none focus:border-primary focus:ring-2 focus:ring-[#98CA55] transition-colors" />
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors" />
                 </div>"""
 
 
@@ -1141,41 +1141,41 @@ def phone_field(label="رقم الموبايل", name="mobile", required=True, v
     prefix is fixed rather than a country picker. The whole control is `dir=ltr`
     so the +20 sits on the visual left and the digits read left-to-right, like a
     phone number, inside the RTL form."""
-    star = '<span class="text-accent-error">*</span>' if required else ""
+    star = '<span class="text-error">*</span>' if required else ""
     hints = _field_hints(name, "tel")
-    help_html = (f'<p class="text-neutral-secondary text-xs">{e(help_text)}</p>'
+    help_html = (f'<p class="text-muted text-xs">{e(help_text)}</p>'
                  if help_text else "")
     return f"""
                 <div class="flex flex-col gap-1.5">
-                  <label for="{e(name)}" class="font-medium text-neutral-secondary text-sm">{e(label)}{star}</label>
+                  <label for="{e(name)}" class="font-medium text-muted text-sm">{e(label)}{star}</label>
                   <!-- Rebuilt clean (Ahmed, 2026-08-19): ONE rounded control, the
                        Egypt flag + +20 as a plain leading adornment on the SAME
                        white surface as the number. No inner cell and NO divider
                        rule — the old divider between the prefix and the input
                        read as a stray vertical line after "+20". The whole field
                        carries the green focus ring; the prefix is just text. -->
-                  <div data-phone-field dir="ltr" class="flex items-center bg-white border border-neutral-divider focus-within:border-cta focus-within:ring-2 focus-within:ring-[#98CA55] rounded-2xl transition-colors">
-                    <span class="flex items-center gap-2 ps-4 pe-2.5 shrink-0 font-semibold text-[#003616] text-base latin">
+                  <div data-phone-field dir="ltr" class="flex items-center bg-white border border-divider focus-within:border-cta focus-within:ring-2 focus-within:ring-limeFigma rounded-2xl transition-colors">
+                    <span class="flex items-center gap-2 ps-4 pe-2.5 shrink-0 font-semibold text-ink text-base latin">
                       <img src="images/jaad/brand/flag-egypt.svg" alt="" class="w-5 h-5 rounded-full object-cover shrink-0" />
                       +20
                     </span>
                     <input type="tel" id="{e(name)}" name="{e(name)}"{' required' if required else ''}{hints} dir="ltr" value="{e(value)}"
                            placeholder="100 123 4567"
-                           class="flex-1 bg-transparent py-3.5 pe-4 outline-none min-w-0 text-[#003616] text-base latin" />
+                           class="flex-1 bg-transparent py-3.5 pe-4 outline-none min-w-0 text-ink text-base latin" />
                   </div>
                   {help_html}
                 </div>"""
 
 
 def select_field(label, name, options, required=False, wrap=""):
-    star = '<span class="text-accent-error">*</span>' if required else ""
+    star = '<span class="text-error">*</span>' if required else ""
     opts = "".join(f'<option value="{e(o)}">{e(o)}</option>' for o in options)
     hints = _field_hints(name, "select")
     return f"""
                 <div class="flex flex-col gap-1.5 {wrap}">
-                  <label for="{e(name)}" class="font-medium text-neutral-secondary text-sm">{e(label)}{star}</label>
+                  <label for="{e(name)}" class="font-medium text-muted text-sm">{e(label)}{star}</label>
                   <select id="{e(name)}" name="{e(name)}"{' required' if required else ''}{hints}
-                          class="select-control bg-white border border-neutral-divider rounded-2xl px-4 h-12 w-full text-[#003616] text-base placeholder:text-neutral-secondary outline-none focus:border-primary focus:ring-2 focus:ring-[#98CA55] transition-colors">
+                          class="select-control bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors">
                     <option value="">اختر</option>{opts}
                   </select>
                 </div>"""
@@ -1219,7 +1219,7 @@ def gift_toggle():
     """
     terms = "".join(f"""
                   <li class="flex items-start gap-2">
-                    <span class="mt-0.5 text-accent-green shrink-0 w-4 h-4">{ICON['check']}</span>
+                    <span class="mt-0.5 text-lime shrink-0 w-4 h-4">{ICON['check']}</span>
                     <span>{t}</span>
                   </li>""" for t in GIFT_TERMS)
     return f"""
@@ -1234,15 +1234,15 @@ def gift_toggle():
                    form control inside a <label> that labels a DIFFERENT control
                    gets claimed by it, so clicking the recipient's name would
                    have toggled gifting off. -->
-              <div class="bg-white p-5 border border-neutral-divider rounded-xl">
+              <div class="bg-white p-5 border border-divider rounded-xl">
                 <input type="checkbox" id="gift-order" data-switch data-gift-switch class="sr-only" />
                 <label for="gift-order" class="flex items-center gap-3 cursor-pointer">
-                  <span class="place-items-center grid bg-accent-green/10 rounded-full text-accent-green size-10 shrink-0">
+                  <span class="place-items-center grid bg-lime/10 rounded-full text-lime size-10 shrink-0">
                     <span class="w-5 h-5">{ICON['gift']}</span>
                   </span>
                   <span class="flex flex-col flex-1 gap-0.5 min-w-0">
-                    <span class="font-semibold text-[#003616] text-base">إهداء الطلب</span>
-                    <span class="text-neutral-secondary text-xs leading-5">أرسل الطلب كهدية لشخص تحبه</span>
+                    <span class="font-semibold text-ink text-base">إهداء الطلب</span>
+                    <span class="text-muted text-xs leading-5">أرسل الطلب كهدية لشخص تحبه</span>
                   </span>
                   <span class="switch shrink-0" aria-hidden="true"><span class="switch__knob"></span></span>
                 </label>
@@ -1253,12 +1253,12 @@ def gift_toggle():
                      meant you could only read the consequences after accepting
                      them. Only the recipient fields collapse, because those are
                      the part that genuinely does not exist until you gift. -->
-                <ul class="flex flex-col gap-2 mt-4 pt-4 border-neutral-divider border-t text-neutral-secondary text-xs leading-5">{terms}
+                <ul class="flex flex-col gap-2 mt-4 pt-4 border-divider border-t text-muted text-xs leading-5">{terms}
                 </ul>
                 <div class="gift-panel" data-gift-panel aria-hidden="true">
                   <div>
                     <div class="flex flex-col gap-4 mt-4">
-                      <p class="font-semibold text-[#003616] text-sm">بيانات المستلم</p>
+                      <p class="font-semibold text-ink text-sm">بيانات المستلم</p>
                       <div class="gap-4 grid sm:grid-cols-2">
 {field("اسم المستلم", "recipient-name")}
 {field("رقم هاتف المستلم", "recipient-phone", "tel")}
@@ -1313,33 +1313,33 @@ def checkout_summary(lines_html, subtotal, total, delivery_fee, interactive=True
     return f"""
           <aside class="lg:top-4 lg:sticky flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px] order-2 lg:order-none min-w-0">
             <div class="flex justify-between items-center gap-3">
-              <h2 class="font-bold text-[#29612F] text-xl">ملخص السلة</h2>
+              <h2 class="font-bold text-heading text-xl">ملخص السلة</h2>
               {edit_link}
             </div>
             <div class="flex flex-col gap-4" data-cart-lines>{lines_html}
             </div>
             {controls}
-            <div class="flex flex-col gap-2 pt-3 border-neutral-divider border-t text-sm">
+            <div class="flex flex-col gap-2 pt-3 border-divider border-t text-sm">
               <div class="flex justify-between">
-                <span class="text-neutral-secondary">مصاريف التوصيل</span>
-                <span class="font-semibold text-[#003616] latin" data-cart-delivery>EGP {money(delivery_fee)}</span>
+                <span class="text-muted">مصاريف التوصيل</span>
+                <span class="font-semibold text-ink latin" data-cart-delivery>EGP {money(delivery_fee)}</span>
               </div>
               <div class="flex justify-between">
-                <span class="text-neutral-secondary">الإجمالي</span>
-                <span class="font-semibold text-[#003616] latin" data-cart-subtotal>EGP {money(subtotal)}</span>
+                <span class="text-muted">الإجمالي</span>
+                <span class="font-semibold text-ink latin" data-cart-subtotal>EGP {money(subtotal)}</span>
               </div>
               <div class="flex justify-between items-center" data-cart-discount-row hidden>
-                <span class="text-neutral-secondary">خصم المحفظة</span>
-                <span class="inline-flex items-center h-[13px] -me-2 bg-[#E9F3E6] px-2 rounded font-bold text-[#00451C] text-sm latin" data-cart-discount></span>
+                <span class="text-muted">خصم المحفظة</span>
+                <span class="inline-flex items-center h-[13px] -me-2 bg-mint px-2 rounded font-bold text-ink-800 text-sm latin" data-cart-discount></span>
               </div>
               <div class="flex justify-between items-center" data-cart-promo-row hidden>
-                <span class="text-neutral-secondary">خصم كود الخصم</span>
-                <span class="inline-flex items-center h-[13px] -me-2 bg-[#E9F3E6] px-2 rounded font-bold text-[#00451C] text-sm latin" data-cart-promo-discount></span>
+                <span class="text-muted">خصم كود الخصم</span>
+                <span class="inline-flex items-center h-[13px] -me-2 bg-mint px-2 rounded font-bold text-ink-800 text-sm latin" data-cart-promo-discount></span>
               </div>
             </div>
-            <div class="flex justify-between items-center pt-3 border-neutral-divider border-t">
-              <span class="font-bold text-[#003616] text-base">الإجمالي</span>
-              <span class="font-bold text-[#003616] text-2xl latin" data-cart-total>EGP {money(total)}</span>
+            <div class="flex justify-between items-center pt-3 border-divider border-t">
+              <span class="font-bold text-ink text-base">الإجمالي</span>
+              <span class="font-bold text-ink text-2xl latin" data-cart-total>EGP {money(total)}</span>
             </div>
           </aside>"""
 
@@ -1352,7 +1352,7 @@ def checkout_steps(current):
     Shared for the same reason as the summary: two pages drawing their own
     copy is how a stepper ends up highlighting step 2 on the step-3 page.
     """
-    sep = '<span aria-hidden="true" class="text-neutral-outline">/</span>'
+    sep = '<span aria-hidden="true" class="text-outline">/</span>'
     # A completed step is a real link back to its own page, so a shopper on
     # step 3 can return to step 1 from the stepper (Ahmed, 2026-08-04). Index-
     # aligned with CHECKOUT_STEPS; the current step and any step ahead are NOT
@@ -1367,7 +1367,7 @@ def checkout_steps(current):
         # 3 should be able to see that 1 and 2 are behind them.
         done = i < current
         can_go = done and hrefs[i]
-        # #E9F3E6 opaque, NOT `bg-accent-green/15`. The alpha version renders
+        # #E9F3E6 opaque, NOT `bg-lime/15`. The alpha version renders
         # the same to the eye (#618F2B on it measures ~5.4:1) but the sweep's
         # `bgOf()` treats any non-zero alpha as an opaque colour, so it compared
         # the tick against its own ink and reported 1.00:1 — three standing
@@ -1376,11 +1376,11 @@ def checkout_steps(current):
         # discount chip and the wallet card already use, so "good news" is one
         # colour across the checkout rather than two near-identical greens.
         dot = ("bg-cta text-white" if is_now
-               else "bg-[#E9F3E6] text-accent-green" if done
-               else "bg-interaction-base text-neutral-secondary")
-        text = ("font-semibold text-[#003616]" if is_now
-                else "text-accent-green" if done
-                else "text-neutral-secondary")
+               else "bg-mint text-lime" if done
+               else "bg-cream text-muted")
+        text = ("font-semibold text-ink" if is_now
+                else "text-lime" if done
+                else "text-muted")
         tail = "" if i == len(CHECKOUT_STEPS) - 1 else sep
         mark = "✓" if done else str(i + 1)
         # link-sweep gives a completed step the same hover underline as the
@@ -1418,9 +1418,9 @@ def promo_field(readonly=False):
     if readonly:
         return f"""
               <div data-promo class="contents">
-                <div data-promo-applied hidden class="flex items-center gap-2 bg-[#E9F3E6] px-3 py-2 rounded-xl">
+                <div data-promo-applied hidden class="flex items-center gap-2 bg-mint px-3 py-2 rounded-xl">
                   <img src="images/jaad/icons/discount-tag-3d.png" alt="" class="w-auto h-8 shrink-0" />
-                  <span class="min-w-0 text-[#00451C] text-sm truncate">تم تطبيق <span class="font-bold latin" data-promo-applied-code></span></span>
+                  <span class="min-w-0 text-ink-800 text-sm truncate">تم تطبيق <span class="font-bold latin" data-promo-applied-code></span></span>
                 </div>
               </div>"""
 
@@ -1442,14 +1442,14 @@ def promo_field(readonly=False):
                   <div class="flex items-center gap-2">
                     <input type="text" data-promo-input inputmode="latin" autocomplete="off"
                            placeholder="{e('أدخل كود الخصم')}"
-                           class="flex-1 bg-white border border-neutral-divider rounded-2xl px-3 py-2 min-w-0 text-[#003616] text-sm placeholder:text-neutral-secondary outline-none focus:border-primary focus:ring-2 focus:ring-[#98CA55] transition-colors latin" />
+                           class="flex-1 bg-white border border-divider rounded-2xl px-3 py-2 min-w-0 text-ink text-sm placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors latin" />
                     <!-- Secondary (outline) button (Ahmed, 2026-08-05): the
                          Apply sits next to the primary green order CTA below, so
                          a second solid-green button competed with it for the
                          eye. An outline keeps it clearly actionable while the
                          filled CTA stays the one obvious next step. -->
                     <button type="button" data-promo-apply
-                            class="bg-white hover:bg-interaction-base px-4 border border-cta rounded-full min-h-11 font-semibold text-cta text-sm whitespace-nowrap transition-colors">تطبيق</button>
+                            class="bg-white hover:bg-cream px-4 border border-cta rounded-full min-h-11 font-semibold text-cta text-sm whitespace-nowrap transition-colors">تطبيق</button>
                   </div>
                   <p data-promo-msg hidden class="text-xs leading-5"></p>
                 </div>
@@ -1457,12 +1457,12 @@ def promo_field(readonly=False):
                      chip. renderCart -> syncPromoUI swaps between the trigger,
                      the input box and this on every change, so it is right on
                      load, after apply, and across cart -> checkout. -->
-                <div data-promo-applied hidden class="flex justify-between items-center gap-2 bg-[#E9F3E6] px-3 py-2 rounded-xl">
-                  <span class="flex items-center gap-2 min-w-0 text-[#00451C] text-sm">
+                <div data-promo-applied hidden class="flex justify-between items-center gap-2 bg-mint px-3 py-2 rounded-xl">
+                  <span class="flex items-center gap-2 min-w-0 text-ink-800 text-sm">
                     <img src="images/jaad/icons/discount-tag-3d.png" alt="" class="w-auto h-8 shrink-0" />
                     <span class="truncate">تم تطبيق <span class="font-bold latin" data-promo-applied-code></span></span>
                   </span>
-                  <button type="button" data-promo-remove class="shrink-0 font-semibold text-accent-error text-xs underline">إلغاء</button>
+                  <button type="button" data-promo-remove class="shrink-0 font-semibold text-error text-xs underline">إلغاء</button>
                 </div>
               </div>"""
 
@@ -1495,38 +1495,38 @@ def order_notes(readonly=False):
         # Hidden until syncNoteUI finds a stored note.
         return f"""
               <div data-note data-note-readonly hidden class="flex flex-col gap-2">
-                <span class="font-semibold text-neutral-secondary text-xs">ملاحظة الطلب</span>
-                <div class="flex items-center gap-2 bg-interaction-base px-3 py-2.5 border border-neutral-divider rounded-2xl">
+                <span class="font-semibold text-muted text-xs">ملاحظة الطلب</span>
+                <div class="flex items-center gap-2 bg-cream px-3 py-2.5 border border-divider rounded-2xl">
                   <span class="shrink-0 text-primary"><span class="block w-4 h-4">{ICON['note']}</span></span>
-                  <span class="flex-1 min-w-0 text-[#003616] text-sm" data-note-text></span>
+                  <span class="flex-1 min-w-0 text-ink text-sm" data-note-text></span>
                 </div>
               </div>"""
     return f"""
               <div data-note class="flex flex-col gap-2">
                 <button type="button" data-note-open class="flex items-center gap-2 self-start min-h-11 font-semibold text-cta text-sm">
-                  <span class="place-items-center grid bg-interaction-base rounded-full size-6 shrink-0"><span class="w-3.5 h-3.5">{ICON['plus']}</span></span>
+                  <span class="place-items-center grid bg-cream rounded-full size-6 shrink-0"><span class="w-3.5 h-3.5">{ICON['plus']}</span></span>
                   أضف ملاحظة على الطلب
                 </button>
                 <div data-note-edit hidden class="flex flex-col gap-2">
                   <!-- aria-label, not placeholder alone: a placeholder disappears
                        the moment you type, so it cannot be the accessible name. -->
                   <textarea rows="3" placeholder="أضف ملاحظة على طلبك" aria-label="ملاحظات على الطلب" data-order-note
-                            class="bg-white border border-neutral-divider rounded-2xl px-4 py-3 w-full text-[#003616] text-sm placeholder:text-neutral-secondary outline-none focus:border-primary focus:ring-2 focus:ring-[#98CA55] transition-colors"></textarea>
+                            class="bg-white border border-divider rounded-2xl px-4 py-3 w-full text-ink text-sm placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors"></textarea>
                   <!-- Compact buttons (Ahmed, 2026-08-04): the save was oversized
                        for a note editor. Padding-based height (~34px) — still well
                        above the 24px WCAG 2.5.8 floor. -->
                   <div class="flex items-center gap-1 self-end">
-                    <button type="button" data-note-cancel class="px-3 py-1.5 font-semibold text-neutral-secondary text-xs">إلغاء</button>
+                    <button type="button" data-note-cancel class="px-3 py-1.5 font-semibold text-muted text-xs">إلغاء</button>
                     <button type="button" data-order-note-save class="bg-cta hover:bg-cta-hover px-4 py-1.5 rounded-full font-semibold text-white text-xs transition-colors">حفظ الملاحظة</button>
                   </div>
                 </div>
                 <!-- Filled note: reads as a standard input. The flex-1 button is
                      the edit trigger (clicking the note text reopens the editor);
                      the X removes it. Hover cue lives on `.note-filled`. -->
-                <div data-note-view hidden class="note-filled flex items-center gap-2 bg-white px-3 py-2.5 border border-neutral-divider rounded-2xl transition-colors">
+                <div data-note-view hidden class="note-filled flex items-center gap-2 bg-white px-3 py-2.5 border border-divider rounded-2xl transition-colors">
                   <span class="shrink-0 text-primary"><span class="block w-4 h-4">{ICON['note']}</span></span>
-                  <button type="button" data-note-edit-btn class="flex-1 min-w-0 text-start text-[#003616] text-sm truncate" aria-label="تعديل الملاحظة"><span data-note-text></span></button>
-                  <button type="button" data-note-remove class="place-items-center grid shrink-0 rounded-full size-6 text-neutral-secondary hover:text-accent-error hover:bg-interaction-base transition-colors" aria-label="حذف الملاحظة"><span class="w-3.5 h-3.5">{ICON['close']}</span></button>
+                  <button type="button" data-note-edit-btn class="flex-1 min-w-0 text-start text-ink text-sm truncate" aria-label="تعديل الملاحظة"><span data-note-text></span></button>
+                  <button type="button" data-note-remove class="place-items-center grid shrink-0 rounded-full size-6 text-muted hover:text-error hover:bg-cream transition-colors" aria-label="حذف الملاحظة"><span class="w-3.5 h-3.5">{ICON['close']}</span></button>
                 </div>
               </div>"""
 
@@ -1544,8 +1544,8 @@ def freeship_bar():
     """
     return """
               <div data-freeship hidden class="flex flex-col gap-1.5">
-                <p class="text-[#003616] text-xs leading-5" data-freeship-msg></p>
-                <div class="bg-interaction-base rounded-full w-full h-2 overflow-hidden">
+                <p class="text-ink text-xs leading-5" data-freeship-msg></p>
+                <div class="bg-cream rounded-full w-full h-2 overflow-hidden">
                   <div data-freeship-fill class="bg-cta rounded-full h-full transition-[width] duration-500" style="width:0%"></div>
                 </div>
               </div>"""
@@ -1574,7 +1574,7 @@ def radio_card(name, value, heading, sub="", icon="", checked=False, accent=Fals
     gift card, and it only paints when the card is actually chosen, which is
     the distinction that was wanted in the first place.
     """
-    sub_html = f'<span class="text-neutral-secondary text-xs">{e(sub)}</span>' if sub else ""
+    sub_html = f'<span class="text-muted text-xs">{e(sub)}</span>' if sub else ""
     icon_html = f'<span class="text-cta shrink-0">{icon}</span>'
     # `blocked_note` renders in the RADIO DOT's place, not under the card
     # (Ahmed, 2026-07-26): while the option is unavailable there is nothing to
@@ -1583,7 +1583,7 @@ def radio_card(name, value, heading, sub="", icon="", checked=False, accent=Fals
     # `.option-blocked` on an ancestor (styles.css) — no JS toggles it, so the
     # dot and the note can never both be visible.
     note_html = (
-        f'<span class="blocked-note shrink-0 text-neutral-secondary text-xs text-end leading-4">{e(blocked_note)}</span>'
+        f'<span class="blocked-note shrink-0 text-muted text-xs text-end leading-4">{e(blocked_note)}</span>'
         if blocked_note else ""
     )
     # The right-aligned status text (skill §3). Two states, and the distinction
@@ -1614,11 +1614,11 @@ def radio_card(name, value, heading, sub="", icon="", checked=False, accent=Fals
                      you love". Latent until the site actually translated. -->
                 <label class="flex-1 min-w-0 cursor-pointer"{opens_attr}>
                   <input type="radio" name="{e(name)}" value="{e(value)}" class="peer sr-only"{' checked' if checked else ''} />
-                  <span class="flex justify-between items-center gap-3 bg-white px-5 py-4 border border-neutral-divider peer-checked:border-primary peer-checked:bg-primary-50 rounded-2xl transition-colors h-full{' radio-card-accent' if accent else ''}">
+                  <span class="flex justify-between items-center gap-3 bg-white px-5 py-4 border border-divider peer-checked:border-primary peer-checked:bg-primary-50 rounded-2xl transition-colors h-full{' radio-card-accent' if accent else ''}">
                     <span class="radio-card__body flex items-center gap-3 min-w-0">
                       {icon_html}
                       <span class="flex flex-col min-w-0">
-                        <span class="font-semibold text-[#003616] text-base">{e(heading)}</span>
+                        <span class="font-semibold text-ink text-base">{e(heading)}</span>
                         {sub_html}
                       </span>
                     </span>
@@ -1644,7 +1644,7 @@ def price_sticker(price, size="md"):
         "lg": ("px-3 py-1", "rounded-tl-[22px] rounded-br-[22px]", "shadow-[3px_5px_0px_#98CA55]", "text-[19px]", "text-[32px]"),
     }
     pad, rad, sh, egp, wh = variants.get(size, variants["md"])
-    return (f'<span class="inline-flex items-end gap-0.5 shrink-0 bg-[#006328] {sh} {pad} {rad} font-bold text-white latin">'
+    return (f'<span class="inline-flex items-end gap-0.5 shrink-0 bg-greenDeep {sh} {pad} {rad} font-bold text-white latin">'
             f'<span class="{egp} leading-[1.4]">EGP</span>'
             f'<span class="{wh} leading-none">{whole}</span>'
             f'<span class="{egp} leading-[1.4]">.{dec}</span></span>')
@@ -1661,16 +1661,16 @@ def cart_line(p, qty=1, weight="250 جم"):
               <!-- data-cart-static: server-rendered so the page is not blank
                    without JS, but the cart store owns this list once it boots
                    and clears these on its first render. -->
-              <article data-cart-static class="flex flex-wrap sm:flex-nowrap items-center gap-4 py-5 border-neutral-divider border-b">
-                <img src="{e(p['image'])}" alt="{e(_title(p))}" class="bg-interaction-base p-2 rounded-xl w-20 h-20 object-contain shrink-0" loading="lazy" />
+              <article data-cart-static class="flex flex-wrap sm:flex-nowrap items-center gap-4 py-5 border-divider border-b">
+                <img src="{e(p['image'])}" alt="{e(_title(p))}" class="bg-cream p-2 rounded-xl w-20 h-20 object-contain shrink-0" loading="lazy" />
                 <div class="flex flex-col flex-1 gap-1 min-w-[7rem]">
-                  <h3 class="font-semibold text-[#29612F] text-base line-clamp-2">{e(_title(p))}</h3>
-                  <span class="text-neutral-secondary text-xs">{e(weight)}</span>
-                  <button type="button" class="mt-1 text-accent-error text-xs underline self-start">حذف</button>
+                  <h3 class="font-semibold text-heading text-base line-clamp-2">{e(_title(p))}</h3>
+                  <span class="text-muted text-xs">{e(weight)}</span>
+                  <button type="button" class="mt-1 text-error text-xs underline self-start">حذف</button>
                 </div>
-                <div data-stepper class="inline-flex items-center gap-1 p-1 border border-neutral-divider rounded-full shrink-0">
-                  <button type="button" data-step="-1" class="place-items-center grid size-9 text-[#003616] transition-colors hover:bg-interaction-base rounded-full" aria-label="إنقاص"><span class="w-4 h-4">{ICON['minus']}</span></button>
-                  <span data-qty class="min-w-[2ch] font-semibold text-[#003616] text-sm text-center latin">{qty}</span>
+                <div data-stepper class="inline-flex items-center gap-1 p-1 border border-divider rounded-full shrink-0">
+                  <button type="button" data-step="-1" class="place-items-center grid size-9 text-ink transition-colors hover:bg-cream rounded-full" aria-label="إنقاص"><span class="w-4 h-4">{ICON['minus']}</span></button>
+                  <span data-qty class="min-w-[2ch] font-semibold text-ink text-sm text-center latin">{qty}</span>
                   <button type="button" data-step="1" class="place-items-center grid size-9 bg-cta hover:bg-cta-hover text-white transition-colors rounded-full" aria-label="زيادة"><span class="w-4 h-4">{ICON['plus']}</span></button>
                 </div>
                 {price_sticker(p['price'], "sm")}
@@ -1718,7 +1718,7 @@ def wallet_toggle(balance=WALLET_BALANCE):
                  beside "الدفع من المحفظة" instead of stacked under it, so the
                  widget is a compact row rather than a two-line card. -->
             <label data-wallet-toggle data-wallet-balance="{balance}"
-                   class="wallet-toggle flex items-center gap-3 bg-[#E9F3E6] px-4 py-3 rounded-xl cursor-pointer">
+                   class="wallet-toggle flex items-center gap-3 bg-mint px-4 py-3 rounded-xl cursor-pointer">
               <!-- The client's 3D wallet render (Ahmed, 2026-08-05), the same
                    glyph the account dashboard, the wallet page and the wallet
                    stat card already use — so the summary's "pay from wallet"
@@ -1727,7 +1727,7 @@ def wallet_toggle(balance=WALLET_BALANCE):
                    circle it replaces, so the fixed-height row does not shift. -->
               <img src="images/jaad/icons/wallet-3d.png" alt="" class="w-9 h-9 object-contain shrink-0" />
               <span class="flex flex-1 flex-wrap items-center gap-x-2 gap-y-0.5 min-w-0">
-                <span class="font-semibold text-[#003616] text-sm">الدفع من المحفظة</span>
+                <span class="font-semibold text-ink text-sm">الدفع من المحفظة</span>
                 <!-- Idle balance and the "deducted" caption share ONE grid cell,
                      so whichever shows, the row is the same height and a toggle
                      cannot resize the summary column. `invisible` (not the
@@ -1738,8 +1738,8 @@ def wallet_toggle(balance=WALLET_BALANCE):
                      data-wallet-amount stays so syncWalletBalance can update the
                      figure when redeemed points top the wallet up. -->
                 <span class="grid">
-                  <span class="col-start-1 row-start-1 inline-flex items-center self-start bg-white/70 px-2 rounded-full font-bold text-accent-green text-xs leading-5 latin" data-wallet-idle data-wallet-amount>EGP {balance}</span>
-                  <span class="col-start-1 row-start-1 inline-flex items-center self-start font-semibold text-accent-green text-xs leading-5 invisible" data-wallet-used>تم الخصم</span>
+                  <span class="col-start-1 row-start-1 inline-flex items-center self-start bg-white/70 px-2 rounded-full font-bold text-lime text-xs leading-5 latin" data-wallet-idle data-wallet-amount>EGP {balance}</span>
+                  <span class="col-start-1 row-start-1 inline-flex items-center self-start font-semibold text-lime text-xs leading-5 invisible" data-wallet-used>تم الخصم</span>
                 </span>
               </span>
               <!-- The real control. sr-only rather than display:none so it
@@ -1766,9 +1766,9 @@ def bundle_item(p, checked=True):
                        data-id="{e(p.get('id', 0))}" data-name="{e(_title(p))}"
                        data-price="{e(p['price'])}" data-image="{e(p['image'])}"
                        class="flex items-center gap-3 py-2 cursor-pointer">
-                  <input type="checkbox" data-bundle-check{' checked' if checked else ''} class="accent-[#00451C] shrink-0 rounded w-5 h-5" />
-                  <img src="{e(p['image'])}" alt="" class="bg-interaction-base shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
-                  <span class="flex-1 min-w-0 text-[#003616] text-sm leading-5 line-clamp-2">{e(_title(p))}</span>
+                  <input type="checkbox" data-bundle-check{' checked' if checked else ''} class="accent-ink-800 shrink-0 rounded w-5 h-5" />
+                  <img src="{e(p['image'])}" alt="" class="bg-cream shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
+                  <span class="flex-1 min-w-0 text-ink text-sm leading-5 line-clamp-2">{e(_title(p))}</span>
                   {price_sticker(p['price'], "sm")}
                 </label>"""
 
@@ -1808,7 +1808,7 @@ def product_widget(p, sale=None, slide=True, cat=None):
     whole = int(price)
     dec = f"{round((price - whole) * 100):02d}"
     on_offer = sale is not None and (p.get("price") or 0) > sale
-    old = (f'<span class="text-neutral-secondary text-sm line-through latin">EGP {money(p["price"])}</span>'
+    old = (f'<span class="text-muted text-sm line-through latin">EGP {money(p["price"])}</span>'
            if on_offer else "")
     width = "w-[258px] shrink-0 snap-start" if slide else "w-full"
     # Prefer the styled Figma photography where we have it (keyed by id).
@@ -1842,16 +1842,16 @@ def product_widget(p, sale=None, slide=True, cat=None):
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4">{ICON['minus']}</span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4">{ICON['minus']}</span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4">{ICON['plus']}</span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">{whole}</span>
                   <span class="text-[18px] leading-[1.4]">.{dec}</span>
@@ -1859,7 +1859,7 @@ def product_widget(p, sale=None, slide=True, cat=None):
                 {old}
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-{pid}.html" data-product-title class="hover:text-[#29612F] transition-colors">{e(en_name)}</a>
+                <a href="product-{pid}.html" data-product-title class="hover:text-heading transition-colors">{e(en_name)}</a>
               </h3>
             </div>
           </article>"""
@@ -1876,12 +1876,12 @@ def category_tile(cat, label=None, href="shop-category.html"):
     name = label or cat["ar"]
     return f"""
         <a href="{href}" class="group flex flex-col items-center gap-3 sm:gap-4 w-full sm:w-[220px] xl:w-[250px] text-center">
-          <span class="tile-lift relative bg-beige rounded-[20px] w-full aspect-square overflow-hidden group-hover:scale-[1.03]">
+          <span class="tile-lift relative bg-cream rounded-[20px] w-full aspect-square overflow-hidden group-hover:scale-[1.03]">
             <img src="{e(cat['image'])}" alt="{e(name)}" class="w-full h-full object-cover" loading="lazy" />
           </span>
           <span class="flex flex-col gap-1">
-            <span class="font-bold text-[#003616] group-hover:text-primary text-base sm:text-xl xl:text-2xl transition-colors">{e(name)}</span>
-            <span class="font-medium text-neutral-secondary text-sm sm:text-base xl:text-xl">تشكيلة متنوعة تبدا من <span class="latin">17</span> جنية</span>
+            <span class="font-bold text-ink group-hover:text-primary text-base sm:text-xl xl:text-2xl transition-colors">{e(name)}</span>
+            <span class="font-medium text-muted text-sm sm:text-base xl:text-xl">تشكيلة متنوعة تبدا من <span class="latin">17</span> جنية</span>
           </span>
         </a>"""
 
@@ -1909,7 +1909,7 @@ def review_card(name, city, text, score="4.8"):
                grid (md+) both stretch every card to the tallest — equal heights
                either way (Ahmed, 2026-08-02). -->
           <article class="flex flex-col gap-5 bg-[#14432f] p-6 xl:p-8 rounded-[20px] w-[80%] sm:w-[340px] md:w-auto shrink-0 snap-start">
-            <span class="block w-10 xl:w-12 h-10 xl:h-12 text-accent-yellow" aria-hidden="true">{ICON['quote']}</span>
+            <span class="block w-10 xl:w-12 h-10 xl:h-12 text-lime" aria-hidden="true">{ICON['quote']}</span>
             <p class="flex-1 text-white/90 text-base xl:text-lg leading-8">{e(text)}</p>
             <div class="flex items-center gap-3">
               <span class="place-items-center grid bg-primary rounded-full font-bold text-white shrink-0 size-11" aria-hidden="true">{e(initials)}</span>
@@ -1934,8 +1934,8 @@ def article_card(img, tags, meta, title_, excerpt, href="blog.html", rail=False)
     scrolling track needs; the grid variant fills its column.
     """
     tag_html = "".join(
-        f'<span class="inline-flex items-center px-3 py-1 border border-[#29612F] '
-        f'rounded-full font-medium text-[#29612F] text-xs">{e(t)}</span>'
+        f'<span class="inline-flex items-center px-3 py-1 border border-heading '
+        f'rounded-full font-medium text-heading text-xs">{e(t)}</span>'
         for t in tags
     )
     # On phones a rail card is a fixed slide; from md up it becomes a grid cell.
@@ -1948,10 +1948,10 @@ def article_card(img, tags, meta, title_, excerpt, href="blog.html", rail=False)
                 </div>
                 <div class="flex flex-wrap justify-between items-center gap-2">
                   <div class="flex flex-wrap gap-2">{tag_html}</div>
-                  <span class="font-medium text-[#636959] text-[13px] whitespace-nowrap">{e(meta)}</span>
+                  <span class="font-medium text-metaGray text-[13px] whitespace-nowrap">{e(meta)}</span>
                 </div>
-                <h3 class="font-bold text-[#006328] text-lg leading-[1.4] group-hover:underline">{e(title_)}</h3>
-                <p class="text-[#1e2219] text-sm leading-[1.5] line-clamp-3">{e(excerpt)}</p>
+                <h3 class="font-bold text-greenDeep text-lg leading-[1.4] group-hover:underline">{e(title_)}</h3>
+                <p class="text-bodyInk text-sm leading-[1.5] line-clamp-3">{e(excerpt)}</p>
               </a>"""
 
 
@@ -1964,9 +1964,9 @@ def article_card(img, tags, meta, title_, excerpt, href="blog.html", rail=False)
 def info_card(img, heading, body, cta_label, cta_href, img_class="w-[100px] h-[100px]"):
     """The paired branches / export cards at the foot of the home page."""
     return f"""
-            <div class="flex flex-col items-center gap-4 bg-interaction-base px-6 py-12 xl:py-16 rounded-[20px] text-center">
+            <div class="flex flex-col items-center gap-4 bg-cream px-6 py-12 xl:py-16 rounded-[20px] text-center">
               <img src="{e(img)}" alt="" class="{img_class} object-contain" loading="lazy" />
-              <h3 class="mt-4 font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">{e(heading)}</h3>
+              <h3 class="mt-4 font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">{e(heading)}</h3>
               <p class="max-w-[280px] text-neutral-800 text-base xl:text-lg leading-7">{body}</p>
               {button(cta_label, cta_href, "primary", "lg", "mt-4")}
             </div>"""

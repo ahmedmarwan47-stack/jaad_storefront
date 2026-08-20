@@ -38,12 +38,12 @@ def build():
     )
 
     tag_html = "".join(
-        f'<span class="inline-flex items-center px-3 py-1 border border-[#29612F] '
-        f'rounded-full font-medium text-[#29612F] text-xs">{e(t)}</span>'
+        f'<span class="inline-flex items-center px-3 py-1 border border-heading '
+        f'rounded-full font-medium text-heading text-xs">{e(t)}</span>'
         for t in first["tags"]
     )
     paras = "".join(
-        f'<p class="text-[#1e2219] text-base xl:text-lg leading-[1.9]">{e(par)}</p>'
+        f'<p class="text-bodyInk text-base xl:text-lg leading-[1.9]">{e(par)}</p>'
         for par in first["body"]
     )
     tips = "".join(f'<li>{e(t)}</li>' for t in first["tips"])
@@ -53,26 +53,26 @@ def build():
       <article class="py-6" data-post-article>
         <div class="flex flex-col gap-6 mx-auto px-4 xl:px-10 max-w-[880px]">
           <div class="flex flex-wrap items-center gap-3" data-post-tags>{tag_html}</div>
-          <h1 class="font-medium text-[#29612F] text-[32px] xl:text-[44px] leading-[1.15] tracking-[-1px]" data-post-title>{e(first["title"])}</h1>
-          <span class="font-medium text-[#636959] text-sm" data-post-meta>{e(first["meta"])}</span>
-          <p class="text-[#4b5563] text-base xl:text-lg leading-[1.6]" data-post-excerpt>{e(first["excerpt"])}</p>
+          <h1 class="font-medium text-heading text-[32px] xl:text-[44px] leading-[1.15] tracking-[-1px]" data-post-title>{e(first["title"])}</h1>
+          <span class="font-medium text-metaGray text-sm" data-post-meta>{e(first["meta"])}</span>
+          <p class="text-bodyMuted text-base xl:text-lg leading-[1.6]" data-post-excerpt>{e(first["excerpt"])}</p>
           <div class="rounded-3xl overflow-hidden">
             <img src="{e(first["image"])}" alt="{e(first["title"])}" class="w-full h-[260px] xl:h-[420px] object-cover" data-post-image />
           </div>
           <div class="flex flex-col gap-6" data-post-body>{paras}
           </div>
-          <div class="flex flex-col gap-3 bg-[#FDF8F1] p-6 xl:p-8 rounded-3xl">
-            <h2 class="font-bold text-[#006328] text-lg">Quick tips</h2>
-            <ul class="flex flex-col gap-2 ps-5 text-[#1e2219] text-base leading-[1.8] list-disc" data-post-tips>{tips}</ul>
+          <div class="flex flex-col gap-3 bg-cream p-6 xl:p-8 rounded-3xl">
+            <h2 class="font-bold text-greenDeep text-lg">Quick tips</h2>
+            <ul class="flex flex-col gap-2 ps-5 text-bodyInk text-base leading-[1.8] list-disc" data-post-tips>{tips}</ul>
           </div>
         </div>
       </article>
 
-      <section class="bg-[#FDF8F1] py-12 xl:py-14">
+      <section class="bg-cream py-12 xl:py-14">
         <div class="flex flex-col gap-8 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="flex flex-wrap justify-between items-end gap-4">
-            <h2 class="font-medium text-[#29612F] text-[28px] md:text-[36px] leading-none tracking-[-1px]">Related Articles</h2>
-            <a href="blogs.html" class="group/link inline-flex items-center gap-2 font-bold text-[#29612F] text-base">
+            <h2 class="font-medium text-heading text-[28px] md:text-[36px] leading-none tracking-[-1px]">Related Articles</h2>
+            <a href="blogs.html" class="group/link inline-flex items-center gap-2 font-bold text-heading text-base">
               Explore All Articles
               <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 transition-transform group-hover/link:translate-x-1"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>

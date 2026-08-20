@@ -18,9 +18,9 @@ CHANNELS = [
 
 def build():
     channels = "".join(f"""
-              <a href="{href}" class="flex flex-col gap-1 bg-interaction-base hover:bg-beige px-6 py-5 rounded-2xl transition-colors">
-                <span class="text-neutral-secondary text-sm">{label}</span>
-                <span class="font-bold text-[#003616] text-lg latin">{value}</span>
+              <a href="{href}" class="flex flex-col gap-1 bg-cream hover:bg-cream px-6 py-5 rounded-2xl transition-colors">
+                <span class="text-muted text-sm">{label}</span>
+                <span class="font-bold text-ink text-lg latin">{value}</span>
               </a>""" for label, value, href in CHANNELS)
 
     body = f"""{page_header("أتصل بنا", [("الرئيسية", "index.html"), ("أتصل بنا", None)])}
@@ -39,13 +39,13 @@ def build():
                  comes back when Jaad's own address exists. Working hours are
                  the honest thing to show in its place. -->
             <div class="flex flex-col gap-1 bg-white shadow-custom4 p-6 rounded-2xl">
-              <span class="font-bold text-[#003616] text-base">مواعيد العمل</span>
-              <span class="text-neutral-secondary text-sm leading-7">من السبت للخميس، من 9 صباحاً حتى 6 مساءً</span>
+              <span class="font-bold text-ink text-base">مواعيد العمل</span>
+              <span class="text-muted text-sm leading-7">من السبت للخميس، من 9 صباحاً حتى 6 مساءً</span>
             </div>
           </div>
 
           <form class="flex flex-col gap-5 bg-white shadow-custom4 p-6 xl:p-8 rounded-[20px]">
-            <h2 class="font-bold text-[#29612F] text-xl">ابعتلنا رسالة</h2>
+            <h2 class="font-bold text-heading text-xl">ابعتلنا رسالة</h2>
             <div class="gap-4 grid sm:grid-cols-2">
 {field("الاسم", "name", required=True)}
 {field("رقم الهاتف", "phone", "tel", required=True)}
@@ -53,9 +53,9 @@ def build():
 {field("البريد الالكتروني", "email", "email", required=True)}
 {field("الموضوع", "subject")}
             <div class="flex flex-col gap-1.5">
-              <label for="message" class="font-medium text-neutral-secondary text-sm">الرسالة<span class="text-accent-error">*</span></label>
+              <label for="message" class="font-medium text-muted text-sm">الرسالة<span class="text-error">*</span></label>
               <textarea id="message" name="message" rows="5" required
-                        class="bg-white px-4 py-3 border-2 border-neutral-divider focus:border-cta rounded-xl outline-none w-full text-[#003616] text-base transition-colors"></textarea>
+                        class="bg-white px-4 py-3 border-2 border-divider focus:border-cta rounded-xl outline-none w-full text-ink text-base transition-colors"></textarea>
             </div>
             <button type="submit" class="bg-cta hover:bg-cta-hover py-4 rounded-full font-semibold text-white text-base transition-colors">أرسال</button>
           </form>

@@ -82,11 +82,11 @@ def build():
 
     summary_lines = "".join(f"""
                 <div data-cart-static class="flex items-center gap-3">
-                  <img src="{e(p['image'])}" alt="" class="bg-interaction-base p-1.5 rounded-lg w-16 h-16 object-contain shrink-0" loading="lazy" />
+                  <img src="{e(p['image'])}" alt="" class="bg-cream p-1.5 rounded-lg w-16 h-16 object-contain shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 gap-0.5 min-w-0">
-                    <span class="font-semibold text-[#003616] text-sm line-clamp-2">{e(p.get('nameAr') or p['name'])}</span>
+                    <span class="font-semibold text-ink text-sm line-clamp-2">{e(p.get('nameAr') or p['name'])}</span>
                   </div>
-                  <span class="font-bold text-[#003616] text-sm latin shrink-0">EGP {money(p['price'])}</span>
+                  <span class="font-bold text-ink text-sm latin shrink-0">EGP {money(p['price'])}</span>
                 </div>""" for p in items)
 
     body = f"""
@@ -94,7 +94,7 @@ def build():
         <div class="items-start gap-10 grid grid-cols-1 lg:grid-cols-[1fr_380px] mx-auto px-4 max-w-[1100px]">
 
           <div class="flex flex-col gap-3 order-1 lg:order-none lg:col-span-2 min-w-0">
-            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">طريقة الدفع</h1>
+            <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">طريقة الدفع</h1>
             <nav aria-label="خطوات الشراء" class="flex flex-wrap items-center gap-2">{checkout_steps(2)}</nav>
           </div>
 
@@ -102,7 +102,7 @@ def build():
           <div class="flex flex-col gap-8 order-3 lg:order-none min-w-0">
             <form class="flex flex-col gap-8">
               <fieldset class="flex flex-col gap-4">
-                <legend class="mb-3 font-bold text-[#003616] text-lg">اختر طريقة الدفع</legend>
+                <legend class="mb-3 font-bold text-ink text-lg">اختر طريقة الدفع</legend>
                 <div class="flex flex-col gap-4">
 
                   <!-- Credit card first at Ahmed's request (2026-08-02). COD
@@ -134,7 +134,7 @@ def build():
               </fieldset>
 
               <!-- No card-number fields: see the module docstring. -->
-              <p class="flex items-start gap-2 bg-interaction-base p-4 rounded-xl text-neutral-secondary text-xs leading-5">
+              <p class="flex items-start gap-2 bg-cream p-4 rounded-xl text-muted text-xs leading-5">
                 <span aria-hidden="true">🔒</span>
                 <span>بيانات الدفع تتم بشكل آمن عند تأكيد الطلب. لن نحفظ بيانات بطاقتك.</span>
               </p>

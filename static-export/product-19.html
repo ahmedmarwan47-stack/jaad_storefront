@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=613004fc" />
-    <link rel="stylesheet" href="styles.css?v=28ec1c87" />
+    <link rel="stylesheet" href="tailwind.css?v=6ce2e172" />
+    <link rel="stylesheet" href="styles.css?v=30183d6d" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -46,7 +46,7 @@
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
     <script defer src="i18n-en.js?v=24ccd6ef"></script>
-    <script defer src="scripts.js?v=ff94e0be"></script>
+    <script defer src="scripts.js?v=19037dd3"></script>
   </head>
   <body data-page="product" data-path="/product" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -61,7 +61,7 @@
     <main id="main" tabindex="-1" class="overflow-x-clip">
       <section data-reveal class="pt-6">
         <div class="flex flex-col gap-4 mx-auto px-4 max-w-[1536px]">
-          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-neutral-secondary hover:text-primary transition-colors">الرئيسية</a><span aria-hidden="true" class="text-neutral-outline">/</span><a href="shop-category.html" class="link-sweep text-neutral-secondary hover:text-primary transition-colors">المنتجات</a><span aria-hidden="true" class="text-neutral-outline">/</span><span class="font-semibold text-[#003616]">بابريكا</span></nav>
+          <nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm"><a href="index.html" class="link-sweep text-muted hover:text-primary transition-colors">الرئيسية</a><span aria-hidden="true" class="text-outline">/</span><a href="shop-category.html" class="link-sweep text-muted hover:text-primary transition-colors">المنتجات</a><span aria-hidden="true" class="text-outline">/</span><span class="font-semibold text-ink">بابريكا</span></nav>
         </div>
       </section>
 
@@ -101,21 +101,21 @@
                 <button type="button" data-gallery-thumb aria-pressed="true"
                         aria-label="عرض الصورة 1 من 3"
                         data-fill="cover"
-                        class="gallery-thumb bg-interaction-base rounded-xl w-20 h-20 shrink-0 overflow-hidden">
+                        class="gallery-thumb bg-cream rounded-xl w-20 h-20 shrink-0 overflow-hidden">
                   <img src="images/jaad/products-styled/19.jpg" alt=""
                        class="w-full h-full object-cover" loading="lazy" />
                 </button>
                 <button type="button" data-gallery-thumb aria-pressed="false"
                         aria-label="عرض الصورة 2 من 3"
                         data-fill="cover"
-                        class="gallery-thumb bg-interaction-base rounded-xl w-20 h-20 shrink-0 overflow-hidden">
+                        class="gallery-thumb bg-cream rounded-xl w-20 h-20 shrink-0 overflow-hidden">
                   <img src="images/jaad/products-styled/19-b.jpg" alt=""
                        class="w-full h-full object-cover" loading="lazy" />
                 </button>
                 <button type="button" data-gallery-thumb aria-pressed="false"
                         aria-label="عرض الصورة 3 من 3"
                         data-fill="cover"
-                        class="gallery-thumb bg-interaction-base rounded-xl w-20 h-20 shrink-0 overflow-hidden">
+                        class="gallery-thumb bg-cream rounded-xl w-20 h-20 shrink-0 overflow-hidden">
                   <img src="images/jaad/products-styled/19-c.jpg" alt=""
                        class="w-full h-full object-cover" loading="lazy" />
                 </button>
@@ -132,7 +132,7 @@
                  the whole page would jump on every thumbnail click. The height
                  is also what the thumbnail strip is capped to. -->
             <div data-gallery-plate data-fill="cover"
-                 class="gallery-plate relative flex-1 bg-interaction-base rounded-[20px] min-w-0 overflow-hidden
+                 class="gallery-plate relative flex-1 bg-cream rounded-[20px] min-w-0 overflow-hidden
                         h-[348px] xl:h-[520px]">
               <img data-gallery-main src="images/jaad/products-styled/19.jpg" alt="بابريكا"
                    data-img-scene="images/jaad/products-styled/19.jpg" data-img-plain="images/jaad/products/spices-paprika.png"
@@ -145,49 +145,49 @@
                instead (CSS gates on html[data-img="plain"]). -->
           <div class="story-fb-scene">
           <div data-bundle class="flex flex-col bg-white shadow-custom4 p-4 xl:p-5 rounded-[20px]">
-            <h2 class="mb-1 px-2 font-bold text-[#29612F] text-base xl:text-lg">قد يعجبك أيضاً</h2>
+            <h2 class="mb-1 px-2 font-bold text-heading text-base xl:text-lg">قد يعجبك أيضاً</h2>
             <div class="flex flex-col">
                 <label data-product data-bundle-item
                        data-id="13" data-name="شطة"
                        data-price="35.0" data-image="images/jaad/products/spices-chili.png"
                        class="flex items-center gap-3 py-2 cursor-pointer">
-                  <input type="checkbox" data-bundle-check checked class="accent-[#00451C] shrink-0 rounded w-5 h-5" />
-                  <img src="images/jaad/products/spices-chili.png" alt="" class="bg-interaction-base shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
-                  <span class="flex-1 min-w-0 text-[#003616] text-sm leading-5 line-clamp-2">شطة</span>
-                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-[#006328] shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">35</span><span class="text-[11px] leading-[1.4]">.00</span></span>
+                  <input type="checkbox" data-bundle-check checked class="accent-ink-800 shrink-0 rounded w-5 h-5" />
+                  <img src="images/jaad/products/spices-chili.png" alt="" class="bg-cream shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
+                  <span class="flex-1 min-w-0 text-ink text-sm leading-5 line-clamp-2">شطة</span>
+                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">35</span><span class="text-[11px] leading-[1.4]">.00</span></span>
                 </label>
                 <label data-product data-bundle-item
                        data-id="14" data-name="كركم"
                        data-price="35.0" data-image="images/jaad/products/spices-turmeric.png"
                        class="flex items-center gap-3 py-2 cursor-pointer">
-                  <input type="checkbox" data-bundle-check checked class="accent-[#00451C] shrink-0 rounded w-5 h-5" />
-                  <img src="images/jaad/products/spices-turmeric.png" alt="" class="bg-interaction-base shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
-                  <span class="flex-1 min-w-0 text-[#003616] text-sm leading-5 line-clamp-2">كركم</span>
-                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-[#006328] shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">35</span><span class="text-[11px] leading-[1.4]">.00</span></span>
+                  <input type="checkbox" data-bundle-check checked class="accent-ink-800 shrink-0 rounded w-5 h-5" />
+                  <img src="images/jaad/products/spices-turmeric.png" alt="" class="bg-cream shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
+                  <span class="flex-1 min-w-0 text-ink text-sm leading-5 line-clamp-2">كركم</span>
+                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">35</span><span class="text-[11px] leading-[1.4]">.00</span></span>
                 </label>
                 <label data-product data-bundle-item
                        data-id="15" data-name="جنزبيل"
                        data-price="35.0" data-image="images/jaad/products/spices-ginger.png"
                        class="flex items-center gap-3 py-2 cursor-pointer">
-                  <input type="checkbox" data-bundle-check checked class="accent-[#00451C] shrink-0 rounded w-5 h-5" />
-                  <img src="images/jaad/products/spices-ginger.png" alt="" class="bg-interaction-base shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
-                  <span class="flex-1 min-w-0 text-[#003616] text-sm leading-5 line-clamp-2">جنزبيل</span>
-                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-[#006328] shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">35</span><span class="text-[11px] leading-[1.4]">.00</span></span>
+                  <input type="checkbox" data-bundle-check checked class="accent-ink-800 shrink-0 rounded w-5 h-5" />
+                  <img src="images/jaad/products/spices-ginger.png" alt="" class="bg-cream shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
+                  <span class="flex-1 min-w-0 text-ink text-sm leading-5 line-clamp-2">جنزبيل</span>
+                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">35</span><span class="text-[11px] leading-[1.4]">.00</span></span>
                 </label>
                 <label data-product data-bundle-item
                        data-id="16" data-name="كسبرة"
                        data-price="30.0" data-image="images/jaad/products/spices-coriander.png"
                        class="flex items-center gap-3 py-2 cursor-pointer">
-                  <input type="checkbox" data-bundle-check checked class="accent-[#00451C] shrink-0 rounded w-5 h-5" />
-                  <img src="images/jaad/products/spices-coriander.png" alt="" class="bg-interaction-base shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
-                  <span class="flex-1 min-w-0 text-[#003616] text-sm leading-5 line-clamp-2">كسبرة</span>
-                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-[#006328] shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">30</span><span class="text-[11px] leading-[1.4]">.00</span></span>
+                  <input type="checkbox" data-bundle-check checked class="accent-ink-800 shrink-0 rounded w-5 h-5" />
+                  <img src="images/jaad/products/spices-coriander.png" alt="" class="bg-cream shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
+                  <span class="flex-1 min-w-0 text-ink text-sm leading-5 line-clamp-2">كسبرة</span>
+                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">30</span><span class="text-[11px] leading-[1.4]">.00</span></span>
                 </label>
             </div>
-            <div class="flex flex-wrap justify-between items-center gap-3 mt-3 px-2 pt-3 border-neutral-divider border-t">
+            <div class="flex flex-wrap justify-between items-center gap-3 mt-3 px-2 pt-3 border-divider border-t">
               <div class="flex flex-col">
-                <span class="text-neutral-secondary text-xs">الإجمالي</span>
-                <span class="font-bold text-[#003616] text-lg latin" data-bundle-total>EGP 135</span>
+                <span class="text-muted text-xs">الإجمالي</span>
+                <span class="font-bold text-ink text-lg latin" data-bundle-total>EGP 135</span>
               </div>
               <button type="button" data-bundle-add class="bg-cta hover:bg-cta-hover px-5 py-2.5 rounded-full font-semibold text-white text-sm whitespace-nowrap transition-colors">أضف الكل للسلة</button>
             </div>
@@ -209,16 +209,16 @@
                data-product data-record-view data-id="19" data-name="بابريكا"
                data-price="35.0" data-image="images/jaad/products/spices-paprika.png">
             <div class="flex flex-col gap-3">
-              <span data-best-seller class="inline-flex self-start items-center bg-[#8ACC3E] px-3 rounded-full h-7 font-bold text-[#003616] text-xs leading-none">الأكثر مبيعاً</span>
-              <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">بابريكا</h1>
+              <span data-best-seller class="inline-flex self-start items-center bg-[#8ACC3E] px-3 rounded-full h-7 font-bold text-ink text-xs leading-none">الأكثر مبيعاً</span>
+              <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">بابريكا</h1>
               <!-- Points callout sits with the rating + social-proof line, right
                    beside the red "best seller" proof text (Ahmed, 2026-08-04) —
                    not up by the yellow best-seller badge. Wraps on a narrow
                    column instead of colliding. -->
               <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
-                <div class="flex items-center gap-1.5"><span class="rating-marks flex items-center" role="img" aria-label="4.8 من 5"><span class="rating-mark is-full"><svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.44 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6Z"/></svg></span><span class="rating-mark is-full"><svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.44 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6Z"/></svg></span><span class="rating-mark is-full"><svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.44 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6Z"/></svg></span><span class="rating-mark is-full"><svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.44 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6Z"/></svg></span><span class="rating-mark"><svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.44 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6Z"/></svg><span class="rating-mark__fill" style="width:80%"><svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.44 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6Z"/></svg></span></span></span><span class="font-semibold text-[#003616] text-sm latin">4.8</span><span class="text-neutral-secondary text-sm">(<span class="latin">126</span> تقييم)</span></div>
-                <span data-sold-proof class="inline-flex items-start gap-1.5 font-semibold text-accent-error text-sm"><span aria-hidden="true" class="bg-neutral-divider mt-0.5 me-0.5 w-px h-4 self-stretch"></span><span class="mt-0.5 w-4 h-4 shrink-0"><svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12.9 2.3c.26 2.2-.53 3.63-1.86 4.9-1.3 1.24-2.9 2.4-3.7 4.6a6.9 6.9 0 0 0 2.03 7.7c-.5-1.5-.3-3.1.86-4.2.9-.86 1.5-1.7 1.8-2.8.9 1 1.5 2 1.7 3.2.2 1.2 0 2.4-.5 3.6a6.9 6.9 0 0 0 3.6-6.2c-.05-3.6-2.3-5.9-3.94-10.8Z"/></svg></span><span>ضمن الأكثر مبيعاً في جاد</span></span>
-                <span class="inline-flex items-center gap-2"><span aria-hidden="true" class="bg-neutral-divider w-px h-4"></span><span class="inline-flex items-center gap-1 bg-[#E9F3E6] px-2.5 py-0.5 rounded-full font-bold text-[#00451C] text-xs"><img src="images/jaad/icons/points-3d.png" alt="" class="w-4 h-4 shrink-0 object-contain" /><span>اكسب <span class="latin">35</span> نقطة</span></span></span>
+                <div class="flex items-center gap-1.5"><span class="rating-marks flex items-center" role="img" aria-label="4.8 من 5"><span class="rating-mark is-full"><svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.44 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6Z"/></svg></span><span class="rating-mark is-full"><svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.44 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6Z"/></svg></span><span class="rating-mark is-full"><svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.44 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6Z"/></svg></span><span class="rating-mark is-full"><svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.44 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6Z"/></svg></span><span class="rating-mark"><svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.44 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6Z"/></svg><span class="rating-mark__fill" style="width:80%"><svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.44 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6Z"/></svg></span></span></span><span class="font-semibold text-ink text-sm latin">4.8</span><span class="text-muted text-sm">(<span class="latin">126</span> تقييم)</span></div>
+                <span data-sold-proof class="inline-flex items-start gap-1.5 font-semibold text-error text-sm"><span aria-hidden="true" class="bg-divider mt-0.5 me-0.5 w-px h-4 self-stretch"></span><span class="mt-0.5 w-4 h-4 shrink-0"><svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12.9 2.3c.26 2.2-.53 3.63-1.86 4.9-1.3 1.24-2.9 2.4-3.7 4.6a6.9 6.9 0 0 0 2.03 7.7c-.5-1.5-.3-3.1.86-4.2.9-.86 1.5-1.7 1.8-2.8.9 1 1.5 2 1.7 3.2.2 1.2 0 2.4-.5 3.6a6.9 6.9 0 0 0 3.6-6.2c-.05-3.6-2.3-5.9-3.94-10.8Z"/></svg></span><span>ضمن الأكثر مبيعاً في جاد</span></span>
+                <span class="inline-flex items-center gap-2"><span aria-hidden="true" class="bg-divider w-px h-4"></span><span class="inline-flex items-center gap-1 bg-mint px-2.5 py-0.5 rounded-full font-bold text-ink-800 text-xs"><img src="images/jaad/icons/points-3d.png" alt="" class="w-4 h-4 shrink-0 object-contain" /><span>اكسب <span class="latin">35</span> نقطة</span></span></span>
               </div>
             </div>
             
@@ -235,7 +235,7 @@
             <div class="flex flex-wrap items-center gap-3">
               
               <span data-price-display data-unit-price="35.0"
-                    class="inline-flex items-center bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-3 py-1 rounded-tl-[20px] rounded-br-[20px] font-bold text-white text-2xl latin">EGP 35</span>
+                    class="inline-flex items-center bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-3 py-1 rounded-tl-[20px] rounded-br-[20px] font-bold text-white text-2xl latin">EGP 35</span>
             </div>
 
             <!-- The stepper IS the add control (Ahmed, 2026-07-26). There is
@@ -257,9 +257,9 @@
                  once it has scrolled above the viewport. -->
             <div data-buy-block class="flex items-center gap-3">
 
-              <div data-stepper data-cart-bound class="inline-flex items-center gap-1 bg-white p-1 border border-neutral-divider rounded-full">
-                <button type="button" data-step="-1" data-line-dec class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-11 text-[#003616] transition-colors" aria-label="إنقاص"><span class="w-5 h-5" data-line-dec-minus><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><span class="w-5 h-5 text-neutral-secondary" data-line-dec-trash hidden><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M4 7h16M10 4h4M9 7v11m6-11v11M6 7l.8 12.1A2 2 0 0 0 8.8 21h6.4a2 2 0 0 0 2-1.9L18 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-                <span data-qty class="min-w-[2.5ch] font-bold text-[#003616] text-base text-center latin">1</span>
+              <div data-stepper data-cart-bound class="inline-flex items-center gap-1 bg-white p-1 border border-divider rounded-full">
+                <button type="button" data-step="-1" data-line-dec class="place-items-center grid border border-divider hover:bg-cream rounded-full size-11 text-ink transition-colors" aria-label="إنقاص"><span class="w-5 h-5" data-line-dec-minus><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><span class="w-5 h-5 text-muted" data-line-dec-trash hidden><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M4 7h16M10 4h4M9 7v11m6-11v11M6 7l.8 12.1A2 2 0 0 0 8.8 21h6.4a2 2 0 0 0 2-1.9L18 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+                <span data-qty class="min-w-[2.5ch] font-bold text-ink text-base text-center latin">1</span>
                 <button type="button" data-step="1" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-11 text-white transition-colors" aria-label="زيادة"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
               </div>
               <button type="button" data-buy-cta class="flex-1 bg-cta hover:bg-cta-hover py-4 rounded-full font-semibold text-white text-base transition-colors">
@@ -271,31 +271,31 @@
                  plain flex child, so it sits inside the card's own p-6/xl:p-8
                  padding and lines up with every other row rather than bleeding
                  to the card edges (Ahmed, 2026-07-29). -->
-            <div class="border-neutral-divider border-t" role="separator"></div>
+            <div class="border-divider border-t" role="separator"></div>
 
             
-            <div class="flex flex-col gap-4 bg-interaction-base p-5 rounded-2xl">
+            <div class="flex flex-col gap-4 bg-cream p-5 rounded-2xl">
               <div class="flex flex-col gap-0.5">
-                <h2 class="font-bold text-[#29612F] text-base xl:text-lg">جودة جاد في كل قضمة</h2>
-                <p class="text-neutral-secondary text-sm leading-6">منتجات نختارها بعناية ونقدّمها لك بالطزاجة والجودة اللي تستاهلها.</p>
+                <h2 class="font-bold text-heading text-base xl:text-lg">جودة جاد في كل قضمة</h2>
+                <p class="text-muted text-sm leading-6">منتجات نختارها بعناية ونقدّمها لك بالطزاجة والجودة اللي تستاهلها.</p>
               </div>
               <ul class="flex flex-col gap-2.5">
                 <li class="flex items-start gap-2.5">
                   <img src="images/jaad/icons/spec-leaf.png" alt="" class="mt-0.5 w-7 h-7 object-contain shrink-0" loading="lazy" />
-                  <span class="text-[#003616] text-sm leading-6">مكوّنات مختارة بعناية من مصادر موثوقة لضمان أفضل مذاق.</span>
+                  <span class="text-ink text-sm leading-6">مكوّنات مختارة بعناية من مصادر موثوقة لضمان أفضل مذاق.</span>
                 </li>
                 <li class="flex items-start gap-2.5">
                   <img src="images/jaad/icons/spec-leaf.png" alt="" class="mt-0.5 w-7 h-7 object-contain shrink-0" loading="lazy" />
-                  <span class="text-[#003616] text-sm leading-6">معايير جودة ثابتة من التحضير حتى التغليف للحفاظ على الطزاجة.</span>
+                  <span class="text-ink text-sm leading-6">معايير جودة ثابتة من التحضير حتى التغليف للحفاظ على الطزاجة.</span>
                 </li>
                 <li class="flex items-start gap-2.5">
                   <img src="images/jaad/icons/spec-leaf.png" alt="" class="mt-0.5 w-7 h-7 object-contain shrink-0" loading="lazy" />
-                  <span class="text-[#003616] text-sm leading-6">مثالي للتسالي اليومية أو للمشاركة مع العائلة والأصحاب.</span>
+                  <span class="text-ink text-sm leading-6">مثالي للتسالي اليومية أو للمشاركة مع العائلة والأصحاب.</span>
                 </li>
               </ul>
             </div>
 
-            <div class="flex flex-wrap justify-between items-center gap-3 bg-interaction-base px-4 py-3 rounded-xl">
+            <div class="flex flex-wrap justify-between items-center gap-3 bg-cream px-4 py-3 rounded-xl">
               <span class="flex items-center gap-2 font-semibold text-primary text-sm">
                 <span class="place-items-center grid bg-primary rounded-full text-white size-5 text-xs">✓</span>
                 التوصيل خلال ساعتين في القاهرة الكبرى
@@ -310,39 +310,39 @@
                 <div class="faq-card accordion-item rounded-xl overflow-hidden is-open">
                   <button type="button" class="accordion-trigger flex justify-between items-center gap-3 px-4 py-3.5 w-full text-start">
                     <span class="faq-q text-[15px] leading-snug">الفوائد</span>
-                    <span class="place-items-center grid size-5 text-[#006328] shrink-0">
+                    <span class="place-items-center grid size-5 text-greenDeep shrink-0">
                       <span class="faq-plus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                       <span class="faq-minus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     </span>
                   </button>
                   <div class="accordion-panel">
-                    <div class="px-4 pb-4 text-[#4b5563] text-sm leading-[1.55]"><ul class="flex flex-col gap-4">
+                    <div class="px-4 pb-4 text-bodyMuted text-sm leading-[1.55]"><ul class="flex flex-col gap-4">
                         <li class="flex gap-2.5">
                           <span class="mt-1.5 bg-cta rounded-full size-1.5 shrink-0"></span>
                           <div class="min-w-0">
-                            <p class="font-semibold text-[#003616] text-sm">مكوّنات مختارة بعناية</p>
-                            <p class="text-neutral-secondary text-xs leading-6">من مصادر موثوقة ودون أي إضافات غير ضرورية.</p>
+                            <p class="font-semibold text-ink text-sm">مكوّنات مختارة بعناية</p>
+                            <p class="text-muted text-xs leading-6">من مصادر موثوقة ودون أي إضافات غير ضرورية.</p>
                           </div>
                         </li>
                         <li class="flex gap-2.5">
                           <span class="mt-1.5 bg-cta rounded-full size-1.5 shrink-0"></span>
                           <div class="min-w-0">
-                            <p class="font-semibold text-[#003616] text-sm">نكهة غنية ومتوازنة</p>
-                            <p class="text-neutral-secondary text-xs leading-6">مثالية للتسالي في أي وقت من اليوم.</p>
+                            <p class="font-semibold text-ink text-sm">نكهة غنية ومتوازنة</p>
+                            <p class="text-muted text-xs leading-6">مثالية للتسالي في أي وقت من اليوم.</p>
                           </div>
                         </li>
                         <li class="flex gap-2.5">
                           <span class="mt-1.5 bg-cta rounded-full size-1.5 shrink-0"></span>
                           <div class="min-w-0">
-                            <p class="font-semibold text-[#003616] text-sm">الأنسب للضيافة</p>
-                            <p class="text-neutral-secondary text-xs leading-6">خيار رائع للمشاركة مع العائلة والأصحاب.</p>
+                            <p class="font-semibold text-ink text-sm">الأنسب للضيافة</p>
+                            <p class="text-muted text-xs leading-6">خيار رائع للمشاركة مع العائلة والأصحاب.</p>
                           </div>
                         </li>
                         <li class="flex gap-2.5">
                           <span class="mt-1.5 bg-cta rounded-full size-1.5 shrink-0"></span>
                           <div class="min-w-0">
-                            <p class="font-semibold text-[#003616] text-sm">طازج حتى آخر قضمة</p>
-                            <p class="text-neutral-secondary text-xs leading-6">يصلك بتغليف يحافظ على جودته وطزاجته.</p>
+                            <p class="font-semibold text-ink text-sm">طازج حتى آخر قضمة</p>
+                            <p class="text-muted text-xs leading-6">يصلك بتغليف يحافظ على جودته وطزاجته.</p>
                           </div>
                         </li>
                       </ul></div>
@@ -351,13 +351,13 @@
                 <div class="faq-card accordion-item rounded-xl overflow-hidden">
                   <button type="button" class="accordion-trigger flex justify-between items-center gap-3 px-4 py-3.5 w-full text-start">
                     <span class="faq-q text-[15px] leading-snug">طريقة الحفظ</span>
-                    <span class="place-items-center grid size-5 text-[#006328] shrink-0">
+                    <span class="place-items-center grid size-5 text-greenDeep shrink-0">
                       <span class="faq-plus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                       <span class="faq-minus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     </span>
                   </button>
                   <div class="accordion-panel">
-                    <div class="px-4 pb-4 text-[#4b5563] text-sm leading-[1.55]">
+                    <div class="px-4 pb-4 text-bodyMuted text-sm leading-[1.55]">
                       <ul class="flex flex-col gap-2 ps-5 list-disc">
                         <li>يحفظ في عبوة محكمة الغلق بعيداً عن الرطوبة</li>
                         <li>بعيداً عن أشعة الشمس المباشرة ومصادر الحرارة</li>
@@ -368,54 +368,54 @@
               </div>
               
             <div class="flex flex-col gap-2">
-              <h2 class="mt-1 font-bold text-[#29612F] text-lg xl:text-xl">الأسئلة الشائعة</h2>
+              <h2 class="mt-1 font-bold text-heading text-lg xl:text-xl">الأسئلة الشائعة</h2>
               <div class="flex flex-col gap-2" data-accordion>
                 <div class="faq-card accordion-item rounded-xl overflow-hidden is-open">
                   <button type="button" class="accordion-trigger flex justify-between items-center gap-3 px-4 py-3.5 w-full text-start">
                     <span class="faq-q text-[15px] leading-snug">كم يستغرق توصيل الطلب؟</span>
-                    <span class="place-items-center grid size-5 text-[#006328] shrink-0">
+                    <span class="place-items-center grid size-5 text-greenDeep shrink-0">
                       <span class="faq-plus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                       <span class="faq-minus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     </span>
                   </button>
                   <div class="accordion-panel">
-                    <div class="px-4 pb-4 text-[#4b5563] text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">التوصيل خلال ساعتين داخل القاهرة الكبرى، ويصل إلى باقي المحافظات حسب المنطقة. يمكنك تغيير منطقة التوصيل من أعلى الصفحة.</p></div>
+                    <div class="px-4 pb-4 text-bodyMuted text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">التوصيل خلال ساعتين داخل القاهرة الكبرى، ويصل إلى باقي المحافظات حسب المنطقة. يمكنك تغيير منطقة التوصيل من أعلى الصفحة.</p></div>
                   </div>
                 </div>
                 <div class="faq-card accordion-item rounded-xl overflow-hidden">
                   <button type="button" class="accordion-trigger flex justify-between items-center gap-3 px-4 py-3.5 w-full text-start">
                     <span class="faq-q text-[15px] leading-snug">هل يمكنني استرجاع المنتج؟</span>
-                    <span class="place-items-center grid size-5 text-[#006328] shrink-0">
+                    <span class="place-items-center grid size-5 text-greenDeep shrink-0">
                       <span class="faq-plus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                       <span class="faq-minus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     </span>
                   </button>
                   <div class="accordion-panel">
-                    <div class="px-4 pb-4 text-[#4b5563] text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">نعم، يمكنك الاسترجاع خلال 14 يوماً من تاريخ الاستلام وفق سياسة الاسترجاع المتبعة.</p></div>
+                    <div class="px-4 pb-4 text-bodyMuted text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">نعم، يمكنك الاسترجاع خلال 14 يوماً من تاريخ الاستلام وفق سياسة الاسترجاع المتبعة.</p></div>
                   </div>
                 </div>
                 <div class="faq-card accordion-item rounded-xl overflow-hidden">
                   <button type="button" class="accordion-trigger flex justify-between items-center gap-3 px-4 py-3.5 w-full text-start">
                     <span class="faq-q text-[15px] leading-snug">كيف أحافظ على المنتج طازجاً؟</span>
-                    <span class="place-items-center grid size-5 text-[#006328] shrink-0">
+                    <span class="place-items-center grid size-5 text-greenDeep shrink-0">
                       <span class="faq-plus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                       <span class="faq-minus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     </span>
                   </button>
                   <div class="accordion-panel">
-                    <div class="px-4 pb-4 text-[#4b5563] text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">يُحفظ المنتج في مكان جاف بعيداً عن الرطوبة وأشعة الشمس المباشرة ومصادر الحرارة للحفاظ على نكهته وطزاجته.</p></div>
+                    <div class="px-4 pb-4 text-bodyMuted text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">يُحفظ المنتج في مكان جاف بعيداً عن الرطوبة وأشعة الشمس المباشرة ومصادر الحرارة للحفاظ على نكهته وطزاجته.</p></div>
                   </div>
                 </div>
                 <div class="faq-card accordion-item rounded-xl overflow-hidden">
                   <button type="button" class="accordion-trigger flex justify-between items-center gap-3 px-4 py-3.5 w-full text-start">
                     <span class="faq-q text-[15px] leading-snug">هل تتوفر أحجام أو عبوات أخرى؟</span>
-                    <span class="place-items-center grid size-5 text-[#006328] shrink-0">
+                    <span class="place-items-center grid size-5 text-greenDeep shrink-0">
                       <span class="faq-plus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                       <span class="faq-minus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     </span>
                   </button>
                   <div class="accordion-panel">
-                    <div class="px-4 pb-4 text-[#4b5563] text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">تختلف الأحجام المتاحة حسب المنتج، وتظهر خيارات الحجم أعلى الصفحة عند توفر أكثر من عبوة.</p></div>
+                    <div class="px-4 pb-4 text-bodyMuted text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">تختلف الأحجام المتاحة حسب المنتج، وتظهر خيارات الحجم أعلى الصفحة عند توفر أكثر من عبوة.</p></div>
                   </div>
                 </div>
               </div>
@@ -429,49 +429,49 @@
                there (CSS gates on html[data-img="plain"]). -->
           <div class="story-fb-plain">
           <div data-bundle class="flex flex-col bg-white shadow-custom4 p-4 xl:p-5 rounded-[20px]">
-            <h2 class="mb-1 px-2 font-bold text-[#29612F] text-base xl:text-lg">قد يعجبك أيضاً</h2>
+            <h2 class="mb-1 px-2 font-bold text-heading text-base xl:text-lg">قد يعجبك أيضاً</h2>
             <div class="flex flex-col">
                 <label data-product data-bundle-item
                        data-id="13" data-name="شطة"
                        data-price="35.0" data-image="images/jaad/products/spices-chili.png"
                        class="flex items-center gap-3 py-2 cursor-pointer">
-                  <input type="checkbox" data-bundle-check checked class="accent-[#00451C] shrink-0 rounded w-5 h-5" />
-                  <img src="images/jaad/products/spices-chili.png" alt="" class="bg-interaction-base shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
-                  <span class="flex-1 min-w-0 text-[#003616] text-sm leading-5 line-clamp-2">شطة</span>
-                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-[#006328] shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">35</span><span class="text-[11px] leading-[1.4]">.00</span></span>
+                  <input type="checkbox" data-bundle-check checked class="accent-ink-800 shrink-0 rounded w-5 h-5" />
+                  <img src="images/jaad/products/spices-chili.png" alt="" class="bg-cream shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
+                  <span class="flex-1 min-w-0 text-ink text-sm leading-5 line-clamp-2">شطة</span>
+                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">35</span><span class="text-[11px] leading-[1.4]">.00</span></span>
                 </label>
                 <label data-product data-bundle-item
                        data-id="14" data-name="كركم"
                        data-price="35.0" data-image="images/jaad/products/spices-turmeric.png"
                        class="flex items-center gap-3 py-2 cursor-pointer">
-                  <input type="checkbox" data-bundle-check checked class="accent-[#00451C] shrink-0 rounded w-5 h-5" />
-                  <img src="images/jaad/products/spices-turmeric.png" alt="" class="bg-interaction-base shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
-                  <span class="flex-1 min-w-0 text-[#003616] text-sm leading-5 line-clamp-2">كركم</span>
-                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-[#006328] shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">35</span><span class="text-[11px] leading-[1.4]">.00</span></span>
+                  <input type="checkbox" data-bundle-check checked class="accent-ink-800 shrink-0 rounded w-5 h-5" />
+                  <img src="images/jaad/products/spices-turmeric.png" alt="" class="bg-cream shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
+                  <span class="flex-1 min-w-0 text-ink text-sm leading-5 line-clamp-2">كركم</span>
+                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">35</span><span class="text-[11px] leading-[1.4]">.00</span></span>
                 </label>
                 <label data-product data-bundle-item
                        data-id="15" data-name="جنزبيل"
                        data-price="35.0" data-image="images/jaad/products/spices-ginger.png"
                        class="flex items-center gap-3 py-2 cursor-pointer">
-                  <input type="checkbox" data-bundle-check checked class="accent-[#00451C] shrink-0 rounded w-5 h-5" />
-                  <img src="images/jaad/products/spices-ginger.png" alt="" class="bg-interaction-base shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
-                  <span class="flex-1 min-w-0 text-[#003616] text-sm leading-5 line-clamp-2">جنزبيل</span>
-                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-[#006328] shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">35</span><span class="text-[11px] leading-[1.4]">.00</span></span>
+                  <input type="checkbox" data-bundle-check checked class="accent-ink-800 shrink-0 rounded w-5 h-5" />
+                  <img src="images/jaad/products/spices-ginger.png" alt="" class="bg-cream shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
+                  <span class="flex-1 min-w-0 text-ink text-sm leading-5 line-clamp-2">جنزبيل</span>
+                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">35</span><span class="text-[11px] leading-[1.4]">.00</span></span>
                 </label>
                 <label data-product data-bundle-item
                        data-id="16" data-name="كسبرة"
                        data-price="30.0" data-image="images/jaad/products/spices-coriander.png"
                        class="flex items-center gap-3 py-2 cursor-pointer">
-                  <input type="checkbox" data-bundle-check checked class="accent-[#00451C] shrink-0 rounded w-5 h-5" />
-                  <img src="images/jaad/products/spices-coriander.png" alt="" class="bg-interaction-base shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
-                  <span class="flex-1 min-w-0 text-[#003616] text-sm leading-5 line-clamp-2">كسبرة</span>
-                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-[#006328] shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">30</span><span class="text-[11px] leading-[1.4]">.00</span></span>
+                  <input type="checkbox" data-bundle-check checked class="accent-ink-800 shrink-0 rounded w-5 h-5" />
+                  <img src="images/jaad/products/spices-coriander.png" alt="" class="bg-cream shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
+                  <span class="flex-1 min-w-0 text-ink text-sm leading-5 line-clamp-2">كسبرة</span>
+                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">30</span><span class="text-[11px] leading-[1.4]">.00</span></span>
                 </label>
             </div>
-            <div class="flex flex-wrap justify-between items-center gap-3 mt-3 px-2 pt-3 border-neutral-divider border-t">
+            <div class="flex flex-wrap justify-between items-center gap-3 mt-3 px-2 pt-3 border-divider border-t">
               <div class="flex flex-col">
-                <span class="text-neutral-secondary text-xs">الإجمالي</span>
-                <span class="font-bold text-[#003616] text-lg latin" data-bundle-total>EGP 135</span>
+                <span class="text-muted text-xs">الإجمالي</span>
+                <span class="font-bold text-ink text-lg latin" data-bundle-total>EGP 135</span>
               </div>
               <button type="button" data-bundle-add class="bg-cta hover:bg-cta-hover px-5 py-2.5 rounded-full font-semibold text-white text-sm whitespace-nowrap transition-colors">أضف الكل للسلة</button>
             </div>
@@ -492,83 +492,83 @@
             <div data-story-panel data-step="0" style="top:18%" class="product-story__panel is-right">
               <img src="images/jaad/icons/spec-leaf.png" alt="" class="product-story__ico" loading="lazy" />
               <div class="min-w-0">
-                <p class="font-bold text-[#003616] text-sm sm:text-lg xl:text-xl leading-tight">مكوّنات مختارة بعناية</p>
-                <p class="mt-0.5 sm:mt-1 text-neutral-secondary text-xs sm:text-sm leading-snug sm:leading-6">من مصادر موثوقة ودون أي إضافات غير ضرورية.</p>
+                <p class="font-bold text-ink text-sm sm:text-lg xl:text-xl leading-tight">مكوّنات مختارة بعناية</p>
+                <p class="mt-0.5 sm:mt-1 text-muted text-xs sm:text-sm leading-snug sm:leading-6">من مصادر موثوقة ودون أي إضافات غير ضرورية.</p>
               </div>
             </div>
             <div data-story-panel data-step="1" style="top:38%" class="product-story__panel is-left">
               <img src="images/jaad/icons/spec-bolt.png" alt="" class="product-story__ico" loading="lazy" />
               <div class="min-w-0">
-                <p class="font-bold text-[#003616] text-sm sm:text-lg xl:text-xl leading-tight">نكهة غنية ومتوازنة</p>
-                <p class="mt-0.5 sm:mt-1 text-neutral-secondary text-xs sm:text-sm leading-snug sm:leading-6">مثالية للتسالي في أي وقت من اليوم.</p>
+                <p class="font-bold text-ink text-sm sm:text-lg xl:text-xl leading-tight">نكهة غنية ومتوازنة</p>
+                <p class="mt-0.5 sm:mt-1 text-muted text-xs sm:text-sm leading-snug sm:leading-6">مثالية للتسالي في أي وقت من اليوم.</p>
               </div>
             </div>
             <div data-story-panel data-step="2" style="top:56%" class="product-story__panel is-right">
               <img src="images/jaad/icons/spec-shield.png" alt="" class="product-story__ico" loading="lazy" />
               <div class="min-w-0">
-                <p class="font-bold text-[#003616] text-sm sm:text-lg xl:text-xl leading-tight">الأنسب للضيافة</p>
-                <p class="mt-0.5 sm:mt-1 text-neutral-secondary text-xs sm:text-sm leading-snug sm:leading-6">خيار رائع للمشاركة مع العائلة والأصحاب.</p>
+                <p class="font-bold text-ink text-sm sm:text-lg xl:text-xl leading-tight">الأنسب للضيافة</p>
+                <p class="mt-0.5 sm:mt-1 text-muted text-xs sm:text-sm leading-snug sm:leading-6">خيار رائع للمشاركة مع العائلة والأصحاب.</p>
               </div>
             </div>
             <div data-story-panel data-step="3" style="top:72%" class="product-story__panel is-left">
               <img src="images/jaad/icons/spec-delivery.png" alt="" class="product-story__ico" loading="lazy" />
               <div class="min-w-0">
-                <p class="font-bold text-[#003616] text-sm sm:text-lg xl:text-xl leading-tight">طازج حتى آخر قضمة</p>
-                <p class="mt-0.5 sm:mt-1 text-neutral-secondary text-xs sm:text-sm leading-snug sm:leading-6">يصلك بتغليف يحافظ على جودته وطزاجته.</p>
+                <p class="font-bold text-ink text-sm sm:text-lg xl:text-xl leading-tight">طازج حتى آخر قضمة</p>
+                <p class="mt-0.5 sm:mt-1 text-muted text-xs sm:text-sm leading-snug sm:leading-6">يصلك بتغليف يحافظ على جودته وطزاجته.</p>
               </div>
             </div>
         </div>
       </section>
       <section data-reveal data-story-faq class="product-story-faq">
         <div class="mx-auto px-4 max-w-[760px]">
-          <h2 class="mb-6 font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2] text-center">الأسئلة الشائعة</h2>
+          <h2 class="mb-6 font-medium text-heading text-[32px] md:text-[40px] leading-[1.2] text-center">الأسئلة الشائعة</h2>
           <div class="flex flex-col gap-2" data-accordion>
                 <div class="faq-card accordion-item rounded-xl overflow-hidden is-open">
                   <button type="button" class="accordion-trigger flex justify-between items-center gap-3 px-4 py-3.5 w-full text-start">
                     <span class="faq-q text-[15px] leading-snug">كم يستغرق توصيل الطلب؟</span>
-                    <span class="place-items-center grid size-5 text-[#006328] shrink-0">
+                    <span class="place-items-center grid size-5 text-greenDeep shrink-0">
                       <span class="faq-plus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                       <span class="faq-minus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     </span>
                   </button>
                   <div class="accordion-panel">
-                    <div class="px-4 pb-4 text-[#4b5563] text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">التوصيل خلال ساعتين داخل القاهرة الكبرى، ويصل إلى باقي المحافظات حسب المنطقة. يمكنك تغيير منطقة التوصيل من أعلى الصفحة.</p></div>
+                    <div class="px-4 pb-4 text-bodyMuted text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">التوصيل خلال ساعتين داخل القاهرة الكبرى، ويصل إلى باقي المحافظات حسب المنطقة. يمكنك تغيير منطقة التوصيل من أعلى الصفحة.</p></div>
                   </div>
                 </div>
                 <div class="faq-card accordion-item rounded-xl overflow-hidden">
                   <button type="button" class="accordion-trigger flex justify-between items-center gap-3 px-4 py-3.5 w-full text-start">
                     <span class="faq-q text-[15px] leading-snug">هل يمكنني استرجاع المنتج؟</span>
-                    <span class="place-items-center grid size-5 text-[#006328] shrink-0">
+                    <span class="place-items-center grid size-5 text-greenDeep shrink-0">
                       <span class="faq-plus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                       <span class="faq-minus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     </span>
                   </button>
                   <div class="accordion-panel">
-                    <div class="px-4 pb-4 text-[#4b5563] text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">نعم، يمكنك الاسترجاع خلال 14 يوماً من تاريخ الاستلام وفق سياسة الاسترجاع المتبعة.</p></div>
+                    <div class="px-4 pb-4 text-bodyMuted text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">نعم، يمكنك الاسترجاع خلال 14 يوماً من تاريخ الاستلام وفق سياسة الاسترجاع المتبعة.</p></div>
                   </div>
                 </div>
                 <div class="faq-card accordion-item rounded-xl overflow-hidden">
                   <button type="button" class="accordion-trigger flex justify-between items-center gap-3 px-4 py-3.5 w-full text-start">
                     <span class="faq-q text-[15px] leading-snug">كيف أحافظ على المنتج طازجاً؟</span>
-                    <span class="place-items-center grid size-5 text-[#006328] shrink-0">
+                    <span class="place-items-center grid size-5 text-greenDeep shrink-0">
                       <span class="faq-plus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                       <span class="faq-minus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     </span>
                   </button>
                   <div class="accordion-panel">
-                    <div class="px-4 pb-4 text-[#4b5563] text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">يُحفظ المنتج في مكان جاف بعيداً عن الرطوبة وأشعة الشمس المباشرة ومصادر الحرارة للحفاظ على نكهته وطزاجته.</p></div>
+                    <div class="px-4 pb-4 text-bodyMuted text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">يُحفظ المنتج في مكان جاف بعيداً عن الرطوبة وأشعة الشمس المباشرة ومصادر الحرارة للحفاظ على نكهته وطزاجته.</p></div>
                   </div>
                 </div>
                 <div class="faq-card accordion-item rounded-xl overflow-hidden">
                   <button type="button" class="accordion-trigger flex justify-between items-center gap-3 px-4 py-3.5 w-full text-start">
                     <span class="faq-q text-[15px] leading-snug">هل تتوفر أحجام أو عبوات أخرى؟</span>
-                    <span class="place-items-center grid size-5 text-[#006328] shrink-0">
+                    <span class="place-items-center grid size-5 text-greenDeep shrink-0">
                       <span class="faq-plus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                       <span class="faq-minus w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
                     </span>
                   </button>
                   <div class="accordion-panel">
-                    <div class="px-4 pb-4 text-[#4b5563] text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">تختلف الأحجام المتاحة حسب المنتج، وتظهر خيارات الحجم أعلى الصفحة عند توفر أكثر من عبوة.</p></div>
+                    <div class="px-4 pb-4 text-bodyMuted text-sm leading-[1.55]"><p class="text-neutral-800 leading-7">تختلف الأحجام المتاحة حسب المنتج، وتظهر خيارات الحجم أعلى الصفحة عند توفر أكثر من عبوة.</p></div>
                   </div>
                 </div>
               </div>
@@ -578,7 +578,7 @@
       <!-- =========================== MORE FROM US =========================== -->
       <section data-reveal class="py-12 xl:py-16">
         <div class="mx-auto px-4 max-w-[1536px]">
-          <div class="flex flex-wrap justify-between items-center gap-4 mb-10"><h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">تسوق اكتر من جاد</h2><a href="shop.html" class="btn inline-flex justify-center items-center rounded-full font-semibold transition-colors px-6 py-2.5 text-sm border border-cta text-cta hover:bg-interaction-base ">عرض المزيد</a></div>
+          <div class="flex flex-wrap justify-between items-center gap-4 mb-10"><h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">تسوق اكتر من جاد</h2><a href="shop.html" class="btn inline-flex justify-center items-center rounded-full font-semibold transition-colors px-6 py-2.5 text-sm border border-cta text-cta hover:bg-cream ">عرض المزيد</a></div>
           
           <div class="relative carousel " style="--carousel-gap:24px">
             <div class="carousel-track">
@@ -605,16 +605,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">85</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -622,7 +622,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-8.html" data-product-title class="hover:text-[#29612F] transition-colors">Cashew</a>
+                <a href="product-8.html" data-product-title class="hover:text-heading transition-colors">Cashew</a>
               </h3>
             </div>
           </article>
@@ -649,16 +649,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">80</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -666,7 +666,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-9.html" data-product-title class="hover:text-[#29612F] transition-colors">Hazelnut</a>
+                <a href="product-9.html" data-product-title class="hover:text-heading transition-colors">Hazelnut</a>
               </h3>
             </div>
           </article>
@@ -693,16 +693,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">90</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -710,7 +710,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-10.html" data-product-title class="hover:text-[#29612F] transition-colors">Pistachio</a>
+                <a href="product-10.html" data-product-title class="hover:text-heading transition-colors">Pistachio</a>
               </h3>
             </div>
           </article>
@@ -737,16 +737,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">85</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -754,7 +754,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-11.html" data-product-title class="hover:text-[#29612F] transition-colors">Almond</a>
+                <a href="product-11.html" data-product-title class="hover:text-heading transition-colors">Almond</a>
               </h3>
             </div>
           </article>
@@ -781,16 +781,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">65</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -798,7 +798,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-12.html" data-product-title class="hover:text-[#29612F] transition-colors">Walnut</a>
+                <a href="product-12.html" data-product-title class="hover:text-heading transition-colors">Walnut</a>
               </h3>
             </div>
           </article>
@@ -825,16 +825,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">45</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -842,7 +842,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-1.html" data-product-title class="hover:text-[#29612F] transition-colors">Light Roasted Coffee</a>
+                <a href="product-1.html" data-product-title class="hover:text-heading transition-colors">Light Roasted Coffee</a>
               </h3>
             </div>
           </article>
@@ -869,16 +869,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">45</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -886,7 +886,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-2.html" data-product-title class="hover:text-[#29612F] transition-colors">Medium Roasted Coffee</a>
+                <a href="product-2.html" data-product-title class="hover:text-heading transition-colors">Medium Roasted Coffee</a>
               </h3>
             </div>
           </article>
@@ -913,16 +913,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">45</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -930,7 +930,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-3.html" data-product-title class="hover:text-[#29612F] transition-colors">Dark Roasted Coffee</a>
+                <a href="product-3.html" data-product-title class="hover:text-heading transition-colors">Dark Roasted Coffee</a>
               </h3>
             </div>
           </article>
@@ -957,16 +957,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">50</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -974,7 +974,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-4.html" data-product-title class="hover:text-[#29612F] transition-colors">Light Roasted with Cardamom</a>
+                <a href="product-4.html" data-product-title class="hover:text-heading transition-colors">Light Roasted with Cardamom</a>
               </h3>
             </div>
           </article>
@@ -1001,16 +1001,16 @@
                      − and the green-filled +, scaled compact (size-8) to sit in
                      the add button's footprint. shadow-custom4 lifts it off the
                      photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-neutral-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-10 sm:size-8 text-[#003616] shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-                  <span data-card-qty class="min-w-[1.5ch] font-bold text-[#003616] text-center latin">1</span>
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
                   <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
                 </div>
               </div>
             </div>
             <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-[#006328] shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
+                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>
                   <span class="text-[24px] leading-[1.2]">50</span>
                   <span class="text-[18px] leading-[1.4]">.00</span>
@@ -1018,7 +1018,7 @@
                 
               </div>
               <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-5.html" data-product-title class="hover:text-[#29612F] transition-colors">Medium Roasted with Cardamom</a>
+                <a href="product-5.html" data-product-title class="hover:text-heading transition-colors">Medium Roasted with Cardamom</a>
               </h3>
             </div>
           </article>
@@ -1049,7 +1049,7 @@
            never to a broken empty rail. -->
       <section data-reveal data-recently-viewed data-exclude-id="19" hidden class="py-12 xl:py-16">
         <div class="mx-auto px-4 max-w-[1536px]">
-          <div class="flex flex-wrap justify-between items-center gap-4 mb-10"><h2 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-[1.2]">شاهدت هذا مؤخراً</h2></div>
+          <div class="flex flex-wrap justify-between items-center gap-4 mb-10"><h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">شاهدت هذا مؤخراً</h2></div>
           
           <div class="relative carousel " style="--carousel-gap:24px">
             <div class="carousel-track" data-recent-track>
@@ -1079,27 +1079,27 @@
            only toggles .is-visible. -->
       <div data-sticky-buybar aria-hidden="true"
            class="sticky-buybar fixed inset-x-0 bottom-0 lg:bottom-auto lg:top-12 z-30
-                  bg-white border-neutral-divider border-t lg:border-t-0 lg:border-b">
+                  bg-white border-divider border-t lg:border-t-0 lg:border-b">
         <div class="flex items-center gap-3 lg:gap-6 mx-auto px-4 max-w-[1536px] py-3">
           <img src="images/jaad/products/spices-paprika.png" alt=""
-               class="hidden sm:block bg-interaction-base p-1 rounded-xl w-12 xl:w-14 h-12 xl:h-14 object-contain shrink-0" />
+               class="hidden sm:block bg-cream p-1 rounded-xl w-12 xl:w-14 h-12 xl:h-14 object-contain shrink-0" />
           <div class="flex items-center flex-1 gap-3 min-w-0">
-            <p class="font-bold text-[#003616] text-sm xl:text-base truncate">بابريكا</p>
+            <p class="font-bold text-ink text-sm xl:text-base truncate">بابريكا</p>
             <!-- The green price sticker (not plain text) so the bar carries the
                  same price badge the cards and the buy block use (Ahmed,
                  2026-08-19). Static: the JS price mirror is dropped with the
                  data-sticky-price hook since this SKU's price does not vary. -->
-            <span class="shrink-0"><span class="inline-flex items-end gap-0.5 shrink-0 bg-[#006328] shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">35</span><span class="text-[11px] leading-[1.4]">.00</span></span></span>
+            <span class="shrink-0"><span class="inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">35</span><span class="text-[11px] leading-[1.4]">.00</span></span></span>
           </div>
           <!-- Quantity mirror — buttons forward to the real cart-bound stepper.
                dir="ltr" so the + always sits on the RIGHT (Ahmed, 2026-07-29):
                in the page's RTL flow the − would otherwise take the right slot.
                The digit is latin already, so forcing LTR here changes nothing
                but the button order. -->
-          <div dir="ltr" class="inline-flex items-center gap-1 bg-white p-1 border border-neutral-divider rounded-full shrink-0">
+          <div dir="ltr" class="inline-flex items-center gap-1 bg-white p-1 border border-divider rounded-full shrink-0">
             <button type="button" data-sticky-step="-1" aria-label="إنقاص"
-                    class="place-items-center grid border border-neutral-divider hover:bg-interaction-base rounded-full size-9 text-[#003616] transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
-            <span data-sticky-qty class="min-w-[2ch] font-bold text-[#003616] text-sm text-center latin">1</span>
+                    class="place-items-center grid border border-divider hover:bg-cream rounded-full size-9 text-ink transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+            <span data-sticky-qty class="min-w-[2ch] font-bold text-ink text-sm text-center latin">1</span>
             <button type="button" data-sticky-step="1" aria-label="زيادة"
                     class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-9 text-white transition-colors"><span class="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
           </div>

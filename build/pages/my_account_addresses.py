@@ -17,18 +17,18 @@ def build():
     # Change the seed in scripts.js (ADDR_SEED) if these two ever change.
     cards = "".join(card(
         label,
-        f'''<div class="flex flex-col gap-1 text-neutral-secondary text-sm">
+        f'''<div class="flex flex-col gap-1 text-muted text-sm">
               <span>{line1}</span><span>{line2}</span>
             </div>
-            {'<span class="bg-interaction-base px-3 py-1 rounded-full font-semibold text-primary text-xs self-start">العنوان الرئيسي</span>' if default else ''}
+            {'<span class="bg-cream px-3 py-1 rounded-full font-semibold text-primary text-xs self-start">العنوان الرئيسي</span>' if default else ''}
             <!-- mt-auto pins the actions to the card bottom so تعديل/حذف line up
                  across cards: without it, a card that lacks the main-address
                  badge floats its actions up under the address while the badged
                  card's sit a row lower. Grid rows already stretch to equal
                  height, so the shorter card just distributes the slack above. -->
             <div class="flex gap-2 mt-auto">
-              <button type="button" class="hover:bg-interaction-base px-4 py-1.5 border border-neutral-divider rounded-full font-semibold text-[#003616] text-xs transition-colors">تعديل</button>
-              <button type="button" class="px-4 py-1.5 font-semibold text-accent-error text-xs">حذف</button>
+              <button type="button" class="hover:bg-cream px-4 py-1.5 border border-divider rounded-full font-semibold text-ink text-xs transition-colors">تعديل</button>
+              <button type="button" class="px-4 py-1.5 font-semibold text-error text-xs">حذف</button>
             </div>''')
         for label, line1, line2, default in ADDRESSES)
 

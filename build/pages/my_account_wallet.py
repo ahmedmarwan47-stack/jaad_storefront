@@ -27,16 +27,16 @@ def build():
     for amount, reason, date, bal in TXNS:
         credit = amount.startswith("+")
         rows += f"""
-                  <tr class="border-neutral-divider border-b last:border-0">
+                  <tr class="border-divider border-b last:border-0">
                     <td class="py-4 pe-3">
-                      <span class="inline-flex items-center gap-2 font-bold text-sm latin {'text-primary' if credit else 'text-accent-error'}">
-                        <span class="place-items-center grid rounded-full size-6 shrink-0 {'bg-[#E9F3E6]' if credit else 'bg-[#F6E9E7]'}"><span class="w-3 h-3">{_UP if credit else _DOWN}</span></span>
+                      <span class="inline-flex items-center gap-2 font-bold text-sm latin {'text-primary' if credit else 'text-error'}">
+                        <span class="place-items-center grid rounded-full size-6 shrink-0 {'bg-mint' if credit else 'bg-blush'}"><span class="w-3 h-3">{_UP if credit else _DOWN}</span></span>
                         {amount} EGP
                       </span>
                     </td>
-                    <td class="py-4 px-3 text-neutral-secondary text-sm whitespace-nowrap">{date}</td>
-                    <td class="py-4 px-3 text-[#003616] text-sm">{reason}</td>
-                    <td class="py-4 ps-3 font-semibold text-[#003616] text-sm text-end latin whitespace-nowrap">{bal:,} EGP</td>
+                    <td class="py-4 px-3 text-muted text-sm whitespace-nowrap">{date}</td>
+                    <td class="py-4 px-3 text-ink text-sm">{reason}</td>
+                    <td class="py-4 ps-3 font-semibold text-ink text-sm text-end latin whitespace-nowrap">{bal:,} EGP</td>
                   </tr>"""
 
     content = f"""
@@ -49,7 +49,7 @@ def build():
               <div class="flex items-center gap-4 min-w-0">
                 <img src="images/jaad/icons/wallet-3d.png" alt="" class="w-16 h-16 object-contain shrink-0" />
                 <div class="flex flex-col min-w-0">
-                  <span class="text-neutral-secondary text-sm">رصيد محفظتي</span>
+                  <span class="text-muted text-sm">رصيد محفظتي</span>
                   <span class="font-bold text-cta text-4xl latin" data-wallet-amount>EGP {CUSTOMER['wallet']}</span>
                 </div>
               </div>
@@ -58,7 +58,7 @@ def build():
 
             {card("سجل المعاملات", f'''<div class="overflow-x-auto"><table class="w-full min-w-[460px] text-start">
               <thead>
-                <tr class="border-neutral-divider border-b text-neutral-secondary text-xs">
+                <tr class="border-divider border-b text-muted text-xs">
                   <th class="py-2 pe-3 font-semibold text-start">المبلغ</th>
                   <th class="py-2 px-3 font-semibold text-start">التاريخ</th>
                   <th class="py-2 px-3 font-semibold text-start">السبب</th>
