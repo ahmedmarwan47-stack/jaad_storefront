@@ -1,7 +1,7 @@
 /* =====================================================================
    scripts.js — shared behaviour for the static Jaad build.
 
-   Forked from the Abu Auf storefront build (same architecture — see the
+   Forked from the upstream storefront build (same architecture — see the
    order-base-ecommerce repo for the original). Historical/dated comments
    below (measurements, fix notes) describe that original build and have
    not all been individually re-verified against Jaad's own Figma yet.
@@ -32,13 +32,13 @@
      Placeholder content (formerly fetched from the CMS)
      --------------------------------------------------------------- */
   /*
-   * Jaad has no live store/API (unlike Jaad's WooCommerce catalog this
-   * was forked from) — categories are the 3 hand-built groups from the
+   * Jaad has no live store/API (unlike the WooCommerce catalog this was
+   * forked from) — categories are the 3 hand-built groups from the
    * 26-SKU table: Coffee, Nuts, Spices. Arabic labels follow the Figma nav.
    */
   // Rebuilt from the Jaad Figma header (utility bar: "OUR STORY / MEDIA /
-  // FAQs / CONTACT US"), replacing Jaad's rewards/branches/export links —
-  // Jaad has no branches (dropped entirely) and no confirmed export program.
+  // FAQs / CONTACT US"), replacing the FORK SOURCE's rewards/branches/export
+  // links — Jaad has no branches (dropped entirely), no export program.
   const SUPPORT_MENU = [
     { title: "قصتنا", url: "/about" },
     { title: "ميديا", url: "/blogs" },
@@ -48,8 +48,8 @@
 
   // Jaad sells exactly 3 categories (Coffee/Spices/Nuts, 26 SKUs total) — no
   // mega-menu children, no dates/healthy-snacks/gifting/hot-drinks/offers
-  // tiles like Jaad's 12-category, ~99-product catalog this was forked
-  // from. Order matches the Figma nav: COFFEE, SPICES, NUTS.
+  // tiles like the 12-category, ~99-product catalog this was forked from.
+  // Order matches the Figma nav: COFFEE, SPICES, NUTS.
   const MAIN_MENU = [
     { name: "القهوة", url: "/shop/coffee", image: "images/jaad/categories/coffee-a.png" },
     { name: "البهارات", url: "/shop/spices", image: "images/jaad/categories/spices-a.png" },
@@ -58,7 +58,7 @@
 
   /* Column order is RTL reading order: rightmost column first.
      Matches the Jaad Figma footer exactly (Categories / Company / Support) —
-     no distributors/partners/careers/mobile-app links like Jaad's footer. */
+     no distributors/partners/careers/mobile-app links like the fork's. */
   const FOOTER_COLUMNS = [
     {
       name: "الأقسام",
@@ -89,18 +89,20 @@
 
   /* Contact details from the Figma footer. */
   // PLACEHOLDER, per the fork plan (Ahmed, 2026-08-17): Jaad has no real
-  // hotline/address yet. Was Jaad's actual live hotline + factory address
-  // before the fork — do not reintroduce those. Matches the placeholder
-  // phone already set in the Figma footer.
+  // hotline/address yet. These were the FORK SOURCE's actual live hotline +
+  // factory address before the fork — do not reintroduce them; they reach a
+  // different, unrelated company. (They had crept back into the contact and
+  // thank-you pages and were removed again 2026-08-20.) Matches the
+  // placeholder phone already set in the Figma footer.
   const CONTACT = {
     hotline: "01200000000",
     email: "info@jad.com",
     address: "",
   };
 
-  /* PLACEHOLDER, per the fork plan (Ahmed, 2026-08-17): these were Jaad's
-     real, live social accounts before the fork — pointing Jaad's footer at
-     them would send shoppers to a different, unrelated brand. Left as "#"
+  /* PLACEHOLDER, per the fork plan (Ahmed, 2026-08-17): these were the FORK
+     SOURCE's real, live social accounts — pointing Jaad's footer at them
+     would send shoppers to a different, unrelated brand. Left as "#"
      (absence over invention) until Jaad's real handles exist. */
   const SOCIALS = [
     {
@@ -345,7 +347,7 @@
     "الشركة": "Company",
     // search
     "اقتراحات البحث": "Search suggestions",
-    "ابحث عن قهوة، مكسرات، تمور…": "Search for coffee, nuts, dates…",
+    "ابحث عن قهوة، مكسرات، بهارات…": "Search for coffee, nuts, spices…",
     "نتيجة": "results",
     "لا توجد نتائج لـ": "No results for",
     "تعذر تحميل نتائج البحث. حاول مرة أخرى.": "Could not load search results. Please try again.",
@@ -1562,9 +1564,9 @@
         <div class="px-6">
           <div class="flex items-center gap-3 bg-white px-4 py-3.5 border-2 border-neutral-outline rounded-2xl transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-[#98CA55] search-row">
             <span class="w-5 h-5 text-neutral-secondary shrink-0">${ICON.search}</span>
-            <label class="sr-only" for="site-search">${esc(t("ابحث عن قهوة، مكسرات، تمور…"))}</label>
+            <label class="sr-only" for="site-search">${esc(t("ابحث عن قهوة، مكسرات، بهارات…"))}</label>
             <input type="search" id="site-search" data-search-input autocomplete="off"
-                   placeholder="ابحث عن قهوة، مكسرات، تمور…"
+                   placeholder="ابحث عن قهوة، مكسرات، بهارات…"
                    class="flex-1 bg-transparent outline-none min-w-0 text-[#003616] placeholder:text-neutral-secondary text-base" />
           </div>
         </div>
@@ -1575,7 +1577,7 @@
              The label is NOT "الأكثر بحثاً" — there is no search analytics
              behind this, so claiming these are the most-searched would be
              inventing data. These three are Jaad's actual categories (not
-             Abu Auf's 5-term set, which included تمر/معمول/بروتين — dates,
+             the fork's 5-term set, which included تمر/معمول/بروتين — dates,
              maamoul, protein — none of which are Jaad products), so a chip
              always lands on real results. -->
         <div class="px-6 py-6" data-search-idle>
@@ -3785,7 +3787,7 @@
    * opts.quick  — tighter and faster, for repeat taps on a card stepper.
    * opts.tag    — small text chip riding along with the tile, e.g. "+1".
    */
-  /* Fly-to-cart style, chosen at the switch (default the Abu Auf arc). Only the
+  /* Fly-to-cart style, chosen at the switch (default the inherited arc). Only the
      THROW stage differs between them — pick-up, clamp, ghost/plate scaffolding
      and the landing resolve are shared. */
   function currentFlyStyle() {
@@ -3920,7 +3922,7 @@
             rot = 0;
             op = p < 0.85 ? 1 : 1 - ((p - 0.85) / 0.15) * 0.9;
           } else {
-            /* ARC (default, Abu Auf): sampled parabola with a held tilt.
+            /* ARC (default, inherited): sampled parabola with a held tilt.
                sin(pi*p) peaks at `lift` mid-flight and lands at 0 — a real
                curve, no corner at the apex. */
             const p = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
@@ -7327,6 +7329,55 @@
   }
 
   /* ---------------------------------------------------------------
+     Blog post ?post=<slug> swap (Ahmed, 2026-08-20)
+
+     The fork ships ONE static blog.html — there is no per-post routing and no
+     CMS behind it. The index links each card as `blog.html?post=<slug>` and
+     every post's copy is inlined in a #post-data JSON block, so clicking the
+     third card reads the third post instead of always landing on the first.
+     Falls back to the server-rendered first post when the slug is missing or
+     unknown, so a bare blog.html (and any crawler) still sees a real article.
+     --------------------------------------------------------------- */
+  function initBlogPost() {
+    const article = document.querySelector("[data-post-article]");
+    const dataEl = document.getElementById("post-data");
+    if (!article || !dataEl) return;
+    const slug = new URLSearchParams(location.search).get("post");
+    if (!slug) return;                        // bare blog.html: keep the built-in post
+    let posts;
+    try { posts = JSON.parse(dataEl.textContent); } catch (_e) { return; }
+    const p = posts && posts[slug];
+    if (!p) return;                           // unknown slug: leave the fallback post
+
+    const set = (sel, html) => {
+      const el = article.querySelector(sel);
+      if (el) el.innerHTML = html;
+    };
+    set("[data-post-title]", esc(p.title));
+    set("[data-post-meta]", esc(p.meta));
+    set("[data-post-excerpt]", esc(p.excerpt));
+    set("[data-post-tags]", (p.tags || []).map((t) =>
+      '<span class="inline-flex items-center px-3 py-1 border border-[#29612F] ' +
+      'rounded-full font-medium text-[#29612F] text-xs">' + esc(t) + "</span>").join(""));
+    set("[data-post-body]", (p.body || []).map((par) =>
+      '<p class="text-[#1e2219] text-base xl:text-lg leading-[1.9]">' + esc(par) + "</p>").join(""));
+    set("[data-post-tips]", (p.tips || []).map((t) => "<li>" + esc(t) + "</li>").join(""));
+    const img = article.querySelector("[data-post-image]");
+    if (img && p.image) { img.src = p.image; img.alt = p.title || ""; }
+    if (p.title) document.title = p.title + " | JAAD";
+    // The breadcrumb's last crumb names the post, so it must follow too. The
+    // trail is a flat run of <a>/<span> in a nav (see components.breadcrumb) —
+    // the current page is the final NON-separator child, i.e. not aria-hidden.
+    const nav = document.querySelector('nav[aria-label="Breadcrumb"]');
+    if (nav && p.title) {
+      const crumbs = [...nav.children].filter(
+        (el) => el.getAttribute("aria-hidden") !== "true");
+      const last = crumbs[crumbs.length - 1];
+      if (last) last.textContent = p.title;
+    }
+  }
+
+  /* ---------------------------------------------------------------
      Site-wide 3D icon concept swap (Ahmed, 2026-08-19)
      Every 3D icon has an alternate-CONCEPT variant; the Green/Orange
      toggle swaps them everywhere (dashboard, tracker, product story…),
@@ -7523,6 +7574,9 @@
     // White-mode scroll story — guards off [data-story], so it is a no-op
     // everywhere but the story product page.
     initProductStory();
+
+    // Blog post ?post=<slug> swap — no-op off the post page.
+    initBlogPost();
 
     // Swap every 3D icon to the concept that matches the current toggle, and
     // keep watching for icons injected later (drawer, recent rail).

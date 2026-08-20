@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=c2478721" />
-    <link rel="stylesheet" href="styles.css?v=258bbb82" />
+    <link rel="stylesheet" href="tailwind.css?v=bc7a14f0" />
+    <link rel="stylesheet" href="styles.css?v=45b31927" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -45,8 +45,8 @@
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js?v=1500250b"></script>
-    <script defer src="scripts.js?v=5605839b"></script>
+    <script defer src="i18n-en.js?v=f91551f4"></script>
+    <script defer src="scripts.js?v=1fea04ac"></script>
   </head>
   <body data-page="contact-us" data-path="/contact-us" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -73,22 +73,23 @@
               لو عندك أي استفسار أو اقتراح، إحنا هنا. اختار الطريقة اللي تناسبك أو ابعتلنا رسالة وهنرد عليك في أقرب وقت.
             </p>
             <div class="flex flex-col gap-3">
-              <a href="tel:19969" class="flex flex-col gap-1 bg-interaction-base hover:bg-beige px-6 py-5 rounded-2xl transition-colors">
+              <a href="tel:01200000000" class="flex flex-col gap-1 bg-interaction-base hover:bg-beige px-6 py-5 rounded-2xl transition-colors">
                 <span class="text-neutral-secondary text-sm">الخط الساخن</span>
-                <span class="font-bold text-[#003616] text-lg latin">19969</span>
+                <span class="font-bold text-[#003616] text-lg latin">01200000000</span>
               </a>
               <a href="mailto:info@jad.com" class="flex flex-col gap-1 bg-interaction-base hover:bg-beige px-6 py-5 rounded-2xl transition-colors">
                 <span class="text-neutral-secondary text-sm">البريد الالكتروني</span>
                 <span class="font-bold text-[#003616] text-lg latin">info@jad.com</span>
               </a>
-              <a href="https://wa.me/+201050624300" class="flex flex-col gap-1 bg-interaction-base hover:bg-beige px-6 py-5 rounded-2xl transition-colors">
-                <span class="text-neutral-secondary text-sm">واتساب</span>
-                <span class="font-bold text-[#003616] text-lg latin">+20 105 062 4300</span>
-              </a>
             </div>
+            <!-- The head-office card is GONE (Ahmed, 2026-08-20): the address
+                 it carried was the fork source's real factory address, and
+                 i18n.py already records that it was removed, not reused. It
+                 comes back when Jaad's own address exists. Working hours are
+                 the honest thing to show in its place. -->
             <div class="flex flex-col gap-1 bg-white shadow-custom4 p-6 rounded-2xl">
-              <span class="font-bold text-[#003616] text-base">المقر الرئيسي</span>
-              <span class="text-neutral-secondary text-sm leading-7">المنطقة الصناعية 31-33، التجمع الثالث، القاهرة الجديدة، مصر</span>
+              <span class="font-bold text-[#003616] text-base">مواعيد العمل</span>
+              <span class="text-neutral-secondary text-sm leading-7">من السبت للخميس، من 9 صباحاً حتى 6 مساءً</span>
             </div>
           </div>
 
