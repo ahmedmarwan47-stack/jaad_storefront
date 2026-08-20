@@ -1130,21 +1130,13 @@
       ${
         checkout
           ? ""
-          : `<!-- Mobile utility strip (Ahmed, 2026-08-20). The desktop lime bar
-                  carrying Our Story / Media / FAQs / Contact Us is desktop-only
-                  (hidden md:block), so on a phone those pages could ONLY be
-                  reached by opening the drawer — and most people never did.
-                  This is the same bar, sized for a phone: one row, scrolled
-                  horizontally when it does not fit, so it costs a fixed strip of
-                  chrome no matter how many links SUPPORT_MENU grows to. It
-                  renders the same "support" markup the desktop bar uses, so the
-                  two can never list different links. -->
-             <div class="md:hidden block bg-limeFigma">
-               <nav class="flex items-center gap-5 px-4 py-2 overflow-x-auto no-scrollbar" aria-label="${esc(t("روابط أخرى"))}">
-                 ${support}
-                 <button type="button" data-lang-toggle data-no-i18n class="shrink-0 font-medium text-heading text-sm underline whitespace-nowrap">${currentLang() === "ar" ? "English" : "العربية"}</button>
-               </nav>
-             </div>
+          : `<!-- No utility strip on mobile (Ahmed, 2026-08-20). One briefly
+                  lived here mirroring the desktop lime bar, but it added a
+                  fourth stacked band to a phone masthead that already carries
+                  the flash bar, the masthead and the delivery row. Our Story /
+                  Media / FAQs / Contact Us live in the drawer instead, where
+                  they now render at full row weight, and the language control
+                  stays reachable via the drawer's sticky country button. -->
              <div class="md:hidden block bg-cream px-4 py-2">
                <button type="button" data-open="location" class="flex justify-between items-center gap-1 bg-cta px-5 py-2.5 rounded-full w-full min-h-11 text-white">
                  <span class="font-semibold text-xs truncate">التوصيل الى الشروق - القاهرة</span>
@@ -2613,6 +2605,13 @@
         if (!indicator) return;
         const active = tabs.querySelector(".tab-btn.is-active");
         if (!active) return;
+        // A zero measurement means the control is not laid out yet (hidden
+        // ancestor, font still swapping, scroll container still resolving).
+        // Writing it would COLLAPSE the pill to nothing and leave it that way,
+        // since nothing re-measures until the next resize — the failure mode
+        // that made the FAQ filter render with no pill at all. Skip instead and
+        // let the load/fonts/resize hooks below try again.
+        if (!active.offsetWidth) return;
         indicator.style.width = active.offsetWidth + "px";
         indicator.style.transform = "translateX(" + active.offsetLeft + "px)";
       };
@@ -2633,6 +2632,12 @@
         if (document.fonts && document.fonts.ready) {
           document.fonts.ready.then(moveIndicator);
         }
+        // Belt and braces for the first paint: one more pass on the next frame
+        // and again at window load. moveIndicator is idempotent and bails on a
+        // zero measurement, so extra calls are free and only ever fix a pill
+        // that had nothing to measure the first time.
+        requestAnimationFrame(moveIndicator);
+        window.addEventListener("load", moveIndicator, { once: true });
       }
     });
   }
@@ -7520,16 +7525,8 @@
     const img = article.querySelector("[data-post-image]");
     if (img && p.image) { img.src = p.image; img.alt = p.title || ""; }
     if (p.title) document.title = p.title + " | JAAD";
-    // The breadcrumb's last crumb names the post, so it must follow too. The
-    // trail is a flat run of <a>/<span> in a nav (see components.breadcrumb) —
-    // the current page is the final NON-separator child, i.e. not aria-hidden.
-    const nav = document.querySelector('nav[aria-label="Breadcrumb"]');
-    if (nav && p.title) {
-      const crumbs = [...nav.children].filter(
-        (el) => el.getAttribute("aria-hidden") !== "true");
-      const last = crumbs[crumbs.length - 1];
-      if (last) last.textContent = p.title;
-    }
+    // (The breadcrumb used to be updated here too. Breadcrumbs were removed
+    // site-wide on 2026-08-20, so there is no trail left to keep in step.)
   }
 
   /* ---------------------------------------------------------------
