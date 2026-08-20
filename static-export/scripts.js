@@ -7329,6 +7329,131 @@
   }
 
   /* ---------------------------------------------------------------
+     About — "From nature to you" scroll journey (Ahmed, 2026-08-20)
+
+     Sibling to initProductStory, deliberately a different mechanic: there a
+     packshot flies to centre and holds; here one circular window stays put and
+     the product worlds travel THROUGH it as the chapter copy cross-fades.
+
+     Scroll-scrubbed off the section's own spacer, so it is fully reversible and
+     never animates on a timer. The JS does the minimum: pick the current
+     chapter index, set a 0..1 progress for the ring, and drive a short "burst"
+     around each hand-off that throws the leaves out. Everything visual lives in
+     styles.css, so a chapter with no JS still renders (chapter 0 is marked
+     current at build time).
+
+     Inert without [data-about-journey], and a full no-op under reduced motion,
+     where the CSS already un-pins the section into a readable stack.
+     --------------------------------------------------------------- */
+  function initAboutJourney() {
+    const section = document.querySelector("[data-about-journey]");
+    if (!section) return;
+    if (reduceMotion()) return;          // CSS renders the static stack
+
+    const imgs = [...section.querySelectorAll("[data-journey-img]")];
+    const chapters = [...section.querySelectorAll("[data-journey-chapter]")];
+    const nodes = [...section.querySelectorAll("[data-journey-node]")];
+    const leaves = [...section.querySelectorAll("[data-journey-leaf]")];
+    const ring = section.querySelector("[data-journey-progress]");
+    const media = section.querySelector("[data-journey-media]");
+    const n = chapters.length;
+    if (!n || imgs.length !== n) return;
+
+    const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+    let current = -1;
+    let ticking = false;
+
+    function frame() {
+      ticking = false;
+      const rect = section.getBoundingClientRect();
+      const span = Math.max(1, section.offsetHeight - window.innerHeight);
+      // 0 when the section's top reaches the viewport top, 1 at its end.
+      const g = clamp01(-rect.top / span);
+
+      // Which chapter owns this scroll position. The last chapter keeps the
+      // stage through the run-out rather than blanking at exactly g === 1.
+      const idx = Math.min(n - 1, Math.floor(g * n));
+      if (idx !== current) {
+        current = idx;
+        imgs.forEach((el, i) => el.classList.toggle("is-current", i === idx));
+        chapters.forEach((el, i) => el.classList.toggle("is-current", i === idx));
+        nodes.forEach((el, i) => el.classList.toggle("is-current", i === idx));
+      }
+
+      if (ring) ring.style.setProperty("--p", g.toFixed(3));
+
+      // Leaf burst: peaks at each chapter boundary and decays quickly, so the
+      // leaves throw out on the hand-off instead of drifting the whole time.
+      const local = g * n - idx;                 // 0..1 within the chapter
+      const burst = Math.max(0, 1 - local / 0.34);
+      // A scrub can also run backwards; the burst is symmetrical either way.
+      const val = burst.toFixed(3);
+      leaves.forEach((leaf) => leaf.style.setProperty("--burst", val));
+
+      // The window breathes very slightly across its own chapter, so the
+      // sequence never looks frozen between hand-offs.
+      if (media) media.style.transform = "scale(" + (1 + local * 0.03).toFixed(4) + ")";
+    }
+
+    function schedule() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
+    frame();
+  }
+
+  /* Slow parallax on the About hero art. Same guards as the journey: opt-out
+     under reduced motion, no-op when the element is absent. */
+  function initAboutParallax() {
+    const img = document.querySelector("[data-about-parallax]");
+    if (!img || reduceMotion()) return;
+    const frame_ = img.parentElement;
+    let ticking = false;
+    function frame() {
+      ticking = false;
+      const r = frame_.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > window.innerHeight) return;   // off-screen
+      // -1 (entering from below) .. 1 (leaving past the top)
+      const p = (r.top + r.height / 2 - window.innerHeight / 2) / window.innerHeight;
+      img.style.transform = "translateY(" + (p * -26).toFixed(1) + "px) scale(1.12)";
+    }
+    function schedule() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
+    frame();
+  }
+
+  /* Count-up for the About stats: runs once when each tile scrolls into view.
+     Preserves whatever suffix/format the built value carries ("26", "100%"),
+     so the markup stays the source of truth for what the number says. */
+  function initStatCountUp() {
+    const tiles = [...document.querySelectorAll("[data-stat] [data-stat-value]")];
+    if (!tiles.length) return;
+    if (reduceMotion() || !("IntersectionObserver" in window)) return;  // built values stand
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        io.unobserve(el);
+        const raw = el.getAttribute("data-stat-value") || el.textContent;
+        const target = parseFloat(raw);
+        if (!isFinite(target)) return;
+        const suffix = String(raw).replace(/^[\d.,]+/, "");
+        const start = performance.now();
+        const DUR = 900;
+        (function step(now) {
+          const t = Math.min(1, (now - start) / DUR);
+          const eased = 1 - Math.pow(1 - t, 3);
+          el.textContent = Math.round(target * eased) + suffix;
+          if (t < 1) requestAnimationFrame(step);
+          else el.textContent = raw;
+        })(start);
+      });
+    }, { threshold: 0.4 });
+    tiles.forEach((el) => io.observe(el));
+  }
+
+  /* ---------------------------------------------------------------
      Blog post ?post=<slug> swap (Ahmed, 2026-08-20)
 
      The fork ships ONE static blog.html — there is no per-post routing and no
@@ -7577,6 +7702,12 @@
 
     // Blog post ?post=<slug> swap — no-op off the post page.
     initBlogPost();
+
+    // About page: pinned scroll journey, hero parallax, stat count-up. Each
+    // guards off its own markup, so all three are no-ops elsewhere.
+    initAboutJourney();
+    initAboutParallax();
+    initStatCountUp();
 
     // Swap every 3D icon to the concept that matches the current toggle, and
     // keep watching for icons injected later (drawer, recent rail).

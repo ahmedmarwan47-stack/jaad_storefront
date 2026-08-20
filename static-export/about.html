@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=04d8ab23" />
-    <link rel="stylesheet" href="styles.css?v=45b31927" />
+    <link rel="stylesheet" href="tailwind.css?v=613004fc" />
+    <link rel="stylesheet" href="styles.css?v=28ec1c87" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -45,8 +45,8 @@
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js?v=907988ea"></script>
-    <script defer src="scripts.js?v=1fea04ac"></script>
+    <script defer src="i18n-en.js?v=24ccd6ef"></script>
+    <script defer src="scripts.js?v=ff94e0be"></script>
   </head>
   <body data-page="about" data-path="/about" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -65,84 +65,136 @@
         </div>
       </section>
 
-      <section data-reveal class="py-8 xl:py-10">
-        <div class="flex flex-col gap-8 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
+      <!-- ============================== HERO ============================== -->
+      <section data-reveal class="about-hero">
+        <div class="flex flex-col gap-6 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="flex flex-col gap-3">
             <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-[#006328] text-[13px] uppercase tracking-[1px]">عن جاد</span>
-            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-none tracking-[-1px]">قصتنا</h1>
-            <p class="max-w-[630px] text-[#4b5563] text-base leading-[1.6]">
-              من الطبيعة إليك — قهوة ومكسرات وبهارات طبيعية، مصدرها الأصلي في قلب كل منتج.
+            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[52px] leading-none tracking-[-1px]">من الطبيعة إليك</h1>
+            <p class="max-w-[560px] text-[#4b5563] text-base xl:text-lg leading-[1.6]">
+              قهوة ومكسرات وبهارات طبيعية، مصدرها الأصلي في قلب كل منتج.
             </p>
           </div>
-          <div class="rounded-3xl overflow-hidden">
-            <!-- Was about-hero.webp until 2026-08-20 — a WordPress-media
-                 filename inherited from the fork whose file never existed in
-                 this repo, so this hero rendered broken. Points at Jaad's own
-                 hero photography until dedicated about-page art is delivered. -->
-            <img src="images/jaad/site/hero-jaad.webp" alt="جاد" class="w-full h-[280px] xl:h-[460px] object-cover" />
+          <!-- Slow parallax on the hero art (data-about-parallax); a no-op
+               under reduced motion, where it simply sits still. -->
+          <div class="about-hero__frame">
+            <img src="images/jaad/site/hero-jaad.webp" alt="جاد"
+                 class="about-hero__img" data-about-parallax />
           </div>
         </div>
       </section>
 
-      <section data-reveal class="bg-[#FDF8F1] py-12 xl:py-14">
-        <div class="flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
+      <!-- ============================ THE JOURNEY ============================ -->
+      <!-- A tall spacer whose scroll drives the pinned stage inside it. The
+           stage holds ONE circular window; the product worlds travel through
+           it while the chapter copy cross-fades beside it. -->
+      <section data-reveal class="about-journey" data-about-journey aria-label="قصة جاد">
+        <div class="about-journey__stage">
+          <div class="about-journey__inner mx-auto px-4 xl:px-[60px] max-w-[1512px]">
+
+            <div class="about-journey__media" data-journey-media>
+              <span class="about-journey__ring" aria-hidden="true"></span>
+              <span class="about-journey__progress" data-journey-progress aria-hidden="true"></span>
+              <div class="about-journey__window">
+                <img src="images/jaad/site/story-coffee.jpg" alt="قصتنا"
+                     class="about-journey__img is-current"
+                     data-journey-img data-index="0" loading="lazy" />
+                <img src="images/jaad/site/story-nuts.jpg" alt="جودة في كل خطوة"
+                     class="about-journey__img"
+                     data-journey-img data-index="1" loading="lazy" />
+                <img src="images/jaad/site/story-spices.jpg" alt="نغذي العقل والروح"
+                     class="about-journey__img"
+                     data-journey-img data-index="2" loading="lazy" />
+              </div>
+                <img src="images/jaad/decor/leaf-1.svg" alt="" aria-hidden="true"
+                     class="about-journey__leaf w-12 h-auto" data-journey-leaf
+                     style="--ang:-28deg;--dist:1.0" />
+                <img src="images/jaad/decor/leaf-3.svg" alt="" aria-hidden="true"
+                     class="about-journey__leaf w-16 h-auto" data-journey-leaf
+                     style="--ang:18deg;--dist:1.15" />
+                <img src="images/jaad/decor/leaf-2.svg" alt="" aria-hidden="true"
+                     class="about-journey__leaf w-9 h-auto" data-journey-leaf
+                     style="--ang:-64deg;--dist:0.85" />
+                <img src="images/jaad/decor/leaf-5.svg" alt="" aria-hidden="true"
+                     class="about-journey__leaf w-10 h-auto" data-journey-leaf
+                     style="--ang:52deg;--dist:1.05" />
+                <img src="images/jaad/decor/leaf-4.svg" alt="" aria-hidden="true"
+                     class="about-journey__leaf w-11 h-auto" data-journey-leaf
+                     style="--ang:-104deg;--dist:1.2" />
+                <img src="images/jaad/decor/leaf-1.svg" alt="" aria-hidden="true"
+                     class="about-journey__leaf w-8 h-auto" data-journey-leaf
+                     style="--ang:104deg;--dist:0.95" />
+            </div>
+
+            <div class="about-journey__side">
+              <ol class="about-journey__rail" data-journey-rail>
+                  <li class="about-journey__node is-current" data-journey-node data-index="0">
+                    <span class="about-journey__node-dot" aria-hidden="true"></span>
+                    <span class="about-journey__node-label">قهوة</span>
+                  </li>
+                  <li class="about-journey__node" data-journey-node data-index="1">
+                    <span class="about-journey__node-dot" aria-hidden="true"></span>
+                    <span class="about-journey__node-label">مكسرات</span>
+                  </li>
+                  <li class="about-journey__node" data-journey-node data-index="2">
+                    <span class="about-journey__node-dot" aria-hidden="true"></span>
+                    <span class="about-journey__node-label">بهارات</span>
+                  </li>
+              </ol>
+              <div class="about-journey__chapters">
+                <article class="about-journey__chapter is-current" data-journey-chapter data-index="0">
+                  <span class="about-journey__kicker">قهوة</span>
+                  <h2 class="about-journey__heading">قصتنا</h2>
+                  <p class="about-journey__copy">من الطبيعة إليك — جاد تقدم قهوة ومكسرات وبهارات طبيعية عالية الجودة، مصدرها الأصلي في قلب كل منتج.</p>
+                </article>
+                <article class="about-journey__chapter" data-journey-chapter data-index="1">
+                  <span class="about-journey__kicker">مكسرات</span>
+                  <h2 class="about-journey__heading">جودة في كل خطوة</h2>
+                  <p class="about-journey__copy">فلكل مُنتَج حكايته الخاصة؛ وبسبب اهتمامنا المستمر بالتفاصيل، فإن كل خطوة في عملية الإنتاج في جاد تُدار بعناية لضمان إنتاج منتجات عالية الجودة يتم توصيلها بحب وملئها بالمكونات المغذية من الطبيعة الأم.</p>
+                </article>
+                <article class="about-journey__chapter" data-journey-chapter data-index="2">
+                  <span class="about-journey__kicker">بهارات</span>
+                  <h2 class="about-journey__heading">نغذي العقل والروح</h2>
+                  <p class="about-journey__copy">نعطي الأولوية لابتكار المنتجات ونأخذ في الاعتبار اتجاهات السوق ورغبات العملاء وتغيُّر الأذواق، كما نشجع دائمًا نمط الحياة الصحي؛ لأن هدفنا ليس فقط تغذية الجسم، بل تغذية العقل والروح أيضًا.</p>
+                </article>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== STATS ============================== -->
+      <section data-reveal class="about-stats">
+        <div class="flex flex-col gap-8 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="gap-6 grid grid-cols-1 sm:grid-cols-3">
-              <div class="flex flex-col items-center gap-1 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] px-4 py-8 rounded-3xl text-center">
-                <span class="font-medium text-[#29612F] text-[40px] leading-none latin">26</span>
-                <span class="text-[#636959] text-sm">منتج</span>
+              <div class="about-stat" data-stat>
+                <span class="about-stat__value latin" data-stat-value="26">26</span>
+                <span class="about-stat__label">منتج</span>
               </div>
-              <div class="flex flex-col items-center gap-1 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] px-4 py-8 rounded-3xl text-center">
-                <span class="font-medium text-[#29612F] text-[40px] leading-none latin">3</span>
-                <span class="text-[#636959] text-sm">فئات منتجات</span>
+              <div class="about-stat" data-stat>
+                <span class="about-stat__value latin" data-stat-value="3">3</span>
+                <span class="about-stat__label">فئات منتجات</span>
               </div>
-              <div class="flex flex-col items-center gap-1 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] px-4 py-8 rounded-3xl text-center">
-                <span class="font-medium text-[#29612F] text-[40px] leading-none latin">100%</span>
-                <span class="text-[#636959] text-sm">طبيعي</span>
-              </div>
-          </div>
-          <div class="gap-6 grid grid-cols-1 md:grid-cols-3">
-              <div class="relative rounded-3xl min-h-[300px] overflow-hidden">
-                <img src="images/jaad/site/story-coffee.jpg" alt="قهوة" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/55"></div>
-                <div class="absolute inset-x-6 bottom-7 flex flex-col gap-2 text-white">
-                  <h3 class="font-bold text-2xl leading-tight">قهوة</h3>
-                  <p class="text-white/90 text-sm leading-[1.5]">قهوة تركية محمصة على دفعات صغيرة، بدرجات محسوبة تحافظ على النكهة.</p>
-                </div>
-              </div>
-              <div class="relative rounded-3xl min-h-[300px] overflow-hidden">
-                <img src="images/jaad/site/story-nuts.jpg" alt="مكسرات" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/55"></div>
-                <div class="absolute inset-x-6 bottom-7 flex flex-col gap-2 text-white">
-                  <h3 class="font-bold text-2xl leading-tight">مكسرات</h3>
-                  <p class="text-white/90 text-sm leading-[1.5]">مكسرات من مصادرها الأصلية، محمصة بعناية وبأقل تدخل ممكن.</p>
-                </div>
-              </div>
-              <div class="relative rounded-3xl min-h-[300px] overflow-hidden">
-                <img src="images/jaad/site/story-spices.jpg" alt="بهارات" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/55"></div>
-                <div class="absolute inset-x-6 bottom-7 flex flex-col gap-2 text-white">
-                  <h3 class="font-bold text-2xl leading-tight">بهارات</h3>
-                  <p class="text-white/90 text-sm leading-[1.5]">بهارات طازة تُطحن وتُعبأ بكميات صغيرة عشان تفضل محتفظة بزيوتها.</p>
-                </div>
+              <div class="about-stat" data-stat>
+                <span class="about-stat__value latin" data-stat-value="100%">100%</span>
+                <span class="about-stat__label">طبيعي</span>
               </div>
           </div>
         </div>
       </section>
 
-      <section data-reveal class="py-12 xl:py-14">
-        <div class="flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[860px]">
-              <div class="flex flex-col gap-3">
-                <h2 class="font-medium text-[#29612F] text-[28px] md:text-[32px] leading-[1.2]">قصتنا</h2>
-                <p class="text-[#1e2219] text-base xl:text-lg leading-[1.9]">من الطبيعة إليك — جاد تقدم قهوة ومكسرات وبهارات طبيعية عالية الجودة، مصدرها الأصلي في قلب كل منتج.</p>
-              </div>
-              <div class="flex flex-col gap-3">
-                <h2 class="font-medium text-[#29612F] text-[28px] md:text-[32px] leading-[1.2]">جودة في كل خطوة</h2>
-                <p class="text-[#1e2219] text-base xl:text-lg leading-[1.9]">فلكل مُنتَج حكايته الخاصة؛ وبسبب اهتمامنا المستمر بالتفاصيل، فإن كل خطوة في عملية الإنتاج في جاد تُدار بعناية لضمان إنتاج منتجات عالية الجودة يتم توصيلها بحب وملئها بالمكونات المغذية من الطبيعة الأم.</p>
-              </div>
-              <div class="flex flex-col gap-3">
-                <h2 class="font-medium text-[#29612F] text-[28px] md:text-[32px] leading-[1.2]">نغذي العقل والروح</h2>
-                <p class="text-[#1e2219] text-base xl:text-lg leading-[1.9]">نعطي الأولوية لابتكار المنتجات ونأخذ في الاعتبار اتجاهات السوق ورغبات العملاء وتغيُّر الأذواق، كما نشجع دائمًا نمط الحياة الصحي؛ لأن هدفنا ليس فقط تغذية الجسم، بل تغذية العقل والروح أيضًا.</p>
-              </div>
+      <!-- =============================== CTA =============================== -->
+      <section data-reveal class="about-cta">
+        <div class="flex flex-col items-center gap-5 mx-auto px-4 max-w-[720px] text-center">
+          <h2 class="font-medium text-[#29612F] text-[28px] md:text-[36px] leading-[1.2]">جرب جاد بنفسك</h2>
+          <p class="text-[#4b5563] text-base leading-[1.6]">
+            كل منتج بنقدمه بيعدي بنفس الرحلة — من مصدره لحد ما يوصلك.
+          </p>
+          <div class="flex flex-wrap justify-center gap-3">
+            <a href="shop.html" class="btn btn--primary inline-flex justify-center items-center rounded-full font-semibold transition-colors w-full sm:w-auto px-8 py-3 text-base bg-cta hover:bg-cta-hover text-white ">تسوق الآن</a>
+            <a href="contact-us.html" class="btn inline-flex justify-center items-center rounded-full font-semibold transition-colors w-full sm:w-auto px-8 py-3 text-base border border-cta text-cta hover:bg-interaction-base ">تواصل معنا</a>
+          </div>
         </div>
       </section>
     </main>

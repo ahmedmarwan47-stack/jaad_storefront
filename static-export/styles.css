@@ -3284,6 +3284,172 @@ html[data-img="plain"] .story-fb-plain { display: block; }
      initProductStory handles the phone-specific fade/scale-in animation. */
 }
 
+/* ======================================================================
+   ABOUT — "From nature to you" scroll journey (Ahmed, 2026-08-20)
+
+   Sibling to the product page's white-mode story, deliberately a different
+   mechanic: there a packshot flies to centre and holds; here the circular
+   window is the CONSTANT and the product worlds travel through it while the
+   chapter copy cross-fades beside it.
+
+   Everything below is the base look and the transitions between chapter
+   states. initAboutJourney (scripts.js) only adds/removes `.is-current` and
+   sets the progress custom property, so with JS unavailable the first chapter
+   renders correctly and the section still reads.
+   ====================================================================== */
+.about-hero { padding: 2rem 0 2.5rem; }
+.about-hero__frame {
+  border-radius: 24px; overflow: hidden;
+  /* The frame clips a deliberately over-tall image so the parallax has room
+     to travel without ever revealing an edge. */
+}
+.about-hero__img {
+  width: 100%; height: 300px; object-fit: cover; display: block;
+  will-change: transform;
+}
+@media (min-width: 1280px) { .about-hero__img { height: 460px; } }
+
+/* The spacer: its height IS the scroll budget for the pinned sequence.
+   Three chapters at roughly one viewport each, plus a little run-in/run-out. */
+.about-journey { position: relative; height: 340vh; background: #FDF8F1; }
+.about-journey__stage {
+  position: sticky; top: 0; height: 100vh;
+  display: flex; align-items: center; overflow: hidden;
+}
+.about-journey__inner {
+  display: grid; grid-template-columns: 1fr; gap: 2rem;
+  align-items: center; width: 100%;
+}
+@media (min-width: 1024px) {
+  .about-journey__inner { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 4rem; }
+}
+
+/* ---- the circular window ---- */
+.about-journey__media {
+  position: relative; justify-self: center;
+  width: min(78vw, 300px); aspect-ratio: 1;
+}
+@media (min-width: 1024px) { .about-journey__media { width: min(38vw, 440px); } }
+
+.about-journey__window {
+  position: absolute; inset: 0; border-radius: 50%; overflow: hidden;
+  background: #fff; box-shadow: 0 24px 60px rgba(6, 42, 28, 0.18);
+  /* Above the leaves (z-1) so they read as emerging from BEHIND the window.
+     The leaves must NOT use a negative z-index for this: that puts them behind
+     the section's own background and they vanish entirely. */
+  z-index: 2;
+}
+/* Chapter images stack; exactly one is `.is-current`. The outgoing one scales
+   up and fades as the incoming one settles in from slightly small — the
+   product worlds read as travelling THROUGH the window, not as a slideshow. */
+.about-journey__img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transform: scale(1.14);
+  transition: opacity .7s ease, transform .9s cubic-bezier(.22,.61,.36,1);
+  will-change: opacity, transform;
+}
+.about-journey__img.is-current { opacity: 1; transform: scale(1); }
+
+/* Static hairline ring + the arc that fills with journey progress. The arc is
+   a conic gradient masked to a ring, driven by --p (0..1) from the JS. */
+.about-journey__ring {
+  position: absolute; inset: -14px; border-radius: 50%;
+  border: 1px solid rgba(41, 97, 47, 0.22);
+  z-index: 3;   /* the ring sits outside the window, so keep it on top */
+}
+.about-journey__progress {
+  position: absolute; inset: -14px; border-radius: 50%; z-index: 3;
+  background: conic-gradient(#29612F calc(var(--p, 0) * 360deg), transparent 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  transition: background .2s linear;
+}
+
+/* Leaves drift out from behind the window on each hand-off. --ang/--dist come
+   from the markup (fixed angles, so they never clump); --burst (0..1) is set
+   per frame by the JS and peaks at the moment chapters swap. */
+.about-journey__leaf {
+  position: absolute; top: 50%; left: 50%; z-index: 1;
+  opacity: calc(var(--burst, 0) * 0.9); pointer-events: none;
+  /* --fly must exceed the window's RADIUS plus the ring inset, or the leaf
+     never clears the window it is supposed to emerge from and stays invisible
+     behind it. Phone circle is 300px wide (r=150), desktop 440 (r=220), both
+     plus a 14px ring — so the travel is set per breakpoint, not shared. */
+  --fly: 250px;
+  transform:
+    translate(-50%, -50%)
+    rotate(var(--ang))
+    translateX(calc(var(--burst, 0) * var(--dist) * var(--fly)))
+    rotate(calc(var(--burst, 0) * 190deg));
+  transition: opacity .45s ease, transform .8s cubic-bezier(.22,.61,.36,1);
+  will-change: transform, opacity;
+}
+@media (min-width: 1024px) { .about-journey__leaf { --fly: 400px; } }
+
+/* ---- the copy side ---- */
+.about-journey__side { display: flex; flex-direction: column; gap: 1.75rem; min-width: 0; }
+
+.about-journey__rail { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+.about-journey__node {
+  display: flex; align-items: center; gap: .5rem;
+  font-size: 13px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+  color: #9aa08f; transition: color .4s ease;
+}
+.about-journey__node.is-current { color: #29612F; }
+.about-journey__node-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: currentColor;
+  transform: scale(.7); transition: transform .4s ease;
+}
+.about-journey__node.is-current .about-journey__node-dot { transform: scale(1.25); }
+
+/* Chapters share one grid cell and cross-fade in place, so the block never
+   jumps height as the copy changes length. */
+.about-journey__chapters { display: grid; }
+.about-journey__chapter {
+  grid-area: 1 / 1; display: flex; flex-direction: column; gap: .75rem;
+  opacity: 0; transform: translateY(22px); pointer-events: none;
+  transition: opacity .55s ease, transform .7s cubic-bezier(.22,.61,.36,1);
+  will-change: opacity, transform;
+}
+.about-journey__chapter.is-current { opacity: 1; transform: none; pointer-events: auto; }
+.about-journey__kicker {
+  align-self: flex-start; background: rgba(138, 204, 62, 0.13);
+  padding: .25rem .75rem; border-radius: 6px;
+  font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  color: #006328;
+}
+.about-journey__heading {
+  font-weight: 500; color: #29612F; font-size: 30px; line-height: 1.15; letter-spacing: -.5px;
+}
+@media (min-width: 768px) { .about-journey__heading { font-size: 40px; } }
+.about-journey__copy { color: #1e2219; font-size: 16px; line-height: 1.9; max-width: 52ch; }
+
+/* ---- stats + CTA ---- */
+.about-stats { padding: 3.5rem 0; background: #fff; }
+.about-stat {
+  display: flex; flex-direction: column; align-items: center; gap: .25rem;
+  background: #fff; border-radius: 24px; padding: 2rem 1rem; text-align: center;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(41, 97, 47, 0.08);
+}
+.about-stat__value { font-weight: 500; color: #29612F; font-size: 40px; line-height: 1; }
+.about-stat__label { color: #636959; font-size: 14px; }
+.about-cta { padding: 3.5rem 0 4.5rem; background: #FDF8F1; }
+
+/* Reduced motion: no pin, no scrub, no drift. The spacer collapses to content
+   height, the stage un-sticks, and every chapter + image is simply shown in a
+   readable stack — the same fallback shape the product story uses. */
+@media (prefers-reduced-motion: reduce) {
+  .about-journey { height: auto; }
+  .about-journey__stage { position: static; height: auto; display: block; padding: 2.5rem 0; }
+  .about-journey__inner { grid-template-columns: 1fr; }
+  .about-journey__media { display: none; }
+  .about-journey__chapters { display: flex; flex-direction: column; gap: 2.5rem; }
+  .about-journey__chapter { opacity: 1; transform: none; pointer-events: auto; }
+  .about-journey__leaf { display: none; }
+  .about-hero__img { transform: none !important; }
+}
+
 /* Dev/preview UI-toggle panel. Parked bottom-LEFT, compact, and COLLAPSIBLE
    (Ahmed, 2026-08-19) so the review controls never sit over the design. */
 .btnswitch {
