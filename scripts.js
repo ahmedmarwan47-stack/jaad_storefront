@@ -72,7 +72,12 @@
       name: "الشركة",
       links: [
         { title: "قصتنا", url: "/about" },
-        { title: "فرص وظائف", url: "/careers" },
+        // Was "فرص وظائف" (/careers) until 2026-08-20 — no careers page is
+        // built, and an unmapped url falls through to index.html, so the link
+        // silently dropped you on the homepage instead of doing nothing
+        // visible. Replaced with the blog, which is a real page and was the
+        // one utility destination the footer never listed.
+        { title: "ميديا", url: "/blogs" },
         { title: "اتصل بنا", url: "/contact-us" },
       ],
     },
@@ -168,16 +173,22 @@
     return m;
   })();
 
-  /* Demo: static informational pages link nowhere (Ahmed, 2026-08-02). The
-     client is being walked through the shipping cycle — browse, cart, checkout,
-     account — so the chrome's links to the placeholder content pages (about,
-     blog, branches, contact, policies, rewards, export) resolve to "#" and stay
-     put instead of wandering off into unfinished static pages. Empty this set to
-     restore full navigation for launch. */
+  /* Pages the chrome must NOT link to, because no such page is built.
+     Anything listed here renders as "#" wherever the header, footer or mobile
+     drawer would otherwise link it.
+
+     History (Ahmed, 2026-08-02 -> 2026-08-20): this started as a demo stub that
+     also held about/faqs/contact-us/policies/blogs/rewards, so a client
+     walkthrough stayed on the shopping flow instead of wandering into
+     then-unfinished content pages. Those pages are all real and finished now,
+     so keeping them here just made Our Story, FAQs, Contact Us and the blog
+     unreachable from every surface at once — header, footer and drawer alike.
+     Freed. Only genuinely absent pages remain: Jaad has no branches (see
+     SUPPORT_MENU) and no export programme, so nothing is built for either.
+     `store-closed.html` exists but is a STATE page the site redirects to, not
+     somewhere to navigate to by hand. */
   const DEMO_DEAD_PAGES = new Set([
-    "about.html", "branches.html", "faqs.html", "contact-us.html",
-    "privacy-policy.html", "terms-conditions.html", "return-policy.html",
-    "blogs.html", "blog.html", "rewards.html", "export.html", "store-closed.html",
+    "branches.html", "export.html", "store-closed.html",
   ]);
   function pageHref(url) {
     const href = pageHrefRaw(url);
@@ -1119,7 +1130,22 @@
       ${
         checkout
           ? ""
-          : `<div class="md:hidden block bg-cream px-4 py-2">
+          : `<!-- Mobile utility strip (Ahmed, 2026-08-20). The desktop lime bar
+                  carrying Our Story / Media / FAQs / Contact Us is desktop-only
+                  (hidden md:block), so on a phone those pages could ONLY be
+                  reached by opening the drawer — and most people never did.
+                  This is the same bar, sized for a phone: one row, scrolled
+                  horizontally when it does not fit, so it costs a fixed strip of
+                  chrome no matter how many links SUPPORT_MENU grows to. It
+                  renders the same "support" markup the desktop bar uses, so the
+                  two can never list different links. -->
+             <div class="md:hidden block bg-limeFigma">
+               <nav class="flex items-center gap-5 px-4 py-2 overflow-x-auto no-scrollbar" aria-label="${esc(t("روابط أخرى"))}">
+                 ${support}
+                 <button type="button" data-lang-toggle data-no-i18n class="shrink-0 font-medium text-heading text-sm underline whitespace-nowrap">${currentLang() === "ar" ? "English" : "العربية"}</button>
+               </nav>
+             </div>
+             <div class="md:hidden block bg-cream px-4 py-2">
                <button type="button" data-open="location" class="flex justify-between items-center gap-1 bg-cta px-5 py-2.5 rounded-full w-full min-h-11 text-white">
                  <span class="font-semibold text-xs truncate">التوصيل الى الشروق - القاهرة</span>
                  <span class="shrink-0 w-4 h-4 chevron">${ICON.chevronDown}</span>
@@ -1334,9 +1360,13 @@
         <a href="${pageHref(i.url)}" class="flex items-center justify-between min-h-11 py-3.5 text-textSecondary font-medium">${esc(t(i.name))}${i.children ? `<span class="w-4 h-4 text-muted">${ICON.arrowRight}</span>` : ""}</a>
       </li>`,
     ).join("");
+    // Same weight and tap target as the category rows above them (Ahmed,
+    // 2026-08-20). These were `text-muted text-sm` with no divider — secondary
+    // styling for what is, on a phone, the ONLY way to reach Our Story, the
+    // blog, FAQs and Contact Us. They read as fine print and got missed.
     const supportLinks = SUPPORT_MENU.map(
       (i) =>
-        `<li><a href="${pageHref(i.url)}" class="flex items-center min-h-11 py-2 text-muted text-sm">${esc(t(i.title))}</a></li>`,
+        `<li class="border-b border-neutral-100 last:border-0"><a href="${pageHref(i.url)}" class="flex items-center justify-between min-h-11 py-3.5 text-textSecondary font-medium">${esc(t(i.title))}<span class="w-4 h-4 text-muted">${ICON.arrowRight}</span></a></li>`,
     ).join("");
 
     /* Seed contents for a first-ever visit, so the drawer and cart page are
