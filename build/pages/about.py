@@ -41,7 +41,11 @@ def build():
       <section class="py-8">
         <div class="mx-auto px-4 max-w-[1536px]">
           <div class="rounded-[20px] overflow-hidden">
-            <img src="images/jaad/site/about-hero.webp" alt="جاد" class="w-full h-[280px] xl:h-[460px] object-cover" />
+            <!-- Was about-hero.webp until 2026-08-20 — a WordPress-media
+                 filename inherited from the fork whose file never existed in
+                 this repo, so this hero rendered broken. Points at Jaad's own
+                 hero photography until dedicated about-page art is delivered. -->
+            <img src="images/jaad/site/hero-jaad.webp" alt="جاد" class="w-full h-[280px] xl:h-[460px] object-cover" />
           </div>
         </div>
       </section>
@@ -56,6 +60,11 @@ def build():
         </div>
       </section>"""
 
+    # The description carried "منذ 2010" and "أطعمة صحية" until 2026-08-20 —
+    # the founding year and product range this page's own header comment says
+    # were removed as the fork source's, not Jaad's. The body was cleaned then;
+    # the meta description was missed, so it kept shipping both to search
+    # results and link previews. Now it matches the page: real categories only.
     return page("قصتنا | جاد",
-                "تعرف على قصة جاد منذ 2010 — قهوة ومكسرات وأطعمة صحية عالية الجودة.",
+                "تعرف على قصة جاد — قهوة ومكسرات وبهارات طبيعية عالية الجودة.",
                 body, "about", "/about")

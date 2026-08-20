@@ -1910,47 +1910,44 @@ def review_card(name, city, text, score="4.8"):
           </article>"""
 
 
-def blog_card(img, tag, heading, excerpt, href="blog.html"):
-    """Horizontal card — image beside the text (Ahmed, 2026-08-02) so a post
-    takes far less vertical height than the old image-over-text stack. min-w-0
-    on the text column so the fixed-width image cannot push the card wide."""
+def article_card(img, tags, meta, title_, excerpt, href="blog.html", rail=False):
+    """The ONE article card, Figma 'Latest from JAAD' (node 9974:21059).
+
+    Lifted out of home.py (Ahmed, 2026-08-20) so the homepage rail and the blog
+    index/related rails render the SAME card. Before this, the blog pages used a
+    separate inherited Abu-Auf card — a horizontal image-beside-text strip in
+    Arabic — so the blog looked like a different site from the homepage that
+    linked to it.
+
+    `rail=True` gives the card the fixed width + snap alignment a horizontally
+    scrolling track needs; the grid variant fills its column.
+    """
+    tag_html = "".join(
+        f'<span class="inline-flex items-center px-3 py-1 border border-[#29612F] '
+        f'rounded-full font-medium text-[#29612F] text-xs">{e(t)}</span>'
+        for t in tags
+    )
+    # On phones a rail card is a fixed slide; from md up it becomes a grid cell.
+    width = ("w-[82vw] max-w-[330px] shrink-0 snap-start md:w-auto md:max-w-none"
+             if rail else "")
     return f"""
-        <article class="flex bg-white shadow-custom4 rounded-2xl overflow-hidden">
-          <div class="flex flex-col flex-1 gap-2 p-4 xl:p-5 min-w-0">
-            <span class="font-semibold text-primary text-xs">{e(tag)}</span>
-            <h3 class="font-bold text-[#003616] text-base xl:text-lg leading-6 line-clamp-2">
-              <a href="{href}" class="hover:text-primary transition-colors">{e(heading)}</a>
-            </h3>
-            <p class="text-neutral-secondary text-sm leading-6 line-clamp-2">{e(excerpt)}</p>
-            <a href="{href}" class="inline-flex items-center gap-1 mt-auto pt-1 font-semibold text-cta text-sm">
-              اقرأ المزيد <span class="w-4 h-4 rtl:scale-flip">{ICON['arrow']}</span>
-            </a>
-          </div>
-          <a href="{href}" class="block bg-interaction-base w-[120px] sm:w-[150px] shrink-0 overflow-hidden">
-            <img src="{e(img)}" alt="{e(heading)}" class="w-full h-full hover:scale-105 object-cover transition-transform duration-500" loading="lazy" />
-          </a>
-        </article>"""
+              <a href="{e(href)}" class="group flex flex-col gap-4 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] p-4 rounded-3xl {width}">
+                <div class="relative rounded-2xl h-[200px] xl:h-[260px] overflow-hidden">
+                  <img src="{e(img)}" alt="{e(title_)}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                </div>
+                <div class="flex flex-wrap justify-between items-center gap-2">
+                  <div class="flex flex-wrap gap-2">{tag_html}</div>
+                  <span class="font-medium text-[#636959] text-[13px] whitespace-nowrap">{e(meta)}</span>
+                </div>
+                <h3 class="font-bold text-[#006328] text-lg leading-[1.4] group-hover:underline">{e(title_)}</h3>
+                <p class="text-[#1e2219] text-sm leading-[1.5] line-clamp-3">{e(excerpt)}</p>
+              </a>"""
 
 
-def recipe_card(img, tag, heading, excerpt, minutes, href="blog.html"):
-    return f"""
-        <article class="flex bg-white shadow-custom4 rounded-2xl overflow-hidden">
-          <!-- min-w-0: the image is a fixed 160px shrink-0, so without this the
-               text column's min-content floor pushed the card ~10px wide at
-               320px viewports. -->
-          <div class="flex flex-col flex-1 gap-2 p-6 xl:p-8 min-w-0">
-            <span class="font-semibold text-primary text-sm">{e(tag)}</span>
-            <h3 class="font-bold text-[#003616] text-xl xl:text-2xl leading-8 break-words">{e(heading)}</h3>
-            <p class="text-neutral-secondary text-base leading-7 line-clamp-2">{e(excerpt)}</p>
-            {button("شاهد الوصفة", href, "primary", "sm", "mt-auto")}
-          </div>
-          <div class="relative w-[160px] xl:w-[320px] shrink-0">
-            <img src="{e(img)}" alt="{e(heading)}" class="w-full h-full object-cover" loading="lazy" />
-            <span class="top-4 start-4 absolute inline-flex items-center gap-1.5 bg-white/90 px-3 py-1.5 rounded-full font-semibold text-[#003616] text-sm">
-              {ICON['clock']}<span class="latin">{minutes}</span> د
-            </span>
-          </div>
-        </article>"""
+# `recipe_card` lived here until 2026-08-20 — an inherited Abu-Auf horizontal
+# card (Arabic CTA, image beside text) with no call sites left once the blog was
+# rebuilt on `article_card`. Removed rather than kept, so there is exactly ONE
+# article card in the codebase and no way to reintroduce the old look.
 
 
 def info_card(img, heading, body, cta_label, cta_href, img_class="w-[100px] h-[100px]"):

@@ -1,7 +1,8 @@
 """Home page — Figma node 9943:16397 (Jaad-Ecommerce file)."""
+from _posts import POSTS
 from catalog import PRODUCTS, e, home_categories, rail_products, category
 from components import (
-    ICON, blog_card, button, carousel, category_tile, page,
+    ICON, article_card, button, carousel, category_tile, page,
     product_card, product_widget, review_card, section_heading,
 )
 
@@ -89,18 +90,10 @@ REVIEW_LEAVES = [
     ("leaf-5.svg", "92%", "61%", "w-8", 70),
 ]
 
-# Latest from JAAD — Figma node 9974:21059. (image, [tags], meta, title, excerpt).
-ARTICLES = [
-    ("article-1.jpg", ["Coffee", "Wellness"], "July 15, 2026 — 5 min read",
-     "The Art of Turkish Coffee: A Tradition Worth Preserving",
-     "Discover the centuries-old craft behind authentic Turkish coffee, from selecting the finest beans to the perfect brew technique."),
-    ("article-2.jpg", ["Nutrition", "Nuts"], "June 28, 2026 — 4 min read",
-     "Why Mediterranean Nuts Are the World's Best Kept Secret",
-     "From the groves of the Mediterranean come the finest walnuts and almonds, packed with nutrients and unmatched flavor."),
-    ("article-3.jpg", ["Spices", "Recipes"], "June 10, 2026 — 6 min read",
-     "Spice Up Your Kitchen: 5 Essential Blends Every Home Cook Needs",
-     "Transform your everyday cooking with these aromatic spice blends sourced from the world's finest growing regions."),
-]
+# Latest from JAAD — Figma node 9974:21059. The posts themselves live in
+# _posts.POSTS (Ahmed, 2026-08-20), shared with the blog index and post pages,
+# so the homepage teaser always shows the three most recent real articles
+# instead of its own hardcoded copy of them.
 
 # Frequently Asked Questions — Figma node 9967:21115. (question, answer). First
 # is open by default. Answers are in-house, consistent with the site's policies.
@@ -248,25 +241,15 @@ def build():
     )
     story_leaves = render_leaves(STORY_LEAVES)
 
-    def article_card(img, tags, meta, title_, excerpt):
-        tag_html = "".join(
-            f'<span class="inline-flex items-center px-3 py-1 border border-[#29612F] '
-            f'rounded-full font-medium text-[#29612F] text-xs">{e(t)}</span>'
-            for t in tags
-        )
-        return f"""
-              <a href="blogs.html" class="group flex flex-col gap-4 bg-white shadow-[0px_8px_8px_rgba(0,0,0,0.03)] p-4 rounded-3xl">
-                <div class="relative rounded-2xl h-[200px] xl:h-[260px] overflow-hidden">
-                  <img src="images/jaad/site/{img}" alt="{e(title_)}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
-                </div>
-                <div class="flex flex-wrap justify-between items-center gap-2">
-                  <div class="flex flex-wrap gap-2">{tag_html}</div>
-                  <span class="font-medium text-[#636959] text-[13px] whitespace-nowrap">{e(meta)}</span>
-                </div>
-                <h3 class="font-bold text-[#006328] text-lg leading-[1.4] group-hover:underline">{e(title_)}</h3>
-                <p class="text-[#1e2219] text-sm leading-[1.5] line-clamp-3">{e(excerpt)}</p>
-              </a>"""
-    articles_html = "".join(article_card(*a) for a in ARTICLES)
+    # The card itself now lives in components.article_card (Ahmed, 2026-08-20)
+    # so the blog index and the related rail render the identical card; the
+    # posts come from _posts.POSTS, which is also what those pages read — the
+    # homepage teaser and the blog can no longer drift apart.
+    articles_html = "".join(
+        article_card(p["image"], p["tags"], p["meta"], p["title"], p["excerpt"],
+                     href=f"blog.html?post={p['slug']}", rail=True)
+        for p in POSTS[:3]
+    )
 
     faq_rows = "".join(
         f"""
@@ -436,7 +419,12 @@ def build():
               </a>
             </div>
           </div>
-          <div class="gap-6 grid grid-cols-1 md:grid-cols-3">{articles_html}
+          <!-- Phone: ONE horizontal scroller (Ahmed, 2026-08-20) — three
+               full-width stacked cards pushed the FAQ far down the page and
+               read as a dead end. From md up it is the Figma 3-up grid. The
+               negative margin + padding let the slides bleed to the screen
+               edge while the first one still lines up with the section. -->
+          <div class="flex md:grid md:grid-cols-3 gap-6 -mx-4 md:mx-0 px-4 md:px-0 overflow-x-auto md:overflow-visible no-scrollbar snap-x scroll-pl-4">{articles_html}
           </div>
         </div>
       </section>

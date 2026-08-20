@@ -347,12 +347,7 @@ UI = {
     "لا توجد منتجات في هذا القسم حالياً.": "No products in this section yet.",
 
     # --- home
-    "جاد — قهوة ومكسرات وتمور وسناكس صحية":
-        "Jaad — coffee, nuts, dates and healthy snacks",
     "20٪": "20%",
-    "اعثر على الهدية المثالية لكل شخص وكل مناسبة":
-        "Find the perfect gift for every person and every occasion",
-    "تسوق الهدايا": "Shop gifts",
     "أراء العملاء": "Customer reviews",
     "كل التعليقات": "All reviews",
     "آخر الأخبار": "Latest news",
@@ -391,10 +386,6 @@ UI = {
     "دليلك لاختيار درجة تحميص القهوة": "Your guide to choosing a coffee roast",
     "من التحميص الفاتح للغامق، كل درجة ليها طابع مختلف. تعرف على الفرق واختار اللي يناسب ذوقك.":
         "From light to dark, every roast has its own character. Learn the difference and pick the one that suits your taste.",
-    "التمور: طاقة طبيعية في كل قطعة": "Dates: natural energy in every piece",
-    "التمور مش بس حلوة المذاق، ده كمان مصدر سريع للطاقة وغنية بالبوتاسيوم والألياف.":
-        "Dates are not just sweet — they are a fast source of energy and rich in potassium and fibre.",
-    "أفكار لانش بوكس صحي للأطفال": "Healthy lunch box ideas for children",
     "تشكيلة سناكس تجمع بين الطعم اللذيذ والقيمة الغذائية، سهلة التحضير وبتفضل طازة.":
         "A range of snacks that combine good taste with real nutrition — easy to prepare and they stay fresh.",
     "دليل البهارات: إزاي تختار وتحفظ": "A spice guide: how to choose and store",
@@ -415,8 +406,6 @@ UI = {
     "احفظها في برطمان محكم بعيد عن الحرارة والضوء":
         "Keep them in an airtight jar away from heat and light",
     "جرانولا بار بالتمر والمكسرات": "Date and nut granola bars",
-    "مخبوزات الطازة هي أحلى أختيار لنقنقة سريعة او لافكار لذيذة في اللانش بوكس، اختار النوع اللي تحبه.":
-        "Fresh bakes are the best choice for a quick nibble or a tasty lunch box idea — pick the one you like.",
     "قهوة مثلجة بزبدة الفول السوداني": "Iced coffee with peanut butter",
     "وصفة سريعة تجمع بين القهوة المطحونة الطازة وزبدة الفول السوداني لمشروب غني ومنعش.":
         "A quick recipe pairing freshly ground coffee with peanut butter for a rich, refreshing drink.",
@@ -611,8 +600,6 @@ TPL = {
         "Opening hours are {0}am to {1}pm daily. You can browse the products now and complete your order during those hours.",
     "إذا كانت لديك أسئلة حول طلبك، يمكنك مراسلتنا عبر البريد الإلكتروني على {0} أو الاتصال بنا على {1}":
         "If you have questions about your order, email us at {0} or call us on {1}",
-    "ثقة عملاء شركة \"جاد\" وتجاربهم المتميزة دفعتها إلى تلبية احتياجات السوق المتزايدة، لذلك لديهم الآن قسم خاص بتوريد الطلبات بكميات كبيرة للشركات وبتواجدها بأكبر عدد ممكن من الأماكن. لدى الشركة رصيد ثقة كافي نتيجة نجاحها مع شركاء متميزين في السوق المصري من فنادق، مطاعم، كافيهات، وشركات. لذا، لا تتردد في التواصل مع الشركة. لدى الشركة أيضا فريق متخصص في التعامل المهني {0} من حيث الالتزام بالمواعيد والحفاظ على جودة المنتجات والتغليف وطريقة العرض.":
-        "The trust of Jaad's customers and their excellent experiences have driven the company to meet growing market demand, and it now has a dedicated division supplying bulk orders to businesses across as many locations as possible. The company has built a record of trust through its success with distinguished partners in the Egyptian market — hotels, restaurants, cafes and corporates. Do not hesitate to get in touch. The company also has a team specialising in professional service {0} in punctuality, product quality, packaging and presentation.",
 }
 
 # --------------------------------------------------------------------------
@@ -672,14 +659,6 @@ CHROME = {
     "قهوة تركي": "Turkish coffee",
     "قهوه تركي": "Turkish coffee",
     "قهوه": "Coffee",
-    "تمر": "Dates",
-    "تمور": "Dates",
-    "فواكه مجففة": "Dried fruit",
-    "ألواح صحية": "Healthy bars",
-    "سناكس بروتين": "Protein snacks",
-    "حبوب صحية": "Healthy grains",
-    "بروتين": "Protein",
-    "مخبوزات": "Baked goods",
     "مشروبات": "Drinks",
     "مطبخ": "Kitchen",
     "وصفات": "Recipes",

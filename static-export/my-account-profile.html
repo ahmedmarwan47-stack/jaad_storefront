@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=c2478721" />
-    <link rel="stylesheet" href="styles.css?v=258bbb82" />
+    <link rel="stylesheet" href="tailwind.css?v=bc7a14f0" />
+    <link rel="stylesheet" href="styles.css?v=45b31927" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -45,8 +45,8 @@
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js?v=1500250b"></script>
-    <script defer src="scripts.js?v=5605839b"></script>
+    <script defer src="i18n-en.js?v=f91551f4"></script>
+    <script defer src="scripts.js?v=1fea04ac"></script>
   </head>
   <body data-page="my-account-profile" data-path="/my-account/profile" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -252,7 +252,7 @@
                 <div class="flex flex-col gap-1.5">
                   <span class="font-medium text-neutral-secondary text-sm">البريد الالكتروني</span>
                   <div class="flex items-center gap-2 bg-interaction-base px-4 py-3 border-2 border-transparent rounded-xl">
-                    <span class="flex-1 min-w-0 truncate text-neutral-secondary text-base latin">mosawabi15@gmail.com</span>
+                    <span class="flex-1 min-w-0 truncate text-neutral-secondary text-base latin">demo@jad.com</span>
                     <!-- Opaque tint, NOT bg-accent-error/10: an alpha tint reads
                          ~1:1 to the contrast sweep (ink on its own colour); the
                          opaque blend (#F6E9E7 ≈ error at 10% over white) is
@@ -266,7 +266,7 @@
                 <div class="flex flex-col gap-1.5 ">
                   <label for="phone" class="font-medium text-neutral-secondary text-sm">رقم الهاتف<span class="text-accent-error">*</span></label>
                   <input type="tel" id="phone" name="phone" required autocomplete="tel"
-                         value="0109809839" placeholder=""
+                         value="01200000000" placeholder=""
                          class="bg-white border border-neutral-divider rounded-2xl px-4 h-12 w-full text-[#003616] text-base placeholder:text-neutral-secondary outline-none focus:border-primary focus:ring-2 focus:ring-[#98CA55] transition-colors" />
                 </div>
 

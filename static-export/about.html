@@ -12,11 +12,11 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <title>قصتنا | جاد</title>
-    <meta name="description" content="تعرف على قصة جاد منذ 2010 — قهوة ومكسرات وأطعمة صحية عالية الجودة." />
+    <meta name="description" content="تعرف على قصة جاد — قهوة ومكسرات وبهارات طبيعية عالية الجودة." />
     <meta name="theme-color" content="#00451C" />
     <meta name="robots" content="noindex, nofollow" />
     <meta property="og:title" content="قصتنا | جاد" />
-    <meta property="og:description" content="تعرف على قصة جاد منذ 2010 — قهوة ومكسرات وأطعمة صحية عالية الجودة." />
+    <meta property="og:description" content="تعرف على قصة جاد — قهوة ومكسرات وبهارات طبيعية عالية الجودة." />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="جاد" />
     <meta property="og:locale" content="ar_EG" />
@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=c2478721" />
-    <link rel="stylesheet" href="styles.css?v=258bbb82" />
+    <link rel="stylesheet" href="tailwind.css?v=bc7a14f0" />
+    <link rel="stylesheet" href="styles.css?v=45b31927" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -45,8 +45,8 @@
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js?v=1500250b"></script>
-    <script defer src="scripts.js?v=5605839b"></script>
+    <script defer src="i18n-en.js?v=f91551f4"></script>
+    <script defer src="scripts.js?v=1fea04ac"></script>
   </head>
   <body data-page="about" data-path="/about" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -69,7 +69,11 @@
       <section data-reveal class="py-8">
         <div class="mx-auto px-4 max-w-[1536px]">
           <div class="rounded-[20px] overflow-hidden">
-            <img src="images/jaad/site/about-hero.webp" alt="جاد" class="w-full h-[280px] xl:h-[460px] object-cover" />
+            <!-- Was about-hero.webp until 2026-08-20 — a WordPress-media
+                 filename inherited from the fork whose file never existed in
+                 this repo, so this hero rendered broken. Points at Jaad's own
+                 hero photography until dedicated about-page art is delivered. -->
+            <img src="images/jaad/site/hero-jaad.webp" alt="جاد" class="w-full h-[280px] xl:h-[460px] object-cover" />
           </div>
         </div>
       </section>

@@ -12,8 +12,12 @@ from components import WALLET_BALANCE, page, page_header
 # two drifted the shopper would be offered money this page says they do not
 # have. Same failure the old points banner shipped with — 100 on one page, 120
 # on the other.
+# The email/phone were a REAL personal address and number carried over from the
+# fork (Ahmed, 2026-08-20) — they shipped on the dashboard and profile pages.
+# Replaced with the demo@jad.com identity scripts.js already uses for its
+# signed-in demo state, so no live third party appears on a built page.
 CUSTOMER = {"name": "محمد", "full": "محمد عادل",
-            "email": "mosawabi15@gmail.com", "phone": "0109809839",
+            "email": "demo@jad.com", "phone": "01200000000",
             # `tier` is a KEY now (Ahmed, 2026-08-04), so the label and the
             # metallic wash have one source in TIERS instead of a bare string.
             # `points` sits in the gold band (see POINT_TIERS) so the redesigned

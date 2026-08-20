@@ -21,7 +21,11 @@ def build():
 
       <section class="py-8">
         <div class="flex flex-col gap-8 mx-auto px-4 max-w-[1536px]">
-          <img src="images/jaad/rewards-hero.webp" alt="{HEADING}"
+          <!-- Was images/jaad/rewards-hero.webp until 2026-08-20 — an inherited
+               path with no file behind it (and at the wrong level: every other
+               site asset lives under images/jaad/site/), so this rendered
+               broken. Uses Jaad's own hero art until rewards art is delivered. -->
+          <img src="images/jaad/site/hero-jaad.webp" alt="{HEADING}"
                class="rounded-[20px] w-full max-h-[420px] object-cover" />
 
           <div class="flex flex-col gap-4 max-w-[820px]">

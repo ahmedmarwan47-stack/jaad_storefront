@@ -1,63 +1,89 @@
-"""Single post — Figma 'Blog Single' (973:38801)."""
+"""Single post — JAAD Media Center article.
+
+Rebuilt (Ahmed, 2026-08-20) alongside the blog index: English-first, JAAD type
+and color, and a related rail built from the SAME shared `article_card` the
+homepage uses. The previous version rendered Arabic Abu-Auf copy against image
+paths that do not exist in this repo.
+
+Still ONE static page for every post (the fork ships no per-post routing). The
+index links each card with `?post=<slug>`; scripts.js swaps the copy client-side
+so a shopper who clicks the third card reads the third post rather than always
+the first.
+"""
 from _posts import POSTS
 from catalog import e
-from components import blog_card, page, page_header, section_heading
+from components import article_card, page, page_header
 
 SLUG = "blog.html"
 
-PARAGRAPHS = [
-    "المكسرات من أقدم الأطعمة اللي عرفها الإنسان، ولحد النهارده فضلت واحدة من أغنى "
-    "المصادر الطبيعية للدهون الصحية والبروتين والألياف. الدراسات بتشير إن تناول حفنة "
-    "صغيرة يومياً بيرتبط بتحسن في صحة القلب ومستويات الكوليسترول.",
-    "الفرق بين المكسرات النيئة والمحمصة مش بس في الطعم. التحميص على درجات حرارة عالية "
-    "ممكن يقلل نسبة بعض الفيتامينات الحساسة للحرارة، وعشان كده بنحمص على دفعات صغيرة "
-    "وبدرجات محسوبة تحافظ على القيمة الغذائية والنكهة في نفس الوقت.",
-    "أحسن طريقة تدخل بيها المكسرات في يومك إنك تخليها في متناول إيدك — علبة صغيرة على "
-    "المكتب أو في شنطة الشغل. جربها كمان فوق الزبادي أو السلطة، أو اطحنها وحطها في "
-    "العجين للمخبوزات.",
-]
 
-TIPS = ["ابدأ بكمية صغيرة — حفنة يومياً كفاية",
-        "نوّع بين اللوز والكاجو وعين الجمل عشان تنوع العناصر",
-        "احفظها في برطمان محكم بعيد عن الحرارة والضوء"]
+def _post_json(p):
+    """Every post's copy, inlined for the client-side `?post=` swap."""
+    import json
+    return json.dumps({
+        p["slug"]: {
+            "image": p["image"], "tags": p["tags"], "meta": p["meta"],
+            "title": p["title"], "excerpt": p["excerpt"],
+            "body": p["body"], "tips": p["tips"],
+        } for p in POSTS
+    }, ensure_ascii=False)
 
 
 def build():
-    slug, img, tag, heading, excerpt, read = POSTS[0]
-    related = "".join(blog_card(i, t, h, x, "blog.html")
-                      for _s, i, t, h, x, _r in POSTS[1:4])
+    first = POSTS[0]
+    related = "".join(
+        article_card(p["image"], p["tags"], p["meta"], p["title"], p["excerpt"],
+                     href=f"blog.html?post={p['slug']}", rail=True)
+        for p in POSTS[1:4]
+    )
 
-    paras = "".join(f'<p class="text-neutral-800 text-base xl:text-lg leading-9">{e(p)}</p>'
-                    for p in PARAGRAPHS)
-    tips = "".join(f'<li>{e(t)}</li>' for t in TIPS)
+    tag_html = "".join(
+        f'<span class="inline-flex items-center px-3 py-1 border border-[#29612F] '
+        f'rounded-full font-medium text-[#29612F] text-xs">{e(t)}</span>'
+        for t in first["tags"]
+    )
+    paras = "".join(
+        f'<p class="text-[#1e2219] text-base xl:text-lg leading-[1.9]">{e(par)}</p>'
+        for par in first["body"]
+    )
+    tips = "".join(f'<li>{e(t)}</li>' for t in first["tips"])
 
-    body = f"""{page_header("", [("الرئيسية", "index.html"), ("البلوج", "blogs.html"), (heading, None)])}
+    body = f"""{page_header("", [("Home", "index.html"), ("Blog", "blogs.html"), (first["title"], None)])}
 
-      <article class="py-6">
+      <article class="py-6" data-post-article>
         <div class="flex flex-col gap-6 mx-auto px-4 xl:px-10 max-w-[880px]">
-          <div class="flex flex-wrap items-center gap-3">
-            <span class="bg-interaction-base px-3 py-1 rounded-full font-semibold text-primary text-xs">{e(tag)}</span>
-            <span class="text-neutral-secondary text-xs">قراءة {e(read)}</span>
+          <div class="flex flex-wrap items-center gap-3" data-post-tags>{tag_html}</div>
+          <h1 class="font-medium text-[#29612F] text-[32px] xl:text-[44px] leading-[1.15] tracking-[-1px]" data-post-title>{e(first["title"])}</h1>
+          <span class="font-medium text-[#636959] text-sm" data-post-meta>{e(first["meta"])}</span>
+          <p class="text-[#4b5563] text-base xl:text-lg leading-[1.6]" data-post-excerpt>{e(first["excerpt"])}</p>
+          <div class="rounded-3xl overflow-hidden">
+            <img src="{e(first["image"])}" alt="{e(first["title"])}" class="w-full h-[260px] xl:h-[420px] object-cover" data-post-image />
           </div>
-          <h1 class="font-bold text-[#003616] text-3xl xl:text-4xl leading-tight">{e(heading)}</h1>
-          <p class="text-neutral-secondary text-base xl:text-lg leading-8">{e(excerpt)}</p>
-          <div class="rounded-[20px] overflow-hidden">
-            <img src="{e(img)}" alt="{e(heading)}" class="w-full h-[260px] xl:h-[420px] object-cover" />
+          <div class="flex flex-col gap-6" data-post-body>{paras}
           </div>
-          {paras}
-          <div class="flex flex-col gap-3 bg-interaction-base p-6 rounded-2xl">
-            <h2 class="font-bold text-[#003616] text-lg">نصائح سريعة</h2>
-            <ul class="flex flex-col gap-2 ps-5 text-neutral-800 text-base leading-8 list-disc">{tips}</ul>
+          <div class="flex flex-col gap-3 bg-[#FDF8F1] p-6 xl:p-8 rounded-3xl">
+            <h2 class="font-bold text-[#006328] text-lg">Quick tips</h2>
+            <ul class="flex flex-col gap-2 ps-5 text-[#1e2219] text-base leading-[1.8] list-disc" data-post-tips>{tips}</ul>
           </div>
         </div>
       </article>
 
-      <section class="py-12">
-        <div class="mx-auto px-4 max-w-[1536px]">
-          {section_heading("مقالات ذات صلة", "كل المقالات", "blogs.html")}
-          <div class="gap-6 xl:gap-8 grid md:grid-cols-2 lg:grid-cols-3">{related}
+      <section class="bg-[#FDF8F1] py-12 xl:py-14">
+        <div class="flex flex-col gap-8 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
+          <div class="flex flex-wrap justify-between items-end gap-4">
+            <h2 class="font-medium text-[#29612F] text-[28px] md:text-[36px] leading-none tracking-[-1px]">Related Articles</h2>
+            <a href="blogs.html" class="group/link inline-flex items-center gap-2 font-bold text-[#29612F] text-base">
+              Explore All Articles
+              <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 transition-transform group-hover/link:translate-x-1"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+          <!-- Same phone treatment as the homepage rail: one horizontal
+               scroller below md, a grid from md up. -->
+          <div class="flex md:grid md:grid-cols-3 gap-6 -mx-4 md:mx-0 px-4 md:px-0 overflow-x-auto md:overflow-visible no-scrollbar snap-x scroll-pl-4">{related}
           </div>
         </div>
-      </section>"""
+      </section>
 
-    return page(f"{heading} | جاد", excerpt, body, "blog", "/blog")
+      <script id="post-data" type="application/json">{_post_json(POSTS)}</script>"""
+
+    return page(f"{first['title']} | JAAD", first["excerpt"], body, "blog", "/blog")

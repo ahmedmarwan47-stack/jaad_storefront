@@ -3,10 +3,16 @@ from components import field, page, page_header
 
 SLUG = "contact-us.html"
 
+# PLACEHOLDER contact channels, per the fork plan (Ahmed, 2026-08-20). The
+# hotline, WhatsApp number and head-office address that shipped here until now
+# were the FORK SOURCE's real, live details — a shopper tapping them reached a
+# different, unrelated company. Removed for the same reason the footer and the
+# social links were (see CONTACT/SOCIALS in scripts.js): absence over invention.
+# The hotline below matches the placeholder the footer already uses; WhatsApp is
+# dropped entirely rather than invented. Swap for Jaad's real details at launch.
 CHANNELS = [
-    ("الخط الساخن", "19969", "tel:19969"),
+    ("الخط الساخن", "01200000000", "tel:01200000000"),
     ("البريد الالكتروني", "info@jad.com", "mailto:info@jad.com"),
-    ("واتساب", "+20 105 062 4300", "https://wa.me/+201050624300"),
 ]
 
 
@@ -27,9 +33,14 @@ def build():
             </p>
             <div class="flex flex-col gap-3">{channels}
             </div>
+            <!-- The head-office card is GONE (Ahmed, 2026-08-20): the address
+                 it carried was the fork source's real factory address, and
+                 i18n.py already records that it was removed, not reused. It
+                 comes back when Jaad's own address exists. Working hours are
+                 the honest thing to show in its place. -->
             <div class="flex flex-col gap-1 bg-white shadow-custom4 p-6 rounded-2xl">
-              <span class="font-bold text-[#003616] text-base">المقر الرئيسي</span>
-              <span class="text-neutral-secondary text-sm leading-7">المنطقة الصناعية 31-33، التجمع الثالث، القاهرة الجديدة، مصر</span>
+              <span class="font-bold text-[#003616] text-base">مواعيد العمل</span>
+              <span class="text-neutral-secondary text-sm leading-7">من السبت للخميس، من 9 صباحاً حتى 6 مساءً</span>
             </div>
           </div>
 

@@ -1,29 +1,44 @@
-"""Blog index — Figma 'Blog' (937:37091)."""
+"""Blog index — JAAD Media Center, matching the homepage's 'Latest from JAAD'
+section (Figma node 9974:21059).
+
+Rebuilt (Ahmed, 2026-08-20): the page previously rendered the inherited Abu-Auf
+blog card — an Arabic horizontal image-beside-text strip — under an Arabic
+heading, so following "Explore All Articles" from the homepage landed the
+shopper on what looked like a different site. It now uses the SAME shared
+`article_card` the homepage rail uses, under the homepage's Media Center badge +
+heading treatment.
+"""
 from _posts import POSTS
-from components import blog_card, page, page_header
+from components import article_card, page, page_header
 
 SLUG = "blogs.html"
 
 
 def build():
-    cards = "".join(blog_card(img, tag, heading, excerpt, "blog.html")
-                    for _slug, img, tag, heading, excerpt, _read in POSTS)
+    cards = "".join(
+        article_card(p["image"], p["tags"], p["meta"], p["title"], p["excerpt"],
+                     href=f"blog.html?post={p['slug']}")
+        for p in POSTS
+    )
 
-    body = f"""{page_header("البلوج", [("الرئيسية", "index.html"), ("البلوج", None)])}
+    # Empty heading: the Media Center block below carries this page's h1, and
+    # page_header would otherwise emit a second one above it.
+    body = f"""{page_header("", [("Home", "index.html"), ("Blog", None)])}
 
-      <section class="py-8 xl:py-10">
-        <div class="mx-auto px-4 max-w-[1536px]">
-          <p class="mb-10 max-w-[720px] text-neutral-secondary text-base xl:text-lg leading-8">
-            نصائح ووصفات ومعلومات عن القهوة والمكسرات والتمور والأكل الصحي — من فريق جاد.
-          </p>
-          <!-- Restores the level the post cards' h3 skipped; blog_card is
-               shared with the home page, where it sits under a real h2. -->
-          <h2 class="sr-only">أحدث المقالات</h2>
-          <div class="gap-6 xl:gap-8 grid md:grid-cols-2 lg:grid-cols-3">{cards}
+      <section class="bg-[#FDF8F1] py-10 xl:py-14">
+        <div class="flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
+          <div class="flex flex-col gap-3">
+            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-[#006328] text-[13px] uppercase tracking-[1px]">Media Center</span>
+            <h1 class="font-medium text-[#29612F] text-[32px] md:text-[40px] leading-none tracking-[-1px]">Latest from JAAD</h1>
+            <p class="max-w-[630px] text-[#4b5563] text-base leading-[1.5]">
+              Guides, recipes and notes on coffee, nuts, dates and spices — written by the JAAD team.
+            </p>
+          </div>
+          <div class="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">{cards}
           </div>
         </div>
       </section>"""
 
-    return page("البلوج | جاد",
-                "نصائح ووصفات ومقالات عن القهوة والمكسرات والتمور والأكل الصحي من جاد.",
+    return page("Blog | JAAD",
+                "Guides, recipes and articles on coffee, nuts, dates and healthy eating from JAAD.",
                 body, "blogs", "/blogs")

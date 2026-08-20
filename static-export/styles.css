@@ -1371,7 +1371,7 @@ fieldset {
    never legible as an effect - it was paying a per-frame cost for a texture
    you could only see by looking for it. */
 @media (min-width: 768px) {
-  /* Abu Auf-style parked pill: on scroll, search + cart detach into a small
+  /* Inherited parked pill: on scroll, search + cart detach into a small
      rounded container at the top-right. Green (not white) so the header's white
      icons stay visible; top:16px because the header now scrolls fully away —
      nothing stays docked above it. Aligned to the content box's right edge. */

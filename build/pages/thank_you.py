@@ -17,10 +17,14 @@ TRACKER_STEP = 1
 # A trailing True on a pair spans it across BOTH columns of the 2-up grid
 # below — used for the email, whose long latin address would otherwise wrap
 # every few characters inside a half-width cell on a phone.
+# Demo customer. The email/phone here were a REAL personal address and number
+# carried over from the fork (Ahmed, 2026-08-20) — replaced with the same
+# demo@jad.com identity scripts.js already uses for its signed-in demo state,
+# so no live third party is printed on a shipped page.
 CUSTOMER = [
     ("الاسم الأول", "محمد"), ("اسم العائلة", "عادل"),
-    ("البريد الالكتروني", "MOSAWABI15@GMAIL.COM", True),
-    ("رقم الهاتف", "01148822922"),
+    ("البريد الالكتروني", "DEMO@JAD.COM", True),
+    ("رقم الهاتف", "01200000000"),
 ]
 
 DELIVERY = [
@@ -76,7 +80,7 @@ def build():
           <p class="text-neutral-secondary text-sm leading-7">
             إذا كانت لديك أسئلة حول طلبك، يمكنك مراسلتنا عبر البريد الإلكتروني على
             <a href="mailto:info@jad.com" class="font-semibold text-cta hover:text-primary underline transition-colors latin">INFO@JAD.COM</a>
-            أو الاتصال بنا على <a href="tel:19969" class="font-semibold text-cta hover:text-primary underline transition-colors latin">19969</a>
+            أو الاتصال بنا على <a href="tel:01200000000" class="font-semibold text-cta hover:text-primary underline transition-colors latin">01200000000</a>
           </p>
         </div>
       </section>
