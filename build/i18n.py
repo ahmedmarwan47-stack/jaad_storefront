@@ -442,7 +442,7 @@ UI = {
     "لسه عندك سؤال؟": "Still have a question?",
 
     # --- FAQ
-    "الطلب والتوصيل": "Ordering and delivery",
+    "الطلب والتوصيل": "Delivery",
     "إزاي أطلب من الموقع؟": "How do I order from the site?",
     "اختار المنتجات اللي تحبها وضيفها للسلة، بعدين اضغط على «أطلب الآن» واملأ بيانات التوصيل. هتوصلك رسالة تأكيد على البريد الالكتروني ورقم الهاتف.":
         "Choose the products you like and add them to the cart, then press “Order now” and fill in your delivery details. You will get a confirmation by email and text message.",
@@ -462,7 +462,7 @@ UI = {
     "الدفع أونلاين آمن؟": "Is paying online secure?",
     "أيوه، كل عمليات الدفع بتتم من خلال بوابة دفع مؤمنة، وإحنا مابنحتفظش ببيانات بطاقتك.":
         "Yes. All payments go through a secured payment gateway, and we do not store your card details.",
-    "المنتجات والاسترجاع": "Products and returns",
+    "المنتجات والاسترجاع": "Products",
     "المنتجات طازة إزاي؟": "How are the products kept fresh?",
     "بنحمص ونعبّي على دفعات صغيرة، والتغليف بيحافظ على النكهة والريحة لحد ما يوصلك.":
         "We roast and pack in small batches, and the packaging holds the flavour and aroma until it reaches you.",

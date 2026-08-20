@@ -8,7 +8,7 @@ from _geo import CAIRO_AREAS, GOVERNORATES
 
 from catalog import e, in_category, money
 from components import (
-    ICON, breadcrumb, checkout_steps, checkout_summary, field, gift_toggle, page,
+    ICON, checkout_steps, checkout_summary, field, gift_toggle, page,
     radio_card, select_field,
 )
 

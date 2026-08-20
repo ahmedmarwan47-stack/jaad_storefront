@@ -284,26 +284,10 @@ def carousel(slides_html, gap=24, arrows_top="130px", autoplay=False, dots=False
           </div>"""
 
 
-def breadcrumb(trail):
-    """trail: [(label, href|None)] — the last item is the current page."""
-    parts = []
-    for i, (label, href) in enumerate(trail):
-        last = i == len(trail) - 1
-        if last or not href:
-            parts.append(f'<span class="font-semibold text-ink">{e(label)}</span>')
-        else:
-            parts.append(
-                # link-sweep: on hover the crumb darkens to primary AND an
-                # underline sweeps in (RTL-aware ::after in styles.css), the same
-                # affordance the footer/account links already use — extend the
-                # shared interaction system rather than paint a one-off border
-                # (CLAUDE.md). self-start keeps the sweep tight to the text.
-                f'<a href="{href}" class="link-sweep text-muted hover:text-primary transition-colors">{e(label)}</a>'
-                # Decorative separator: hidden from assistive tech, and
-                # toned up from #C6C6C6 (1.71:1) so it is still visible.
-                f'<span aria-hidden="true" class="text-outline">/</span>')
-    return (f'<nav aria-label="مسار التنقل" class="flex flex-wrap items-center gap-2 text-sm">'
-            f'{"".join(parts)}</nav>')
+# `breadcrumb()` lived here until 2026-08-20. The breadcrumb band was
+# removed from page_header (it read as a seam between the masthead and
+# each page's first section), which left this with no call sites. Deleted
+# rather than kept, so there is no dormant component to reintroduce it.
 
 
 def chip(label, href="#", active=False, filter_slug=None):
@@ -407,18 +391,22 @@ def page_header(heading, trail=None):
     one is announced as a blank level-1 heading and left every one of those
     113 pages with two h1s, the first of them silent.
     """
-    crumbs = f"{breadcrumb(trail)}" if trail else ""
-    # Same Figma heading treatment as section_heading / the homepage h2s.
-    head = (
-        f'\n          <h1 class="font-medium text-heading text-[32px] md:text-[40px] '
-        f'leading-[1.2]">{e(heading)}</h1>'
-        if heading
-        else ""
-    )
+    # The BREADCRUMB is gone (Ahmed, 2026-08-20). It sat in its own band between
+    # the masthead and the page's first section, and because that band carried
+    # neither neighbour's background it read as a seam across every inner page.
+    # `trail` is still accepted so the twelve callers need no change, but it is
+    # deliberately unused — a page's position is already carried by the masthead
+    # and its own title.
+    _ = trail
+    if not heading:
+        # Nothing left to render. Returning "" rather than an empty <section>
+        # matters: the section carried pt-6, so an empty one left a band of dead
+        # space exactly where the breadcrumb used to be.
+        return ""
     return f"""
       <section class="pt-6">
         <div class="flex flex-col gap-4 mx-auto px-4 max-w-[1536px]">
-          {crumbs}{head}
+          <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">{e(heading)}</h1>
         </div>
       </section>"""
 
