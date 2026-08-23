@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=0745bc44" />
-    <link rel="stylesheet" href="styles.css?v=ed500ae9" />
+    <link rel="stylesheet" href="tailwind.css?v=648100aa" />
+    <link rel="stylesheet" href="styles.css?v=01c41858" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -45,8 +45,8 @@
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js?v=33b867e5"></script>
-    <script defer src="scripts.js?v=e4726d87"></script>
+    <script defer src="i18n-en.js?v=8ec05b7f"></script>
+    <script defer src="scripts.js?v=b7fca59b"></script>
   </head>
   <body data-page="checkout" data-path="/payment" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -64,7 +64,7 @@
 
           <div class="flex flex-col gap-3 order-1 lg:order-none lg:col-span-2 min-w-0">
             <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">طريقة الدفع</h1>
-            <nav aria-label="خطوات الشراء" class="flex flex-wrap items-center gap-2"><a href="cart.html" class="flex items-center gap-2 rounded-md focus-visible:outline-none"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-mint text-lime">✓</span><span class="text-lime text-sm link-sweep">سلة التسوق</span></a><span aria-hidden="true" class="text-outline">/</span><a href="checkout.html" class="flex items-center gap-2 rounded-md focus-visible:outline-none"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-mint text-lime">✓</span><span class="text-lime text-sm link-sweep">بيانات العميل</span></a><span aria-hidden="true" class="text-outline">/</span><span class="flex items-center gap-2"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-cta text-white">3</span><span class="font-semibold text-ink text-sm">طريقة الدفع</span></span><span aria-hidden="true" class="text-outline">/</span><span class="flex items-center gap-2"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-cream text-muted">4</span><span class="text-muted text-sm">تأكيد عملية الشراء</span></span></nav>
+            <nav aria-label="خطوات الشراء" class="flex flex-wrap items-center gap-2"><a href="checkout.html" class="flex items-center gap-2 rounded-md focus-visible:outline-none"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-mint text-heading">✓</span><span class="text-heading text-sm link-sweep">بيانات شخصية</span></a><span aria-hidden="true" class="text-outline">/</span><span class="flex items-center gap-2"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-cta text-white">2</span><span class="font-semibold text-ink text-sm">طريقة الدفع</span></span></nav>
           </div>
 
           <!-- RTL start: form -->
@@ -74,10 +74,15 @@
                 <legend class="mb-3 font-bold text-ink text-lg">اختر طريقة الدفع</legend>
                 <div class="flex flex-col gap-4">
 
-                  <!-- Credit card first at Ahmed's request (2026-08-02). COD
-                       keeps the default selection (checked) — it is the
-                       prevailing method in this market and the gift-order rule
-                       below depends on it — but card now leads the list. -->
+                  <!-- Card leads the list AND is the default (Ahmed,
+                       2026-08-23). It used to lead visually while COD kept the
+                       `checked`, so the row the eye landed on first was not the
+                       row that was selected — and the card form below it stayed
+                       shut on arrival. Card is now genuinely the pre-selected
+                       method and its fields are open underneath. COD remains
+                       one tap away, and its gift-order block (below) is
+                       unaffected: that rule only ever fires when COD is the
+                       chosen row. -->
                   <div class="flex">
 
                 <!-- min-w-0 on BOTH nested flex children. A flex item's
@@ -92,7 +97,7 @@
                      simply shorter than "Send this order as a gift to someone
                      you love". Latent until the site actually translated. -->
                 <label class="flex-1 min-w-0 cursor-pointer">
-                  <input type="radio" name="payment-method" value="card" class="peer sr-only" />
+                  <input type="radio" name="payment-method" value="card" class="peer sr-only" checked />
                   <span class="flex justify-between items-center gap-3 bg-white px-5 py-4 border border-divider peer-checked:border-primary peer-checked:bg-primary-50 rounded-2xl transition-colors h-full">
                     <span class="radio-card__body flex items-center gap-3 min-w-0">
                       <span class="text-cta shrink-0"><span class="flex items-center gap-1.5 shrink-0"><img src="images/jaad/payments/pay-visa.svg" alt="" class="h-6 w-auto object-contain" /><img src="images/jaad/payments/pay-mastercard.svg" alt="" class="h-6 w-auto object-contain" /></span></span>
@@ -104,6 +109,55 @@
                     <span class="radio-dot shrink-0" aria-hidden="true"></span>
                   </span>
                 </label>
+                  </div>
+
+                  <!-- The card form. `data-card-fields` is revealed/hidden by
+                       scripts.js off the payment-method radios, so it is open on
+                       arrival (card is the default) and folds away the moment
+                       another method is chosen — no orphan card form under a
+                       cash order. READ THE MODULE DOCSTRING before wiring this
+                       to anything: it is a prototype of a gateway screen, not a
+                       gateway. -->
+                  <div data-card-fields class="flex flex-col gap-4 bg-cream mx-1 p-5 rounded-2xl">
+
+                    <div class="flex flex-col gap-1.5">
+                      <label for="card-number" class="font-medium text-muted text-sm">رقم البطاقة</label>
+                      <div class="relative">
+                        <input type="text" id="card-number" name="card-number" data-demo-card data-card-number
+                               inputmode="numeric" maxlength="19" autocomplete="off"
+                               dir="ltr" placeholder="1234 5678 9012 3456"
+                               class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors latin pe-20" />
+                        <span class="top-1/2 end-3 absolute flex items-center gap-1.5 -translate-y-1/2 pointer-events-none">
+                          <img src="images/jaad/payments/pay-visa.svg" alt="" class="w-auto h-5 object-contain" />
+                          <img src="images/jaad/payments/pay-mastercard.svg" alt="" class="w-auto h-5 object-contain" />
+                        </span>
+                      </div>
+                    </div>
+
+                <div class="flex flex-col gap-1.5 ">
+                  <label for="card-name" class="font-medium text-muted text-sm">الاسم على البطاقة</label>
+                  <input type="text" id="card-name" name="card-name" autocomplete="off"
+                         value="" placeholder=""
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors" />
+                </div>
+                    <div class="gap-4 grid grid-cols-2">
+
+                    <div class="flex flex-col gap-1.5">
+                      <label for="card-expiry" class="font-medium text-muted text-sm">تاريخ الانتهاء</label>
+                      <input type="text" id="card-expiry" name="card-expiry" data-demo-card
+                             inputmode="numeric" maxlength="5" autocomplete="off"
+                             dir="ltr" placeholder="MM/YY" data-card-expiry
+                             class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors latin" />
+                    </div>
+
+                    <div class="flex flex-col gap-1.5">
+                      <label for="card-cvv" class="font-medium text-muted text-sm">رمز التحقق CVV</label>
+                      <input type="text" id="card-cvv" name="card-cvv" data-demo-card
+                             inputmode="numeric" maxlength="4" autocomplete="off"
+                             dir="ltr" placeholder="123"
+                             class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors latin" />
+                    </div>
+                    </div>
                   </div>
 
                   <!-- Cash on delivery is blocked for gift orders, which is not
@@ -127,7 +181,7 @@
                      simply shorter than "Send this order as a gift to someone
                      you love". Latent until the site actually translated. -->
                 <label class="flex-1 min-w-0 cursor-pointer">
-                  <input type="radio" name="payment-method" value="cod" class="peer sr-only" checked />
+                  <input type="radio" name="payment-method" value="cod" class="peer sr-only" />
                   <span class="flex justify-between items-center gap-3 bg-white px-5 py-4 border border-divider peer-checked:border-primary peer-checked:bg-primary-50 rounded-2xl transition-colors h-full">
                     <span class="radio-card__body flex items-center gap-3 min-w-0">
                       <span class="text-cta shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-6 h-6"><rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.7"/><path d="M5 9.5v5M19 9.5v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
@@ -171,19 +225,22 @@
                 </div>
               </fieldset>
 
-              <!-- No card-number fields: see the module docstring. -->
               <p class="flex items-start gap-2 bg-cream p-4 rounded-xl text-muted text-xs leading-5">
                 <span aria-hidden="true">🔒</span>
                 <span>بيانات الدفع تتم بشكل آمن عند تأكيد الطلب. لن نحفظ بيانات بطاقتك.</span>
               </p>
 
-              <!-- Same gate as the other two CTAs: renderCart disables this on
-                   an empty or below-minimum basket, so payment cannot be the
-                   one door left open on an empty order. -->
+              <!-- Same gate as the other CTA: renderCart disables this on an
+                   EMPTY basket, so payment cannot be the one door left open on
+                   an empty order. -->
               <a href="thank-you.html" data-cart-checkout class="bg-cta hover:bg-cta-hover py-4 rounded-full w-full font-semibold text-white text-base text-center transition-colors">
                 تأكيد الطلب
               </a>
-              <a href="checkout.html" class="font-semibold text-cta text-sm text-center underline">العودة لبيانات التوصيل</a>
+              <!-- The "العودة لبيانات التوصيل" link under the CTA is gone
+                   (Ahmed, 2026-08-23): the breadcrumb at the top of the page
+                   already links "بيانات شخصية" back to exactly this destination,
+                   and a second way back sitting directly beneath the confirm
+                   button competed with it for the last press of the flow. -->
             </form>
           </div>
 
@@ -195,18 +252,18 @@
             </div>
             <div class="flex flex-col gap-4" data-cart-lines>
                 <div data-cart-static class="flex items-center gap-3">
-                  <img src="images/jaad/products/coffee-light-plain.png" alt="" class="bg-cream p-1.5 rounded-lg w-16 h-16 object-contain shrink-0" loading="lazy" />
+                  <img src="images/jaad/products-styled/1.jpg" alt="" class="cart-thumb bg-cream rounded-lg w-16 h-16 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 gap-0.5 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">بن فاتح سادة</span>
                   </div>
-                  <span class="font-bold text-ink text-sm latin shrink-0">EGP 45</span>
+                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">45</span><span class="text-[11px] leading-[1.4]">.00</span></span>
                 </div>
                 <div data-cart-static class="flex items-center gap-3">
-                  <img src="images/jaad/products/coffee-medium-plain.png" alt="" class="bg-cream p-1.5 rounded-lg w-16 h-16 object-contain shrink-0" loading="lazy" />
+                  <img src="images/jaad/products-styled/2.jpg" alt="" class="cart-thumb bg-cream rounded-lg w-16 h-16 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 gap-0.5 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">بن وسط سادة</span>
                   </div>
-                  <span class="font-bold text-ink text-sm latin shrink-0">EGP 45</span>
+                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">45</span><span class="text-[11px] leading-[1.4]">.00</span></span>
                 </div>
             </div>
             
@@ -220,7 +277,7 @@
                   <!-- aria-label, not placeholder alone: a placeholder disappears
                        the moment you type, so it cannot be the accessible name. -->
                   <textarea rows="3" placeholder="أضف ملاحظة على طلبك" aria-label="ملاحظات على الطلب" data-order-note
-                            class="bg-white border border-divider rounded-2xl px-4 py-3 w-full text-ink text-sm placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors"></textarea>
+                            class="bg-white border border-divider rounded-2xl px-4 py-3 w-full text-ink text-sm placeholder:text-muted outline-none focus:border-cta transition-colors"></textarea>
                   <!-- Compact buttons (Ahmed, 2026-08-04): the save was oversized
                        for a note editor. Padding-based height (~34px) — still well
                        above the 24px WCAG 2.5.8 floor. -->

@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=0745bc44" />
-    <link rel="stylesheet" href="styles.css?v=ed500ae9" />
+    <link rel="stylesheet" href="tailwind.css?v=648100aa" />
+    <link rel="stylesheet" href="styles.css?v=01c41858" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -45,8 +45,8 @@
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js?v=33b867e5"></script>
-    <script defer src="scripts.js?v=e4726d87"></script>
+    <script defer src="i18n-en.js?v=8ec05b7f"></script>
+    <script defer src="scripts.js?v=b7fca59b"></script>
   </head>
   <body data-page="checkout" data-path="/checkout" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -84,7 +84,7 @@
                and this spans row 1, leaving the desktop columns as they were. -->
           <div class="flex flex-col gap-3 order-1 lg:order-none lg:col-span-2 min-w-0">
             <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">إتمام عملية الشراء بأمان</h1>
-            <nav aria-label="خطوات الشراء" class="flex flex-wrap items-center gap-2"><a href="cart.html" class="flex items-center gap-2 rounded-md focus-visible:outline-none"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-mint text-lime">✓</span><span class="text-lime text-sm link-sweep">سلة التسوق</span></a><span aria-hidden="true" class="text-outline">/</span><span class="flex items-center gap-2"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-cta text-white">2</span><span class="font-semibold text-ink text-sm">بيانات العميل</span></span><span aria-hidden="true" class="text-outline">/</span><span class="flex items-center gap-2"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-cream text-muted">3</span><span class="text-muted text-sm">طريقة الدفع</span></span><span aria-hidden="true" class="text-outline">/</span><span class="flex items-center gap-2"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-cream text-muted">4</span><span class="text-muted text-sm">تأكيد عملية الشراء</span></span></nav>
+            <nav aria-label="خطوات الشراء" class="flex flex-wrap items-center gap-2"><span class="flex items-center gap-2"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-cta text-white">1</span><span class="font-semibold text-ink text-sm">بيانات شخصية</span></span><span aria-hidden="true" class="text-outline">/</span><span class="flex items-center gap-2"><span class="place-items-center grid rounded-full size-5 text-xs latin bg-cream text-muted">2</span><span class="text-muted text-sm">طريقة الدفع</span></span></nav>
           </div>
 
           <!-- RTL start: form -->
@@ -92,7 +92,7 @@
             <form class="flex flex-col gap-8">
               <fieldset class="flex flex-col gap-4">
                 <div class="flex flex-wrap justify-between items-center gap-2 mb-1">
-                  <legend class="font-bold text-ink text-lg">بيانات العميل</legend>
+                  <legend class="font-bold text-ink text-lg">بيانات شخصية</legend>
                   <p class="text-muted text-sm">
                     هل لديك حساب بالفعل؟
                     <!-- ?next=checkout.html so a shopper who signs in mid-flow
@@ -107,14 +107,14 @@
                   <label for="first-name" class="font-medium text-muted text-sm">الاسم الأول<span class="text-error">*</span></label>
                   <input type="text" id="first-name" name="first-name" required autocomplete="given-name"
                          value="" placeholder=""
-                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors" />
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors" />
                 </div>
 
                 <div class="flex flex-col gap-1.5 ">
                   <label for="last-name" class="font-medium text-muted text-sm">الاسم الاخير<span class="text-error">*</span></label>
                   <input type="text" id="last-name" name="last-name" required autocomplete="family-name"
                          value="" placeholder=""
-                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors" />
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors" />
                 </div>
                 </div>
 
@@ -122,14 +122,14 @@
                   <label for="email" class="font-medium text-muted text-sm">البريد الالكتروني<span class="text-error">*</span></label>
                   <input type="email" id="email" name="email" required autocomplete="email"
                          value="" placeholder=""
-                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors" />
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors" />
                 </div>
 
                 <div class="flex flex-col gap-1.5 ">
                   <label for="phone" class="font-medium text-muted text-sm">رقم الهاتف<span class="text-error">*</span></label>
                   <input type="tel" id="phone" name="phone" required autocomplete="tel"
                          value="" placeholder=""
-                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors" />
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors" />
                 </div>
               </fieldset>
 
@@ -152,7 +152,7 @@
               <div class="bg-white p-5 border border-divider rounded-xl">
                 <input type="checkbox" id="gift-order" data-switch data-gift-switch class="sr-only" />
                 <label for="gift-order" class="flex items-center gap-3 cursor-pointer">
-                  <span class="place-items-center grid bg-lime/10 rounded-full text-lime size-10 shrink-0">
+                  <span class="place-items-center grid bg-mint rounded-full text-heading size-10 shrink-0">
                     <span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M20 12v9H4v-9M22 7H2v5h20V7ZM12 21V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7ZM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   </span>
                   <span class="flex flex-col flex-1 gap-0.5 min-w-0">
@@ -170,15 +170,33 @@
                      the part that genuinely does not exist until you gift. -->
                 <ul class="flex flex-col gap-2 mt-4 pt-4 border-divider border-t text-muted text-xs leading-5">
                   <li class="flex items-start gap-2">
-                    <span class="mt-0.5 text-lime shrink-0 w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <!-- text-heading (#29612F), not text-lime (#8ACC3E): a 16px
+                         tick is a non-text graphic and needs 3:1 (WCAG 1.4.11).
+                         Lime measures 1.9:1 on white and these three ticks mark
+                         terms that CHANGE what the shopper gets — no prices on
+                         the invoice, no cash on delivery — so they are the last
+                         marks on the page that should be hard to see. -->
+                    <span class="mt-0.5 text-heading shrink-0 w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                     <span>عند الإرسال كهدية، لن تظهر الأسعار في الفاتورة.</span>
                   </li>
                   <li class="flex items-start gap-2">
-                    <span class="mt-0.5 text-lime shrink-0 w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <!-- text-heading (#29612F), not text-lime (#8ACC3E): a 16px
+                         tick is a non-text graphic and needs 3:1 (WCAG 1.4.11).
+                         Lime measures 1.9:1 on white and these three ticks mark
+                         terms that CHANGE what the shopper gets — no prices on
+                         the invoice, no cash on delivery — so they are the last
+                         marks on the page that should be hard to see. -->
+                    <span class="mt-0.5 text-heading shrink-0 w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                     <span>سيتم توصيل طلبك إلى العنوان المحدد.</span>
                   </li>
                   <li class="flex items-start gap-2">
-                    <span class="mt-0.5 text-lime shrink-0 w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <!-- text-heading (#29612F), not text-lime (#8ACC3E): a 16px
+                         tick is a non-text graphic and needs 3:1 (WCAG 1.4.11).
+                         Lime measures 1.9:1 on white and these three ticks mark
+                         terms that CHANGE what the shopper gets — no prices on
+                         the invoice, no cash on delivery — so they are the last
+                         marks on the page that should be hard to see. -->
+                    <span class="mt-0.5 text-heading shrink-0 w-4 h-4"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                     <span>الدفع عند الاستلام غير متاح لطلبات الهدايا.</span>
                   </li>
                 </ul>
@@ -192,14 +210,14 @@
                   <label for="recipient-name" class="font-medium text-muted text-sm">اسم المستلم</label>
                   <input type="text" id="recipient-name" name="recipient-name"
                          value="" placeholder=""
-                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors" />
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors" />
                 </div>
 
                 <div class="flex flex-col gap-1.5 ">
                   <label for="recipient-phone" class="font-medium text-muted text-sm">رقم هاتف المستلم</label>
                   <input type="tel" id="recipient-phone" name="recipient-phone"
                          value="" placeholder=""
-                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors" />
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors" />
                 </div>
                       </div>
                     </div>
@@ -209,6 +227,21 @@
 
               <fieldset class="flex flex-col gap-4">
                 <legend class="mb-3 font-bold text-ink text-lg">وقت التوصيل</legend>
+                <!-- SIDE BY SIDE, with each card's own content stacked
+                     (Ahmed, 2026-08-23). These two were briefly stacked instead,
+                     for a real reason: sharing a row, "أختار تاريخ" had to fit
+                     its heading AND its "حدد اليوم والوقت" prompt into half the
+                     width, the heading wrapped to two lines while "اليوم" beside
+                     it sat on one, and the pair read as two different controls.
+                     The cause was the card's INTERNAL layout, though, not the
+                     row — so the fix belongs there: `meta_stacked` drops the
+                     prompt under the heading (see radio_card), which frees the
+                     width the side-by-side pair needs and makes the two cards
+                     the same shape again. They are two values of one small
+                     choice and belong on one line.
+
+                     Phones stay stacked: two cards in a 375px row leaves each
+                     about 170px, which is under what either heading needs. -->
                 <div class="flex sm:flex-row flex-col gap-4">
 
                 <!-- min-w-0 on BOTH nested flex children. A flex item's
@@ -254,41 +287,7 @@
                       <span class="text-cta shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-6 h-6"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
                       <span class="flex flex-col min-w-0">
                         <span class="font-semibold text-ink text-base">أختار تاريخ</span>
-                        
-                      </span>
-                    </span>
-                    <span data-opt-meta="later" class="opt-meta is-prompt shrink-0 text-xs text-end leading-4">حدد اليوم والوقت</span><span class="radio-dot shrink-0" aria-hidden="true"></span>
-                  </span>
-                </label>
-                </div>
-              </fieldset>
-
-              <fieldset class="flex flex-col gap-4">
-                <legend class="mb-3 font-bold text-ink text-lg">طريقة التوصيل</legend>
-                <!-- Delivery only — Jaad has no physical branches, so the
-                     in-store pickup option this build forked from (and its
-                     branch picker modal) was dropped, not carried over disabled. -->
-                <div class="flex sm:flex-row flex-col gap-4">
-
-                <!-- min-w-0 on BOTH nested flex children. A flex item's
-                     min-width is `auto`, so without these the label column
-                     cannot shrink below its longest line and pushes the whole
-                     checkout form wider than its grid track. Caught at 375 in
-                     English, where the form ran 31px over and the page's
-                     `overflow-x-hidden` swallowed it — clipped copy that no
-                     amount of scrolling reveals, which is exactly why
-                     CLAUDE.md calls this the most common bug class here.
-                     Arabic never showed it: "أرسل الطلب كهدية لشخص تحبه" is
-                     simply shorter than "Send this order as a gift to someone
-                     you love". Latent until the site actually translated. -->
-                <label class="flex-1 min-w-0 cursor-pointer">
-                  <input type="radio" name="delivery-method" value="delivery" class="peer sr-only" checked />
-                  <span class="flex justify-between items-center gap-3 bg-white px-5 py-4 border border-divider peer-checked:border-primary peer-checked:bg-primary-50 rounded-2xl transition-colors h-full">
-                    <span class="radio-card__body flex items-center gap-3 min-w-0">
-                      <span class="text-cta shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-6 h-6"><path d="M1 3h13v13H1zM14 8h4l3 3v5h-7V8ZM7.5 19a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM19.5 19a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                      <span class="flex flex-col min-w-0">
-                        <span class="font-semibold text-ink text-base">توصيل</span>
-                        <span class="text-muted text-xs">بإضافة مصاريف اضافية</span>
+                        <span data-opt-meta="later" class="opt-meta is-prompt text-xs leading-4">حدد اليوم والوقت</span>
                       </span>
                     </span>
                     <span class="radio-dot shrink-0" aria-hidden="true"></span>
@@ -297,13 +296,19 @@
                 </div>
               </fieldset>
 
+              <!-- The "طريقة التوصيل" fieldset is GONE (Ahmed, 2026-08-23).
+                   Jaad has no physical branches, so it had exactly one option —
+                   a pick-one control with one thing to pick is not a choice, it
+                   is a label with a radio button on it. The fee it mentioned is
+                   already itemised in the summary beside this form. -->
+
               <fieldset class="flex flex-col gap-4">
                 <legend class="mb-3 font-bold text-ink text-lg">عنوان التوصيل</legend>
 
                 <div class="flex flex-col gap-1.5 ">
                   <label for="city" class="font-medium text-muted text-sm">المدينة<span class="text-error">*</span></label>
                   <select id="city" name="city" required autocomplete="address-level2"
-                          class="select-control bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors">
+                          class="select-control bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors">
                     <option value="">اختر</option><option value="القاهرة">القاهرة</option><option value="الجيزه">الجيزه</option><option value="الاسكندريه">الاسكندريه</option><option value="القليوبيه">القليوبيه</option><option value="الشرقيه">الشرقيه</option><option value="الدقهليه">الدقهليه</option><option value="المنوفيه">المنوفيه</option><option value="الغربيه">الغربيه</option><option value="البحيره">البحيره</option><option value="كفر الشيخ">كفر الشيخ</option><option value="دمياط">دمياط</option><option value="بورسعيد">بورسعيد</option><option value="الاسماعليه">الاسماعليه</option><option value="السويس">السويس</option><option value="شمال سيناء">شمال سيناء</option><option value="جنوب سيناء">جنوب سيناء</option><option value="البحر الاحمر">البحر الاحمر</option><option value="الفيوم">الفيوم</option><option value="بني سويف">بني سويف</option><option value="المنيا">المنيا</option><option value="اسيوط">اسيوط</option><option value="سوهاج">سوهاج</option><option value="قنا">قنا</option><option value="الاقصر">الاقصر</option><option value="اسوان">اسوان</option><option value="الوادي الجديد">الوادي الجديد</option><option value="مرسي مطروح">مرسي مطروح</option>
                   </select>
                 </div>
@@ -312,7 +317,7 @@
                 <div class="flex flex-col gap-1.5 ">
                   <label for="district" class="font-medium text-muted text-sm">الحي<span class="text-error">*</span></label>
                   <select id="district" name="district" required autocomplete="address-level3"
-                          class="select-control bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors">
+                          class="select-control bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors">
                     <option value="">اختر</option><option value="15 من مايو">15 من مايو</option><option value="العباسيه">العباسيه</option><option value="عين شمس الشرقيه">عين شمس الشرقيه</option><option value="عين شمس الغربيه">عين شمس الغربيه</option><option value="الظاهر">الظاهر</option><option value="المطريه">المطريه</option><option value="الرحاب">الرحاب</option><option value="الحلميه الجديده">الحلميه الجديده</option><option value="وسط البلد">وسط البلد</option><option value="الشروق">الشروق</option><option value="النزهه الجديده">النزهه الجديده</option><option value="جاردن سيتي">جاردن سيتي</option><option value="حدائق القبه">حدائق القبه</option><option value="هليوبوليس">هليوبوليس</option><option value="حلوان">حلوان</option><option value="القطاميه">القطاميه</option><option value="المعادي">المعادي</option><option value="المعادي الجديده">المعادي الجديده</option><option value="مدينتي">مدينتي</option><option value="المنيل">المنيل</option><option value="المقطم">المقطم</option><option value="مدينه نصر">مدينه نصر</option><option value="شيراتون">شيراتون</option><option value="شبرا">شبرا</option><option value="التجمع الاول">التجمع الاول</option><option value="التجمع الثالث">التجمع الثالث</option><option value="التجمع الخامس">التجمع الخامس</option><option value="زهراء المعادي">زهراء المعادي</option><option value="زهراء مدينه نصر">زهراء مدينه نصر</option><option value="الزمالك">الزمالك</option><option value="الزيتون">الزيتون</option>
                   </select>
                 </div>
@@ -320,7 +325,7 @@
                 <div class="flex flex-col gap-1.5 ">
                   <label for="area" class="font-medium text-muted text-sm">المنطقة<span class="text-error">*</span></label>
                   <select id="area" name="area" required autocomplete="address-level3"
-                          class="select-control bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors">
+                          class="select-control bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors">
                     <option value="">اختر</option><option value="15 من مايو">15 من مايو</option><option value="العباسيه">العباسيه</option><option value="عين شمس الشرقيه">عين شمس الشرقيه</option><option value="عين شمس الغربيه">عين شمس الغربيه</option><option value="الظاهر">الظاهر</option><option value="المطريه">المطريه</option><option value="الرحاب">الرحاب</option><option value="الحلميه الجديده">الحلميه الجديده</option><option value="وسط البلد">وسط البلد</option><option value="الشروق">الشروق</option><option value="النزهه الجديده">النزهه الجديده</option><option value="جاردن سيتي">جاردن سيتي</option><option value="حدائق القبه">حدائق القبه</option><option value="هليوبوليس">هليوبوليس</option><option value="حلوان">حلوان</option><option value="القطاميه">القطاميه</option><option value="المعادي">المعادي</option><option value="المعادي الجديده">المعادي الجديده</option><option value="مدينتي">مدينتي</option><option value="المنيل">المنيل</option><option value="المقطم">المقطم</option><option value="مدينه نصر">مدينه نصر</option><option value="شيراتون">شيراتون</option><option value="شبرا">شبرا</option><option value="التجمع الاول">التجمع الاول</option><option value="التجمع الثالث">التجمع الثالث</option><option value="التجمع الخامس">التجمع الخامس</option><option value="زهراء المعادي">زهراء المعادي</option><option value="زهراء مدينه نصر">زهراء مدينه نصر</option><option value="الزمالك">الزمالك</option><option value="الزيتون">الزيتون</option>
                   </select>
                 </div>
@@ -330,7 +335,7 @@
                   <label for="street" class="font-medium text-muted text-sm">رقم العقار و الشارع<span class="text-error">*</span></label>
                   <input type="text" id="street" name="street" required autocomplete="address-line1"
                          value="" placeholder=""
-                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors" />
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors" />
                 </div>
                 <div class="flex flex-col gap-2">
                   <span class="font-medium text-muted text-sm">نوع العقار<span class="text-error">*</span></span>
@@ -351,22 +356,22 @@
                   <label for="floor" class="font-medium text-muted text-sm">الطابق</label>
                   <input type="text" id="floor" name="floor" autocomplete="address-line2" inputmode="numeric"
                          value="" placeholder=""
-                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors" />
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors" />
                 </div>
 
                 <div class="flex flex-col gap-1.5 ">
                   <label for="apartment" class="font-medium text-muted text-sm">رقم الشقة<span class="text-error">*</span></label>
                   <input type="text" id="apartment" name="apartment" required autocomplete="address-line2" inputmode="numeric"
                          value="" placeholder=""
-                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors" />
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors" />
                 </div>
                 </div>
               </fieldset>
 
-              <!-- data-cart-checkout: renderCart blocks this on an empty or
-                   below-minimum basket, exactly as it already blocked the cart
-                   page's own CTA. Without it checkout was the one place you
-                   could carry an empty basket through to the thank-you page. -->
+              <!-- data-cart-checkout: renderCart blocks this on an EMPTY
+                   basket, exactly as it already blocked the cart page's own CTA.
+                   Without it checkout was the one place you could carry an empty
+                   basket through to the thank-you page. -->
               <a href="payment.html" data-cart-checkout class="bg-cta hover:bg-cta-hover py-4 rounded-full w-full font-semibold text-white text-base text-center transition-colors">
                 أكمل إلى الدفع
               </a>
@@ -381,18 +386,18 @@
             </div>
             <div class="flex flex-col gap-4" data-cart-lines>
                 <div data-cart-static class="flex items-center gap-3">
-                  <img src="images/jaad/products/coffee-light-plain.png" alt="" class="bg-cream p-1.5 rounded-lg w-16 h-16 object-contain shrink-0" loading="lazy" />
+                  <img src="images/jaad/products-styled/1.jpg" alt="" class="cart-thumb bg-cream rounded-lg w-16 h-16 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 gap-0.5 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">بن فاتح سادة</span>
                   </div>
-                  <span class="font-bold text-ink text-sm latin shrink-0">EGP 45</span>
+                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">45</span><span class="text-[11px] leading-[1.4]">.00</span></span>
                 </div>
                 <div data-cart-static class="flex items-center gap-3">
-                  <img src="images/jaad/products/coffee-medium-plain.png" alt="" class="bg-cream p-1.5 rounded-lg w-16 h-16 object-contain shrink-0" loading="lazy" />
+                  <img src="images/jaad/products-styled/2.jpg" alt="" class="cart-thumb bg-cream rounded-lg w-16 h-16 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 gap-0.5 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">بن وسط سادة</span>
                   </div>
-                  <span class="font-bold text-ink text-sm latin shrink-0">EGP 45</span>
+                  <span class="inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px] font-bold text-white latin"><span class="text-[11px] leading-[1.4]">EGP</span><span class="text-[16px] leading-none">45</span><span class="text-[11px] leading-[1.4]">.00</span></span>
                 </div>
             </div>
             
@@ -427,9 +432,22 @@
                      NOT bright `success` (#16BB55) which fails AA on this tint.
                      data-wallet-amount stays so syncWalletBalance can update the
                      figure when redeemed points top the wallet up. -->
+                <!-- `justify-self-start` on both cells is what makes the balance
+                     pill HUG its digits (Ahmed, 2026-08-23). The two states share
+                     one grid cell so the row can never change height, and a grid
+                     item's default `justify-self` is `stretch` — so the pill was
+                     being stretched to the width of the WIDER of the two states
+                     and sat as a long empty capsule with "EGP 1200" floating at
+                     one end. Reserving the height is the point; reserving the
+                     width was an accident.
+
+                     Ink is `text-heading` (#29612F, 6.6:1 on this mint), not the
+                     old `text-lime` (#8ACC3E) — which measured 1.9:1 on the pill's
+                     white fill and was the single worst contrast failure in the
+                     whole checkout. Same swap on the "deducted" caption. -->
                 <span class="grid">
-                  <span class="col-start-1 row-start-1 inline-flex items-center self-start bg-white/70 px-2 rounded-full font-bold text-lime text-xs leading-5 latin" data-wallet-idle data-wallet-amount>EGP 1200</span>
-                  <span class="col-start-1 row-start-1 inline-flex items-center self-start font-semibold text-lime text-xs leading-5 invisible" data-wallet-used>تم الخصم</span>
+                  <span class="col-start-1 row-start-1 justify-self-start inline-flex items-center self-start bg-white px-2 rounded-full font-bold text-heading text-xs leading-5 latin" data-wallet-idle data-wallet-amount>EGP 1200</span>
+                  <span class="col-start-1 row-start-1 justify-self-start inline-flex items-center self-start font-semibold text-heading text-xs leading-5 invisible" data-wallet-used>تم الخصم</span>
                 </span>
               </span>
               <!-- The real control. sr-only rather than display:none so it
@@ -448,7 +466,7 @@
                   <div class="flex items-center gap-2">
                     <input type="text" data-promo-input inputmode="latin" autocomplete="off"
                            placeholder="أدخل كود الخصم"
-                           class="flex-1 bg-white border border-divider rounded-2xl px-3 py-2 min-w-0 text-ink text-sm placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors latin" />
+                           class="flex-1 bg-white border border-divider rounded-2xl px-3 py-2 min-w-0 text-ink text-sm placeholder:text-muted outline-none focus:border-cta transition-colors latin" />
                     <!-- Secondary (outline) button (Ahmed, 2026-08-05): the
                          Apply sits next to the primary green order CTA below, so
                          a second solid-green button competed with it for the
@@ -481,7 +499,7 @@
                   <!-- aria-label, not placeholder alone: a placeholder disappears
                        the moment you type, so it cannot be the accessible name. -->
                   <textarea rows="3" placeholder="أضف ملاحظة على طلبك" aria-label="ملاحظات على الطلب" data-order-note
-                            class="bg-white border border-divider rounded-2xl px-4 py-3 w-full text-ink text-sm placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors"></textarea>
+                            class="bg-white border border-divider rounded-2xl px-4 py-3 w-full text-ink text-sm placeholder:text-muted outline-none focus:border-cta transition-colors"></textarea>
                   <!-- Compact buttons (Ahmed, 2026-08-04): the save was oversized
                        for a note editor. Padding-based height (~34px) — still well
                        above the 24px WCAG 2.5.8 floor. -->
