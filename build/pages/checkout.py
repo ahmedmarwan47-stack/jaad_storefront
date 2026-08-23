@@ -8,8 +8,8 @@ from _geo import CAIRO_AREAS, GOVERNORATES
 
 from catalog import e, in_category, money
 from components import (
-    ICON, checkout_steps, checkout_summary, field, gift_toggle, page,
-    radio_card, select_field,
+    checkout_steps, checkout_summary, field, gift_toggle, page,
+    price_sticker, radio_card, scene_image, select_field,
 )
 
 SLUG = "checkout.html"
@@ -19,9 +19,6 @@ DELIVERY_FEE = 30.0
 ICON_CAL = ('<svg viewBox="0 0 24 24" fill="none" class="w-6 h-6">'
             '<rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.7"/>'
             '<path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>')
-ICON_TRUCK = ('<svg viewBox="0 0 24 24" fill="none" class="w-6 h-6">'
-              '<path d="M1 3h13v13H1zM14 8h4l3 3v5h-7V8ZM7.5 19a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM19.5 19a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" '
-              'stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>')
 
 
 def build():
@@ -29,7 +26,7 @@ def build():
     subtotal = sum(p["price"] for p in items)
     total = subtotal + DELIVERY_FEE
 
-    steps_html = checkout_steps(1)
+    steps_html = checkout_steps(0)
 
     # data-cart-static: server-rendered so the summary is never blank before
     # scripts.js boots, and dropped by renderCart on the first paint — the
@@ -39,11 +36,11 @@ def build():
     # products the shopper had never added.
     summary_lines = "".join(f"""
                 <div data-cart-static class="flex items-center gap-3">
-                  <img src="{e(p['image'])}" alt="" class="bg-cream p-1.5 rounded-lg w-16 h-16 object-contain shrink-0" loading="lazy" />
+                  <img src="{e(scene_image(p))}" alt="" class="cart-thumb bg-cream rounded-lg w-16 h-16 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 gap-0.5 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">{e(p.get('nameAr') or p['name'])}</span>
                   </div>
-                  <span class="font-bold text-ink text-sm latin shrink-0">EGP {money(p['price'])}</span>
+                  {price_sticker(p['price'], "sm")}
                 </div>""" for p in items)
 
     body = f"""
@@ -80,7 +77,7 @@ def build():
             <form class="flex flex-col gap-8">
               <fieldset class="flex flex-col gap-4">
                 <div class="flex flex-wrap justify-between items-center gap-2 mb-1">
-                  <legend class="font-bold text-ink text-lg">بيانات العميل</legend>
+                  <legend class="font-bold text-ink text-lg">بيانات شخصية</legend>
                   <p class="text-muted text-sm">
                     هل لديك حساب بالفعل؟
                     <!-- ?next=checkout.html so a shopper who signs in mid-flow
@@ -105,22 +102,34 @@ def build():
 
               <fieldset class="flex flex-col gap-4">
                 <legend class="mb-3 font-bold text-ink text-lg">وقت التوصيل</legend>
+                <!-- SIDE BY SIDE, with each card's own content stacked
+                     (Ahmed, 2026-08-23). These two were briefly stacked instead,
+                     for a real reason: sharing a row, "أختار تاريخ" had to fit
+                     its heading AND its "حدد اليوم والوقت" prompt into half the
+                     width, the heading wrapped to two lines while "اليوم" beside
+                     it sat on one, and the pair read as two different controls.
+                     The cause was the card's INTERNAL layout, though, not the
+                     row — so the fix belongs there: `meta_stacked` drops the
+                     prompt under the heading (see radio_card), which frees the
+                     width the side-by-side pair needs and makes the two cards
+                     the same shape again. They are two values of one small
+                     choice and belong on one line.
+
+                     Phones stay stacked: two cards in a 375px row leaves each
+                     about 170px, which is under what either heading needs. -->
                 <div class="flex sm:flex-row flex-col gap-4">
 {radio_card("delivery-time", "now", "اليوم", "في غضون 60 دقيقة", ICON_CAL, checked=True)}
 {radio_card("delivery-time", "later", "أختار تاريخ", "", ICON_CAL,
-            meta_key="later", meta_prompt="حدد اليوم والوقت", opens="schedule")}
+            meta_key="later", meta_prompt="حدد اليوم والوقت", opens="schedule",
+            meta_stacked=True)}
                 </div>
               </fieldset>
 
-              <fieldset class="flex flex-col gap-4">
-                <legend class="mb-3 font-bold text-ink text-lg">طريقة التوصيل</legend>
-                <!-- Delivery only — Jaad has no physical branches, so the
-                     in-store pickup option this build forked from (and its
-                     branch picker modal) was dropped, not carried over disabled. -->
-                <div class="flex sm:flex-row flex-col gap-4">
-{radio_card("delivery-method", "delivery", "توصيل", "بإضافة مصاريف اضافية", ICON_TRUCK, checked=True)}
-                </div>
-              </fieldset>
+              <!-- The "طريقة التوصيل" fieldset is GONE (Ahmed, 2026-08-23).
+                   Jaad has no physical branches, so it had exactly one option —
+                   a pick-one control with one thing to pick is not a choice, it
+                   is a label with a radio button on it. The fee it mentioned is
+                   already itemised in the summary beside this form. -->
 
               <fieldset class="flex flex-col gap-4">
                 <legend class="mb-3 font-bold text-ink text-lg">عنوان التوصيل</legend>
@@ -149,10 +158,10 @@ def build():
                 </div>
               </fieldset>
 
-              <!-- data-cart-checkout: renderCart blocks this on an empty or
-                   below-minimum basket, exactly as it already blocked the cart
-                   page's own CTA. Without it checkout was the one place you
-                   could carry an empty basket through to the thank-you page. -->
+              <!-- data-cart-checkout: renderCart blocks this on an EMPTY
+                   basket, exactly as it already blocked the cart page's own CTA.
+                   Without it checkout was the one place you could carry an empty
+                   basket through to the thank-you page. -->
               <a href="payment.html" data-cart-checkout class="bg-cta hover:bg-cta-hover py-4 rounded-full w-full font-semibold text-white text-base text-center transition-colors">
                 أكمل إلى الدفع
               </a>

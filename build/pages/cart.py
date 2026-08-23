@@ -1,17 +1,16 @@
 """Shopping cart — Figma 'Cart' (4231:22875)."""
 from catalog import in_category, money, rail_products
 from components import (
-    ICON, cart_line, carousel, freeship_bar, order_notes, page, page_header,
+    cart_line, carousel, freeship_bar, order_notes, page, page_header,
     promo_field, wallet_toggle, product_card, section_heading,
 )
 
 SLUG = "cart.html"
 
 DELIVERY_FEE = 30.0
-# No MIN_ORDER here any more. The minimum is a runtime rule now that the
-# below-minimum state is painted from the live basket rather than the
-# build-time one, so scripts.js owns the single copy of it (MIN_ORDER = 150).
-# Keeping a second constant here would only be a number to drift.
+# There is no minimum order any more (Ahmed, 2026-08-23) — the rule and every
+# surface that painted it are gone, so there is nothing here to gate on. See the
+# MIN_ORDER note in scripts.js. Only an EMPTY basket blocks the checkout CTA.
 
 
 def build():
@@ -34,17 +33,6 @@ def build():
         '<a href="checkout.html" data-cart-checkout class="block bg-cta hover:bg-cta-hover '
         'py-4 rounded-full w-full font-semibold text-white text-base text-center '
         'transition-colors">إتمام الطلب</a>'
-    )
-    # Same reasoning: always rendered, hidden by default, and shown with the
-    # live shortfall by renderCart via data-cart-warning/data-cart-shortfall.
-    # Alert glyph (Ahmed's alert-01.svg) in an error-ink wrapper, replacing the
-    # bare ⚠ emoji so the notice matches the rest of the UI's iconography.
-    warning = (
-        '<p data-cart-warning hidden class="flex items-start gap-2 text-error '
-        'text-xs leading-5"><span class="w-4 h-4 shrink-0 mt-px" aria-hidden="true">'
-        f'{ICON["alert"]}</span>'
-        '<span>متبقي <span class="latin" data-cart-shortfall></span> '
-        'لاستكمال الحد الأدنى للطلب</span></p>'
     )
 
     body = f"""{page_header("سلة التسوق", [("الرئيسية", "index.html"), ("سلة التسوق", None)])}
@@ -102,7 +90,6 @@ def build():
                 <span class="font-bold text-ink text-2xl latin" data-cart-total>EGP {money(total)}</span>
               </div>
               {order_btn}
-              {warning}
             </div>
           </aside>
 
@@ -116,7 +103,7 @@ def build():
       <section class="py-12">
         <div class="mx-auto px-4 max-w-[1536px]">
           {section_heading("تسوق اكتر", "عرض المزيد", "shop.html")}
-          {carousel("".join(product_card(x) for x in more))}
+          {carousel("".join(product_card(x) for x in more), loop=True)}
         </div>
       </section>"""
 

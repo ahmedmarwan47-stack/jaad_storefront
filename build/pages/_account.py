@@ -5,7 +5,7 @@ All eight my-account pages are this sidebar plus a content column, so the
 sidebar, membership badge and help links are defined once here.
 """
 from catalog import e, in_category, money, title as _ptitle
-from components import WALLET_BALANCE, page, page_header
+from components import WALLET_BALANCE, page, page_header, scene_image
 
 # `wallet` comes from components.WALLET_BALANCE rather than a second literal:
 # the cart/checkout wallet toggle offers to spend this exact balance, so if the
@@ -88,13 +88,23 @@ I = {
     "voucher": '<path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4V8Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 6v12" stroke="currentColor" stroke-width="1.7" stroke-dasharray="2 2.5"/>',
     "out": '<path d="M15 17l5-5-5-5M20 12H9M12 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
     # Chevron points to the inline end (left in RTL), matching the Figma rows.
+    # Drawn pointing LEFT, which is "forward" in Arabic. Every NAVIGATIONAL use
+    # therefore carries `ltr:scale-flip` so it turns to point right in English
+    # (Ahmed, 2026-08-23) - a chevron means "onward", and onward follows the
+    # writing direction. Uses where the glyph is rotated to mean something else
+    # (the `-rotate-90` menu caret below) must NOT flip: there the direction is
+    # down, which is the same in both languages.
     "chev": '<path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
     "close": '<path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
     "menu": '<path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
 }
 
 NAV = [
-    ("الرئيسية", "my-account.html", "home"),
+    # "نظرة عامة" (Overview), not "الرئيسية" (Home) — Ahmed, 2026-08-23. Inside
+    # the dashboard "Home" competes with the site's own home page, which the
+    # breadcrumb directly above the sidebar also links; what this tab actually
+    # opens is a summary of the account, so it says so.
+    ("نظرة عامة", "my-account.html", "home"),
     ("طلباتي", "my-account-orders.html", "orders"),
     ("المفضلة", "my-account-favorites.html", "heart"),
     ("عناويني", "my-account-addresses.html", "pin"),
@@ -136,16 +146,20 @@ def nav_icon(href, key, cls="w-6 h-6", img_cls="w-7 h-7"):
 
 
 def account_title(active_slug, title):
-    """Page heading with its sidebar tab's ICON beside it (Ahmed, 2026-08-04),
-    so a tab and the page it opens carry the same mark. The icon is looked up
-    from NAV by slug; the title text is whatever the page passes, so no page
-    title changes — only the glyph is added."""
-    icon_key = next((ic for _l, href, ic in NAV if href == active_slug), None)
-    inner = nav_icon(active_slug, icon_key, cls="w-5 h-5", img_cls="w-8 h-8") if icon_key else ""
-    icon = (f'<span class="place-items-center grid bg-cream rounded-xl size-11 shrink-0">{inner}</span>'
-            if icon_key else "")
-    return (f'<div class="flex items-center gap-3">{icon}'
-            f'<h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">{e(title)}</h1></div>')
+    """The account page's h1 — the TITLE ALONE (Ahmed, 2026-08-23).
+
+    It used to repeat the sidebar tab's 3D icon in a cream tile beside the
+    heading. The icon was already doing its job three feet to the left, in the
+    tab that is highlighted as current; repeating it next to a 40px heading only
+    said the same thing twice, at a size where a rendered 3D object is a smudge
+    rather than a symbol. Dropping it also lets every dashboard page start with
+    its heading at the same x as the content beneath it.
+
+    `active_slug` is kept in the signature — every page passes it and it is the
+    obvious hook if the mark is ever wanted back — but nothing reads it now.
+    """
+    return (f'<h1 class="font-medium text-heading text-[32px] md:text-[40px] '
+            f'leading-[1.2]">{e(title)}</h1>')
 
 
 def _nav_badge(href):
@@ -220,7 +234,7 @@ def mobile_nav(active_slug):
                 <span class="flex flex-1 items-center gap-2 min-w-0">
                   <span class="truncate">{e(label)}</span>{_nav_badge(href)}
                 </span>
-                <span class="text-muted shrink-0">{_icon('chev', 'w-4 h-4')}</span>
+                <span class="ltr:scale-flip text-muted shrink-0">{_icon('chev', 'w-4 h-4')}</span>
               </a>""" for label, href, icon in NAV)
 
     return f"""
@@ -341,6 +355,14 @@ _OCHECK = ('<svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="
 # replacing the earlier 🧾📦🛵🎉 emoji placeholders — order placed (receipt),
 # preparing (packed box), in transit (delivery scooter), delivered (gift box).
 # Rendered as <img> by order_tracker below; the build validates these refs.
+# Cycle the courier tracker through all four stages on a loop (Ahmed,
+# 2026-08-23: "make it go through the 4 states as a test"). This is a REVIEW
+# aid, not product behaviour: a real tracker moves when the order moves, and
+# this one moves on a timer regardless. Flip to False — or drop the `demo`
+# argument at the call sites — the moment real order state is wired in, and the
+# component falls back to painting whatever `step` it is handed.
+DEMO_TRACKER = True
+
 _STEP_ART = [
     "images/jaad/icons/track-placed-3d.png",
     "images/jaad/icons/track-preparing-3d.png",
@@ -405,78 +427,133 @@ def order_tracker(step, subs=None):
 _order_tracker = order_tracker
 
 
-def order_tracker_ride(step, subs=None):
+def order_tracker_ride(step, subs=None, demo=DEMO_TRACKER):
     """Prototype #2 (Ahmed, 2026-08-19) — the 'traveling courier' tracker, a
     different progress CONCEPT from order_tracker() above. Grounded in the
     DoorDash / Wonder pattern: the four stages are dots on a single horizontal
     rail; the rail fills to the reached stage and the JAAD delivery scooter RIDES
-    on the rail at the current progress, driving in and bobbing as it goes. The
-    current stage's dot pulses. All motion is CSS (`.order-ride` in styles.css)
-    and is disabled under prefers-reduced-motion (static filled rail + dots).
+    on the rail toward the stage it is heading for. The current stage's dot
+    pulses. All motion is CSS (`.order-ride` in styles.css) and is disabled under
+    prefers-reduced-motion (static filled rail + dots).
+
+    Three changes on Ahmed's 2026-08-23 pass:
+
+      * The COURIER only rides the last leg. It used to drive from the previous
+        stage to the current one on every step, which meant a scooter animating
+        between "order placed" and "being prepared" — two things that happen in
+        the same kitchen, with no journey between them for a vehicle to make.
+        It now appears on exactly one stage, "في الطريق إليك", and drives from
+        there toward "تم التسليم": the one leg that IS a delivery.
+      * The RAIL fills on a loop rather than once on load — it grows from the
+        start of the track to the current stage, over and over, so the tracker
+        reads as live rather than as a picture taken when the page loaded.
+      * `demo=True` (DEMO_TRACKER) makes the tracker CYCLE through all four
+        stages by itself, a few seconds each, so the whole progression can be
+        reviewed without placing four orders. It is a REVIEW behaviour and is
+        marked as one everywhere it appears — see DEMO_TRACKER.
 
     Forced dir="ltr": every reference tracker runs left→right (received → on the
     way → delivered) and the physical-left fill/position math below assumes it,
     so the scooter always drives toward the delivered node on the right. The
     Arabic stage labels sit centred under each dot and render fine.
 
-    Wired into the dashboard 'current order' card and the order drawer for
-    review; the thank-you page keeps the original tracker so the two concepts can
-    be compared side by side."""
-    n = len(_ORDER_STEPS)
-    last = n - 1
+    Wired into the dashboard 'current order' card, the order drawer and the
+    thank-you page, so order progress is one thing across the site."""
+    last = len(_ORDER_STEPS) - 1
     delivered = step >= last
     at = min(max(step, 0), last)
-    prev = max(at - 1, 0)
-    # Node-centre percentages (of the track width) for the floating courier, and
-    # rail percentages for the fill — each with a FROM (previous stage) and TO
-    # (current stage) so the scooter DRIVES, and the line GROWS, the last leg on
-    # load rather than just appearing at the current stage.
-    to_pct, from_pct = (at + 0.5) / n * 100, (prev + 0.5) / n * 100
-    fill_to = at / last * 100 if last else 0
-    fill_from = prev / last * 100 if last else 0
     nodes = ""
     for i, label in enumerate(_ORDER_STEPS):
         done = i < step or (delivered and i == last)
         now = (i == step) and not delivered
         state = "is-done" if done else "is-now" if now else "is-todo"
-        # Every stage carries its own 3D icon (Ahmed, 2026-08-19) — done stages
-        # get a check badge, upcoming stages dim, the current one pulses.
-        check = f'<span class="order-ride__check" aria-hidden="true">{_OCHECK}</span>' if done else ""
+        # Every stage carries its own 3D icon (Ahmed, 2026-08-19) and its own
+        # check badge. The badge SHIPS ON EVERY NODE and is shown by CSS only on
+        # `.is-done`, because the demo cycle repaints stage classes in place: if
+        # the badge were conditional markup, advancing a stage would mean
+        # rebuilding the node, which throws away the element mid-transition.
         sub = (f'<span class="order-ride__sub">{e(subs[i])}</span>'
                if subs and i < len(subs) else "")
         nodes += f"""
                 <li class="order-ride__node {state}">
                   <span class="order-ride__bubble">
-                    <img src="{_STEP_ART[i]}" alt="" class="order-ride__ico" />{check}
+                    <img src="{_STEP_ART[i]}" alt="" class="order-ride__ico" />
+                    <span class="order-ride__check" aria-hidden="true">{_OCHECK}</span>
                   </span>
                   <span class="order-ride__label">{e(label)}</span>{sub}
                 </li>"""
-    # The vehicle is the live-position marker that floats above the rail and
-    # keeps driving from the previous node toward the current one; dropped once
-    # delivered. The .order-ride__face wrapper flips it to face the direction of
-    # travel (styles.css keys the flip off the page's dir, so it also flips when
-    # the language switches to Arabic/RTL). No dir="ltr" on the container any
-    # more — it INHERITS the page direction so the whole tracker mirrors in RTL.
-    courier = "" if delivered else f"""
+    # The vehicle. It ships on every tracker and CSS decides whether it is
+    # visible: only the "in transit" stage (`.is-transit` on the root) shows it,
+    # and there it drives from its own node toward "delivered". Same
+    # always-present reasoning as the check badges above.
+    #
+    # The .order-ride__face wrapper flips it to face the direction of travel
+    # (styles.css keys the flip off the page's dir, so it also flips when the
+    # language switches to Arabic/RTL). No dir="ltr" on the container — it
+    # INHERITS the page direction so the whole tracker mirrors in RTL.
+    courier = f"""
                 <span class="order-ride__courier" aria-hidden="true">
                   <span class="order-ride__face"><img src="{_STEP_ART[2]}" alt="" /></span>
                 </span>"""
-    style = (f"--steps:{n};--to:{to_pct:.3f}%;--from:{from_pct:.3f}%;"
-             f"--fillto:{fill_to:.3f}%;--fillfrom:{fill_from:.3f}%")
+    style = _ride_style(step)
+    cls = "order-ride" + _ride_state_cls(step) + (" is-demo" if demo else "")
     return f"""
-            <div class="order-ride{' is-delivered' if delivered else ''}" data-order-ride style="{style}">
+            <div class="{cls}" data-order-ride{' data-ride-demo' if demo else ''}
+                 data-ride-step="{at}" style="{style}">
               <div class="order-ride__track">
-                <span class="order-ride__rail" aria-hidden="true"><span class="order-ride__fill"></span></span>
+                <span class="order-ride__rail" aria-hidden="true">
+                  <span class="order-ride__fill"></span>
+                  <!-- The looping "filling toward the current stage" sweep. A
+                       SECOND element rather than animating the fill itself: the
+                       fill has to keep showing the real progress at all times,
+                       and an animation that returns to its start would drop the
+                       bar back to zero on every cycle. This one grows over the
+                       static fill and fades out before it restarts, so there is
+                       never a visible snap back. -->
+                  <span class="order-ride__sweep"></span>
+                </span>
                 <ol class="order-ride__nodes">{nodes}
                 </ol>{courier}
               </div>
             </div>"""
 
 
+def _ride_style(step):
+    """The custom properties that place the courier and size the rail fill.
+
+    Split out of order_tracker_ride so the demo cycle in scripts.js can compute
+    the SAME values when it advances a stage — one formula, not one in Python
+    and a second, drifting copy in JS.
+    """
+    n = len(_ORDER_STEPS)
+    last = n - 1
+    at = min(max(step, 0), last)
+    # The courier rides the FINAL leg only: from "in transit" toward
+    # "delivered". Those two node centres are fixed, so they do not depend on
+    # `at` at all — the stage decides whether the vehicle is shown, not where.
+    from_pct = (last - 0.5) / n * 100
+    to_pct = (last + 0.5) / n * 100
+    fill_to = at / last * 100 if last else 0
+    return (f"--steps:{n};--to:{to_pct:.3f}%;--from:{from_pct:.3f}%;"
+            f"--fillto:{fill_to:.3f}%")
+
+
+def _ride_state_cls(step):
+    """Root-level state classes: delivered (terminal) and in-transit (the one
+    stage that shows the courier)."""
+    last = len(_ORDER_STEPS) - 1
+    at = min(max(step, 0), last)
+    if at >= last:
+        return " is-delivered"
+    if at == last - 1:
+        return " is-transit"
+    return ""
+
+
 def _order_lines(o):
     return "".join(f"""
                 <div class="flex items-center gap-3 py-3 border-divider border-b last:border-0">
-                  <img src="{e(p['image'])}" alt="" class="bg-cream p-1.5 rounded-lg w-14 h-14 object-contain shrink-0" loading="lazy" />
+                  <img src="{e(scene_image(p))}" alt="" class="cart-thumb bg-cream rounded-lg w-14 h-14 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">{e(p.get('nameAr') or p['name'])}</span>
                     <span class="text-muted text-xs">عدد <span class="latin">{q}</span></span>
@@ -543,7 +620,7 @@ def order_rows(orders):
                     <td class="py-4 text-muted text-sm">{e(o['date'])}</td>
                     <td class="py-4">{status_badge(o)}</td>
                     <td class="py-4 font-semibold text-ink text-sm latin">EGP {money(order_total(o))}</td>
-                    <td class="py-4 pe-2 text-end"><span class="inline-flex justify-center items-center text-muted group-hover:text-cta transition-colors size-8">{_icon('chev', 'w-4 h-4')}</span></td>
+                    <td class="py-4 pe-2 text-end"><span class="inline-flex justify-center items-center ltr:scale-flip text-muted group-hover:text-cta transition-colors size-8">{_icon('chev', 'w-4 h-4')}</span></td>
                   </tr>""" for o in orders)
 
 
@@ -573,11 +650,11 @@ def reorder_card(o):
     cart in one press."""
     items_data = "".join(
         f'<span data-reorder-item data-id="{e(p.get("id", 0))}" data-name="{e(_ptitle(p))}" '
-        f'data-price="{p["price"]}" data-image="{e(p["image"])}" data-qty="{q}" hidden></span>'
+        f'data-price="{p["price"]}" data-image="{e(scene_image(p))}" data-qty="{q}" hidden></span>'
         for p, q in o["items"]
     )
     thumbs = "".join(
-        f'<img src="{e(p["image"])}" alt="" class="bg-cream p-1 rounded-lg w-12 h-12 object-contain shrink-0" loading="lazy" />'
+        f'<img src="{e(scene_image(p))}" alt="" class="cart-thumb bg-cream rounded-lg w-12 h-12 shrink-0" loading="lazy" />'
         for p, q in o["items"][:4]
     )
     return f"""

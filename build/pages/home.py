@@ -431,7 +431,12 @@ def build():
 
       <!-- =============================== FAQ =============================== -->
       <!-- Figma node 9967:21115. Centered header + accordion; first row open. -->
-      <section id="faq" class="bg-cream py-14 xl:py-[60px]">
+      <!-- White band, not cream (Ahmed, 2026-08-23): the FAQ cards themselves
+           are cream now — the same surface as the product page's specs strip —
+           so a cream section behind them would leave the rows invisible until
+           you hovered one. The band above and below is already white, so this
+           simply lets the cards be the only shape on it. -->
+      <section id="faq" class="py-14 xl:py-[60px]">
         <div class="flex flex-col items-center gap-10 mx-auto px-4 max-w-[1512px]">
           <div class="flex flex-col items-center gap-4 max-w-[800px] text-center">
             <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">Frequently Asked Questions</h2>

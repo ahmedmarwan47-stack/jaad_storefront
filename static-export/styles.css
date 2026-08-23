@@ -429,6 +429,25 @@ select {
 .carousel-next {
   inset-inline-end: -22px;
 }
+/* ...but only where the page gutter can hold them (Ahmed, 2026-08-23).
+
+   Every rail sits in `max-w-[1536px] px-4`, so the track's content box starts
+   16px in from the container edge. A -22px arrow therefore hangs 6px PAST that
+   edge, and once the viewport stops being wider than 1536+gutter that 6px is
+   off the screen: the arrows on the related / recently-viewed rails were half
+   cut by the window edge at every width between the xl breakpoint (where they
+   first appear) and ~1564px. Tuck them inside the track below that width — the
+   overlap on the first/last card is the standard rail treatment — and keep the
+   straddle only where the margin genuinely exists. 1600px, not the exact 1564,
+   so the arrow keeps a comfortable margin rather than kissing the edge. */
+@media (max-width: 1600px) {
+  .carousel-prev {
+    inset-inline-start: 6px;
+  }
+  .carousel-next {
+    inset-inline-end: 6px;
+  }
+}
 /* Hero arrows are 64px and Ahmed wants their centre ON the banner's side
    border, straddling it, rather than tucked inside. -32px = half the circle.
    Scoped to .hero-banners (0,2,0) so it beats the global .carousel-prev
@@ -438,6 +457,16 @@ select {
 }
 .hero-banners .carousel-next {
   inset-inline-end: -32px;
+}
+/* Same reasoning as the rail arrows above — the hero circle is 64px, so it
+   needs even more room and runs out even sooner. */
+@media (max-width: 1600px) {
+  .hero-banners .carousel-prev {
+    inset-inline-start: 12px;
+  }
+  .hero-banners .carousel-next {
+    inset-inline-end: 12px;
+  }
 }
 .carousel-dots {
   display: flex;
@@ -706,14 +735,18 @@ body.no-scroll {
    is a lime tint with a bold green question and a −-in-a-white-chip toggle.
    Reuses the .accordion-item / .is-open contract initAccordions drives. */
 .faq-card {
-  background: #f5f2ed;
+  /* ONE surface, open or closed (Ahmed, 2026-08-23), and it is the SAME cream
+     the product page's specs strip and delivery row sit on — so the whole right
+     column of a product page reads as one family of cards instead of three
+     near-miss tints (specs cream, FAQ warm grey, open FAQ a deeper warm grey).
+     Opening a question is now purely the +/− swap and the panel reveal; the
+     background never moves, which is also what stops the row flashing a
+     "selected" colour it never meant. */
+  background: #FDF8F1;
   transition: background 0.25s ease;
 }
 .faq-card.is-open {
-  /* Neutral open state (Ahmed, 2026-08-19): the lime tint + green question read
-     as a "selected/active" highlight; the open row now just deepens the warm
-     grey, so opening a question is a neutral reveal, not a coloured state. */
-  background: #ECE7DE;
+  background: #FDF8F1;
 }
 /* Weight stays constant open/closed — only the colour changes — so the
    question never reflows (no jump). */
@@ -1148,12 +1181,46 @@ fieldset {
   top: 0;
   z-index: 100;
 }
-/* The masthead logo is much TALLER than the 56px bar and overflows it by design;
-   once the bar is fixed at the viewport top, that overflow would be clipped by
-   the top edge. Shrink the logo to sit inside the bar while stuck so nothing is
-   cut off (Ahmed, 2026-08-19). */
-[data-navbar][data-stuck="true"] a[aria-label="Jaad"] img {
-  height: 46px !important;
+/* The masthead logo is much TALLER than the 56px bar and overflows it by design.
+   Once the bar is fixed at the viewport top, the half that overflows UPWARD has
+   nowhere to go and is clipped by the top edge — which is why the stuck bar used
+   to shrink the logo to 46px and sit it neatly inside (Ahmed, 2026-08-19).
+
+   That traded the brand mark for a small badge on exactly the bar a shopper
+   spends the most time looking at. So: keep it at full size and hang it DOWNWARD
+   instead (Ahmed, 2026-08-23 — "the same falling logo, and bigger"). Aligning
+   the link to the start of the 56px row puts the logo's TOP at the bar's top, so
+   every pixel of the overflow falls below the bar, over the page, and none of it
+   is cut. It is the same shape the masthead already has, and the same one the
+   checkout bar below gets — one logo treatment across all three states rather
+   than a big one, a shrunken one and a third on checkout.
+
+   The mark is solid green on its lower half, so it stays legible where it
+   overhangs white page content; the drop shadow lifts it off whatever scrolls
+   underneath.
+
+   On the OVERHANG itself: this first went past the masthead's own 96/116, on the
+   reasoning that these two bars have no lime strip or flash bar above them to
+   collide with. What that missed is the other end — the logo hangs DOWN, so the
+   height it does not spend inside the 56px bar it spends on top of the page, and
+   at 112/132 that was 56-76px of mark sitting over the content a shopper is
+   trying to read (Ahmed, 2026-08-23: "the logo is falling too much"). 84/96
+   keeps the falling shape and the full mark while cutting the overhang to
+   28/40px, which clears the bar without leaning on the page. */
+[data-navbar][data-stuck="true"] .masthead-logo,
+body[data-page="checkout"] .masthead-logo {
+  align-self: flex-start;
+  filter: drop-shadow(0 6px 10px rgba(6, 42, 28, 0.18));
+}
+[data-navbar][data-stuck="true"] .masthead-logo img,
+body[data-page="checkout"] .masthead-logo img {
+  height: 84px !important;
+}
+@media (min-width: 1280px) {
+  [data-navbar][data-stuck="true"] .masthead-logo img,
+  body[data-page="checkout"] .masthead-logo img {
+    height: 96px !important;
+  }
 }
 
 /* The slide-in starts at translateY(-100%), i.e. fully off-screen. If the
@@ -1763,6 +1830,186 @@ select.select-control {
   background-position: right 16px center;
 }
 
+/* --- Product card: clearing the straddling counter -----------------------
+   The counter hangs off the image's bottom-inline-end and overlaps the body
+   below it. The card handles that with extra TOP padding on the body, so the
+   price badge starts underneath the counter rather than beside it — and it was
+   applied at `pt-9 sm:pt-3`, i.e. only on phones, on the reasoning that from
+   `sm` up the card is wide enough for the badge and the counter to sit side by
+   side.
+
+   That reasoning was about the VIEWPORT, and the thing that decides it is the
+   CARD. On the favourites page the account sidebar eats the width, so a card
+   in a desktop-width window measured 161px: the 108px badge and the 98px
+   counter could not both fit, and they overlapped by 72px (Ahmed, 2026-08-23 —
+   "fix them"). The same would happen in any narrow column added later.
+
+   A container query asks the right question. The card declares itself a
+   container and its body keeps the clearance whenever the CARD is too narrow
+   to seat both, whatever the viewport is doing. 232px is the measured
+   threshold: 108 + 98 plus the body's own 12px insets and a little air.
+
+   `container-type: inline-size` only establishes an inline-axis containment,
+   so the card's height still comes from its content and nothing about the
+   existing layout moves. */
+.product-widget { container-type: inline-size; container-name: pcard; }
+/* The drawer's compact card is EXCLUDED, by being a differently-named
+   container. It is 152px, narrower than anything the rule is aimed at, and it
+   does not need the clearance: its badge is 72px and its round add button 36px,
+   which seat side by side inside 152px with room to spare. Because the rule
+   below asks for a container named `pcard` and this one is `pcard-sm`, it
+   simply does not match — a `:not()` could not have done it, since the selector
+   inside a container query has to match a DESCENDANT of the container and the
+   card is not its own descendant. */
+.product-widget--sm { container-name: pcard-sm; }
+@container pcard (max-width: 232px) {
+  .product-widget__body { padding-top: 2.25rem; }
+}
+
+/* ==========================================================================
+   Dropdown (design system)
+
+   Replaces the native <select> popup everywhere (Ahmed, 2026-08-23). The OS
+   picker cannot be styled or animated, so a form that is otherwise entirely
+   JAAD's own components opened an Aqua/Android list the moment you picked a
+   city. This is that control rebuilt out of the same parts as every other
+   field - white ground, hairline divider border, 16px radius, green focus - so
+   it reads as one form.
+
+   The MOTION is the reference Ahmed supplied (an emerald-ui/framer-motion
+   dropdown), ported to transitions:
+
+     panel   opacity 0 -> 1, translateY(-10px) -> 0, scale(0.95) -> 1, 200ms
+     chevron rotate 0 -> 180deg, 200ms
+     items   opacity 0 -> 1, translateX(-20px) -> 0, staggered 30ms apart
+
+   Framer-motion gets its exit animation from keeping the node mounted while it
+   plays. `display: none` cannot do that - the element is gone on the frame the
+   class flips, so the close would snap. `visibility` can: it is animatable as a
+   discrete step, so the panel stays laid out and painted for the 200ms it takes
+   to fade, and only then goes hidden. That is what the `visibility 0s linear
+   .2s` delay in the closed state is for, and why it drops to `0s` when open.
+   ========================================================================== */
+.dd { position: relative; }
+
+/* The native <select> stays in the form: it is the value that submits, the
+   thing `required` validates, and the fallback when this script never runs.
+   Kept as a real box behind the trigger rather than display:none, because a
+   browser cannot focus a display:none control and Chrome refuses to submit -
+   "an invalid form control is not focusable" - with no visible error. */
+.dd__native {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: 0; pointer-events: none; margin: 0;
+}
+
+.dd__trigger {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+  width: 100%; height: 3rem; padding-inline: 1rem;
+  background: #fff; border: 1px solid var(--dd-border, #E5E7EB); border-radius: 1rem;
+  color: #1e2219; font-size: 1rem; text-align: start; cursor: pointer;
+  transition: border-color 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
+}
+.dd__trigger:hover { border-color: #CFE0BB; }
+.dd__trigger:focus-visible,
+.dd[data-state="open"] .dd__trigger {
+  outline: none; border-color: #98CA55; box-shadow: 0 0 0 3px rgba(152, 202, 85, 0.25);
+}
+/* Nothing chosen yet reads as a prompt, not as a value. */
+.dd__value.is-placeholder { color: #6B7280; }
+.dd__value { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dd__chev { display: inline-grid; place-items: center; width: 1.125rem; height: 1.125rem; color: #003616; flex-shrink: 0; transition: transform 0.2s ease-in-out; }
+.dd[data-state="open"] .dd__chev { transform: rotate(180deg); }
+
+.dd__pop {
+  position: absolute; inset-inline: 0; top: calc(100% + 0.5rem); z-index: 50;
+  max-height: 16rem; overflow-y: auto; overscroll-behavior: contain;
+  margin: 0; padding: 0.375rem; list-style: none;
+  background: #fff; border: 1px solid #E5E7EB; border-radius: 1rem;
+  box-shadow: 0 12px 28px -10px rgba(6, 42, 28, 0.28), 0 4px 10px -6px rgba(6, 42, 28, 0.16);
+  opacity: 0; transform: translateY(-10px) scale(0.95); transform-origin: top center;
+  visibility: hidden; pointer-events: none;
+  transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out),
+              visibility 0s linear 0.2s;
+}
+.dd[data-state="open"] .dd__pop {
+  opacity: 1; transform: none; visibility: visible; pointer-events: auto;
+  transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out), visibility 0s;
+}
+
+.dd__opt {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 0.75rem; border-radius: 0.75rem;
+  font-size: 0.9375rem; color: #1e2219; cursor: pointer;
+  opacity: 0; transform: translateX(-20px);
+  transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out),
+              background-color 0.15s var(--ease-out);
+}
+/* The slide comes FROM the inline start, so it mirrors with the document
+   rather than always arriving from the left. */
+html[dir="rtl"] .dd__opt { transform: translateX(20px); }
+.dd[data-state="open"] .dd__opt {
+  opacity: 1; transform: none;
+  /* --i is set per row by initDropdowns; 30ms is the reference's
+     staggerChildren: 0.03. */
+  transition-delay: calc(var(--i, 0) * 30ms);
+}
+/* The hover fill is ONE element that TRAVELS between rows, not a background
+   painted on whichever row the pointer is over (Ahmed, 2026-08-23). Per-row
+   backgrounds cross-fade: the old row lets go while the new one takes hold, and
+   at speed that reads as flicker. A single marker sliding from one to the next
+   reads as the highlight following the pointer, and it costs one transform
+   instead of two colour transitions.
+
+   `inset-inline` matches the list's own padding so the fill sits inside the
+   panel's rounded edge, and it sits UNDER the rows (z-index) so the text and
+   tick keep their own colours over it. It scrolls with the content because the
+   panel is the positioned ancestor and the marker is inside its scroll box. */
+.dd__marker {
+  position: absolute; inset-inline: 0.375rem; top: 0; height: 0; z-index: 0;
+  border-radius: 0.75rem; background: #FDF8F1; opacity: 0;
+  transform: translateY(var(--y, 0px));
+  transition: transform 0.18s var(--ease-out), height 0.18s var(--ease-out),
+              opacity 0.15s var(--ease-out);
+  pointer-events: none;
+}
+.dd__opt { position: relative; z-index: 1; }
+.dd__opt[aria-selected="true"] { font-weight: 600; color: #29612F; }
+.dd__opt-check { width: 1rem; height: 1rem; flex-shrink: 0; color: #98CA55; opacity: 0; }
+.dd__opt[aria-selected="true"] .dd__opt-check { opacity: 1; }
+
+/* The shop's SORT control is a different component - a pill trigger with its
+   own sort glyph, not a field - but its popup is the same idea and should move
+   the same way. Rather than restyle it, it borrows the panel and row motion
+   above off its own [data-state] (set by initFancySelect). */
+[data-fancy-pop] {
+  opacity: 0; transform: translateY(-10px) scale(0.95); transform-origin: top center;
+  visibility: hidden; pointer-events: none;
+  transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out),
+              visibility 0s linear 0.2s;
+}
+[data-fancy-select][data-state="open"] [data-fancy-pop] {
+  opacity: 1; transform: none; visibility: visible; pointer-events: auto;
+  transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out), visibility 0s;
+}
+[data-fancy-pop] [data-fancy-opt] {
+  opacity: 0; transform: translateX(-20px);
+  transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out),
+              background-color 0.15s var(--ease-out);
+}
+html[dir="rtl"] [data-fancy-pop] [data-fancy-opt] { transform: translateX(20px); }
+[data-fancy-select][data-state="open"] [data-fancy-opt] {
+  opacity: 1; transform: none; transition-delay: calc(var(--i, 0) * 30ms);
+}
+[data-fancy-select][data-state="open"] [data-fancy-trigger] .chevron,
+[data-fancy-select][data-state="open"] [data-fancy-trigger] svg { transition: transform 0.2s ease-in-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dd__pop, .dd__opt, .dd__chev, .dd__marker,
+  [data-fancy-pop], [data-fancy-pop] [data-fancy-opt] { transition-duration: 0.01ms !important; }
+  .dd__pop { transform: none; }
+  .dd__opt { transform: none; }
+}
+
 /* Telephone inputs render `direction: ltr` under Chromium even inside an RTL
    document, so a plain tel field's digits sat start-aligned to the LEFT while
    every other field aligned right (Ahmed, 2026-08-03). Force rtl to match:
@@ -1864,7 +2111,14 @@ input:checked + .radio-card-accent {
   width: 46px;
   height: 26px;
   border-radius: 9999px;
-  background: rgba(22, 51, 0, 0.22);
+  /* The OFF track has to be a real UI-component contrast, not a hint of one
+     (WCAG 1.4.11, 3:1). At 0.22 alpha this blended to roughly #D3DCCC on the
+     wallet card's mint — about 1.3:1 against it, so the switch read as a faint
+     smudge and a shopper could not tell the control existed, let alone which
+     way it was set (Ahmed flagged the wallet toggle, 2026-08-23). At 0.55 it
+     blends to ~#698B74 on mint (3.3:1) and ~#73907E on white (3.6:1), and the
+     white knob still clears 3:1 against the track it sits in. */
+  background: rgba(0, 54, 22, 0.55);
   transition: background 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .switch__knob {
@@ -2447,10 +2701,31 @@ input:checked + .radio-card-accent {
    (0,1,0), the same margin the search-row exception below uses. Toggle
    controls with no border box of their own (radio, checkbox, the switch) are
    untouched and keep the ring — they have nothing to darken. */
-[class*="focus:border-cta"]:focus-visible {
+[class*="focus:border-cta"]:focus-visible,
+[class*="focus:border-cta"]:focus,
+[class*="focus-within:border-cta"]:focus-within {
   outline: none;
   box-shadow: none;
 }
+
+/* ONE focused edge, on every text field (Ahmed, 2026-08-23).
+
+   The rule above only ever covered fields written with `focus:border-cta`.
+   Most of the site's fields — every `field()`, `select_field()`, the promo
+   input, the search row and the order-note textarea — were written with
+   `focus:border-primary focus:ring-2 focus:ring-limeFigma` instead, so they
+   fell straight through it and drew THREE concentric edges when focused: their
+   own 1px grey border, a 2px lime ring outside that, and then the global
+   focus-visible outline (2px dark green at a 2px offset) outside THAT. On the
+   tall order-note textarea, where there is a lot of edge to look at, it read
+   as a plain double border and Ahmed flagged it as not matching the rest of
+   the site's inputs. It did match them — they were all wrong together.
+
+   Fixed at the source instead of patched here: every one of those fields now
+   carries the plain `focus:border-cta`, so the ring never exists and this rule
+   removes the outline. A focused field is its own border, turned from #D9D9D9
+   to #00451C — a 12:1 change that satisfies 1.4.11 on its own, and the same
+   single edge whether the field is 48px tall or 86px. */
 
 /* The footer newsletter field shows only its own default border in the active
    state — no focus ring, on either the form or the input inside it (Ahmed,
@@ -2947,7 +3222,7 @@ input:checked + .radio-card-accent {
 .order-ride__check {
   position: absolute; top: -5px; right: -5px; width: 19px; height: 19px;
   border-radius: 999px; background: #2D5A2F; color: #fff;
-  display: grid; place-items: center; box-shadow: 0 0 0 2px #fff;
+  place-items: center; box-shadow: 0 0 0 2px #fff;
 }
 .order-ride__check svg { width: 11px; height: 11px; }
 .order-ride__label { font-size: 12px; font-weight: 600; color: #8A8F7E; line-height: 1.3; }
@@ -2965,23 +3240,49 @@ input:checked + .radio-card-accent {
   height: 5px; transform: translateY(-50%);
   background: #E7E3D5; border-radius: 999px;
 }
+/* The real progress: static, always showing how far the order actually is.
+   `transition` rather than `animation`, so the demo cycle (and, later, a real
+   status change) SLIDES the bar to the new stage instead of jumping. */
 .order-ride__fill {
   position: absolute; top: 0; bottom: 0; inset-inline-start: 0;
   width: var(--fillto);
   background: linear-gradient(90deg, #2D5A2F, #5FA83A); border-radius: 999px;
-  animation: rideFillGrow 1s var(--ease-out) both;
+  transition: width 0.8s var(--ease-out);
 }
-/* The vehicle floats in the top gap and KEEPS driving (slowly) from the previous
-   stage toward the current one, looping, then fading as it arrives. Positioned
-   with logical props + margin so it mirrors correctly when the language flips to
-   RTL. `--to`/`--from` carry node-centre percentages. */
+/* The looping sweep that reads as "still filling" (Ahmed, 2026-08-23). It runs
+   over the static fill, from the start of the rail to the current stage, and
+   fades out at the end of each cycle so the restart is never seen as the bar
+   dropping back to zero. Lighter than the fill underneath, so where the two
+   overlap the bar simply brightens. */
+.order-ride__sweep {
+  position: absolute; top: 0; bottom: 0; inset-inline-start: 0;
+  width: 0; border-radius: 999px;
+  background: linear-gradient(90deg, rgba(152, 202, 85, 0), #98CA55);
+  animation: rideFillLoop 2.8s var(--ease-out) infinite;
+}
+/* Nothing to fill toward on a brand-new order — a 0% sweep on a 0% bar is just
+   an invisible timer. */
+.order-ride:not(.is-delivered) .order-ride__sweep { display: block; }
+/* The vehicle floats in the top gap and drives the LAST leg only — from "in
+   transit" toward "delivered" — looping, then fading as it arrives. It used to
+   run on every stage, animating a scooter between "order placed" and "being
+   prepared", which is not a journey (Ahmed, 2026-08-23). Positioned with logical
+   props + margin so it mirrors correctly when the language flips to RTL.
+   `--to`/`--from` carry the two node-centre percentages of that final leg. */
 .order-ride__courier {
+  display: none;
   position: absolute; z-index: 3; top: 0;
   inset-inline-start: var(--to); margin-inline-start: -20px;
   width: 40px; height: 40px;
   filter: drop-shadow(0 7px 9px rgba(6, 42, 28, 0.24));
   animation: rideDriveLoop 4.5s ease-in-out infinite;
 }
+.order-ride.is-transit .order-ride__courier { display: block; }
+/* Check badges ship on every node and are revealed only once that node is done
+   — see the note in order_tracker_ride(): the demo cycle repaints stage classes
+   in place rather than rebuilding nodes. */
+.order-ride__check { display: none; }
+.order-ride__node.is-done .order-ride__check { display: grid; }
 /* Face the direction of travel. The source vehicles face LEFT and travel heads
    toward the inline-END, so flip in LTR (→ faces right, toward the next stage)
    and leave natural in RTL (→ faces left). Keyed off the page dir, so it also
@@ -3000,16 +3301,28 @@ html[dir="rtl"] .order-ride__face { transform: none; }
   92%  { inset-inline-start: var(--to); opacity: 0; }
   100% { inset-inline-start: var(--from); opacity: 0; }
 }
-@keyframes rideFillGrow { from { width: var(--fillfrom); } to { width: var(--fillto); } }
+@keyframes rideFillLoop {
+  0%   { width: 0; opacity: 0; }
+  12%  { opacity: 0.9; }
+  70%  { width: var(--fillto); opacity: 0.9; }
+  100% { width: var(--fillto); opacity: 0; }
+}
 @keyframes rideBob { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-3px) rotate(2deg); } }
 @keyframes rideBubble {
   0%   { box-shadow: 0 0 0 0 rgba(234,152,62,.45); }
   70%  { box-shadow: 0 0 0 11px rgba(234,152,62,0); }
   100% { box-shadow: 0 0 0 0 rgba(234,152,62,0); }
 }
+/* Stage transitions on the demo cycle (and on any real status change): the
+   bubbles cross-fade their tint and the icons their dim rather than snapping. */
+.order-ride__label { transition: color 0.3s ease; }
 @media (prefers-reduced-motion: reduce) {
-  .order-ride__fill, .order-ride__courier, .order-ride__courier img,
-  .order-ride__node.is-now .order-ride__bubble { animation: none; }
+  .order-ride__fill, .order-ride__sweep, .order-ride__courier,
+  .order-ride__courier img,
+  .order-ride__node.is-now .order-ride__bubble { animation: none; transition: none; }
+  /* No looping sweep at all under reduced motion — the static fill already
+     says how far the order is. */
+  .order-ride__sweep { display: none !important; }
 }
 
 /* Live status dot — a pulsing ripple for an in-progress order. currentColor,
@@ -3202,6 +3515,28 @@ html[data-img="plain"] .story-host [data-buy-extras] { display: none; }
 html[data-img="plain"] .story-fb-scene { display: none; }
 .story-fb-plain { display: none; }
 html[data-img="plain"] .story-fb-plain { display: block; }
+
+/* SCENE mode: line the "قد يعجبك أيضاً" box up with the MAIN PHOTO, not with
+   the whole gallery (Ahmed, 2026-08-23). The box is a sibling of [data-gallery]
+   in the media column, so left to itself it spans the column and starts at the
+   THUMBNAIL STRIP's edge — the photo above it then begins 96px further in and
+   the two read as unrelated blocks.
+
+   96px is not a guess: the strip's thumbs are w-20 (80px) and the gallery's
+   flex gap is gap-4 (16px), so the plate starts exactly 96px in. Keep this in
+   step if either changes.
+
+   Two guards matter. `:has([data-gallery-strip])` means the inset applies only
+   where a strip exists — 26 of the 99 products ship a single image and suppress
+   the strip entirely (see product_gallery), and there the photo starts at the
+   column edge, so an inset would push the box out of alignment rather than into
+   it. And md is where the gallery turns flex-row; below it the strip sits UNDER
+   the photo (flex-col-reverse) and there is nothing to inset past. */
+@media (min-width: 768px) {
+  [data-gallery]:has([data-gallery-strip]) + .story-fb-scene {
+    margin-inline-start: 96px;
+  }
+}
 /* White-image story only: the gallery photo carries a card BORDER while parked,
    and the border + fill FADE the moment it detaches to fly to centre
    (initProductStory adds .story-detached once the content ends). lg only —
@@ -3301,17 +3636,47 @@ html[data-img="plain"] .story-fb-plain { display: block; }
    sets the progress custom property, so with JS unavailable the first chapter
    renders correctly and the section still reads.
    ====================================================================== */
-.about-hero { padding: 2rem 0 2.5rem; }
-.about-hero__frame {
-  border-radius: 24px; overflow: hidden;
-  /* The frame clips a deliberately over-tall image so the parallax has room
-     to travel without ever revealing an edge. */
+/* Full-bleed hero: the picture IS the section, the title sits on it, and the
+   scalloped edge hands over to the cream journey below (see about.py).
+
+   `isolation: isolate` gives the scrim and the title their own stacking context
+   so neither has to guess a z-index against the rest of the page, and
+   `overflow: hidden` is what lets the image be deliberately over-tall - the
+   parallax needs room to travel without ever revealing an edge. */
+.about-hero {
+  position: relative; isolation: isolate; overflow: hidden;
+  min-height: 58vh; display: flex; align-items: center;
+  padding: 5rem 0 4.5rem; background: #0D3711;
 }
+@media (min-width: 1280px) { .about-hero { min-height: 66vh; padding: 7rem 0 6rem; } }
+
+/* Over-tall and pushed up by its own overhang, so the parallax has travel in
+   both directions from a centred rest position. */
 .about-hero__img {
-  width: 100%; height: 300px; object-fit: cover; display: block;
-  will-change: transform;
+  position: absolute; inset: 0; width: 100%; height: 112%; top: -6%;
+  object-fit: cover; display: block; z-index: -2; will-change: transform;
 }
-@media (min-width: 1280px) { .about-hero__img { height: 460px; } }
+
+/* Weighted to the inline start rather than a flat wash: dense under the words,
+   cleared by the middle of the frame, so the photography is still photography
+   on the side the title does not occupy. The second, vertical layer only lifts
+   the very bottom, where the scallop meets the picture. */
+.about-hero__scrim {
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(13, 55, 17, 0) 55%, rgba(13, 55, 17, 0.35) 100%),
+    linear-gradient(to var(--hero-scrim-to, right),
+      rgba(13, 55, 17, 0.86) 0%,
+      rgba(13, 55, 17, 0.62) 38%,
+      rgba(13, 55, 17, 0.12) 70%,
+      rgba(13, 55, 17, 0) 100%);
+}
+html[dir="rtl"] .about-hero__scrim { --hero-scrim-to: left; }
+
+.about-hero__inner {
+  position: relative; width: 100%;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 1rem;
+}
 
 /* The spacer: its height IS the scroll budget for the pinned sequence.
    Three chapters at roughly one viewport each, plus a little run-in/run-out. */
@@ -3428,6 +3793,166 @@ html[data-img="plain"] .story-fb-plain { display: block; }
 @media (min-width: 768px) { .about-journey__heading { font-size: 40px; } }
 .about-journey__copy { color: #1e2219; font-size: 16px; line-height: 1.9; max-width: 52ch; }
 
+/* ==========================================================================
+   About — the timeline ("الطريق إلى جاد")
+
+   A scroll-DRAWN vector with the milestones hung off it, in the manner of
+   maravilla.framer.website (Ahmed, 2026-08-23): a line that wanders down the
+   page and is painted in as you scroll, rather than a static rule with dots.
+
+   How the line and the rows stay in register. The SVG is stretched over the
+   whole rows block with `preserveAspectRatio="none"`, and its viewBox is
+   exactly 100 units tall PER MILESTONE (see ROW in about.py). The rows are a
+   grid with `grid-auto-rows: 1fr`, so each row is exactly 1/N of the same box.
+   One row of markup and one row of viewBox are therefore the same band at every
+   width, and a node at the viewBox row's centre lands on the CSS row's centre
+   without a single measured pixel passing between them.
+
+   The stretch is why the stroke carries `vector-effect: non-scaling-stroke` in
+   the markup - without it a tall thin section would paint a 6px-wide line and a
+   1px-tall one. It is also why the node dots are CSS circles in the rows rather
+   than <circle> in the SVG: a circle under a non-uniform scale is an ellipse.
+   ========================================================================== */
+.about-time { padding: 4.5rem 0; background: #fff; }
+@media (min-width: 1280px) { .about-time { padding: 6rem 0; } }
+
+.about-time__body { position: relative; }
+
+/* The line's band.
+   On phones it is a narrow gutter at the inline start with the rows beside it.
+   From md it is THE WHOLE WIDTH (Ahmed, 2026-08-23: "make the vector move more
+   like the reference"), because the swing is what makes it read as a wandering
+   line rather than a rule with a kink in it - the reference's paths sweep the
+   full page and back, and a 120px gutter can only ever wiggle inside 120px.
+   The line runs behind the cards; they are opaque, so it passes under them the
+   way the reference's does. */
+.about-time__vector {
+  position: absolute; inset-block: 0; inset-inline-start: 0;
+  width: 64px; height: 100%; overflow: visible; pointer-events: none; z-index: 0;
+}
+@media (min-width: 768px) {
+  .about-time__vector { inset-inline: 0; width: 100%; }
+}
+
+/* Ships fully undrawn. JS sets --len from the real measured path length and
+   walks --draw 1 -> 0; the fallbacks keep the line invisible rather than fully
+   drawn if the script never runs, because the reduced-motion block below is
+   what is meant to reveal it in that case. */
+.about-time__draw {
+  stroke-dasharray: var(--len, 4000);
+  stroke-dashoffset: calc(var(--len, 4000) * var(--draw, 1));
+}
+
+/* The head dot rides the drawn end. Positioned by JS in page pixels (it maps
+   the path point through the SVG's own CTM, so the non-uniform scale is handled
+   for it), and hidden until there is something drawn to sit on. */
+.about-time__head {
+  position: absolute; top: 0; inset-inline-start: 0;
+  width: 14px; height: 14px; border-radius: 999px;
+  background: #98CA55; box-shadow: 0 0 0 5px rgba(152, 202, 85, 0.22);
+  transform: translate(-50%, -50%); opacity: 0;
+  transition: opacity 0.25s var(--ease-out, ease-out);
+  pointer-events: none; z-index: 2;
+}
+.about-time__head.is-on { opacity: 1; }
+
+.about-time__rows {
+  display: grid; grid-auto-rows: 1fr; position: relative; margin: 0; padding: 0;
+  list-style: none; z-index: 1;
+}
+
+.about-time__row { position: relative; display: flex; align-items: center; padding-inline-start: 64px; }
+@media (min-width: 768px) {
+  .about-time__row { padding-inline-start: 0; width: 50%; }
+  .about-time__row.is-start { margin-inline-end: auto; justify-content: flex-end; padding-inline-end: 64px; }
+  .about-time__row.is-end { margin-inline-start: auto; justify-content: flex-start; padding-inline-start: 64px; }
+}
+
+/* The node. Centred on the same line the path runs down: at the row's vertical
+   middle, and at the band's centre horizontally - 32px in on phones (half of
+   the 64px band), on the 50% line from md. */
+.about-time__dot {
+  position: absolute; top: 50%; inset-inline-start: 32px;
+  width: 13px; height: 13px; border-radius: 999px;
+  background: #fff; border: 2px solid #CFE0BB;
+  transform: translate(-50%, -50%) scale(0.85);
+  transition: border-color 0.3s var(--ease-out, ease-out),
+              background-color 0.3s var(--ease-out, ease-out),
+              transform 0.3s var(--ease-out, ease-out);
+  z-index: 1;
+}
+html[dir="rtl"] .about-time__dot { transform: translate(50%, -50%) scale(0.85); }
+/* From md the nodes STEP OFF the centre line, alternating 44px either side of
+   it. Without that step every node would sit at exactly 50% and the path would
+   have no horizontal distance to cover between them - the swing below would
+   leave and return to the same x, which reads as a bulge rather than travel.
+   The 88px between consecutive nodes is what the lobes are hung on.
+
+   The path is built from where these dots actually ARE (see buildPath in
+   scripts.js, which measures them), so moving them here moves the line with
+   them and the two can never disagree. */
+@media (min-width: 768px) {
+  .about-time__row.is-start .about-time__dot { inset-inline-start: auto; inset-inline-end: 44px; transform: translate(50%, -50%) scale(0.85); }
+  html[dir="rtl"] .about-time__row.is-start .about-time__dot { transform: translate(-50%, -50%) scale(0.85); }
+  .about-time__row.is-end .about-time__dot { inset-inline-start: 44px; }
+}
+.about-time__row.is-reached .about-time__dot {
+  background: #98CA55; border-color: #29612F; transform: translate(-50%, -50%) scale(1.15);
+}
+html[dir="rtl"] .about-time__row.is-reached .about-time__dot { transform: translate(50%, -50%) scale(1.15); }
+@media (min-width: 768px) {
+  .about-time__row.is-start.is-reached .about-time__dot { transform: translate(50%, -50%) scale(1.15); }
+  html[dir="rtl"] .about-time__row.is-start.is-reached .about-time__dot { transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* The card wakes when the line reaches its node. It travels IN from its own
+   side, so on desktop the two columns lean toward the line rather than both
+   sliding the same way. */
+/* The card fades and rises in. Slower and softer than the site's usual 120-220ms
+   interaction motion (Ahmed, 2026-08-23) - and deliberately so: this is not a
+   response to a tap, it is scenery arriving as you read past it, and the
+   reference's timeline moves at this kind of pace. 0.7s on a decelerating
+   quint, which spends most of its time nearly settled, so the card is legible
+   long before the transition technically ends.
+
+   The photo lags the card by a beat and settles its own scale, so the picture
+   reads as arriving IN the card rather than the whole tile sliding as one flat
+   object. */
+.about-time__card {
+  max-width: 42ch; border-radius: 20px; overflow: hidden;
+  background: #FDF8F1; border: 1px solid #EFE7DA;
+  opacity: 0; transform: translateY(22px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* The photo is a fixed-ratio band rather than the image's own shape: the source
+   art runs from 900x430 to 840x560, and letting each card take its picture's
+   proportions would give five different card heights in a grid whose rows are
+   deliberately equal. `cover` crops to the band instead. */
+.about-time__shot { aspect-ratio: 16 / 9; background: #F0EAE0; overflow: hidden; }
+.about-time__shot img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  opacity: 0; transform: scale(1.06);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s,
+              transform 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+}
+.about-time__row.is-reached .about-time__shot img { opacity: 1; transform: none; }
+.about-time__text { padding: 1.25rem 1.5rem; }
+@media (min-width: 768px) {
+  .about-time__row.is-start .about-time__card { transform: translate(26px, 22px); }
+  .about-time__row.is-end .about-time__card { transform: translate(-26px, 22px); }
+}
+.about-time__row.is-reached .about-time__card { opacity: 1; transform: none; }
+
+.about-time__year {
+  display: block; font-size: 13px; font-weight: 700; letter-spacing: 1px;
+  color: #98CA55; margin-bottom: 0.25rem;
+}
+.about-time__heading { font-size: 20px; font-weight: 600; color: #29612F; line-height: 1.3; }
+@media (min-width: 768px) { .about-time__heading { font-size: 24px; } }
+.about-time__copy { margin-top: 0.5rem; color: #1e2219; font-size: 15px; line-height: 1.8; }
+
+
 /* ---- stats + CTA ---- */
 .about-stats { padding: 3.5rem 0; background: #fff; }
 .about-stat {
@@ -3451,6 +3976,14 @@ html[data-img="plain"] .story-fb-plain { display: block; }
   .about-journey__chapters { display: flex; flex-direction: column; gap: 2.5rem; }
   .about-journey__chapter { opacity: 1; transform: none; pointer-events: auto; }
   .about-journey__leaf { display: none; }
+  /* The timeline's content is the rows; the drawing is decoration. So under
+     reduced motion the line is simply handed over already drawn and every row
+     is awake, rather than the section being dropped. */
+  .about-time__draw { stroke-dashoffset: 0; }
+  .about-time__head { display: none; }
+  .about-time__card { opacity: 1; transform: none; }
+  .about-time__shot img { opacity: 1; transform: none; }
+  .about-time__dot { background: #98CA55; border-color: #29612F; }
   .about-hero__img { transform: none !important; }
 }
 
@@ -3497,3 +4030,41 @@ html[data-btn="v2"] [data-stepper],
 html[data-btn="v2"] [data-card-stepper] { border-radius: 16px !important; }
 html[data-btn="v2"] [data-stepper] button,
 html[data-btn="v2"] [data-card-stepper] button { border-radius: 12px !important; }
+
+/* ==========================================================================
+   Cart / summary thumbnails (Ahmed, 2026-08-23)
+
+   Every basket row drew its thumb as `object-contain` on a padded cream tile.
+   That is right for the WHITE-background packshots (`products/`), which are
+   cut-outs and need the breathing room — but the site's default image mode is
+   the in-scene photography (`products-styled/`), and those are full-bleed
+   square photographs. Contained inside a padded tile, each one sat as a small
+   picture floating in a cream frame: the "border around the product" in the
+   drawer and the cart summary.
+
+   So the treatment follows the image MODE rather than being fixed: scenes
+   COVER the tile edge-to-edge with no padding (the photo IS the tile), and
+   white-mode cut-outs keep the contained, padded plate. Same call the product
+   gallery already makes — `applyImgStyle` flips [data-gallery-plate] between
+   cover and contain for exactly this reason.
+   ========================================================================== */
+.cart-thumb {
+  /* `contain` with NO padding, and a square tile (set in the markup).
+
+     `cover` was the first attempt and is wrong: the same rows are drawn from
+     two different image sets. The cart store hands out the in-scene square
+     photographs, but the build-time rows on the thank-you page and the order
+     drawer print `p["image"]` straight from the catalogue, which is the WHITE
+     cut-out — 1183x1329, i.e. portrait. Cover cropped those to a 64px square of
+     the packshot's middle, which on a white background is a blank tile.
+
+     `contain` is right for both, and the padding was the actual defect all
+     along: a square scene photo in a square tile fills it exactly edge to edge
+     under `contain`, so removing the 6px inset is what removes the cream frame
+     Ahmed saw around every product in the drawer. A portrait cut-out still
+     letterboxes onto the cream, which is the correct treatment for a cut-out
+     and reads as deliberate rather than as a crop. */
+  object-fit: contain;
+  padding: 0;
+  overflow: hidden;
+}

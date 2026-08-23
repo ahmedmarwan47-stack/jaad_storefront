@@ -48,24 +48,35 @@ def build():
     form = f"""
               <form class="flex flex-col gap-5">
                 <div class="gap-4 grid sm:grid-cols-2">
-{field("الاسم الأول", "first-name", value="محمد", required=True)}
-{field("الاسم الاخير", "last-name", value="عادل", required=True)}
+{field("الاسم الأول", "first-name", value="محمد", required=True, i18n_value=True)}
+{field("الاسم الاخير", "last-name", value="عادل", required=True, i18n_value=True)}
                 </div>
 
-                <!-- Email is read-only here: it is verified separately (the
-                     dashboard shows a verify prompt), not edited on this form.
-                     A span, not an input — read-only text truncates cleanly
-                     rather than scrolling inside a fixed-width field. -->
+                <!-- Email is not EDITED here (a span, not an input — read-only
+                     text truncates cleanly rather than scrolling inside a
+                     fixed-width field), but it is now VERIFIED here. -->
+                <!-- The unverified state is ACTIONABLE now (Ahmed, 2026-08-23).
+                     It used to be a red "غير مؤكد" chip and nothing else: the row
+                     told you something was wrong and gave you no way to put it
+                     right — the only control was a banner on a different page.
+                     The chip now sits beside a "تأكيد" button, and pressing it
+                     flips the row to the verified state in place (initAuthUI).
+                     data-verify-email is the SAME hook the dashboard banner uses,
+                     so both routes go through Auth.verifyEmail() and cannot
+                     disagree about the state. -->
                 <div class="flex flex-col gap-1.5">
                   <span class="font-medium text-muted text-sm">البريد الالكتروني</span>
-                  <div class="flex items-center gap-2 bg-cream px-4 py-3 border-2 border-transparent rounded-xl">
+                  <div data-email-row class="flex items-center gap-2 bg-cream px-4 py-3 border-2 border-transparent rounded-xl">
                     <span class="flex-1 min-w-0 truncate text-muted text-base latin">{CUSTOMER['email']}</span>
                     <!-- Opaque tint, NOT bg-error/10: an alpha tint reads
                          ~1:1 to the contrast sweep (ink on its own colour); the
                          opaque blend (#F6E9E7 ≈ error at 10% over white) is
                          legible to both the eye and the checker — the same trap
                          the checkout stepper's #E9F3E6 documents. -->
-                    <span class="inline-flex items-center shrink-0 bg-blush px-2 py-0.5 rounded-full font-semibold text-error text-[11px]">غير مؤكد</span>
+                    <span data-email-state="unverified" class="inline-flex items-center shrink-0 bg-blush px-2 py-0.5 rounded-full font-semibold text-error text-[11px]">غير مؤكد</span>
+                    <button type="button" data-verify-email data-email-state="unverified"
+                            class="shrink-0 bg-cta hover:bg-cta-hover px-3 py-1 rounded-full font-semibold text-white text-[11px] whitespace-nowrap transition-colors">تحقق</button>
+                    <span data-email-state="verified" hidden class="inline-flex items-center gap-1 shrink-0 bg-mint px-2 py-0.5 rounded-full font-semibold text-heading text-[11px]">✓ مؤكد</span>
                   </div>
                 </div>
 

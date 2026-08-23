@@ -22,7 +22,7 @@ def _stat(icon, label, value_html, href):
                   <span class="text-muted text-xs">{label}</span>
                   <span class="font-bold text-ink text-xl">{value_html}</span>
                 </div>
-                <span class="text-muted group-hover:text-cta shrink-0 transition-colors">{_icon('chev', 'w-4 h-4')}</span>
+                <span class="ltr:scale-flip text-muted group-hover:text-cta shrink-0 transition-colors">{_icon('chev', 'w-4 h-4')}</span>
               </a>"""
 
 
@@ -57,7 +57,11 @@ def build():
             </div>
 
             <div class="flex flex-col gap-1">
-              {account_title("my-account.html", "صفحة حسابي الرئيسية")}
+              <!-- "نظرة عامة", matching the sidebar tab (Ahmed, 2026-08-23).
+                   "صفحة حسابي الرئيسية" was a third name for the same screen —
+                   the tab said one thing, the breadcrumb another and the heading
+                   a third. -->
+              {account_title("my-account.html", "نظرة عامة")}
               <p class="text-muted text-sm">يمكنك إدارة الطلبات والمحفظة ومعلومات الحساب الخاصة بك هنا.</p>
             </div>
 
@@ -82,12 +86,30 @@ def build():
               {_stat("images/jaad/icons/orders-3d.png", "إجمالي الطلبات", f'<span class="latin">{len(ORDERS)}</span> <span class="font-medium text-muted text-xs">طلب</span>', "my-account-orders.html")}
             </div>
 
-            {card("شارك الموقع مع الأصحاب والعائلة", '''
-              <p class="text-muted text-sm">أنسخ الرابط أدناه وشاركه مع عائلتك وأصدقائك واحصل على خصومات حصرية</p>
-              <div class="flex items-center gap-2 bg-cream px-4 py-2 rounded-xl">
+            <!-- Referral card, laid out SIDE BY SIDE (Ahmed, 2026-08-23).
+
+                 Stacked — heading, then subtitle, then the link row full width —
+                 it took four rows and about 190px of the dashboard to hold one
+                 link and one button, and the link row spanned the whole column
+                 for a string that is 27 characters long. Title + subtitle take
+                 the inline-start half now and the link + copy button sit beside
+                 them at the end, which is roughly half the height for the same
+                 content. It stacks again below `md`, where two columns would
+                 squeeze the URL to nothing.
+
+                 Written out rather than going through card(), because card()
+                 puts its heading in a row of its own — which is precisely the
+                 stacking being removed here. -->
+            <div class="flex md:flex-row flex-col md:items-center gap-4 md:gap-6 bg-white shadow-custom4 p-6 rounded-[20px]">
+              <div class="flex flex-col gap-1 min-w-0 md:basis-1/2">
+                <h2 class="font-bold text-heading text-base">شارك الموقع مع الأصحاب والعائلة</h2>
+                <p class="text-muted text-sm">أنسخ الرابط أدناه وشاركه مع عائلتك وأصدقائك واحصل على خصومات حصرية</p>
+              </div>
+              <div class="flex flex-1 items-center gap-2 bg-cream px-4 py-2 rounded-xl min-w-0">
                 <span data-ref-link class="flex-1 min-w-0 text-muted text-xs truncate latin">WWW.JAD.COM/REF/1-0200,20409</span>
-                <button type="button" data-copy-ref class="bg-cta hover:bg-cta-hover px-4 py-1.5 rounded-full font-semibold text-white text-xs transition-colors">نسخ</button>
-              </div>''')}
+                <button type="button" data-copy-ref class="bg-cta hover:bg-cta-hover px-4 py-1.5 rounded-full font-semibold text-white text-xs whitespace-nowrap transition-colors">نسخ</button>
+              </div>
+            </div>
 
             <h2 class="font-bold text-heading text-lg">بياناتي</h2>
             <div class="gap-6 grid md:grid-cols-2">
@@ -97,7 +119,7 @@ def build():
                   <span class="text-muted latin">{e(CUSTOMER['email'])}</span>
                   <span class="text-muted latin">{e(CUSTOMER['phone'])}</span>
                 </div>''', "تعديل", "my-account-profile.html")}
-              {card("عنواني الرئيسي", '''
+              {card("عنواني الافتراضي", '''
                 <div class="flex flex-col gap-1 text-muted text-sm">
                   <span>شقة 3 - 220 شارع الحرية - الدور الأول</span>
                   <span>مصر الجديدة</span>

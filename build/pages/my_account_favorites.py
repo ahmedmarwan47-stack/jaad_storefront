@@ -22,7 +22,13 @@ def build():
             <!-- Same reason as the listing pages: the cards' h3 followed the
                  h1 directly with no level in between. -->
             <h2 class="sr-only">المنتجات المحفوظة</h2>
-            {product_grid(PRODUCTS, "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5", attrs="data-favs-grid")}
+            <!-- FOUR across at the widest, not five (Ahmed, 2026-08-23). This column is
+                 narrower than a full-width listing by the account sidebar, so five
+                 tracks put the cards at 161px — under the width the product card is
+                 drawn for, and narrow enough that the price badge and the counter
+                 collided. Four gives them room; the container query in styles.css
+                 covers whatever is still tight. -->
+            {product_grid(PRODUCTS, "grid-cols-2 md:grid-cols-3 lg:grid-cols-4", attrs="data-favs-grid")}
             <div data-favs-empty hidden class="flex flex-col items-center gap-3 py-16 text-center">
               <p class="font-bold text-ink text-lg">لا توجد منتجات في المفضلة</p>
               <p class="text-muted text-sm">المنتجات اللي تحفظها هتظهر هنا.</p>

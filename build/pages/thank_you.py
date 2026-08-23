@@ -1,7 +1,9 @@
 """Order confirmation — Figma 'Thanks' (268:11025)."""
 from _account import order_tracker_ride
 from catalog import e, in_category, money, rail_products
-from components import carousel, page, product_card, section_heading
+from components import (
+    carousel, page, price_sticker, product_card, scene_image, section_heading,
+)
 
 SLUG = "thank-you.html"
 
@@ -60,20 +62,25 @@ def build():
 
     lines = "".join(f"""
                 <div class="flex items-center gap-3 py-3 border-divider border-b last:border-0">
-                  <img src="{e(p['image'])}" alt="" class="bg-cream p-1.5 rounded-lg w-16 h-16 object-contain shrink-0" loading="lazy" />
+                  <img src="{e(scene_image(p))}" alt="" class="cart-thumb bg-cream rounded-lg w-16 h-16 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 gap-0.5 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">{e(p.get('nameAr') or p['name'])}</span>
                     <span class="text-muted text-xs">250 جم</span>
                     <span class="text-muted text-xs">عدد <span class="latin">1</span></span>
                   </div>
-                  <span class="font-bold text-ink text-sm latin shrink-0">EGP {money(p['price'])}</span>
+                  {price_sticker(p['price'], "sm")}
                 </div>""" for p in items)
 
     body = f"""
       <section class="pt-10 pb-6">
-        <div class="flex flex-col gap-3 mx-auto px-4 max-w-[1200px]">
+        <!-- data-order-celebrate: scripts.js drops a short confetti fall across
+             the page on arrival and pops the tick (Ahmed, 2026-08-23 — "I need
+             some celebration"). Runs once, obeys prefers-reduced-motion, and the
+             tick + the line beneath it remain the actual confirmation, so
+             nothing is lost when the motion is skipped. -->
+        <div data-order-celebrate class="flex flex-col gap-3 mx-auto px-4 max-w-[1200px]">
           <div class="flex items-center gap-3">
-            <span class="place-items-center grid bg-primary rounded-full text-white size-8">{CHECK}</span>
+            <span data-order-check class="place-items-center grid bg-primary rounded-full text-white size-8">{CHECK}</span>
             <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">شكراً لك</h1>
           </div>
           <p class="font-semibold text-ink text-base">تم تقديم طلبك بنجاح</p>
@@ -142,11 +149,20 @@ def build():
               <div class="gap-x-4 gap-y-4 grid grid-cols-2">{_rows(DELIVERY)}
               </div>
             </div>
-            <!-- "Continue shopping", secondary (Ahmed, 2026-08-05): after an
-                 order is placed the natural next step is back to the store, not
-                 a second solid-green CTA competing with the confirmation. Full
-                 width on mobile, content-width aligned to the end from sm up. -->
-            <a href="shop.html" class="bg-white hover:bg-cream px-8 py-3 border border-cta rounded-full w-full sm:w-auto sm:self-end font-semibold text-cta text-sm text-center transition-colors">متابعة التسوق</a>
+            <!-- Secondary (Ahmed, 2026-08-05): after an order is placed the
+                 natural next step is back to the store, not a second solid-green
+                 CTA competing with the confirmation.
+
+                 Label is "استكشف المزيد من المنتجات" now (Ahmed, 2026-08-23):
+                 "متابعة التسوق" is the drawer's label for going back to a basket
+                 you are still filling, and reusing it here read as if the order
+                 had not finished. This one invites a new browse.
+
+                 It sits at the card's inline END at every width now — the `w-full`
+                 mobile stretch is gone, so the button is the same right-aligned
+                 pill on a phone as on a desktop rather than a full-width bar that
+                 read as the page's primary action. -->
+            <a href="shop.html" class="bg-white hover:bg-cream px-8 py-3 border border-cta rounded-full w-auto self-end font-semibold text-cta text-sm text-center transition-colors">استكشف المزيد من المنتجات</a>
           </div>
         </div>
       </section>
@@ -155,7 +171,7 @@ def build():
       <section class="pb-12">
         <div class="mx-auto px-4 max-w-[1536px]">
           {section_heading("تسوق اكتر", "عرض المزيد", "shop.html")}
-          {carousel("".join(product_card(x) for x in more))}
+          {carousel("".join(product_card(x) for x in more), loop=True)}
         </div>
       </section>"""
 

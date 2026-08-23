@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=0745bc44" />
-    <link rel="stylesheet" href="styles.css?v=ed500ae9" />
+    <link rel="stylesheet" href="tailwind.css?v=648100aa" />
+    <link rel="stylesheet" href="styles.css?v=01c41858" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -45,8 +45,8 @@
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js?v=33b867e5"></script>
-    <script defer src="scripts.js?v=e4726d87"></script>
+    <script defer src="i18n-en.js?v=8ec05b7f"></script>
+    <script defer src="scripts.js?v=b7fca59b"></script>
   </head>
   <body data-page="about" data-path="/about" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -61,22 +61,43 @@
     <main id="main" tabindex="-1" class="overflow-x-clip">
 
       <!-- ============================== HERO ============================== -->
+      <!-- FULL BLEED, with the title ON the picture and the homepage's scalloped
+           edge handing over to the journey below (Ahmed, 2026-08-23).
+
+           The previous version was a title block with a rounded, inset picture
+           under it — a picture ABOUT the page rather than the page itself, and
+           it made the one section that should open the story read like a card
+           in a list. Full bleed gives the photography the whole width, which is
+           what the homepage hero already does, and the scallop is the same
+           hand-off shape used there, so the two pages open the same way.
+
+           The scrim is what makes white type legible on a bright cream-and-
+           orange packshot: a deep-green wash weighted to the inline start, so it
+           is dense under the words and clears by the middle of the frame rather
+           than greying the whole picture. -->
       <section data-reveal class="about-hero">
-        <div class="flex flex-col gap-6 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
-          <div class="flex flex-col gap-3">
-            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-greenDeep text-[13px] uppercase tracking-[1px]">عن جاد</span>
-            <h1 class="font-medium text-heading text-[32px] md:text-[52px] leading-none tracking-[-1px]">من الطبيعة إليك</h1>
-            <p class="max-w-[560px] text-bodyMuted text-base xl:text-lg leading-[1.6]">
-              قهوة ومكسرات وبهارات طبيعية، مصدرها الأصلي في قلب كل منتج.
-            </p>
-          </div>
-          <!-- Slow parallax on the hero art (data-about-parallax); a no-op
-               under reduced motion, where it simply sits still. -->
-          <div class="about-hero__frame">
-            <img src="images/jaad/site/hero-jaad.webp" alt="جاد"
-                 class="about-hero__img" data-about-parallax />
-          </div>
+        <!-- Slow parallax on the hero art (data-about-parallax); a no-op under
+             reduced motion, where it simply sits still. -->
+        <!-- Its OWN picture, not the homepage banner (Ahmed, 2026-08-23).
+             hero-jaad.webp is a packshot line-up: nine bags fanned across the
+             frame, which is the right image for a shop front and the wrong one
+             here. Under the scrim it turned to clutter, and a page called "from
+             nature to you" opening on a product photograph argues against its
+             own headline. This is the origin instead - a plantation at golden
+             hour, with the sky carrying the title. -->
+        <img src="images/jaad/site/hero-about.webp" alt="مزارع جاد"
+             class="about-hero__img" data-about-parallax />
+        <span class="about-hero__scrim" aria-hidden="true"></span>
+
+        <div class="about-hero__inner mx-auto px-4 xl:px-[60px] max-w-[1512px]">
+          <span class="self-start bg-[rgba(253,248,241,0.16)] backdrop-blur-sm px-3 py-1 rounded-md font-bold text-white text-[13px] uppercase tracking-[1px]">عن جاد</span>
+          <h1 class="font-medium text-white text-[38px] md:text-[64px] xl:text-[76px] leading-[1.02] tracking-[-1.5px]">من الطبيعة إليك</h1>
+          <p class="max-w-[520px] text-white/85 text-base xl:text-lg leading-[1.6]">
+            قهوة ومكسرات وبهارات طبيعية، مصدرها الأصلي في قلب كل منتج.
+          </p>
         </div>
+
+        <svg viewBox="0 0 1589.19 49" preserveAspectRatio="none" fill="none" aria-hidden="true" focusable="false" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[112%] max-w-none h-[28px] md:h-[45px] "><path d="M1509.1 0C1543.55 0 1573.21 11.8068 1586.57 28.7817C1594.09 38.3298 1584.27 49 1572.12 49H17.0716C4.92138 49 -4.8905 38.3298 2.62364 28.7817C15.9824 11.8068 45.6444 0.000110416 80.0911 0C100.548 0 119.316 4.164 133.985 11.1015C148.176 17.8128 170.785 17.8127 184.976 11.1014C199.645 4.16398 218.414 3.4347e-05 238.87 0C259.327 0 278.096 4.16402 292.766 11.1016C306.956 17.8127 329.564 17.8127 343.754 11.1015C358.424 4.164 377.193 3.1225e-06 397.65 0C418.106 0 436.876 4.16399 451.545 11.1015C465.736 17.8127 488.343 17.8127 502.534 11.1016C517.203 4.16401 535.972 0 556.429 0C576.885 2.80983e-05 595.654 4.16401 610.322 11.1014C624.513 17.8127 647.122 17.8127 661.313 11.1015C675.982 4.16397 694.752 0 715.208 0C735.664 5.93185e-05 754.433 4.16403 769.102 11.1014C783.293 17.8127 805.901 17.8127 820.092 11.1014C834.761 4.16399 853.53 4.19832e-05 873.987 0C894.443 0 913.212 4.16399 927.881 11.1014C942.072 17.8127 964.681 17.8127 978.872 11.1014C993.541 4.16397 1012.31 1.07587e-05 1032.77 0C1053.22 0 1071.99 4.164 1086.66 11.1015C1100.85 17.8127 1123.46 17.8127 1137.65 11.1016C1152.32 4.16401 1171.09 0 1191.55 0C1212 2.04631e-05 1230.77 4.164 1245.44 11.1014C1259.63 17.8127 1282.24 17.8127 1296.43 11.1015C1311.1 4.16396 1329.87 0 1350.32 0C1370.78 5.16833e-05 1389.55 4.16402 1404.22 11.1014C1418.41 17.8127 1441.02 17.8127 1455.21 11.1014C1469.88 4.16399 1488.65 4.96194e-05 1509.1 0Z" fill="#FDF8F1"/></svg>
       </section>
 
       <!-- ============================ THE JOURNEY ============================ -->
@@ -155,6 +176,114 @@
               </div>
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================= TIMELINE ============================= -->
+      <!-- The road to Jaad. The journey above is about WHAT the products are;
+           this is about WHEN, so it is a separate section with its own
+           mechanic rather than another chapter of the pinned sequence.
+
+           The vector is drawn on scroll: the path ships with its dash array set
+           to its own length and its offset at full, i.e. completely undrawn,
+           and initAboutTimeline walks the offset to zero as the section passes
+           the viewport. A head dot rides the drawn end, and each milestone
+           wakes as the line reaches its node. Under reduced motion the CSS
+           hands over a fully drawn line and all rows visible. -->
+      <section data-reveal class="about-time" data-about-timeline aria-label="مسيرة جاد">
+        <div class="flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
+          <div class="flex flex-col gap-3">
+            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-greenDeep text-[13px] uppercase tracking-[1px]">مسيرتنا</span>
+            <h2 class="font-medium text-heading text-[28px] md:text-[40px] leading-[1.15] tracking-[-0.5px]">الطريق إلى جاد</h2>
+          </div>
+
+          <div class="about-time__body">
+            <!-- aria-hidden: the line carries no information the rows do not
+                 already carry in text, so it is decoration to a screen reader. -->
+            <svg class="about-time__vector" viewBox="0 0 100 500"
+                 preserveAspectRatio="none" fill="none" aria-hidden="true" focusable="false">
+              <path class="about-time__track" d="M67 -20 C64.1667 -8.33333, 47.1667 30, 50 50 C52.8333 70, 84 83.3333, 84 100 C84 116.667, 61.3333 133.333, 50 150 C38.6667 166.667, 16 183.333, 16 200 C16 216.667, 38.6667 233.333, 50 250 C61.3333 266.667, 84 283.333, 84 300 C84 316.667, 61.3333 333.333, 50 350 C38.6667 366.667, 16 383.333, 16 400 C16 416.667, 47.1667 430, 50 450 C52.8333 470, 35.8333 508.333, 33 520"
+                    stroke="#E3EBD8" stroke-width="1.5" stroke-linecap="round"
+                    vector-effect="non-scaling-stroke" />
+              <path class="about-time__draw" data-time-path d="M67 -20 C64.1667 -8.33333, 47.1667 30, 50 50 C52.8333 70, 84 83.3333, 84 100 C84 116.667, 61.3333 133.333, 50 150 C38.6667 166.667, 16 183.333, 16 200 C16 216.667, 38.6667 233.333, 50 250 C61.3333 266.667, 84 283.333, 84 300 C84 316.667, 61.3333 333.333, 50 350 C38.6667 366.667, 16 383.333, 16 400 C16 416.667, 47.1667 430, 50 450 C52.8333 470, 35.8333 508.333, 33 520"
+                    stroke="#98CA55" stroke-width="1.5" stroke-linecap="round"
+                    vector-effect="non-scaling-stroke" />
+            </svg>
+            <span class="about-time__head" data-time-head aria-hidden="true"></span>
+
+            <ol class="about-time__rows">
+                <li class="about-time__row is-start"
+                    data-time-row data-index="0">
+                  <span class="about-time__dot" aria-hidden="true"></span>
+                  <div class="about-time__card">
+                    <div class="about-time__shot">
+                      <img src="images/jaad/site/article-2.jpg" alt="من المزرعة" loading="lazy" />
+                    </div>
+                    <div class="about-time__text">
+                      <span class="about-time__year latin">2016</span>
+                      <h3 class="about-time__heading">من المزرعة</h3>
+                      <p class="about-time__copy">بدأت الحكاية من علاقة مباشرة مع المزارعين — اختيار المحصول من مصدره، وموسم بعد موسم نتعلم إن الجودة بتبدأ قبل ما المنتج يوصل المصنع بكتير.</p>
+                    </div>
+                  </div>
+                </li>
+                <li class="about-time__row is-end"
+                    data-time-row data-index="1">
+                  <span class="about-time__dot" aria-hidden="true"></span>
+                  <div class="about-time__card">
+                    <div class="about-time__shot">
+                      <img src="images/jaad/site/article-1.jpg" alt="أول محمصة" loading="lazy" />
+                    </div>
+                    <div class="about-time__text">
+                      <span class="about-time__year latin">2019</span>
+                      <h3 class="about-time__heading">أول محمصة</h3>
+                      <p class="about-time__copy">افتتحنا أول محمصة خاصة بينا، وبقى التحميص بإيدينا من أول ما نستلم الحبة لحد ما توصل درجة التحميص اللي إحنا عايزينها بالظبط.</p>
+                    </div>
+                  </div>
+                </li>
+                <li class="about-time__row is-start"
+                    data-time-row data-index="2">
+                  <span class="about-time__dot" aria-hidden="true"></span>
+                  <div class="about-time__card">
+                    <div class="about-time__shot">
+                      <img src="images/jaad/site/article-3.jpg" alt="المكسرات والبهارات" loading="lazy" />
+                    </div>
+                    <div class="about-time__text">
+                      <span class="about-time__year latin">2022</span>
+                      <h3 class="about-time__heading">المكسرات والبهارات</h3>
+                      <p class="about-time__copy">وسّعنا من القهوة للمكسرات والبهارات، بنفس المبدأ — مصدر معروف، وتشغيل بنشرف عليه خطوة بخطوة، من غير أي إضافات.</p>
+                    </div>
+                  </div>
+                </li>
+                <li class="about-time__row is-end"
+                    data-time-row data-index="3">
+                  <span class="about-time__dot" aria-hidden="true"></span>
+                  <div class="about-time__card">
+                    <div class="about-time__shot">
+                      <img src="images/jaad/site/story-nuts.jpg" alt="فكرة العلامة" loading="lazy" />
+                    </div>
+                    <div class="about-time__text">
+                      <span class="about-time__year latin">2024</span>
+                      <h3 class="about-time__heading">فكرة العلامة</h3>
+                      <p class="about-time__copy">بدأنا نشتغل على هوية تجمع ده كله تحت اسم واحد: منتجات طبيعية، واضحة في مصدرها، وسهل إن أي حد يعرف بالظبط بيشتري إيه.</p>
+                    </div>
+                  </div>
+                </li>
+                <li class="about-time__row is-start"
+                    data-time-row data-index="4">
+                  <span class="about-time__dot" aria-hidden="true"></span>
+                  <div class="about-time__card">
+                    <div class="about-time__shot">
+                      <img src="images/jaad/site/story-spices.jpg" alt="إطلاق جاد" loading="lazy" />
+                    </div>
+                    <div class="about-time__text">
+                      <span class="about-time__year latin">2026</span>
+                      <h3 class="about-time__heading">إطلاق جاد</h3>
+                      <p class="about-time__copy">من الطبيعة إليك — قهوة ومكسرات وبهارات طبيعية، مصدرها الأصلي في قلب كل منتج، بتوصلك من غير وسطاء.</p>
+                    </div>
+                  </div>
+                </li>
+            </ol>
           </div>
         </div>
       </section>

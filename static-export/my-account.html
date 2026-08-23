@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=0745bc44" />
-    <link rel="stylesheet" href="styles.css?v=ed500ae9" />
+    <link rel="stylesheet" href="tailwind.css?v=648100aa" />
+    <link rel="stylesheet" href="styles.css?v=01c41858" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -45,8 +45,8 @@
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js?v=33b867e5"></script>
-    <script defer src="scripts.js?v=e4726d87"></script>
+    <script defer src="i18n-en.js?v=8ec05b7f"></script>
+    <script defer src="scripts.js?v=b7fca59b"></script>
   </head>
   <body data-page="my-account" data-path="/my-account" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -69,7 +69,7 @@
             <button type="button" data-open="accountMenu" class="flex justify-between items-center gap-3 bg-white px-5 py-3.5 border border-divider rounded-full w-full font-semibold text-ink text-base">
               <span class="flex items-center gap-3 min-w-0">
                 <span class="text-cta shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
-                <span class="truncate">الرئيسية</span>
+                <span class="truncate">نظرة عامة</span>
               </span>
               <span class="-rotate-90 text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             </button>
@@ -85,58 +85,58 @@
               <a href="my-account.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-cta">
                 <img src="images/jaad/icons/home-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
-                  <span class="truncate">الرئيسية</span>
+                  <span class="truncate">نظرة عامة</span>
                 </span>
-                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="ltr:scale-flip text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
               <a href="my-account-orders.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-ink">
                 <img src="images/jaad/icons/orders-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
                   <span class="truncate">طلباتي</span>
                 </span>
-                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="ltr:scale-flip text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
               <a href="my-account-favorites.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-ink">
                 <img src="images/jaad/icons/favorites-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
                   <span class="truncate">المفضلة</span><span class="inline-flex items-center justify-center shrink-0 bg-mint rounded-full px-2 min-w-[26px] h-6 font-bold text-ink-800 text-xs latin" data-favs-count>0</span>
                 </span>
-                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="ltr:scale-flip text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
               <a href="my-account-addresses.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-ink">
                 <img src="images/jaad/icons/addresses-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
                   <span class="truncate">عناويني</span>
                 </span>
-                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="ltr:scale-flip text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
               <a href="my-account-wallet.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-ink">
                 <img src="images/jaad/icons/wallet-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
                   <span class="truncate">محفظتي</span><span class="inline-flex items-center justify-center shrink-0 bg-mint rounded-full px-2 min-w-[26px] h-6 font-bold text-ink-800 text-xs latin" data-wallet-amount>EGP 1200</span>
                 </span>
-                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="ltr:scale-flip text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
               <a href="my-account-vouchers.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-ink">
                 <img src="images/jaad/icons/voucher-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
                   <span class="truncate">القسائم</span><span class="inline-flex items-center justify-center shrink-0 bg-mint rounded-full px-2 min-w-[26px] h-6 font-bold text-ink-800 text-xs latin" data-vouchers-count>3</span>
                 </span>
-                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="ltr:scale-flip text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
               <a href="my-account-point.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-ink">
                 <img src="images/jaad/icons/points-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
                   <span class="truncate">نقاطي</span><span class="inline-flex items-center justify-center shrink-0 bg-mint rounded-full px-2 min-w-[26px] h-6 font-bold text-ink-800 text-xs latin" data-points-badge>3200</span>
                 </span>
-                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="ltr:scale-flip text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
               <a href="my-account-profile.html" class="flex items-center gap-3 px-1 py-4 border-divider border-b font-semibold text-base text-ink">
                 <img src="images/jaad/icons/profile-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex flex-1 items-center gap-2 min-w-0">
                   <span class="truncate">بيانات الحساب</span>
                 </span>
-                <span class="text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="ltr:scale-flip text-muted shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
             </nav>
             <!-- No "تأكيد" here (Ahmed, 2026-08-19): the rows are plain links
@@ -156,7 +156,7 @@
               <a href="my-account.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors bg-cream text-ink">
                 <img src="images/jaad/icons/home-3d.png" alt="" class="w-7 h-7 object-contain shrink-0" />
                 <span class="flex items-center gap-2 min-w-0">
-                  <span class="truncate">الرئيسية</span>
+                  <span class="truncate">نظرة عامة</span>
                 </span>
               </a>
               <a href="my-account-orders.html" class="flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-base transition-colors text-neutral-800 hover:bg-cream">
@@ -238,7 +238,11 @@
             </div>
 
             <div class="flex flex-col gap-1">
-              <div class="flex items-center gap-3"><span class="place-items-center grid bg-cream rounded-xl size-11 shrink-0"><img src="images/jaad/icons/home-3d.png" alt="" class="w-8 h-8 object-contain shrink-0" /></span><h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">صفحة حسابي الرئيسية</h1></div>
+              <!-- "نظرة عامة", matching the sidebar tab (Ahmed, 2026-08-23).
+                   "صفحة حسابي الرئيسية" was a third name for the same screen —
+                   the tab said one thing, the breadcrumb another and the heading
+                   a third. -->
+              <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">نظرة عامة</h1>
               <p class="text-muted text-sm">يمكنك إدارة الطلبات والمحفظة ومعلومات الحساب الخاصة بك هنا.</p>
             </div>
 
@@ -260,31 +264,46 @@
                 <button type="button" data-order-open="#30941" class="bg-cta hover:bg-cta-hover px-6 py-2.5 rounded-full font-semibold text-white text-sm transition-colors">تفاصيل الطلب</button>
               </div>
               
-            <div class="order-ride" data-order-ride style="--steps:4;--to:37.500%;--from:12.500%;--fillto:33.333%;--fillfrom:0.000%">
+            <div class="order-ride is-demo" data-order-ride data-ride-demo
+                 data-ride-step="1" style="--steps:4;--to:87.500%;--from:62.500%;--fillto:33.333%">
               <div class="order-ride__track">
-                <span class="order-ride__rail" aria-hidden="true"><span class="order-ride__fill"></span></span>
+                <span class="order-ride__rail" aria-hidden="true">
+                  <span class="order-ride__fill"></span>
+                  <!-- The looping "filling toward the current stage" sweep. A
+                       SECOND element rather than animating the fill itself: the
+                       fill has to keep showing the real progress at all times,
+                       and an animation that returns to its start would drop the
+                       bar back to zero on every cycle. This one grows over the
+                       static fill and fades out before it restarts, so there is
+                       never a visible snap back. -->
+                  <span class="order-ride__sweep"></span>
+                </span>
                 <ol class="order-ride__nodes">
                 <li class="order-ride__node is-done">
                   <span class="order-ride__bubble">
-                    <img src="images/jaad/icons/track-placed-3d.png" alt="" class="order-ride__ico" /><span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <img src="images/jaad/icons/track-placed-3d.png" alt="" class="order-ride__ico" />
+                    <span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   </span>
                   <span class="order-ride__label">تم الطلب</span>
                 </li>
                 <li class="order-ride__node is-now">
                   <span class="order-ride__bubble">
                     <img src="images/jaad/icons/track-preparing-3d.png" alt="" class="order-ride__ico" />
+                    <span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   </span>
                   <span class="order-ride__label">جاري التحضير</span>
                 </li>
                 <li class="order-ride__node is-todo">
                   <span class="order-ride__bubble">
                     <img src="images/jaad/icons/track-transit-3d.png" alt="" class="order-ride__ico" />
+                    <span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   </span>
                   <span class="order-ride__label">في الطريق إليك</span>
                 </li>
                 <li class="order-ride__node is-todo">
                   <span class="order-ride__bubble">
                     <img src="images/jaad/icons/track-delivered-3d.png" alt="" class="order-ride__ico" />
+                    <span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   </span>
                   <span class="order-ride__label">تم التسليم</span>
                 </li>
@@ -297,9 +316,9 @@
             </div>
               
             <div data-reorder-card class="flex flex-wrap justify-between items-center gap-4 bg-white shadow-custom4 p-6 rounded-[20px]">
-              <span data-reorder-item data-id="13" data-name="شطة" data-price="35.0" data-image="images/jaad/products/spices-chili.png" data-qty="1" hidden></span><span data-reorder-item data-id="14" data-name="كركم" data-price="35.0" data-image="images/jaad/products/spices-turmeric.png" data-qty="1" hidden></span><span data-reorder-item data-id="15" data-name="جنزبيل" data-price="35.0" data-image="images/jaad/products/spices-ginger.png" data-qty="1" hidden></span>
+              <span data-reorder-item data-id="13" data-name="شطة" data-price="35.0" data-image="images/jaad/products-styled/13.jpg" data-qty="1" hidden></span><span data-reorder-item data-id="14" data-name="كركم" data-price="35.0" data-image="images/jaad/products-styled/14.jpg" data-qty="1" hidden></span><span data-reorder-item data-id="15" data-name="جنزبيل" data-price="35.0" data-image="images/jaad/products-styled/15.jpg" data-qty="1" hidden></span>
               <div class="flex items-center gap-3 min-w-0">
-                <div class="flex gap-1 shrink-0"><img src="images/jaad/products/spices-chili.png" alt="" class="bg-cream p-1 rounded-lg w-12 h-12 object-contain shrink-0" loading="lazy" /><img src="images/jaad/products/spices-turmeric.png" alt="" class="bg-cream p-1 rounded-lg w-12 h-12 object-contain shrink-0" loading="lazy" /><img src="images/jaad/products/spices-ginger.png" alt="" class="bg-cream p-1 rounded-lg w-12 h-12 object-contain shrink-0" loading="lazy" />
+                <div class="flex gap-1 shrink-0"><img src="images/jaad/products-styled/13.jpg" alt="" class="cart-thumb bg-cream rounded-lg w-12 h-12 shrink-0" loading="lazy" /><img src="images/jaad/products-styled/14.jpg" alt="" class="cart-thumb bg-cream rounded-lg w-12 h-12 shrink-0" loading="lazy" /><img src="images/jaad/products-styled/15.jpg" alt="" class="cart-thumb bg-cream rounded-lg w-12 h-12 shrink-0" loading="lazy" />
                 </div>
                 <div class="flex flex-col min-w-0">
                   <span class="font-bold text-ink text-sm">آخر طلب <span class="latin">#30943</span></span>
@@ -324,7 +343,7 @@
                   <span class="text-muted text-xs">نقاط الولاء</span>
                   <span class="font-bold text-ink text-xl"><span class="latin" data-points-balance>3,200</span> <span class="font-medium text-muted text-xs">نقطة</span></span>
                 </div>
-                <span class="text-muted group-hover:text-cta shrink-0 transition-colors"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="ltr:scale-flip text-muted group-hover:text-cta shrink-0 transition-colors"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
               
               <a href="my-account-wallet.html" class="tile-lift group flex items-center gap-3 bg-white shadow-custom4 p-4 xl:p-5 rounded-[20px] hover:-translate-y-0.5">
@@ -333,7 +352,7 @@
                   <span class="text-muted text-xs">رصيد المحفظة</span>
                   <span class="font-bold text-ink text-xl"><span class="latin" data-wallet-amount>EGP 1200</span></span>
                 </div>
-                <span class="text-muted group-hover:text-cta shrink-0 transition-colors"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="ltr:scale-flip text-muted group-hover:text-cta shrink-0 transition-colors"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
               
               <a href="my-account-orders.html" class="tile-lift group flex items-center gap-3 bg-white shadow-custom4 p-4 xl:p-5 rounded-[20px] hover:-translate-y-0.5">
@@ -342,16 +361,34 @@
                   <span class="text-muted text-xs">إجمالي الطلبات</span>
                   <span class="font-bold text-ink text-xl"><span class="latin">3</span> <span class="font-medium text-muted text-xs">طلب</span></span>
                 </div>
-                <span class="text-muted group-hover:text-cta shrink-0 transition-colors"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="ltr:scale-flip text-muted group-hover:text-cta shrink-0 transition-colors"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </a>
             </div>
 
-            <div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px]"><div class="flex justify-between items-center gap-3"><h2 class="font-bold text-heading text-base">شارك الموقع مع الأصحاب والعائلة</h2></div>
-              <p class="text-muted text-sm">أنسخ الرابط أدناه وشاركه مع عائلتك وأصدقائك واحصل على خصومات حصرية</p>
-              <div class="flex items-center gap-2 bg-cream px-4 py-2 rounded-xl">
+            <!-- Referral card, laid out SIDE BY SIDE (Ahmed, 2026-08-23).
+
+                 Stacked — heading, then subtitle, then the link row full width —
+                 it took four rows and about 190px of the dashboard to hold one
+                 link and one button, and the link row spanned the whole column
+                 for a string that is 27 characters long. Title + subtitle take
+                 the inline-start half now and the link + copy button sit beside
+                 them at the end, which is roughly half the height for the same
+                 content. It stacks again below `md`, where two columns would
+                 squeeze the URL to nothing.
+
+                 Written out rather than going through card(), because card()
+                 puts its heading in a row of its own — which is precisely the
+                 stacking being removed here. -->
+            <div class="flex md:flex-row flex-col md:items-center gap-4 md:gap-6 bg-white shadow-custom4 p-6 rounded-[20px]">
+              <div class="flex flex-col gap-1 min-w-0 md:basis-1/2">
+                <h2 class="font-bold text-heading text-base">شارك الموقع مع الأصحاب والعائلة</h2>
+                <p class="text-muted text-sm">أنسخ الرابط أدناه وشاركه مع عائلتك وأصدقائك واحصل على خصومات حصرية</p>
+              </div>
+              <div class="flex flex-1 items-center gap-2 bg-cream px-4 py-2 rounded-xl min-w-0">
                 <span data-ref-link class="flex-1 min-w-0 text-muted text-xs truncate latin">WWW.JAD.COM/REF/1-0200,20409</span>
-                <button type="button" data-copy-ref class="bg-cta hover:bg-cta-hover px-4 py-1.5 rounded-full font-semibold text-white text-xs transition-colors">نسخ</button>
-              </div></div>
+                <button type="button" data-copy-ref class="bg-cta hover:bg-cta-hover px-4 py-1.5 rounded-full font-semibold text-white text-xs whitespace-nowrap transition-colors">نسخ</button>
+              </div>
+            </div>
 
             <h2 class="font-bold text-heading text-lg">بياناتي</h2>
             <div class="gap-6 grid md:grid-cols-2">
@@ -361,7 +398,7 @@
                   <span class="text-muted latin">demo@jad.com</span>
                   <span class="text-muted latin">01200000000</span>
                 </div></div>
-              <div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px]"><div class="flex justify-between items-center gap-3"><h2 class="font-bold text-heading text-base">عنواني الرئيسي</h2><a href="my-account-addresses.html" class="hover:bg-cream px-5 py-2 border border-divider rounded-full font-semibold text-ink text-xs transition-colors">تعديل</a></div>
+              <div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px]"><div class="flex justify-between items-center gap-3"><h2 class="font-bold text-heading text-base">عنواني الافتراضي</h2><a href="my-account-addresses.html" class="hover:bg-cream px-5 py-2 border border-divider rounded-full font-semibold text-ink text-xs transition-colors">تعديل</a></div>
                 <div class="flex flex-col gap-1 text-muted text-sm">
                   <span>شقة 3 - 220 شارع الحرية - الدور الأول</span>
                   <span>مصر الجديدة</span>
@@ -381,31 +418,46 @@
                   <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold text-xs bg-lime text-ink"><span class="status-live-dot" aria-hidden="true"></span>تحت التحضير</span>
                 </div>
                 <div class="pb-1">
-            <div class="order-ride" data-order-ride style="--steps:4;--to:37.500%;--from:12.500%;--fillto:33.333%;--fillfrom:0.000%">
+            <div class="order-ride is-demo" data-order-ride data-ride-demo
+                 data-ride-step="1" style="--steps:4;--to:87.500%;--from:62.500%;--fillto:33.333%">
               <div class="order-ride__track">
-                <span class="order-ride__rail" aria-hidden="true"><span class="order-ride__fill"></span></span>
+                <span class="order-ride__rail" aria-hidden="true">
+                  <span class="order-ride__fill"></span>
+                  <!-- The looping "filling toward the current stage" sweep. A
+                       SECOND element rather than animating the fill itself: the
+                       fill has to keep showing the real progress at all times,
+                       and an animation that returns to its start would drop the
+                       bar back to zero on every cycle. This one grows over the
+                       static fill and fades out before it restarts, so there is
+                       never a visible snap back. -->
+                  <span class="order-ride__sweep"></span>
+                </span>
                 <ol class="order-ride__nodes">
                 <li class="order-ride__node is-done">
                   <span class="order-ride__bubble">
-                    <img src="images/jaad/icons/track-placed-3d.png" alt="" class="order-ride__ico" /><span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <img src="images/jaad/icons/track-placed-3d.png" alt="" class="order-ride__ico" />
+                    <span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   </span>
                   <span class="order-ride__label">تم الطلب</span>
                 </li>
                 <li class="order-ride__node is-now">
                   <span class="order-ride__bubble">
                     <img src="images/jaad/icons/track-preparing-3d.png" alt="" class="order-ride__ico" />
+                    <span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   </span>
                   <span class="order-ride__label">جاري التحضير</span>
                 </li>
                 <li class="order-ride__node is-todo">
                   <span class="order-ride__bubble">
                     <img src="images/jaad/icons/track-transit-3d.png" alt="" class="order-ride__ico" />
+                    <span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   </span>
                   <span class="order-ride__label">في الطريق إليك</span>
                 </li>
                 <li class="order-ride__node is-todo">
                   <span class="order-ride__bubble">
                     <img src="images/jaad/icons/track-delivered-3d.png" alt="" class="order-ride__ico" />
+                    <span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   </span>
                   <span class="order-ride__label">تم التسليم</span>
                 </li>
@@ -417,7 +469,7 @@
             </div></div>
                 <div class="flex flex-col">
                 <div class="flex items-center gap-3 py-3 border-divider border-b last:border-0">
-                  <img src="images/jaad/products/coffee-light-plain.png" alt="" class="bg-cream p-1.5 rounded-lg w-14 h-14 object-contain shrink-0" loading="lazy" />
+                  <img src="images/jaad/products-styled/1.jpg" alt="" class="cart-thumb bg-cream rounded-lg w-14 h-14 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">بن فاتح سادة</span>
                     <span class="text-muted text-xs">عدد <span class="latin">1</span></span>
@@ -425,7 +477,7 @@
                   <span class="font-bold text-ink text-sm latin shrink-0">EGP 45</span>
                 </div>
                 <div class="flex items-center gap-3 py-3 border-divider border-b last:border-0">
-                  <img src="images/jaad/products/coffee-medium-plain.png" alt="" class="bg-cream p-1.5 rounded-lg w-14 h-14 object-contain shrink-0" loading="lazy" />
+                  <img src="images/jaad/products-styled/2.jpg" alt="" class="cart-thumb bg-cream rounded-lg w-14 h-14 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">بن وسط سادة</span>
                     <span class="text-muted text-xs">عدد <span class="latin">2</span></span>
@@ -452,7 +504,7 @@
                 
                 <div class="flex flex-col">
                 <div class="flex items-center gap-3 py-3 border-divider border-b last:border-0">
-                  <img src="images/jaad/products/nuts-cashew.png" alt="" class="bg-cream p-1.5 rounded-lg w-14 h-14 object-contain shrink-0" loading="lazy" />
+                  <img src="images/jaad/products-styled/8.jpg" alt="" class="cart-thumb bg-cream rounded-lg w-14 h-14 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">كاجو</span>
                     <span class="text-muted text-xs">عدد <span class="latin">2</span></span>
@@ -460,7 +512,7 @@
                   <span class="font-bold text-ink text-sm latin shrink-0">EGP 170</span>
                 </div>
                 <div class="flex items-center gap-3 py-3 border-divider border-b last:border-0">
-                  <img src="images/jaad/products/nuts-hazelnut.png" alt="" class="bg-cream p-1.5 rounded-lg w-14 h-14 object-contain shrink-0" loading="lazy" />
+                  <img src="images/jaad/products-styled/9.jpg" alt="" class="cart-thumb bg-cream rounded-lg w-14 h-14 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">بندق</span>
                     <span class="text-muted text-xs">عدد <span class="latin">1</span></span>
@@ -485,40 +537,58 @@
                   <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold text-xs bg-primary text-white">مكتمل</span>
                 </div>
                 <div class="pb-1">
-            <div class="order-ride is-delivered" data-order-ride style="--steps:4;--to:87.500%;--from:62.500%;--fillto:100.000%;--fillfrom:66.667%">
+            <div class="order-ride is-delivered is-demo" data-order-ride data-ride-demo
+                 data-ride-step="3" style="--steps:4;--to:87.500%;--from:62.500%;--fillto:100.000%">
               <div class="order-ride__track">
-                <span class="order-ride__rail" aria-hidden="true"><span class="order-ride__fill"></span></span>
+                <span class="order-ride__rail" aria-hidden="true">
+                  <span class="order-ride__fill"></span>
+                  <!-- The looping "filling toward the current stage" sweep. A
+                       SECOND element rather than animating the fill itself: the
+                       fill has to keep showing the real progress at all times,
+                       and an animation that returns to its start would drop the
+                       bar back to zero on every cycle. This one grows over the
+                       static fill and fades out before it restarts, so there is
+                       never a visible snap back. -->
+                  <span class="order-ride__sweep"></span>
+                </span>
                 <ol class="order-ride__nodes">
                 <li class="order-ride__node is-done">
                   <span class="order-ride__bubble">
-                    <img src="images/jaad/icons/track-placed-3d.png" alt="" class="order-ride__ico" /><span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <img src="images/jaad/icons/track-placed-3d.png" alt="" class="order-ride__ico" />
+                    <span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   </span>
                   <span class="order-ride__label">تم الطلب</span>
                 </li>
                 <li class="order-ride__node is-done">
                   <span class="order-ride__bubble">
-                    <img src="images/jaad/icons/track-preparing-3d.png" alt="" class="order-ride__ico" /><span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <img src="images/jaad/icons/track-preparing-3d.png" alt="" class="order-ride__ico" />
+                    <span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   </span>
                   <span class="order-ride__label">جاري التحضير</span>
                 </li>
                 <li class="order-ride__node is-done">
                   <span class="order-ride__bubble">
-                    <img src="images/jaad/icons/track-transit-3d.png" alt="" class="order-ride__ico" /><span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <img src="images/jaad/icons/track-transit-3d.png" alt="" class="order-ride__ico" />
+                    <span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   </span>
                   <span class="order-ride__label">في الطريق إليك</span>
                 </li>
                 <li class="order-ride__node is-done">
                   <span class="order-ride__bubble">
-                    <img src="images/jaad/icons/track-delivered-3d.png" alt="" class="order-ride__ico" /><span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <img src="images/jaad/icons/track-delivered-3d.png" alt="" class="order-ride__ico" />
+                    <span class="order-ride__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                   </span>
                   <span class="order-ride__label">تم التسليم</span>
                 </li>
                 </ol>
+                <span class="order-ride__courier" aria-hidden="true">
+                  <span class="order-ride__face"><img src="images/jaad/icons/track-transit-3d.png" alt="" /></span>
+                </span>
               </div>
             </div></div>
                 <div class="flex flex-col">
                 <div class="flex items-center gap-3 py-3 border-divider border-b last:border-0">
-                  <img src="images/jaad/products/spices-chili.png" alt="" class="bg-cream p-1.5 rounded-lg w-14 h-14 object-contain shrink-0" loading="lazy" />
+                  <img src="images/jaad/products-styled/13.jpg" alt="" class="cart-thumb bg-cream rounded-lg w-14 h-14 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">شطة</span>
                     <span class="text-muted text-xs">عدد <span class="latin">1</span></span>
@@ -526,7 +596,7 @@
                   <span class="font-bold text-ink text-sm latin shrink-0">EGP 35</span>
                 </div>
                 <div class="flex items-center gap-3 py-3 border-divider border-b last:border-0">
-                  <img src="images/jaad/products/spices-turmeric.png" alt="" class="bg-cream p-1.5 rounded-lg w-14 h-14 object-contain shrink-0" loading="lazy" />
+                  <img src="images/jaad/products-styled/14.jpg" alt="" class="cart-thumb bg-cream rounded-lg w-14 h-14 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">كركم</span>
                     <span class="text-muted text-xs">عدد <span class="latin">1</span></span>
@@ -534,7 +604,7 @@
                   <span class="font-bold text-ink text-sm latin shrink-0">EGP 35</span>
                 </div>
                 <div class="flex items-center gap-3 py-3 border-divider border-b last:border-0">
-                  <img src="images/jaad/products/spices-ginger.png" alt="" class="bg-cream p-1.5 rounded-lg w-14 h-14 object-contain shrink-0" loading="lazy" />
+                  <img src="images/jaad/products-styled/15.jpg" alt="" class="cart-thumb bg-cream rounded-lg w-14 h-14 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">جنزبيل</span>
                     <span class="text-muted text-xs">عدد <span class="latin">1</span></span>

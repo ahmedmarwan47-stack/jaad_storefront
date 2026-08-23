@@ -35,6 +35,23 @@ STYLED_IDS = (
     if os.path.isdir(_STYLED_DIR) else set()
 )
 
+
+
+def scene_image(p):
+    """The product's in-scene photograph, falling back to the catalogue's own
+    white cut-out when no styled shot exists for that id.
+
+    Extracted from product_widget() (Ahmed, 2026-08-23) because the cart rows,
+    the checkout summary and the thank-you receipt all printed `p["image"]`
+    directly — the cut-out — while every product CARD on the site showed the
+    scene photo. At 64px a cut-out on a cream tile is a small pale bag floating
+    in a box; the scene shot fills the tile edge to edge (with `.cart-thumb`) and
+    is the same picture the shopper clicked in the first place.
+    """
+    pid = str(p.get("id", ""))
+    return f"images/jaad/products-styled/{pid}.jpg" if pid in STYLED_IDS else p["image"]
+
+
 # --------------------------------------------------------------------------
 # Icons — generic UI glyphs. Brand marks and Figma-authored icons are real
 # asset files under images/jaad/, never hand-drawn here.
@@ -256,7 +273,7 @@ def section_heading(heading, cta_label=None, cta_href="#", centered=False):
             f'{e(heading)}</h2>{cta}</div>')
 
 
-def carousel(slides_html, gap=24, arrows_top="130px", autoplay=False, dots=False, extra="", track_attr=""):
+def carousel(slides_html, gap=24, arrows_top="130px", autoplay=False, dots=False, extra="", track_attr="", loop=False):
     """
     Direction-agnostic carousel shell. The JS in scripts.js drives it on a
     logical scroll axis so it behaves identically in RTL and LTR.
@@ -265,9 +282,17 @@ def carousel(slides_html, gap=24, arrows_top="130px", autoplay=False, dots=False
     for the rare caller that needs to find ITS track specifically when a page
     holds more than one carousel — plain string, not `extra`, because `extra`
     lands on the outer `.carousel` wrapper instead.
+
+    `loop=True` emits `data-carousel-loop`, which initCarousel already
+    understands: the arrows never disable and pressing past either end wraps to
+    the other, so the rail has no dead stop (Ahmed, 2026-08-23). It wraps the
+    scroll POSITION rather than cloning slides — a clone would put a second node
+    carrying the same `data-id` on the page, and both the cart store and
+    syncCardSteppers key off that id, so a two-product rail would end up with
+    duplicate hosts for one basket line.
     """
     return f"""
-          <div class="relative carousel {extra}"{' data-autoplay' if autoplay else ''} style="--carousel-gap:{gap}px">
+          <div class="relative carousel {extra}"{' data-autoplay' if autoplay else ''}{' data-carousel-loop' if loop else ''} style="--carousel-gap:{gap}px">
             <div class="carousel-track"{track_attr}>{slides_html}
             </div>
             <!-- The side offset is set in styles.css on .carousel-prev/.next
@@ -380,6 +405,28 @@ def sort_select(options, label="ترتيب حسب"):
                 </ul>
               </div>
             </div>"""
+
+
+# The scalloped edge from the homepage hero (Figma "Union"), as an INLINE svg
+# rather than the <img> the homepage uses.
+#
+# Same shape, and it has to be: the scallop is how a full-bleed picture hands
+# over to the section under it everywhere on this site, so the About hero using
+# a different edge would read as a different site. Inline because the file's
+# path is `fill="white"` and an <img> cannot be recoloured from CSS - the
+# homepage gets away with it because what follows its hero IS white, and the
+# About hero hands over to the cream journey instead. `fill` is a parameter so
+# the next caller can hand over to whatever colour sits beneath it.
+#
+# Wider than its container and centred, so the flat end-caps sit off-screen and
+# only the seamless scallops show, with no cut at either edge.
+def hero_wave(fill="#FDF8F1", extra=""):
+    return (
+        f'<svg viewBox="0 0 1589.19 49" preserveAspectRatio="none" fill="none" '
+        f'aria-hidden="true" focusable="false" '
+        f'class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[112%] max-w-none h-[28px] md:h-[45px] {extra}">'
+        f'<path d="M1509.1 0C1543.55 0 1573.21 11.8068 1586.57 28.7817C1594.09 38.3298 1584.27 49 1572.12 49H17.0716C4.92138 49 -4.8905 38.3298 2.62364 28.7817C15.9824 11.8068 45.6444 0.000110416 80.0911 0C100.548 0 119.316 4.164 133.985 11.1015C148.176 17.8128 170.785 17.8127 184.976 11.1014C199.645 4.16398 218.414 3.4347e-05 238.87 0C259.327 0 278.096 4.16402 292.766 11.1016C306.956 17.8127 329.564 17.8127 343.754 11.1015C358.424 4.164 377.193 3.1225e-06 397.65 0C418.106 0 436.876 4.16399 451.545 11.1015C465.736 17.8127 488.343 17.8127 502.534 11.1016C517.203 4.16401 535.972 0 556.429 0C576.885 2.80983e-05 595.654 4.16401 610.322 11.1014C624.513 17.8127 647.122 17.8127 661.313 11.1015C675.982 4.16397 694.752 0 715.208 0C735.664 5.93185e-05 754.433 4.16403 769.102 11.1014C783.293 17.8127 805.901 17.8127 820.092 11.1014C834.761 4.16399 853.53 4.19832e-05 873.987 0C894.443 0 913.212 4.16399 927.881 11.1014C942.072 17.8127 964.681 17.8127 978.872 11.1014C993.541 4.16397 1012.31 1.07587e-05 1032.77 0C1053.22 0 1071.99 4.164 1086.66 11.1015C1100.85 17.8127 1123.46 17.8127 1137.65 11.1016C1152.32 4.16401 1171.09 0 1191.55 0C1212 2.04631e-05 1230.77 4.164 1245.44 11.1014C1259.63 17.8127 1282.24 17.8127 1296.43 11.1015C1311.1 4.16396 1329.87 0 1350.32 0C1370.78 5.16833e-05 1389.55 4.16402 1404.22 11.1014C1418.41 17.8127 1441.02 17.8127 1455.21 11.1014C1469.88 4.16399 1488.65 4.96194e-05 1509.1 0Z" fill="{fill}"/></svg>'
+    )
 
 
 def page_header(heading, trail=None):
@@ -1111,15 +1158,24 @@ def _field_hints(name, type_, autocomplete=None):
 
 
 def field(label, name, type_="text", required=False, value="", placeholder="",
-          wrap="", autocomplete=None):
+          wrap="", autocomplete=None, i18n_value=False):
+    """One labelled text input.
+
+    `i18n_value=True` marks a PRE-FILLED DEMO value as translatable — see
+    translateValues() in scripts.js. Only pass it for placeholder identities the
+    build ships (the profile form's demo name), never for anything a shopper
+    could have typed: the flag is opt-in precisely so the language switch cannot
+    rewrite real input.
+    """
     star = '<span class="text-error">*</span>' if required else ""
     hints = _field_hints(name, type_, autocomplete)
+    i18n_attr = " data-i18n-value" if i18n_value else ""
     return f"""
                 <div class="flex flex-col gap-1.5 {wrap}">
                   <label for="{e(name)}" class="font-medium text-muted text-sm">{e(label)}{star}</label>
-                  <input type="{e(type_)}" id="{e(name)}" name="{e(name)}"{' required' if required else ''}{hints}
+                  <input type="{e(type_)}" id="{e(name)}" name="{e(name)}"{' required' if required else ''}{hints}{i18n_attr}
                          value="{e(value)}" placeholder="{e(placeholder)}"
-                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors" />
+                         class="bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors" />
                 </div>"""
 
 
@@ -1142,7 +1198,7 @@ def phone_field(label="رقم الموبايل", name="mobile", required=True, v
                        rule — the old divider between the prefix and the input
                        read as a stray vertical line after "+20". The whole field
                        carries the green focus ring; the prefix is just text. -->
-                  <div data-phone-field dir="ltr" class="flex items-center bg-white border border-divider focus-within:border-cta focus-within:ring-2 focus-within:ring-limeFigma rounded-2xl transition-colors">
+                  <div data-phone-field dir="ltr" class="flex items-center bg-white border border-divider focus-within:border-cta rounded-2xl transition-colors">
                     <span class="flex items-center gap-2 ps-4 pe-2.5 shrink-0 font-semibold text-ink text-base latin">
                       <img src="images/jaad/brand/flag-egypt.svg" alt="" class="w-5 h-5 rounded-full object-cover shrink-0" />
                       +20
@@ -1163,7 +1219,7 @@ def select_field(label, name, options, required=False, wrap=""):
                 <div class="flex flex-col gap-1.5 {wrap}">
                   <label for="{e(name)}" class="font-medium text-muted text-sm">{e(label)}{star}</label>
                   <select id="{e(name)}" name="{e(name)}"{' required' if required else ''}{hints}
-                          class="select-control bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors">
+                          class="select-control bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors">
                     <option value="">اختر</option>{opts}
                   </select>
                 </div>"""
@@ -1207,7 +1263,13 @@ def gift_toggle():
     """
     terms = "".join(f"""
                   <li class="flex items-start gap-2">
-                    <span class="mt-0.5 text-lime shrink-0 w-4 h-4">{ICON['check']}</span>
+                    <!-- text-heading (#29612F), not text-lime (#8ACC3E): a 16px
+                         tick is a non-text graphic and needs 3:1 (WCAG 1.4.11).
+                         Lime measures 1.9:1 on white and these three ticks mark
+                         terms that CHANGE what the shopper gets — no prices on
+                         the invoice, no cash on delivery — so they are the last
+                         marks on the page that should be hard to see. -->
+                    <span class="mt-0.5 text-heading shrink-0 w-4 h-4">{ICON['check']}</span>
                     <span>{t}</span>
                   </li>""" for t in GIFT_TERMS)
     return f"""
@@ -1225,7 +1287,7 @@ def gift_toggle():
               <div class="bg-white p-5 border border-divider rounded-xl">
                 <input type="checkbox" id="gift-order" data-switch data-gift-switch class="sr-only" />
                 <label for="gift-order" class="flex items-center gap-3 cursor-pointer">
-                  <span class="place-items-center grid bg-lime/10 rounded-full text-lime size-10 shrink-0">
+                  <span class="place-items-center grid bg-mint rounded-full text-heading size-10 shrink-0">
                     <span class="w-5 h-5">{ICON['gift']}</span>
                   </span>
                   <span class="flex flex-col flex-1 gap-0.5 min-w-0">
@@ -1334,20 +1396,32 @@ def checkout_summary(lines_html, subtotal, total, delivery_fee, interactive=True
 
 def checkout_steps(current):
     """
-    The four-step breadcrumb across checkout and payment. `current` is the
+    The TWO-step breadcrumb across checkout and payment. `current` is the
     0-based index of the active step.
 
-    Shared for the same reason as the summary: two pages drawing their own
-    copy is how a stepper ends up highlighting step 2 on the step-3 page.
+    It was four (Ahmed, 2026-08-23 cut it to two):
+
+      * "سلة التسوق" went, because it is not a step of the checkout — the basket
+        is where you were BEFORE it started, and the summary beside the form
+        already carries a "تعديل" link straight back to the cart page. A
+        breadcrumb whose first node is always ticked teaches nothing.
+      * "تأكيد عملية الشراء" went, because no page ever rendered it as the
+        current step. Confirmation is the RESULT of pressing the CTA on step 2,
+        so it was a permanently-grey node advertising a screen the stepper could
+        never highlight.
+      * "بيانات العميل" became "بيانات شخصية" — the shopper is filling in their
+        own details, not being labelled a customer record.
+
+    What is left is the two screens that genuinely exist and can genuinely be
+    the current one. Shared for the same reason as the summary: two pages
+    drawing their own copy is how a stepper ends up highlighting the wrong node.
     """
     sep = '<span aria-hidden="true" class="text-outline">/</span>'
     # A completed step is a real link back to its own page, so a shopper on
-    # step 3 can return to step 1 from the stepper (Ahmed, 2026-08-04). Index-
-    # aligned with CHECKOUT_STEPS; the current step and any step ahead are NOT
-    # links — there is nothing to go forward to yet, and the active step is
-    # where you already are. The final confirmation step has no page to return
-    # to, so it stays None even when it is somehow "done".
-    hrefs = ["cart.html", "checkout.html", "payment.html", None]
+    # payment can return to their details from the stepper (Ahmed, 2026-08-04).
+    # Index-aligned with CHECKOUT_STEPS; the current step is where you already
+    # are, so it is not a link.
+    hrefs = ["checkout.html", "payment.html"]
     parts = []
     for i, s in enumerate(CHECKOUT_STEPS):
         is_now = i == current
@@ -1363,11 +1437,16 @@ def checkout_steps(current):
         # zero. An opaque tint is legible to both. It is also the tint the
         # discount chip and the wallet card already use, so "good news" is one
         # colour across the checkout rather than two near-identical greens.
+        # A DONE step used to be painted `text-lime` (#8ACC3E) — 1.9:1 on white,
+        # the worst contrast on the page and unreadable at 14px (Ahmed,
+        # 2026-08-23). `text-heading` (#29612F) is 7.5:1 on white and 6.6:1 on
+        # the mint tick, keeps the "this is behind you, and it went fine" green
+        # reading, and matches the h1 right above the stepper.
         dot = ("bg-cta text-white" if is_now
-               else "bg-mint text-lime" if done
+               else "bg-mint text-heading" if done
                else "bg-cream text-muted")
         text = ("font-semibold text-ink" if is_now
-                else "text-lime" if done
+                else "text-heading" if done
                 else "text-muted")
         tail = "" if i == len(CHECKOUT_STEPS) - 1 else sep
         mark = "✓" if done else str(i + 1)
@@ -1387,7 +1466,7 @@ def checkout_steps(current):
     return "".join(parts)
 
 
-CHECKOUT_STEPS = ["سلة التسوق", "بيانات العميل", "طريقة الدفع", "تأكيد عملية الشراء"]
+CHECKOUT_STEPS = ["بيانات شخصية", "طريقة الدفع"]
 
 
 def promo_field(readonly=False):
@@ -1430,7 +1509,7 @@ def promo_field(readonly=False):
                   <div class="flex items-center gap-2">
                     <input type="text" data-promo-input inputmode="latin" autocomplete="off"
                            placeholder="{e('أدخل كود الخصم')}"
-                           class="flex-1 bg-white border border-divider rounded-2xl px-3 py-2 min-w-0 text-ink text-sm placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors latin" />
+                           class="flex-1 bg-white border border-divider rounded-2xl px-3 py-2 min-w-0 text-ink text-sm placeholder:text-muted outline-none focus:border-cta transition-colors latin" />
                     <!-- Secondary (outline) button (Ahmed, 2026-08-05): the
                          Apply sits next to the primary green order CTA below, so
                          a second solid-green button competed with it for the
@@ -1499,7 +1578,7 @@ def order_notes(readonly=False):
                   <!-- aria-label, not placeholder alone: a placeholder disappears
                        the moment you type, so it cannot be the accessible name. -->
                   <textarea rows="3" placeholder="أضف ملاحظة على طلبك" aria-label="ملاحظات على الطلب" data-order-note
-                            class="bg-white border border-divider rounded-2xl px-4 py-3 w-full text-ink text-sm placeholder:text-muted outline-none focus:border-primary focus:ring-2 focus:ring-limeFigma transition-colors"></textarea>
+                            class="bg-white border border-divider rounded-2xl px-4 py-3 w-full text-ink text-sm placeholder:text-muted outline-none focus:border-cta transition-colors"></textarea>
                   <!-- Compact buttons (Ahmed, 2026-08-04): the save was oversized
                        for a note editor. Padding-based height (~34px) — still well
                        above the 24px WCAG 2.5.8 floor. -->
@@ -1534,13 +1613,16 @@ def freeship_bar():
               <div data-freeship hidden class="flex flex-col gap-1.5">
                 <p class="text-ink text-xs leading-5" data-freeship-msg></p>
                 <div class="bg-cream rounded-full w-full h-2 overflow-hidden">
-                  <div data-freeship-fill class="bg-cta rounded-full h-full transition-[width] duration-500" style="width:0%"></div>
+                  <!-- Light green (Ahmed, 2026-08-23), not the near-black brand green the
+                       primary buttons use: a progress bar is a status, not a call to
+                       action, and bg-cta on the cream track read as a hard dark slab. -->
+                  <div data-freeship-fill class="bg-limeFigma rounded-full h-full transition-[width] duration-500" style="width:0%"></div>
                 </div>
               </div>"""
 
 
 def radio_card(name, value, heading, sub="", icon="", checked=False, accent=False,
-               blocked_note="", meta_key="", meta_prompt="", opens=""):
+               blocked_note="", meta_key="", meta_prompt="", opens="", meta_stacked=False):
     """Big selectable card — order type, delivery time, delivery method.
 
     The trailing glyph is a real radio indicator (`.radio-dot`, styles.css),
@@ -1580,10 +1662,20 @@ def radio_card(name, value, heading, sub="", icon="", checked=False, accent=Fals
     # writes the answer here and drops the modifier, so it becomes plain
     # resolved text. A row reading "اختر الفرع" and a row reading "فرع الزهور"
     # are then visibly different states rather than the same grey line.
+    #
+    # `meta_stacked` moves it UNDER the heading instead (Ahmed, 2026-08-23).
+    # Beside the heading it competes for the same horizontal run, which is fine
+    # on a full-width row and not fine once these cards share one, so a card
+    # that sits in a horizontal pair stacks its label column and keeps only the
+    # radio dot on the right. `text-end` comes off with it: stacked, the prompt
+    # belongs under the words it qualifies, not flung to the far edge.
+    meta_align = "" if meta_stacked else " shrink-0 text-end"
     meta_html = (
-        f'<span data-opt-meta="{e(meta_key)}" class="opt-meta is-prompt shrink-0 text-xs text-end leading-4">{e(meta_prompt)}</span>'
+        f'<span data-opt-meta="{e(meta_key)}" class="opt-meta is-prompt{meta_align} text-xs leading-4">{e(meta_prompt)}</span>'
         if meta_key else ""
     )
+    row_meta = "" if meta_stacked else meta_html
+    col_meta = meta_html if meta_stacked else ""
     # `data-opens` makes selecting the row ALSO open its picker, so choosing
     # "pick up from a store" and choosing WHICH store are one gesture rather
     # than a selection followed by a hunt for the next control.
@@ -1607,10 +1699,10 @@ def radio_card(name, value, heading, sub="", icon="", checked=False, accent=Fals
                       {icon_html}
                       <span class="flex flex-col min-w-0">
                         <span class="font-semibold text-ink text-base">{e(heading)}</span>
-                        {sub_html}
+                        {sub_html}{col_meta}
                       </span>
                     </span>
-                    {meta_html}<span class="radio-dot shrink-0" aria-hidden="true"></span>{note_html}
+                    {row_meta}<span class="radio-dot shrink-0" aria-hidden="true"></span>{note_html}
                   </span>
                 </label>"""
 
@@ -1650,7 +1742,7 @@ def cart_line(p, qty=1, weight="250 جم"):
                    without JS, but the cart store owns this list once it boots
                    and clears these on its first render. -->
               <article data-cart-static class="flex flex-wrap sm:flex-nowrap items-center gap-4 py-5 border-divider border-b">
-                <img src="{e(p['image'])}" alt="{e(_title(p))}" class="bg-cream p-2 rounded-xl w-20 h-20 object-contain shrink-0" loading="lazy" />
+                <img src="{e(scene_image(p))}" alt="{e(_title(p))}" class="cart-thumb bg-cream rounded-xl w-20 h-20 shrink-0" loading="lazy" />
                 <div class="flex flex-col flex-1 gap-1 min-w-[7rem]">
                   <h3 class="font-semibold text-heading text-base line-clamp-2">{e(_title(p))}</h3>
                   <span class="text-muted text-xs">{e(weight)}</span>
@@ -1725,9 +1817,22 @@ def wallet_toggle(balance=WALLET_BALANCE):
                      NOT bright `success` (#16BB55) which fails AA on this tint.
                      data-wallet-amount stays so syncWalletBalance can update the
                      figure when redeemed points top the wallet up. -->
+                <!-- `justify-self-start` on both cells is what makes the balance
+                     pill HUG its digits (Ahmed, 2026-08-23). The two states share
+                     one grid cell so the row can never change height, and a grid
+                     item's default `justify-self` is `stretch` — so the pill was
+                     being stretched to the width of the WIDER of the two states
+                     and sat as a long empty capsule with "EGP 1200" floating at
+                     one end. Reserving the height is the point; reserving the
+                     width was an accident.
+
+                     Ink is `text-heading` (#29612F, 6.6:1 on this mint), not the
+                     old `text-lime` (#8ACC3E) — which measured 1.9:1 on the pill's
+                     white fill and was the single worst contrast failure in the
+                     whole checkout. Same swap on the "deducted" caption. -->
                 <span class="grid">
-                  <span class="col-start-1 row-start-1 inline-flex items-center self-start bg-white/70 px-2 rounded-full font-bold text-lime text-xs leading-5 latin" data-wallet-idle data-wallet-amount>EGP {balance}</span>
-                  <span class="col-start-1 row-start-1 inline-flex items-center self-start font-semibold text-lime text-xs leading-5 invisible" data-wallet-used>تم الخصم</span>
+                  <span class="col-start-1 row-start-1 justify-self-start inline-flex items-center self-start bg-white px-2 rounded-full font-bold text-heading text-xs leading-5 latin" data-wallet-idle data-wallet-amount>EGP {balance}</span>
+                  <span class="col-start-1 row-start-1 justify-self-start inline-flex items-center self-start font-semibold text-heading text-xs leading-5 invisible" data-wallet-used>تم الخصم</span>
                 </span>
               </span>
               <!-- The real control. sr-only rather than display:none so it
@@ -1755,7 +1860,7 @@ def bundle_item(p, checked=True):
                        data-price="{e(p['price'])}" data-image="{e(p['image'])}"
                        class="flex items-center gap-3 py-2 cursor-pointer">
                   <input type="checkbox" data-bundle-check{' checked' if checked else ''} class="accent-ink-800 shrink-0 rounded w-5 h-5" />
-                  <img src="{e(p['image'])}" alt="" class="bg-cream shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
+                  <img src="{e(scene_image(p))}" alt="" class="cart-thumb bg-cream shrink-0 rounded-lg w-12 h-12" loading="lazy" />
                   <span class="flex-1 min-w-0 text-ink text-sm leading-5 line-clamp-2">{e(_title(p))}</span>
                   {price_sticker(p['price'], "sm")}
                 </label>"""
@@ -1803,8 +1908,7 @@ def product_widget(p, sale=None, slide=True, cat=None):
     # Two sources for the image-style toggle: the in-scene styled shot (default)
     # and the white-background original. initImgStyleSwitch swaps [data-img-scene]
     # <img> between them; data-image (cart thumb) stays the scene hero.
-    scene_img = (f"images/jaad/products-styled/{pid}.jpg"
-                 if str(pid) in STYLED_IDS else p["image"])
+    scene_img = scene_image(p)
     plain_img = p["image"]
     return f"""
           <article class="product-widget {width}" data-product data-cat="{e(cat if cat is not None else p.get('categorySlug',''))}"
@@ -1837,7 +1941,7 @@ def product_widget(p, sale=None, slide=True, cat=None):
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
                   <span class="text-[18px] leading-[1.4]">EGP</span>

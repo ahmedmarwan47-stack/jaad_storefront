@@ -203,7 +203,13 @@ UI = {
     "استخدم البيانات دي لتجربة تسجيل الدخول والمفضلة:":
         "Use these details to try signing in and favourites:",
     "املأ البيانات تلقائياً": "Fill automatically",
-    "صفحة حسابي الرئيسية": "My account home",
+    "نظرة عامة": "Overview",
+    # Email verification on the profile row. "تحقق" rather than the shared
+    # "تأكيد" (Confirm) key: this is a distinct action — prove the address is
+    # yours — and it needs to read "Verify" in English without dragging every
+    # other confirm button on the site with it.
+    "تحقق": "Verify",
+    "✓ مؤكد": "✓ Verified",
     "يمكنك إدارة الطلبات والمحفظة ومعلومات الحساب الخاصة بك هنا.":
         "Manage your orders, wallet and account details here.",
     "شكرا لتسجيلك حساب معنا !": "Thank you for creating an account with us!",
@@ -298,6 +304,38 @@ UI = {
     "الاستلام من الفرع": "Pick up from a branch",
     "مواعيد التوصيل": "Delivery times",
     "خطوات الشراء": "Checkout steps",
+    "بيانات شخصية": "Personal info",
+    # Card form on the payment step. PROTOTYPE fields — see the module
+    # docstring in build/pages/payment.py before this goes anywhere live.
+    "رقم البطاقة": "Card number",
+    "الاسم على البطاقة": "Name on card",
+    "تاريخ الانتهاء": "Expiry date",
+    "رمز التحقق CVV": "CVV",
+
+    # --- runtime strings scripts.js writes into the page
+    # These are toasts, countdown labels and inline validation that JS SETS
+    # after the translation pass has run, so they are never reached by the
+    # text-node walker and can only be translated through t(). Every one of
+    # them was missing (Ahmed, 2026-08-23) — which is why the English OTP
+    # screen showed an Arabic "إعادة الإرسال خلال 30 ثانية" the moment it
+    # loaded: the resend cooldown starts on arrival and writes its own label.
+    "إعادة الإرسال خلال": "Resend in",
+    "ثانية": "seconds",
+    "تم التحقق": "Verified",
+    "رمز التحقق غير صحيح، حاول مرة أخرى": "That code is not right — please try again",
+    "تم إرسال رمز جديد": "A new code has been sent",
+    "من فضلك أدخل رقم موبايل صحيح": "Please enter a valid mobile number",
+    "تم تسجيل الدخول بنجاح": "Signed in successfully",
+    "تم تسجيل الخروج": "Signed out",
+    "تم تأكيد بريدك الإلكتروني بنجاح": "Your email address has been verified",
+    "خانة رقم 1": "Digit 1",
+    "خانة رقم 2": "Digit 2",
+    "خانة رقم 3": "Digit 3",
+    "خانة رقم 4": "Digit 4",
+    "خانة رقم 5": "Digit 5",
+    "خانة رقم 6": "Digit 6",
+    "لا توجد عناوين محفوظة بعد.": "No saved addresses yet.",
+    "تعديل العنوان": "Edit address",
 
     # --- forms
     "الاسم الأول": "First name",
@@ -320,8 +358,10 @@ UI = {
     "الطابق": "Floor",
     "قبول الشروط": "Accept the terms",
     "اضف عنوان": "Add address",
-    "العنوان الرئيسي": "Main address",
-    "عنواني الرئيسي": "My main address",
+    "العنوان الافتراضي": "Default address",
+    "عنواني الافتراضي": "My default address",
+    "اجعله العنوان الافتراضي": "Make it the default address",
+    "تم تعيين العنوان الافتراضي": "Default address updated",
 
     # --- demo record values
     "محمد": "Mohamed",
@@ -449,9 +489,10 @@ UI = {
     "الطلب بيوصل في قد إيه؟": "How long does delivery take?",
     "داخل القاهرة الكبرى التوصيل خلال ساعتين. باقي المحافظات من يوم لثلاثة أيام عمل حسب المنطقة.":
         "Within Greater Cairo, delivery takes two hours. Other governorates take one to three working days depending on the area.",
-    "كام الحد الأدنى للطلب؟": "What is the minimum order?",
-    "الحد الأدنى للطلب 150 جنيه، ومصاريف التوصيل بتحسب حسب المنطقة وبتظهر قبل تأكيد الطلب.":
-        "The minimum order is EGP 150. Delivery is charged by area and is shown before you confirm the order.",
+    "في حد أدنى للطلب؟": "Is there a minimum order?",
+    "لا، مفيش حد أدنى للطلب. مصاريف التوصيل بتتحسب حسب المنطقة وبتظهر قبل تأكيد الطلب، والتوصيل بيبقى مجاني فوق مبلغ معيّن بيظهرلك في السلة.":
+        "No, there is no minimum order. Delivery is charged by area and is shown before you confirm, "
+        "and it is free above the amount shown in your cart.",
     "أقدر أستلم من الفرع؟": "Can I pick up from a branch?",
     "أيوه — اختار «الاستلام من المتجر» في صفحة إتمام الشراء وحدد الفرع الأقرب ليك.":
         "Yes — choose “Pick up in store” at checkout and select the branch nearest to you.",

@@ -472,7 +472,7 @@ def _render(p):
       <section data-reveal class="py-12 xl:py-16">
         <div class="mx-auto px-4 max-w-[1536px]">
           {section_heading("تسوق اكتر من جاد", "عرض المزيد", "shop.html")}
-          {carousel("".join(product_card(x) for x in more))}
+          {carousel("".join(product_card(x) for x in more), loop=True)}
         </div>
       </section>
 
@@ -488,7 +488,7 @@ def _render(p):
       <section data-recently-viewed data-exclude-id="{p.get('id', 0)}" hidden class="py-12 xl:py-16">
         <div class="mx-auto px-4 max-w-[1536px]">
           {section_heading("شاهدت هذا مؤخراً")}
-          {carousel("", track_attr=" data-recent-track")}
+          {carousel("", track_attr=" data-recent-track", loop=True)}
         </div>
       </section>
 

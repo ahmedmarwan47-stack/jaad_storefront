@@ -12,15 +12,26 @@ carries exactly COD, Etisalat Cash, Visa and Mastercard. Nothing was added
 beyond what the client already tells customers they accept; Visa and Mastercard
 are folded into one "card" option because they are one flow, not two.
 
-Card fields are deliberately NOT collected. This is a static export with no
-backend, and a form that asks for a card number teaches shoppers to type one
-into a page that cannot protect it — see the demo sign-in note in
-DESIGN-NOTES for the same reasoning. Choosing the method is the real decision;
-the number belongs to whatever gateway the client wires in later.
+Card is the DEFAULT method and the card form is open beneath it (Ahmed,
+2026-08-23) — number, name, expiry and CVV, revealed and hidden with the
+"بطاقة ائتمان" row.
+
+⚠️ These fields are a PROTOTYPE of the gateway screen, not the gateway. This is
+a static export with no backend: nothing is validated, nothing is transmitted
+and nothing is stored, and the previous build deliberately shipped no card
+fields at all for exactly that reason — a page that asks for a card number
+teaches shoppers to type one into a page that cannot protect it. They exist now
+so the checkout can be reviewed end to end. Before this goes anywhere near real
+shoppers the block must be replaced by the payment provider's own hosted fields
+or iframe, so the number never touches a Jaad-served page. `autocomplete="off"`
+and `data-demo-card` are on the inputs so a browser or password manager is not
+invited to remember anything, and the block is easy to find and rip out.
+Flagged in DESIGN-NOTES alongside the demo sign-in.
 """
 from catalog import e, in_category, money
 from components import (
-    checkout_steps, checkout_summary, page, radio_card,
+    checkout_steps, checkout_summary, field, page, price_sticker, radio_card,
+    scene_image,
 )
 
 SLUG = "payment.html"
@@ -75,6 +86,64 @@ def _marks(*files):
     )
 
 
+# --------------------------------------------------------------------------
+# Card form (PROTOTYPE — see the module docstring before wiring this up)
+# --------------------------------------------------------------------------
+# Hand-rolled rather than field(), because each of these needs an input mode,
+# a length cap and a formatting hook that the generic field has no business
+# knowing about. Every one carries `autocomplete="off"` and `data-demo-card`:
+# off so no browser or password manager is invited to remember a number this
+# page cannot protect, and the data attribute so both the JS that formats them
+# and the person who eventually deletes this block can find them in one grep.
+_CARD_INPUT = ('bg-white border border-divider rounded-2xl px-4 h-12 w-full '
+               'text-ink text-base placeholder:text-muted outline-none '
+               'focus:border-cta '
+               'transition-colors latin')
+
+
+def _card_field(label, name, placeholder, inputmode, maxlength, extra=""):
+    return f"""
+                    <div class="flex flex-col gap-1.5">
+                      <label for="{name}" class="font-medium text-muted text-sm">{label}</label>
+                      <input type="text" id="{name}" name="{name}" data-demo-card
+                             inputmode="{inputmode}" maxlength="{maxlength}" autocomplete="off"
+                             dir="ltr" placeholder="{placeholder}"{extra}
+                             class="{_CARD_INPUT}" />
+                    </div>"""
+
+
+def _card_number():
+    # The Visa/Mastercard marks sit INSIDE the field rather than repeating the
+    # ones already on the option row above — here they say "this is the number
+    # those marks accept", which the row cannot say about a field that does not
+    # exist yet. `data-card-number` is the grouping hook (1234 5678 …).
+    return f"""
+                    <div class="flex flex-col gap-1.5">
+                      <label for="card-number" class="font-medium text-muted text-sm">رقم البطاقة</label>
+                      <div class="relative">
+                        <input type="text" id="card-number" name="card-number" data-demo-card data-card-number
+                               inputmode="numeric" maxlength="19" autocomplete="off"
+                               dir="ltr" placeholder="1234 5678 9012 3456"
+                               class="{_CARD_INPUT} pe-20" />
+                        <span class="top-1/2 end-3 absolute flex items-center gap-1.5 -translate-y-1/2 pointer-events-none">
+                          <img src="images/jaad/payments/pay-visa.svg" alt="" class="w-auto h-5 object-contain" />
+                          <img src="images/jaad/payments/pay-mastercard.svg" alt="" class="w-auto h-5 object-contain" />
+                        </span>
+                      </div>
+                    </div>"""
+
+
+def _card_expiry():
+    # maxlength 5 for MM/YY; the slash is inserted by the formatter in
+    # scripts.js as the shopper types, so it is never something to type.
+    return _card_field("تاريخ الانتهاء", "card-expiry", "MM/YY", "numeric", 5,
+                       extra=' data-card-expiry')
+
+
+def _card_cvv():
+    return _card_field("رمز التحقق CVV", "card-cvv", "123", "numeric", 4)
+
+
 def build():
     items = in_category("Coffee", 2)
     subtotal = sum(p["price"] for p in items)
@@ -82,11 +151,11 @@ def build():
 
     summary_lines = "".join(f"""
                 <div data-cart-static class="flex items-center gap-3">
-                  <img src="{e(p['image'])}" alt="" class="bg-cream p-1.5 rounded-lg w-16 h-16 object-contain shrink-0" loading="lazy" />
+                  <img src="{e(scene_image(p))}" alt="" class="cart-thumb bg-cream rounded-lg w-16 h-16 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 gap-0.5 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">{e(p.get('nameAr') or p['name'])}</span>
                   </div>
-                  <span class="font-bold text-ink text-sm latin shrink-0">EGP {money(p['price'])}</span>
+                  {price_sticker(p['price'], "sm")}
                 </div>""" for p in items)
 
     body = f"""
@@ -95,7 +164,7 @@ def build():
 
           <div class="flex flex-col gap-3 order-1 lg:order-none lg:col-span-2 min-w-0">
             <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">طريقة الدفع</h1>
-            <nav aria-label="خطوات الشراء" class="flex flex-wrap items-center gap-2">{checkout_steps(2)}</nav>
+            <nav aria-label="خطوات الشراء" class="flex flex-wrap items-center gap-2">{checkout_steps(1)}</nav>
           </div>
 
           <!-- RTL start: form -->
@@ -105,13 +174,34 @@ def build():
                 <legend class="mb-3 font-bold text-ink text-lg">اختر طريقة الدفع</legend>
                 <div class="flex flex-col gap-4">
 
-                  <!-- Credit card first at Ahmed's request (2026-08-02). COD
-                       keeps the default selection (checked) — it is the
-                       prevailing method in this market and the gift-order rule
-                       below depends on it — but card now leads the list. -->
+                  <!-- Card leads the list AND is the default (Ahmed,
+                       2026-08-23). It used to lead visually while COD kept the
+                       `checked`, so the row the eye landed on first was not the
+                       row that was selected — and the card form below it stayed
+                       shut on arrival. Card is now genuinely the pre-selected
+                       method and its fields are open underneath. COD remains
+                       one tap away, and its gift-order block (below) is
+                       unaffected: that rule only ever fires when COD is the
+                       chosen row. -->
                   <div class="flex">
 {radio_card("payment-method", "card", "بطاقة ائتمان", "فيزا أو ماستركارد",
-            _marks("pay-visa.svg", "pay-mastercard.svg"))}
+            _marks("pay-visa.svg", "pay-mastercard.svg"), checked=True)}
+                  </div>
+
+                  <!-- The card form. `data-card-fields` is revealed/hidden by
+                       scripts.js off the payment-method radios, so it is open on
+                       arrival (card is the default) and folds away the moment
+                       another method is chosen — no orphan card form under a
+                       cash order. READ THE MODULE DOCSTRING before wiring this
+                       to anything: it is a prototype of a gateway screen, not a
+                       gateway. -->
+                  <div data-card-fields class="flex flex-col gap-4 bg-cream mx-1 p-5 rounded-2xl">
+{_card_number()}
+{field("الاسم على البطاقة", "card-name", autocomplete="off")}
+                    <div class="gap-4 grid grid-cols-2">
+{_card_expiry()}
+{_card_cvv()}
+                    </div>
                   </div>
 
                   <!-- Cash on delivery is blocked for gift orders, which is not
@@ -122,7 +212,7 @@ def build():
                        for it to apply to. scripts.js reads the gift flag saved
                        on checkout and blocks this row on load. -->
                   <div class="flex" data-cod-option>
-{radio_card("payment-method", "cod", "الدفع عند الاستلام", "ادفع نقداً عند وصول طلبك", ICON_COD, checked=True,
+{radio_card("payment-method", "cod", "الدفع عند الاستلام", "ادفع نقداً عند وصول طلبك", ICON_COD,
             blocked_note="غير متاح لطلبات الهدايا")}
                   </div>
 
@@ -133,19 +223,22 @@ def build():
                 </div>
               </fieldset>
 
-              <!-- No card-number fields: see the module docstring. -->
               <p class="flex items-start gap-2 bg-cream p-4 rounded-xl text-muted text-xs leading-5">
                 <span aria-hidden="true">🔒</span>
                 <span>بيانات الدفع تتم بشكل آمن عند تأكيد الطلب. لن نحفظ بيانات بطاقتك.</span>
               </p>
 
-              <!-- Same gate as the other two CTAs: renderCart disables this on
-                   an empty or below-minimum basket, so payment cannot be the
-                   one door left open on an empty order. -->
+              <!-- Same gate as the other CTA: renderCart disables this on an
+                   EMPTY basket, so payment cannot be the one door left open on
+                   an empty order. -->
               <a href="thank-you.html" data-cart-checkout class="bg-cta hover:bg-cta-hover py-4 rounded-full w-full font-semibold text-white text-base text-center transition-colors">
                 تأكيد الطلب
               </a>
-              <a href="checkout.html" class="font-semibold text-cta text-sm text-center underline">العودة لبيانات التوصيل</a>
+              <!-- The "العودة لبيانات التوصيل" link under the CTA is gone
+                   (Ahmed, 2026-08-23): the breadcrumb at the top of the page
+                   already links "بيانات شخصية" back to exactly this destination,
+                   and a second way back sitting directly beneath the confirm
+                   button competed with it for the last press of the flow. -->
             </form>
           </div>
 

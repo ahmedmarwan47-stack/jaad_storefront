@@ -1,6 +1,7 @@
 """Single order — Figma 'Account > Single Order' (312:20393)."""
 from _account import account_page, card
 from catalog import e, in_category, money
+from components import scene_image
 
 SLUG = "my-account-order.html"
 DELIVERY_FEE = 30.0
@@ -25,7 +26,7 @@ def build():
 
     lines = "".join(f"""
                 <div class="flex items-center gap-3 py-3 border-divider border-b last:border-0">
-                  <img src="{e(p['image'])}" alt="" class="bg-cream p-1.5 rounded-lg w-16 h-16 object-contain shrink-0" loading="lazy" />
+                  <img src="{e(scene_image(p))}" alt="" class="cart-thumb bg-cream rounded-lg w-16 h-16 shrink-0" loading="lazy" />
                   <div class="flex flex-col flex-1 gap-0.5 min-w-0">
                     <span class="font-semibold text-ink text-sm line-clamp-2">{e(p.get('nameAr') or p['name'])}</span>
                     <span class="text-muted text-xs">250 جم · عدد <span class="latin">1</span></span>

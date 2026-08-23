@@ -28,8 +28,14 @@ GROUPS = [
         ("الطلب بيوصل في قد إيه؟",
          "داخل القاهرة الكبرى التوصيل خلال ساعتين. باقي المحافظات من يوم لثلاثة أيام عمل "
          "حسب المنطقة."),
-        ("كام الحد الأدنى للطلب؟",
-         "الحد الأدنى للطلب 150 جنيه، ومصاريف التوصيل بتحسب حسب المنطقة وبتظهر قبل تأكيد الطلب."),
+        # The 150 EGP minimum was removed from the store on 2026-08-23, so this
+        # answer had to go with it — the site cannot keep quoting a rule it no
+        # longer applies. Re-pointed at the question the row was really being
+        # asked: what delivery costs. ⚠️ Ahmed: this is a CLIENT-FACING policy
+        # statement — confirm the wording with them.
+        ("في حد أدنى للطلب؟",
+         "لا، مفيش حد أدنى للطلب. مصاريف التوصيل بتتحسب حسب المنطقة وبتظهر قبل تأكيد الطلب، "
+         "والتوصيل بيبقى مجاني فوق مبلغ معيّن بيظهرلك في السلة."),
         ("بتوصلوا لكل المحافظات؟",
          "أيوه، بنوصل لكل محافظات مصر. مصاريف التوصيل ومدته بتختلف حسب المنطقة وبتظهر قبل تأكيد الطلب."),
     ]),

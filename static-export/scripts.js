@@ -396,9 +396,12 @@
     "اسم العنوان": "Address name",
     "العنوان": "Address",
     "المنطقة والمدينة": "Area & city",
-    "اجعله العنوان الرئيسي": "Make it the main address",
+    "اجعله العنوان الافتراضي": "Make it the default address",
     "حفظ العنوان": "Save address",
-    "العنوان الرئيسي": "Main address",
+    "العنوان الافتراضي": "Default address",
+    "عنوان افتراضي": "Default",
+    "تم تعيين العنوان الافتراضي": "Default address updated",
+    "لازم يفضل عندك عنوان افتراضي واحد على الأقل": "You need to keep one default address",
     "تعديل": "Edit",
     "لا توجد عناوين محفوظة بعد.": "No saved addresses yet.",
     "تم النسخ ✓": "Copied ✓",
@@ -705,7 +708,39 @@
     });
   }
 
+  /* Pre-filled DEMO values in text inputs (Ahmed, 2026-08-23).
+
+     `value` is deliberately not in I18N_ATTRS: translating every input's value
+     would rewrite whatever the shopper had typed the moment they switched
+     language, which is the one thing a translator must never touch. So it is
+     opt-in — only inputs the page marks `data-i18n-value` are considered, and
+     the only things carrying that marker are the placeholder identities the
+     demo ships with (the profile form's "محمد" / "عادل", which sat in Arabic on
+     the English personal-info tab).
+
+     Setting the ATTRIBUTE rather than the property on purpose: once a field is
+     dirty — the shopper has typed in it — the attribute no longer drives what
+     is displayed, so an edit in progress survives a language switch untouched. */
+  function translateValues(en) {
+    document.querySelectorAll("[data-i18n-value]").forEach((el) => {
+      if (inSkipped(el)) return;
+      let stash = ATTR_STASH.get(el);
+      const cur = el.getAttribute("value");
+      if (cur === null) return;
+      const original = stash && "value" in stash ? stash.value : cur;
+      const key = collapse(original);
+      if (!EN[key]) return;
+      if (!stash) {
+        stash = {};
+        ATTR_STASH.set(el, stash);
+      }
+      if (!("value" in stash)) stash.value = original;
+      el.setAttribute("value", en ? EN[key] : original);
+    });
+  }
+
   function translateAttributes(en) {
+    translateValues(en);
     document.querySelectorAll("[placeholder],[aria-label],[title],[alt]").forEach((el) => {
       if (inSkipped(el)) return;
       let stash = ATTR_STASH.get(el);
@@ -1051,7 +1086,7 @@
             }
             <!-- Logo is much taller than the 56px bar on purpose (Figma): it
                  overflows well above and below. z-10 keeps it above the bands. -->
-            <a href="index.html" class="relative z-10 block shrink-0" aria-label="Jaad">
+            <a href="index.html" class="masthead-logo relative z-10 block shrink-0" aria-label="Jaad">
               <img src="images/jaad/brand/logo-jaad-full.svg" alt="Jaad" class="w-auto h-[96px] xl:h-[116px] object-contain" />
             </a>
             ${
@@ -1412,7 +1447,7 @@
         <div data-freeship hidden class="flex flex-col gap-1.5">
           <p class="text-ink text-xs leading-5" data-freeship-msg></p>
           <div class="bg-cream rounded-full w-full h-2 overflow-hidden">
-            <div data-freeship-fill class="bg-cta rounded-full h-full transition-[width] duration-500" style="width:0%"></div>
+            <div data-freeship-fill class="bg-limeFigma rounded-full h-full transition-[width] duration-500" style="width:0%"></div>
           </div>
         </div>
         <!-- Promo code — same [data-promo*] contract as the cart-page field, so
@@ -1483,13 +1518,9 @@
             <span class="font-semibold text-ink">${esc(t("توصيل خلال ساعتين"))}</span> ${esc(t("داخل القاهرة الكبرى"))}
           </p>
         </div>
-        <!-- Same icon width (w-6) and items-center as the delivery note above,
-             so both lines' text starts at exactly the same point from the
-             inline start (Ahmed, 2026-08-04). -->
-        <p data-cart-warning hidden class="flex items-center gap-2 mt-1 text-error text-xs leading-5">
-          <span class="w-6 h-6 shrink-0" aria-hidden="true">${ICON.alert}</span>
-          <span>متبقي <span class="latin" data-cart-shortfall></span> لاستكمال الحد الأدنى للطلب</span>
-        </p>`;
+        <!-- The red "you still need EGP X to reach the minimum" line used to sit
+             here. Removed with the minimum-order rule itself (Ahmed,
+             2026-08-23) — see MIN_ORDER above. -->`;
 
     return `
     <div data-backdrop class="overlay-backdrop"></div>
@@ -1580,11 +1611,13 @@
           <button type="button" data-close class="place-items-center grid hover:bg-cream rounded-full w-11 h-11 -me-2 text-ink shrink-0" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
         </div>
 
-        <!-- Roomy JAAD search field: neutral outline that turns green on focus,
-             with a lime focus ring. focus-within lets the wrapper react while
-             the real focus stays on the input inside. -->
+        <!-- Roomy JAAD search field: neutral outline that turns green on focus.
+             focus-within lets the wrapper react while the real focus stays on the
+             input inside. No lime ring any more (Ahmed, 2026-08-23) — see the
+             "one focused edge" note in styles.css; every text field on the site
+             now signals focus by darkening its OWN border and nothing else. -->
         <div class="px-6">
-          <div class="flex items-center gap-3 bg-white px-4 py-3.5 border-2 border-outline rounded-2xl transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-limeFigma search-row">
+          <div class="flex items-center gap-3 bg-white px-4 py-3.5 border-2 border-outline rounded-2xl transition-colors focus-within:border-cta search-row">
             <span class="w-5 h-5 text-muted shrink-0">${ICON.search}</span>
             <label class="sr-only" for="site-search">${esc(t("ابحث عن قهوة، مكسرات، بهارات…"))}</label>
             <input type="search" id="site-search" data-search-input autocomplete="off"
@@ -1708,7 +1741,7 @@
           </label>
           <label class="flex items-center gap-2 py-1 cursor-pointer">
             <input type="checkbox" name="main" class="accent-ink-800 size-4" />
-            <span class="text-ink text-sm">${esc(t("اجعله العنوان الرئيسي"))}</span>
+            <span class="text-ink text-sm">${esc(t("اجعله العنوان الافتراضي"))}</span>
           </label>
           <button type="submit" class="bg-cta hover:bg-cta-hover mt-1 py-3 rounded-full font-semibold text-white text-sm transition-colors">${esc(t("حفظ العنوان"))}</button>
         </form>
@@ -2267,8 +2300,19 @@
       else track.scrollLeft = maxPos() - p;
     }
 
+    /* One card's worth of scroll — the step the arrows move, and the unit
+       atStart()/atEnd() measure "an end" in.
+
+       The fallback to the first CHILD matters (Ahmed, 2026-08-23): the product
+       rails render `product_widget()` cards, which carry `snap-start` but NOT
+       the `.carousel-slide` class, so this returned `track.clientWidth` and the
+       arrows paged a WHOLE viewport at a time — five cards vanishing per press.
+       It also made atStart/atEnd read "within half a viewport of the end", which
+       is most of a short rail, so the new wrap-around fired far too eagerly.
+       Falling back to the first child gives the real card width on those rails
+       and changes nothing on the ones that do use the class. */
     function slideStep() {
-      const first = track.querySelector(".carousel-slide");
+      const first = track.querySelector(".carousel-slide") || track.firstElementChild;
       if (!first) return track.clientWidth;
       return first.getBoundingClientRect().width + gap;
     }
@@ -3656,7 +3700,12 @@
      `cart:change`. Nothing mutates state; the handlers below do that.
      --------------------------------------------------------------- */
   const DELIVERY_FEE = 30;
-  const MIN_ORDER = 150;
+  /* The 150 EGP minimum-order rule is GONE (Ahmed, 2026-08-23). It blocked the
+     checkout CTA on every basket under 150 and printed a red "you still need
+     EGP X" line in the drawer, the cart page and the summary — a rule the store
+     no longer enforces, so a EGP 45 bag of coffee is now a complete order. The
+     free-DELIVERY threshold (FREE_SHIP) is untouched: that one rewards a bigger
+     basket rather than refusing a small one. */
   /* Free delivery above this basket subtotal (Ahmed, 2026-08-02). The cart's
      progress bar counts up to it, and renderCart zeroes the delivery fee — and
      therefore the total — the moment it is reached, so the bar is a real
@@ -4061,6 +4110,53 @@
     );
   }
 
+  /* The JAAD price sticker (Figma 9946:16778) as markup — the deep-green badge
+     with the lime offset shadow and the asymmetric corners, split EGP / whole /
+     .dec. It is the site's ONE price treatment (product cards, the bundle list,
+     the upsell rail and components.price_sticker all draw it), and the cart was
+     the one place still printing a plain bold figure — a lime chip in the drawer
+     and unstyled text in the checkout summary (Ahmed, 2026-08-23). Same badge
+     everywhere a price shows.
+
+     Split into `stickerParts` + wrapper because renderCart updates a line total
+     IN PLACE on every quantity change: writing `textContent` onto a composed
+     badge would flatten it back to a bare string on the first press. Rows carry
+     `data-price-sticker`, and paintLineTotal below repaints the parts instead. */
+  function stickerParts(price, egpCls, wholeCls) {
+    const v = Number(price) || 0;
+    const whole = Math.floor(v);
+    const dec = String(Math.round((v - whole) * 100)).padStart(2, "0");
+    return (
+      '<span class="' + egpCls + ' leading-[1.4]">EGP</span>' +
+      '<span class="' + wholeCls + ' leading-none">' + whole + "</span>" +
+      '<span class="' + egpCls + ' leading-[1.4]">.' + dec + "</span>"
+    );
+  }
+  /* `sm` matches components.price_sticker("sm") — the size the cart rows, the
+     bundle list and the compact upsell card all use. */
+  const STICKER_SM = {
+    egp: "text-[11px]",
+    whole: "text-[16px]",
+    box: "bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px]",
+  };
+  function priceStickerHTML(price, attrs) {
+    return (
+      '<span ' + (attrs || "") + ' data-price-sticker class="inline-flex items-end gap-0.5 shrink-0 ' +
+      STICKER_SM.box + ' font-bold text-white latin">' +
+      stickerParts(price, STICKER_SM.egp, STICKER_SM.whole) +
+      "</span>"
+    );
+  }
+  /* One writer for a line's money, whichever shape the row uses. */
+  function paintLineTotal(el, value) {
+    if (!el) return;
+    if (el.hasAttribute("data-price-sticker")) {
+      el.innerHTML = stickerParts(value, STICKER_SM.egp, STICKER_SM.whole);
+    } else {
+      el.textContent = egp(value);
+    }
+  }
+
   function cartLineHTML(it) {
     /* On checkout/payment the order is LOCKED (Ahmed, 2026-08-02): no stepper,
        no remove, and a COMPACT row. The shopper has already decided what they
@@ -4072,36 +4168,38 @@
     if (isCheckout()) {
       return `
       <div class="flex items-center gap-3 py-2.5 border-divider border-b last:border-b-0" data-cart-line data-id="${esc(String(it.id))}">
-        <img src="${esc(it.image)}" alt="${esc(it.name)}" class="bg-cream shrink-0 p-1 rounded-lg w-12 h-12 object-contain" loading="lazy" />
+        <img src="${esc(it.image)}" alt="${esc(it.name)}" class="cart-thumb bg-cream shrink-0 rounded-lg w-12 h-12" loading="lazy" />
         <div class="flex flex-col flex-1 min-w-0">
           <p class="font-semibold text-ink text-sm line-clamp-1">${esc(it.name)}</p>
           <p class="text-muted text-xs">${esc(t("العدد"))}: <span class="latin" data-line-qty>${it.qty}</span></p>
         </div>
-        <span data-line-total class="font-bold text-ink text-sm latin shrink-0">${egp(it.price * it.qty)}</span>
+        ${priceStickerHTML(it.price * it.qty, "data-line-total")}
       </div>`;
     }
     return `
       <div class="flex items-stretch gap-3 py-4 border-divider border-b last:border-b-0" data-cart-line data-id="${esc(String(it.id))}">
-        <!-- The thumb fills the row's height rather than sitting as a fixed
-             72px square with dead space beneath it: self-stretch plus h-auto
-             lets the cross size follow the row, whose height the text column
-             already decides.
+        <!-- A SQUARE tile (Ahmed, 2026-08-23). It used to stretch to the row's
+             height, which made it a tall rectangle — and a square product photo
+             contained inside a tall rectangle leaves a cream band above and
+             below it, which is exactly the "border around the product" being
+             removed here. A square tile plus .cart-thumb (contain, no padding)
+             and the photograph fills it edge to edge.
 
-             The WIDTH is responsive on purpose. Widening it everywhere would
+             The SIZE is responsive on purpose. Widening it everywhere would
              take 24px straight out of the text column, and at 320 that column
              is the tightest thing on the page — the stepper row needs 138px
              inside 141px (DESIGN-NOTES section 7), so 24px less would
              reintroduce exactly the overflow the flex-wrap below exists to
              prevent. 96px from the sm breakpoint up, where the space actually
              exists; 72px at 320, where it does not. -->
-        <img src="${esc(it.image)}" alt="${esc(it.name)}" class="bg-cream self-stretch shrink-0 p-1.5 rounded-lg w-[72px] sm:w-24 h-auto min-h-[72px] object-contain" />
+        <img src="${esc(it.image)}" alt="${esc(it.name)}" class="cart-thumb bg-cream shrink-0 rounded-lg w-[72px] h-[72px] sm:w-24 sm:h-24" />
         <!-- justify-between, so the three rows distribute across whatever
              height the line has instead of bunching at the top and leaving a
              gap under the stepper — the misalignment Ahmed flagged. -->
         <div class="flex flex-col flex-1 justify-between gap-1 min-w-0">
           <div class="flex justify-between items-start gap-2">
             <p class="flex-1 min-w-0 font-semibold text-ink text-sm line-clamp-2">${esc(it.name)}</p>
-            <span data-line-total class="bg-lime shrink-0 px-2 py-0.5 rounded font-bold text-ink text-xs latin">${egp(it.price * it.qty)}</span>
+            ${priceStickerHTML(it.price * it.qty, "data-line-total")}
           </div>
           <p class="mt-1 text-muted text-xs">العدد: <span class="latin" data-line-qty>${it.qty}</span></p>
           <!-- gap-1 until sm: at 320 the stepper (122) + حذف (24) + gap (8)
@@ -4119,16 +4217,24 @@
                wherever it fits (375 and up, both languages) and drops the
                button below the stepper only where it genuinely cannot. -->
           <div class="flex flex-wrap justify-between items-center gap-2 mt-2">
-            <!-- p-1, matching the product page counter's uniform 4px inset
-                 between container and buttons - the px-2 py-1 it had gave
-                 8px sides against 4px verticals and read as a different
-                 control. Also 2px narrower, which the 320px budget likes. -->
+            <!-- The CANONICAL counter, not a cousin of it (Ahmed, 2026-08-23:
+                 "I want the same counter used in the rest of the site"). This
+                 row had drifted: no white fill, a bare - with no ring of its
+                 own, a light 14px number and 32px buttons. Every other counter
+                 on the site - the product page (components.qty_stepper) and the
+                 product cards that adopted it - is a white pill with a 4px
+                 inset, a hairline-ringed - circle, a bold number and a bg-cta +
+                 circle. The sizes here match the CARD rendering of it
+                 (size-10 on phones, size-8 from sm) because this is the same
+                 kind of compact row, and the 44px phone target is the audited
+                 floor. The old 32px was affordable only while the separate
+                 حذف link ate the row's width; that link is long gone. -->
             <!-- data-cart-stepper is a STYLING hook only (styles.css pins the
                  − … + axis to LTR so it does not mirror in Arabic). The click
                  handling is delegated off [data-cart-step] on the buttons, so
                  this attribute deliberately does not match [data-stepper],
                  which initStepper would bind a second, conflicting handler to. -->
-            <div data-cart-stepper class="inline-flex items-center gap-1 sm:gap-3 p-1 border border-divider rounded-full">
+            <div data-cart-stepper class="inline-flex items-center gap-1 bg-white p-1 border border-divider rounded-full">
               <!-- At quantity 1 the − becomes a trash can and removing is what
                    it does (Ahmed, 2026-07-26). The behaviour was already this:
                    the handler removes the line when the step would take it
@@ -4146,12 +4252,12 @@
                    being rewritten: the rows are keyed-reconciled and keep their
                    DOM nodes, so swapping markup under a live row would discard
                    whatever the icon was doing mid-transition. -->
-              <button type="button" data-cart-step="-1" class="place-items-center grid shrink-0 w-8 h-8 text-ink" aria-label="إنقاص" data-line-dec>
-                <span class="w-3.5 h-3.5" data-line-dec-minus>${ICON.minus}</span>
-                <span class="w-3.5 h-3.5 text-muted" data-line-dec-trash hidden>${ICON.trash}</span>
+              <button type="button" data-cart-step="-1" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors" aria-label="إنقاص" data-line-dec>
+                <span class="w-5 h-5 sm:w-4 sm:h-4" data-line-dec-minus>${ICON.minus}</span>
+                <span class="w-5 h-5 sm:w-4 sm:h-4 text-muted" data-line-dec-trash hidden>${ICON.trash}</span>
               </button>
-              <span class="w-4 text-sm text-center latin" data-line-qty-num>${it.qty}</span>
-              <button type="button" data-cart-step="1" class="place-items-center grid shrink-0 bg-cta hover:bg-cta-hover rounded-full w-8 h-8 text-white transition-colors" aria-label="زيادة"><span class="w-3.5 h-3.5">${ICON.plus}</span></button>
+              <span class="min-w-[1.5ch] font-bold text-ink text-center latin" data-line-qty-num>${it.qty}</span>
+              <button type="button" data-cart-step="1" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors" aria-label="زيادة"><span class="w-5 h-5 sm:w-4 sm:h-4">${ICON.plus}</span></button>
           </div>
         </div>
       </div>`;
@@ -4734,7 +4840,11 @@
       msg.textContent = ok
         ? t("تم تطبيق الكود") + " " + code
         : t("كود غير صالح");
-      msg.classList.toggle("text-lime", ok);
+      /* text-heading, not text-lime: this line is 12px copy telling the
+         shopper their code worked, and #8ACC3E is 1.9:1 on white (Ahmed,
+         2026-08-23). Its failure twin, text-error, is legible — the good news
+         should not be the half nobody can read. */
+      msg.classList.toggle("text-heading", ok);
       msg.classList.toggle("text-error", !ok);
     }
   }
@@ -4793,7 +4903,14 @@
           const fallback = document.querySelector(
             'input[name="' + input.name + '"]:not([value="cod"])',
           );
-          if (fallback) fallback.checked = true;
+          /* `change` does not fire for a programmatic .checked write, and the
+             card form's reveal listens for exactly that — without the dispatch,
+             switching a COD order to a gift would move the selection to the card
+             row and leave the card fields folded shut under it. */
+          if (fallback) {
+            fallback.checked = true;
+            fallback.dispatchEvent(new Event("change", { bubbles: true }));
+          }
         }
       }
     }
@@ -4853,8 +4970,6 @@
   function renderCart() {
     const items = Cart.items();
     const sub = Cart.subtotal();
-    const shortfall = Math.max(0, MIN_ORDER - sub);
-    const belowMin = shortfall > 0;
     const empty = items.length === 0;
     // Capped at the order's own worth — a 100 EGP wallet against a 60 EGP
     // basket discounts 60, it does not owe the shopper money.
@@ -4918,7 +5033,7 @@
           const price = row.querySelector("[data-line-total]");
           const qtyTxt = row.querySelector("[data-line-qty]");
           const qtyNum = row.querySelector("[data-line-qty-num]");
-          if (price) price.textContent = egp(it.price * it.qty);
+          paintLineTotal(price, it.price * it.qty);
           if (qtyTxt) qtyTxt.textContent = it.qty;
           if (qtyNum) {
             rollTo(qtyNum, it.qty, it.qty > (parseInt(qtyNum.textContent, 10) || 0) ? 1 : -1);
@@ -4951,10 +5066,9 @@
     document.querySelectorAll("[data-cart-discount]").forEach((el) => (el.textContent = "− " + egp(walletUsed)));
     document.querySelectorAll("[data-cart-promo-row]").forEach((el) => (el.hidden = !promo));
     document.querySelectorAll("[data-cart-promo-discount]").forEach((el) => (el.textContent = "− " + egp(promo)));
-    document.querySelectorAll("[data-cart-shortfall]").forEach((el) => (el.textContent = egp(shortfall)));
-    document.querySelectorAll("[data-cart-warning]").forEach((el) => (el.hidden = !belowMin || empty));
+    /* An EMPTY basket is the only thing that still blocks checkout. */
     document.querySelectorAll("[data-cart-checkout]").forEach((el) => {
-      const blocked = belowMin || empty;
+      const blocked = empty;
       el.classList.toggle("pointer-events-none", blocked);
       el.classList.toggle("opacity-50", blocked);
       el.setAttribute("aria-disabled", blocked ? "true" : "false");
@@ -4965,17 +5079,22 @@
     document.querySelectorAll("[data-cart-delivery]").forEach((el) => {
       const free = !empty && deliveryFee === 0;
       el.textContent = free ? t("مجاني") : egp(deliveryFee);
-      el.classList.toggle("text-lime", free);
+      // Same swap as the promo message above — "FREE" in 1.9:1 lime was the
+      // least readable word in the summary.
+      el.classList.toggle("text-heading", free);
       el.classList.toggle("font-bold", free);
     });
     /* "Add X more for free delivery" progress bar. Hidden on an empty basket;
        fills toward FREE_SHIP and flips to the success message once reached. */
     const toFree = Math.max(0, FREE_SHIP - sub);
     document.querySelectorAll("[data-freeship]").forEach((el) => (el.hidden = empty));
+    /* The fill is LIGHT green throughout (Ahmed, 2026-08-23). It used to paint
+       in `bg-cta` — the same near-black brand green as the primary buttons —
+       which made a progress bar read with the weight of a CTA and, on the cream
+       track, as a hard dark slab. The completed state no longer needs its own
+       colour either: the caption right above it already flips to the 🎉 line. */
     document.querySelectorAll("[data-freeship-fill]").forEach((el) => {
       el.style.width = (empty ? 0 : Math.min(100, (sub / FREE_SHIP) * 100)) + "%";
-      el.classList.toggle("bg-lime", toFree === 0);
-      el.classList.toggle("bg-cta", toFree !== 0);
     });
     document.querySelectorAll("[data-freeship-msg]").forEach((el) => {
       el.innerHTML =
@@ -5019,27 +5138,35 @@
     );
   }
 
+  /* Adding to the cart no longer FLIES anything (Ahmed, 2026-08-23: "remove
+     it and just animate the number in the floating cart").
+     
+     What is left is the landing, played immediately: the badge rolls to its new
+     number, the button takes a small squash and the glyph pulses. That was
+     always the part carrying the message — the flight was a way of pointing at
+     it, and pointing costs ~600ms during which the shopper cannot press the
+     button again without the animation stacking.
+
+     `sourceEl` and `opts.from` are still accepted so the ~dozen call sites need
+     no change, and `flyTo` itself is left in place: the product-page story ride
+     still uses it, and it is the obvious thing to call again if the flight is
+     ever wanted back.
+
+     badgeHold is what deferred the badge repaint until a flight landed. With
+     nothing in the air there is nothing to defer, so it stays at 0 and the
+     ordinary `if (!badgeHold) syncCartBadges()` path just runs. */
   function throwToCart(sourceEl, opts) {
     const target = visibleCartButton();
     const onLand = opts && opts.onLand;
-    if (!sourceEl || !target || reduceMotion()) {
-      if (onLand) onLand();
-      return false;
-    }
-    badgeHold++;
-    flyTo(sourceEl, target, null, opts).then(() => {
-      if (onLand) onLand();
-      badgeHold = Math.max(0, badgeHold - 1);
-      if (badgeHold) return;
-      // syncCartBadges rolls the badge to its new number, so the badge is not
-      // ALSO pulsed — a pulse started a frame later would take over the
-      // transform and cut the roll off mid-slide. The button itself takes the
-      // catch instead: a small squash, plus the glyph's pulse.
-      syncCartBadges();
-      squash(target);
-      const glyph = target.querySelector("[data-cart-glyph]");
-      if (glyph) pulse(glyph);
-    });
+    if (onLand) onLand();
+    if (!target || reduceMotion()) return false;
+    // The badge rolls, so it is not ALSO pulsed — a pulse started a frame later
+    // would take over the transform and cut the roll off mid-slide. The button
+    // takes the catch instead.
+    syncCartBadges();
+    squash(target);
+    const glyph = target.querySelector("[data-cart-glyph]");
+    if (glyph) pulse(glyph);
     return true;
   }
 
@@ -5653,7 +5780,14 @@
       const RESEND_COOLDOWN = 30;
       const resendBtn = otpForm.querySelector("[data-resend-otp]");
       if (resendBtn) {
-        const baseLabel = resendBtn.textContent.trim();
+        /* Capture the ARABIC source string, and run it through t() at every
+           write (Ahmed, 2026-08-23). initAuthUI runs before applyLangToContent
+           in boot(), so this reads the markup's Arabic — which is exactly what
+           we want as a translation KEY, and exactly what we must not print. The
+           old code cached the raw label and wrote it straight back when the
+           cooldown expired, so an English visitor watched the button count down
+           in English and then flip to "إعادة إرسال الرمز". */
+        const baseKey = resendBtn.textContent.trim();
         let resendTimer = null;
         const cooldown = (secs) => {
           let left = secs;
@@ -5665,7 +5799,7 @@
               resendTimer = null;
               resendBtn.disabled = false;
               resendBtn.classList.remove("opacity-50", "pointer-events-none");
-              resendBtn.textContent = baseLabel;
+              resendBtn.textContent = t(baseKey);
               return;
             }
             resendBtn.textContent =
@@ -5685,10 +5819,32 @@
       }
     }
 
-    // Verify-email button on the dashboard banner.
+    /* Verify-email — the dashboard banner AND the profile page's email row
+       (Ahmed, 2026-08-23). Auth.verifyEmail() only returns true when there was
+       genuinely an unverified email to flip, so the row is repainted
+       unconditionally: on the profile page the demo identity carries no
+       emailVerified flag at all, and the row would otherwise sit on "غير مؤكد"
+       forever no matter how many times the button was pressed. */
+    const paintEmailRow = () => {
+      document.querySelectorAll("[data-email-row]").forEach((row) => {
+        const verified = !(Auth.user() && Auth.user().emailVerified === false);
+        row.querySelectorAll("[data-email-state]").forEach((el) => {
+          el.hidden = (el.dataset.emailState === "verified") !== verified;
+        });
+      });
+    };
+    document.addEventListener("auth:change", paintEmailRow);
+
     document.querySelectorAll("[data-verify-email]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        if (Auth.verifyEmail()) toast(t("تم تأكيد بريدك الإلكتروني بنجاح"));
+        Auth.verifyEmail();
+        const row = btn.closest("[data-email-row]");
+        if (row) {
+          row.querySelectorAll("[data-email-state]").forEach((el) => {
+            el.hidden = el.dataset.emailState !== "verified";
+          });
+        }
+        toast(t("تم تأكيد بريدك الإلكتروني بنجاح"));
       });
     });
 
@@ -5743,7 +5899,7 @@
     const sWhole = c ? "text-[16px]" : "text-[24px]";
     const titleCls = c ? "text-sm line-clamp-2 min-h-[2.5em]" : "text-lg";
     return `
-      <article class="product-widget carousel-slide ${width} shrink-0 snap-start"
+      <article class="product-widget${c ? " product-widget--sm" : ""} carousel-slide ${width} shrink-0 snap-start"
                data-product data-id="${id}" data-name="${name}" data-price="${price}" data-image="${esc(p.image || "")}">
         <div class="relative">
           <a href="product-${id}.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
@@ -5761,7 +5917,7 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-col ${pad}">
+        <div class="product-widget__body flex flex-col ${pad}">
           <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep ${bSh} ${bPad} ${bRad} text-white latin">
             <span class="${sEGP} leading-[1.4]">EGP</span>
             <span class="${sWhole} leading-[1.2]">${whole}</span>
@@ -6238,6 +6394,226 @@
      both the native <option>s and these rows translated. We only re-sync the
      trigger's own label text, on every kInit, from the already-translated row.
      --------------------------------------------------------------- */
+  /* ---------------------------------------------------------------
+     Dropdown (design system) — replaces the native <select> popup
+     (Ahmed, 2026-08-23)
+
+     Progressive enhancement rather than a component every caller has to adopt:
+     this upgrades any `select.select-control` in place, so the checkout's city
+     / district / area, the profile form and the address modal's selects — which
+     scripts.js writes at runtime, long after any build step — are all covered
+     without a single call site changing, and any future one is covered the day
+     it is written.
+
+     The native <select> is kept, not replaced. It is what submits, what
+     `required` validates against, what external code reads and writes, and what
+     a no-JS visit gets. Everything here is a skin over it: picking a row writes
+     the value back and fires `change`, so nothing downstream can tell the
+     difference.
+
+     Motion and structure follow the reference Ahmed supplied; the timings live
+     in styles.css (.dd) next to the rest of the field styling.
+     --------------------------------------------------------------- */
+  const DD_CHECK = '<span class="dd__opt-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+  const DD_CHEV = '<span class="dd__chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+
+  function upgradeSelect(select) {
+    if (select.dataset.ddReady) return;
+    select.dataset.ddReady = "1";
+
+    const box = document.createElement("div");
+    box.className = "dd";
+    box.setAttribute("data-dd", "");
+    box.setAttribute("data-state", "closed");
+    select.parentNode.insertBefore(box, select);
+    box.appendChild(select);
+    select.classList.add("dd__native");
+    // The listbox below replaces it in the a11y tree; leaving both exposed
+    // would announce every field twice.
+    select.setAttribute("aria-hidden", "true");
+    select.tabIndex = -1;
+
+    const trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.className = "dd__trigger";
+    trigger.setAttribute("aria-haspopup", "listbox");
+    trigger.setAttribute("aria-expanded", "false");
+    // Point the trigger at the same <label for=…> the select had, so clicking
+    // the label still opens the control and the accessible name survives.
+    const lbl = select.id ? document.querySelector('label[for="' + CSS.escape(select.id) + '"]') : null;
+    if (lbl) {
+      if (!lbl.id) lbl.id = "ddl-" + Math.abs(hashStr(select.id || select.name || "dd")).toString(36);
+      trigger.setAttribute("aria-labelledby", lbl.id);
+    } else if (select.getAttribute("aria-label")) {
+      trigger.setAttribute("aria-label", select.getAttribute("aria-label"));
+    }
+    trigger.innerHTML = '<span class="dd__value"></span>' + DD_CHEV;
+
+    const pop = document.createElement("ul");
+    pop.className = "dd__pop";
+    pop.setAttribute("role", "listbox");
+    pop.tabIndex = -1;
+
+    // The travelling hover fill. One element for the whole list; setActive
+    // moves it. Kept out of buildRows so it survives the list being rebuilt.
+    const marker = document.createElement("span");
+    marker.className = "dd__marker";
+    marker.setAttribute("aria-hidden", "true");
+
+    box.appendChild(trigger);
+    box.appendChild(pop);
+
+    let rows = [];
+
+    // Built from the <option>s every time, because several of these selects are
+    // REPOPULATED at runtime (picking a governorate rewrites the area list), and
+    // a list built once would keep offering the previous city's districts.
+    function buildRows() {
+      pop.innerHTML = "";
+      pop.appendChild(marker);
+      rows = [...select.options].map((opt, i) => {
+        const li = document.createElement("li");
+        li.className = "dd__opt";
+        li.setAttribute("role", "option");
+        li.dataset.value = opt.value;
+        // The stagger is CAPPED. The reference staggers four items, where 30ms
+        // apart is a cascade; the governorate list is 28 long, where it would
+        // be a 0.8s crawl and the last rows would still be arriving after the
+        // shopper had started reading. Past the ninth row they all land
+        // together, which still reads as one cascade because the rows below the
+        // fold are scrolled to, not watched.
+        li.style.setProperty("--i", Math.min(i, 8));
+        li.innerHTML = DD_CHECK + '<span class="dd__opt-text"></span>';
+        li.querySelector(".dd__opt-text").textContent = opt.textContent;
+        pop.appendChild(li);
+        return li;
+      });
+      sync();
+    }
+
+    function sync() {
+      const opt = select.options[select.selectedIndex] || select.options[0];
+      const val = trigger.querySelector(".dd__value");
+      val.textContent = opt ? opt.textContent : "";
+      // An empty value is the "اختر" placeholder, which is a prompt and should
+      // not be painted as if something had been chosen.
+      val.classList.toggle("is-placeholder", !opt || opt.value === "");
+      rows.forEach((li) =>
+        li.setAttribute("aria-selected", li.dataset.value === select.value ? "true" : "false"));
+    }
+
+    const isOpen = () => box.getAttribute("data-state") === "open";
+
+    function onOutside(e) { if (!box.contains(e.target)) close(false); }
+
+    function open() {
+      if (isOpen()) return;
+      box.setAttribute("data-state", "open");
+      trigger.setAttribute("aria-expanded", "true");
+      document.addEventListener("pointerdown", onOutside, true);
+      const sel = rows.find((li) => li.getAttribute("aria-selected") === "true") || rows[0];
+      setActive(sel || null);
+      if (sel) sel.scrollIntoView({ block: "nearest" });
+    }
+    function close(focusTrigger) {
+      if (!isOpen()) return;
+      box.setAttribute("data-state", "closed");
+      trigger.setAttribute("aria-expanded", "false");
+      document.removeEventListener("pointerdown", onOutside, true);
+      setActive(null);
+      if (focusTrigger) trigger.focus();
+    }
+    function setActive(li) {
+      rows.forEach((r) => r.classList.toggle("is-active", r === li));
+      if (!li) { marker.style.opacity = "0"; return; }
+      // The FIRST placement must not animate: with the marker parked at the top
+      // of the list at height 0, sliding into place would look like the fill
+      // dropping in from the panel's edge every time the menu opens. Only the
+      // moves BETWEEN rows are the effect that was asked for, so the first one
+      // is applied with transitions off and they are restored a frame later.
+      const first = marker.style.opacity !== "1";
+      if (first) marker.style.transition = "none";
+      marker.style.setProperty("--y", li.offsetTop + "px");
+      marker.style.height = li.offsetHeight + "px";
+      marker.style.opacity = "1";
+      if (first) { void marker.offsetWidth; marker.style.transition = ""; }
+    }
+    function choose(li) {
+      if (!li) return;
+      if (select.value !== li.dataset.value) {
+        select.value = li.dataset.value;
+        // Bubbling, because the address modal listens on an ancestor to
+        // repopulate the next select down.
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+      sync();
+      close(true);
+    }
+
+    trigger.addEventListener("click", () => (isOpen() ? close(false) : open()));
+    pop.addEventListener("click", (e) => {
+      const li = e.target.closest(".dd__opt");
+      if (li) choose(li);
+    });
+    pop.addEventListener("mousemove", (e) => {
+      const li = e.target.closest(".dd__opt");
+      if (li) setActive(li);
+    });
+    // Leaving the list sends the fill back to whatever is actually selected,
+    // rather than stranding it on the last row the pointer crossed.
+    pop.addEventListener("mouseleave", () => {
+      if (!isOpen()) return;
+      setActive(rows.find((li) => li.getAttribute("aria-selected") === "true") || null);
+    });
+
+    // Keyboard: the control is a button, so it owns the keys while closed too.
+    box.addEventListener("keydown", (e) => {
+      const k = e.key;
+      if (!isOpen()) {
+        if (k === "ArrowDown" || k === "ArrowUp" || k === "Enter" || k === " ") {
+          e.preventDefault();
+          open();
+        }
+        return;
+      }
+      const active = rows.find((r) => r.classList.contains("is-active"));
+      const at = rows.indexOf(active);
+      if (k === "Escape") { e.preventDefault(); close(true); }
+      else if (k === "ArrowDown") { e.preventDefault(); setActive(rows[Math.min(rows.length - 1, at + 1)] || rows[0]); scrollActive(); }
+      else if (k === "ArrowUp") { e.preventDefault(); setActive(rows[Math.max(0, at - 1)] || rows[0]); scrollActive(); }
+      else if (k === "Home") { e.preventDefault(); setActive(rows[0]); scrollActive(); }
+      else if (k === "End") { e.preventDefault(); setActive(rows[rows.length - 1]); scrollActive(); }
+      else if (k === "Enter" || k === " ") { e.preventDefault(); choose(active); }
+      else if (k === "Tab") close(false);
+    });
+    function scrollActive() {
+      const a = rows.find((r) => r.classList.contains("is-active"));
+      if (a) a.scrollIntoView({ block: "nearest" });
+    }
+
+    // Someone else writing to the select — the address modal repopulating it,
+    // a saved address being applied, a form reset — has to move the skin too.
+    select.addEventListener("change", sync);
+    try {
+      new MutationObserver(buildRows).observe(select, { childList: true });
+    } catch (err) { /* option list simply stays as first built */ }
+
+    buildRows();
+  }
+
+  function hashStr(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) | 0;
+    return h;
+  }
+
+  /* Idempotent and safe to re-run: upgradeSelect no-ops on anything it has
+     already done, so this is called again after any markup that ships its own
+     selects is injected. */
+  function initDropdowns(scope) {
+    (scope || document).querySelectorAll("select.select-control").forEach(upgradeSelect);
+  }
+
   function initFancySelect(scope) {
     scope.querySelectorAll("[data-fancy-select]").forEach((box) => {
       const select = box.querySelector("select");
@@ -6282,6 +6658,9 @@
         sizeNative();
       };
 
+      // Same capped stagger as the design-system dropdown.
+      items.forEach((li, i) => li.style.setProperty("--i", Math.min(i, 8)));
+
       if (box.dataset.fancyReady) {
         sync();
         return;
@@ -6299,12 +6678,18 @@
       select.addEventListener("change", sizeNative);
       sizeNative();
 
-      const isOpen = () => !pop.classList.contains("hidden");
+      // State lives on the BOX as data-state, not as `hidden` on the popup, so
+      // the panel keeps its box while it fades out — the same reason the design
+      // system dropdown does it (see .dd in styles.css). `hidden` is removed
+      // once here; from then on visibility is the CSS's business.
+      pop.classList.remove("hidden");
+      box.setAttribute("data-state", "closed");
+      const isOpen = () => box.getAttribute("data-state") === "open";
       function onOutside(e) {
         if (!box.contains(e.target)) close(false);
       }
       const open = () => {
-        pop.classList.remove("hidden");
+        box.setAttribute("data-state", "open");
         trigger.setAttribute("aria-expanded", "true");
         (
           items.find((li) => li.getAttribute("aria-selected") === "true") ||
@@ -6313,7 +6698,7 @@
         document.addEventListener("pointerdown", onOutside, true);
       };
       const close = (focusTrigger) => {
-        pop.classList.add("hidden");
+        box.setAttribute("data-state", "closed");
         trigger.setAttribute("aria-expanded", "false");
         document.removeEventListener("pointerdown", onOutside, true);
         if (focusTrigger) trigger.focus();
@@ -6841,8 +7226,14 @@
    * Addresses — the same contract as the cart and favourites stores: seeded
    * from the page's two demo addresses, persisted under jaad:addresses,
    * and the grid re-rendered from state on every change. Exactly one address
-   * is main at all times: setting a new main clears the old one, deleting
-   * the main promotes the first survivor.
+   * is the DEFAULT at all times: setting a new default clears the old one,
+   * deleting the default promotes the first survivor.
+   *
+   * The stored flag is still called `main` — renaming a persisted key would
+   * silently orphan every address already saved in a shopper's browser. Only
+   * the WORD in the UI changed (Ahmed, 2026-08-23): "default" is what this
+   * actually means — the address a new order starts with — where "main"
+   * suggested a hierarchy of addresses that does not exist.
    */
   const ADDR_KEY = "jaad:addresses";
   const ADDR_SEED = [
@@ -6870,17 +7261,41 @@
     renderAddresses();
   }
 
+  /* One card. The "default address" state is a SWITCH now (Ahmed, 2026-08-23),
+     not the read-only cream pill it used to be: the pill told you which address
+     was the default and gave you no way to change it — the only route was to
+     open Edit, find a checkbox in the form and save. Setting your default is a
+     one-tap decision, so it is one tap.
+
+     The switch is the same `[data-switch] + .switch` control the wallet and
+     gift toggles use, so it inherits their painted states and keyboard support.
+     The default's own switch is `disabled`: turning it OFF would leave the list
+     with no default at all, and the honest answer to "what happens then" is
+     "you pick a different one instead", which is exactly what the other cards'
+     switches are for. */
   function addressCardHTML(a) {
     return `
       <div class="flex flex-col gap-4 bg-white shadow-custom4 p-6 rounded-[20px]" data-address-card data-id="${esc(a.id)}">
         <div class="flex justify-between items-center gap-3">
-          <h3 class="font-bold text-ink text-base">${esc(a.label)}</h3>
+          <h3 class="font-bold text-ink text-base">${esc(t(a.label))}</h3>
         </div>
+        <!-- t() on the stored VALUES, not just the chrome (Ahmed, 2026-08-23).
+             The seed is Arabic, the grid re-renders from the store on every
+             change, and the translation pass has long since finished by then —
+             so an English visitor who touched any address (and, now that the
+             default is a toggle, that is a one-tap action) watched the two demo
+             addresses flip back into Arabic. Anything the shopper typed
+             themselves simply has no dictionary entry and passes through
+             unchanged, which is the correct behaviour for a real address. -->
         <div class="flex flex-col gap-1 text-muted text-sm">
-          <span>${esc(a.line1)}</span><span>${esc(a.line2)}</span>
+          <span>${esc(t(a.line1))}</span><span>${esc(t(a.line2))}</span>
         </div>
-        ${a.main ? `<span class="bg-cream px-3 py-1 rounded-full font-semibold text-primary text-xs self-start">${esc(t("العنوان الرئيسي"))}</span>` : ""}
-        <div class="flex gap-2 mt-auto">
+        <label class="flex justify-between items-center gap-3 mt-auto pt-4 border-divider border-t ${a.main ? "" : "cursor-pointer"}">
+          <span class="font-semibold ${a.main ? "text-ink" : "text-muted"} text-sm">${esc(t("العنوان الافتراضي"))}</span>
+          <input type="checkbox" data-switch data-address-default class="sr-only"${a.main ? " checked disabled" : ""} />
+          <span class="switch shrink-0" aria-hidden="true"><span class="switch__knob"></span></span>
+        </label>
+        <div class="flex gap-2">
           <button type="button" data-address-edit class="hover:bg-cream px-4 py-1.5 border border-divider rounded-full font-semibold text-ink text-xs transition-colors">${esc(t("تعديل"))}</button>
           <button type="button" data-address-remove class="px-4 py-1.5 font-semibold text-error text-xs">${esc(t("حذف"))}</button>
         </div>
@@ -6904,7 +7319,8 @@
     form.elements.line1.value = addr ? addr.line1 : "";
     form.elements.line2.value = addr ? addr.line2 : "";
     form.elements.main.checked = addr ? !!addr.main : false;
-    // The main address cannot demote itself — there would be no main left.
+    // The default address cannot demote itself — there would be no default
+    // left. Pick a different card's switch instead.
     form.elements.main.disabled = !!(addr && addr.main);
     const title = document.querySelector("[data-address-form-title]");
     if (title) title.textContent = addr ? t("تعديل العنوان") : t("اضف عنوان");
@@ -6915,6 +7331,21 @@
   function initAddresses() {
     if (!document.querySelector("[data-addresses-grid]")) return;
     renderAddresses();
+
+    /* The default switch. `change`, not the click delegation below — a label
+       wrapping a checkbox fires click twice (once for the label, once for the
+       input it forwards to), and a click handler would toggle the state and
+       then toggle it straight back. */
+    document.addEventListener("change", (e) => {
+      const sw = e.target.closest("[data-address-default]");
+      if (!sw) return;
+      const host = sw.closest("[data-address-card]");
+      if (!host) return;
+      const list = addrAll();
+      list.forEach((a) => (a.main = a.id === host.dataset.id));
+      addrWrite(list);
+      toast(t("تم تعيين العنوان الافتراضي"));
+    });
 
     document.addEventListener("click", (e) => {
       if (e.target.closest("[data-address-add]")) {
@@ -6930,7 +7361,7 @@
         openAddressForm(addr);
       } else if (e.target.closest("[data-address-remove]")) {
         addrWrite(list.filter((a) => a.id !== addr.id));
-        toast("تم حذف العنوان");
+        toast(t("تم حذف العنوان"));
       }
     });
 
@@ -6954,7 +7385,7 @@
       else list.push(entry);
       addrWrite(list);
       closeOverlay();
-      toast(id ? "تم تعديل العنوان" : "تمت إضافة العنوان");
+      toast(t(id ? "تم تعديل العنوان" : "تمت إضافة العنوان"));
     });
   }
 
@@ -7008,6 +7439,7 @@
     initPasswordReveals(scope);
     initListing(scope);
     initFancySelect(scope);
+    initDropdowns(scope);
     initReveal(scope);
     initCategoryReveal(scope);
   };
@@ -7396,14 +7828,41 @@
 
     const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
     let current = -1;
-    let ticking = false;
+    let target = 0;
+    let shown = 0;
+    let raf = 0;
 
-    function frame() {
-      ticking = false;
+    // The same damped chase the timeline below uses (see initAboutTimeline for
+    // the full reasoning): the target tracks scroll exactly, the drawn value
+    // eases toward it, and the few frames of lag are what read as weight rather
+    // than as a value being dragged by the wheel. Both sections on this page
+    // move on the one rule, so the page has a single feel instead of two.
+    // Lower is heavier: each frame closes this much of the remaining distance,
+    // so 0.06 lags further behind the wheel and settles more slowly than 0.085
+    // did (Ahmed, 2026-08-23: "make the scroll ease a little"). This is the one
+    // number to turn if the page feels floaty or snappy - both sections read it,
+    // so they stay in step with each other whatever it is set to.
+    const EASE = 0.06;
+    const SNAP = 0.0004;
+
+    function readTarget() {
       const rect = section.getBoundingClientRect();
       const span = Math.max(1, section.offsetHeight - window.innerHeight);
       // 0 when the section's top reaches the viewport top, 1 at its end.
-      const g = clamp01(-rect.top / span);
+      target = clamp01(-rect.top / span);
+      kick();
+    }
+    function tick() {
+      raf = 0;
+      const diff = target - shown;
+      if (Math.abs(diff) < SNAP) shown = target;
+      else shown += diff * EASE;
+      paint(shown);
+      if (shown !== target) kick();
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(tick); }
+
+    function paint(g) {
 
       // Which chapter owns this scroll position. The last chapter keeps the
       // stage through the run-out rather than blanking at exactly g === 1.
@@ -7430,10 +7889,268 @@
       if (media) media.style.transform = "scale(" + (1 + local * 0.03).toFixed(4) + ")";
     }
 
-    function schedule() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule, { passive: true });
-    frame();
+    window.addEventListener("scroll", readTarget, { passive: true });
+    window.addEventListener("resize", readTarget, { passive: true });
+    // Land on the real value for the first paint rather than easing up from
+    // zero — a page opened part-way down should not animate itself in.
+    readTarget();
+    shown = target;
+    paint(shown);
+  }
+
+  /* ---------------------------------------------------------------
+     About — the timeline vector ("الطريق إلى جاد", Ahmed, 2026-08-23)
+
+     Draws the meandering path in as the section scrolls, rides a dot on the
+     drawn end, and wakes each milestone as the line reaches its node.
+
+     The scrub window is deliberately NOT the section's own box. A timeline is
+     read top to bottom while it crosses the screen, so progress runs from "the
+     section's top has just reached the bottom of the viewport" to "its bottom
+     has just left the top" — the whole time any part of it is on screen. Using
+     the section box alone would finish the drawing while the last milestone was
+     still below the fold.
+
+     The head dot is placed through the SVG's own screen CTM rather than by
+     arithmetic on the viewBox: `preserveAspectRatio="none"` scales x and y by
+     different factors, and the CTM already carries both, so the browser does
+     the mapping and there is nothing here to drift out of step with the CSS.
+
+     Inert without [data-about-timeline], and a full no-op under reduced motion,
+     where the CSS hands over a drawn line and visible rows.
+     --------------------------------------------------------------- */
+  function initAboutTimeline() {
+    const section = document.querySelector("[data-about-timeline]");
+    if (!section) return;
+    if (reduceMotion()) return;          // CSS renders the drawn, static version
+
+    const path = section.querySelector("[data-time-path]");
+    const head = section.querySelector("[data-time-head]");
+    const rows = [...section.querySelectorAll("[data-time-row]")];
+    if (!path || !rows.length) return;
+
+    const body = section.querySelector(".about-time__body") || section;
+    const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+    let len = 0;
+    let target = 0;   // where the scroll says we are
+    let shown = 0;    // where the drawing actually is, chasing it
+    let raf = 0;
+
+    // Re-author the path in PIXEL space and match the viewBox to it 1:1.
+    //
+    // The server-rendered path is in a 100-wide, 100-per-row viewBox stretched
+    // over the band with preserveAspectRatio="none". That renders correctly and
+    // is the right thing to ship for a no-JS visit, but it cannot be DASHED
+    // correctly: `vector-effect: non-scaling-stroke` moves the stroke — dash
+    // pattern included — into screen space, while getTotalLength() stays in
+    // user units. The two disagree by whatever the stretch factor is, so a dash
+    // array of "the path's length" repeats several times down the band and the
+    // line paints in stripes instead of drawing in once.
+    //
+    // Making the viewBox the band's own pixel box removes the disagreement at
+    // the source: one user unit is one pixel, the stretch factor is 1, and the
+    // measured length is the drawn length. It also means the node maths is the
+    // same on both sides — a row is H/n tall here and in the CSS grid.
+    // How far the line swings away from the straight run between two nodes, as
+    // a fraction of the band's width. Big on purpose (Ahmed, 2026-08-23): the
+    // reference's paths leave one point, sweep most of the way across, and come
+    // back to the next.
+    const SWING = 0.34;
+    // Never let the curve reach the band's edge - a line that touches it reads
+    // as a mistake rather than a flourish. Proportional rather than a flat
+    // 24px: on the phone's 64px gutter a fixed inset ate most of the room the
+    // swing had to work in and flattened the line to nearly straight.
+    const edgeFor = (w) => Math.min(24, w * 0.12);
+
+    // The path is a CATMULL-ROM SPLINE through a list of points, converted to
+    // cubic beziers, rather than a hand-placed curve per pair of nodes.
+    //
+    // The reason is the corner (Ahmed, 2026-08-23: "I don't want a sharp
+    // angle"). The old version ran a straight vertical lead-in down to the
+    // first node and then left it with both control points off to one side,
+    // i.e. arriving vertically and departing horizontally — a 90° corner at
+    // exactly the most visible node on the page. Node-to-node happened to be
+    // smooth, because the lobe flipped sign and left the two control points
+    // collinear through the node, but that was luck rather than a property.
+    //
+    // A Catmull-Rom spline has the property instead of getting lucky: each
+    // point's tangent is set from its NEIGHBOURS, so every join is C1
+    // continuous by construction — including the first and the last. Nothing in
+    // here can produce a corner.
+    //
+    // The wander comes from the point list, not from bent controls: between
+    // each pair of nodes a MIDPOINT is pushed far out to alternating sides, and
+    // the spline flows through it. Pushed far enough the curve overshoots into
+    // the long, looping sweep the reference has.
+    // Where the node dots actually ARE, measured from the DOM rather than
+    // recomputed from a copy of the layout maths. The dots are placed by CSS
+    // and move between breakpoints (a narrow gutter on phones, alternating
+    // 44px either side of centre from md); measuring them means the line cannot
+    // drift out of register with them at any width, and it is why RTL needs no
+    // special case here.
+    function nodePoints(box) {
+      return rows.map((row) => {
+        const d = row.querySelector(".about-time__dot").getBoundingClientRect();
+        return { x: d.left + d.width / 2 - box.left, y: d.top + d.height / 2 - box.top };
+      });
+    }
+
+    function splinePath(pts) {
+      // Duplicate the ends so the first and last segments have neighbours to
+      // take their tangent from.
+      const p = [pts[0]].concat(pts, [pts[pts.length - 1]]);
+      const cmds = ["M" + r(pts[0].x) + " " + r(pts[0].y)];
+      for (let i = 1; i < p.length - 2; i++) {
+        const p0 = p[i - 1], p1 = p[i], p2 = p[i + 1], p3 = p[i + 2];
+        // The /6 is the standard Catmull-Rom to bezier conversion; it is what
+        // makes the curve pass THROUGH every point rather than near it.
+        const c1x = p1.x + (p2.x - p0.x) / 6, c1y = p1.y + (p2.y - p0.y) / 6;
+        const c2x = p2.x - (p3.x - p1.x) / 6, c2y = p2.y - (p3.y - p1.y) / 6;
+        cmds.push("C" + r(c1x) + " " + r(c1y) + ", " + r(c2x) + " " + r(c2y) + ", " + r(p2.x) + " " + r(p2.y));
+      }
+      return cmds;
+    }
+    const r = (v) => Math.round(v * 10) / 10;
+
+    // The point list: an entry point above the first node, then every node with
+    // a swung midpoint between consecutive ones, then an exit below the last.
+    // The entry and exit are offset sideways too — a lead-in that came straight
+    // down would give the first node a vertical tangent and put the corner back.
+    function pointsFor(nodes, w, h) {
+      const edge = edgeFor(w);
+      const clampX = (v) => (v < edge ? edge : v > w - edge ? w - edge : v);
+      const first = nodes[0];
+      const last = nodes[nodes.length - 1];
+      const pts = [{ x: clampX(first.x + w * SWING * 0.5), y: -h * 0.04 }];
+      for (let i = 0; i < nodes.length; i++) {
+        pts.push(nodes[i]);
+        if (i < nodes.length - 1) {
+          const b = nodes[i + 1];
+          const lobe = (i % 2 === 0 ? 1 : -1) * w * SWING;
+          pts.push({ x: clampX((nodes[i].x + b.x) / 2 + lobe), y: (nodes[i].y + b.y) / 2 });
+        }
+      }
+      pts.push({ x: clampX(last.x - w * SWING * 0.5), y: h + h * 0.04 });
+      return pts;
+    }
+
+    // Where each node lands in that list: entry, then node, midpoint, node, …
+    // so node i is at index 1 + 2i. The command that ENDS at list index k is
+    // cmds[k] (cmds[0] is the M), so the prefix through node i is the first
+    // 2 + 2i commands.
+    const nodeCmdCount = (i) => 2 + 2 * i;
+
+    // How far along the path each node sits, as a fraction of the whole. Not
+    // (i + 0.5) / n: the path carries a lead-in from the top edge down to the
+    // first node and a run-out from the last one to the bottom, and each swung
+    // segment is far longer than the vertical distance it covers. Guessing
+    // would light the milestones out of step with the line that is supposed to
+    // be reaching them, which is the one thing this section has to get right.
+    //
+    // A detached <path> is enough to measure a prefix — it never enters the
+    // document.
+    let nodeAt = [];
+    function measureNodes(cmds, total) {
+      const probe = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      nodeAt = rows.map((_row, i) => {
+        probe.setAttribute("d", cmds.slice(0, nodeCmdCount(i)).join(" "));
+        return probe.getTotalLength() / total;
+      });
+    }
+
+    function measure() {
+      const svg = path.ownerSVGElement;
+      const box = svg.getBoundingClientRect();
+      const w = Math.max(1, Math.round(box.width));
+      const h = Math.max(1, Math.round(box.height));
+      const cmds = splinePath(pointsFor(nodePoints(box), w, h));
+      const d = cmds.join(" ");
+      svg.setAttribute("viewBox", "0 0 " + w + " " + h);
+      svg.querySelectorAll("path").forEach((el) => el.setAttribute("d", d));
+      len = path.getTotalLength();
+      path.style.setProperty("--len", len);
+      measureNodes(cmds, len);
+    }
+
+    // Scroll position -> the raw progress the page is actually at.
+    function readTarget() {
+      const rect = body.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Span: from first-touch at the bottom edge to last-exit past the top.
+      const span = Math.max(1, rect.height + vh);
+      const p = clamp01((vh - rect.top) / span);
+      // A short lead-in and run-out, so the line is not already drawing before
+      // the heading is on screen and is fully drawn a little before the section
+      // leaves — the last milestone should be readable while its dot is lit.
+      target = clamp01((p - 0.12) / 0.66);
+      kick();
+    }
+
+    // The drawn progress CHASES the scrolled progress rather than equalling it
+    // (Ahmed, 2026-08-23: "smoother slightly slower ... like the framer site").
+    //
+    // Scrubbing an animation directly off scrollTop makes it exactly as smooth
+    // as the input, and a wheel or a trackpad flick is not smooth - it arrives
+    // in jumps, so the line jumps with it. Framer's scroll-linked animations do
+    // not do that because they run the value through a spring: the target moves
+    // instantly, the rendered value eases toward it over a few frames, and the
+    // small lag is what reads as weight.
+    //
+    // This is that, as a critically-damped chase: each frame closes EASE of the
+    // remaining distance, so it converges quickly without overshoot. Lower is
+    // heavier and slower. It also means the animation keeps running for a few
+    // frames AFTER the scroll stops, which is exactly the settle the reference
+    // has and a direct scrub cannot.
+    // Lower is heavier: each frame closes this much of the remaining distance,
+    // so 0.06 lags further behind the wheel and settles more slowly than 0.085
+    // did (Ahmed, 2026-08-23: "make the scroll ease a little"). This is the one
+    // number to turn if the page feels floaty or snappy - both sections read it,
+    // so they stay in step with each other whatever it is set to.
+    const EASE = 0.06;
+    const SNAP = 0.0004;   // close enough to land on, rather than chase forever
+
+    function tick() {
+      raf = 0;
+      const diff = target - shown;
+      if (Math.abs(diff) < SNAP) shown = target;
+      else shown += diff * EASE;
+      paint(shown);
+      if (shown !== target) kick();
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(tick); }
+
+    function paint(d) {
+      path.style.setProperty("--draw", (1 - d).toFixed(4));
+
+      rows.forEach((row, i) => {
+        row.classList.toggle("is-reached", d >= (nodeAt[i] === undefined ? (i + 0.5) / rows.length : nodeAt[i]));
+      });
+
+      if (head) {
+        if (d <= 0 || d >= 1) {
+          head.classList.remove("is-on");
+        } else {
+          const pt = path.getPointAtLength(len * d);
+          const m = path.getScreenCTM();
+          if (m) {
+            const sp = new DOMPoint(pt.x, pt.y).matrixTransform(m);
+            const host = body.getBoundingClientRect();
+            head.style.left = (sp.x - host.left) + "px";
+            head.style.top = (sp.y - host.top) + "px";
+            head.classList.add("is-on");
+          }
+        }
+      }
+    }
+
+    measure();
+    window.addEventListener("scroll", readTarget, { passive: true });
+    window.addEventListener("resize", () => { measure(); readTarget(); }, { passive: true });
+    // Land on the real value for the first paint rather than easing up from
+    // zero on load — a page opened part-way down should not animate itself in.
+    readTarget();
+    shown = target;
+    paint(shown);
   }
 
   /* Slow parallax on the About hero art. Same guards as the journey: opt-out
@@ -7530,31 +8247,27 @@
   }
 
   /* ---------------------------------------------------------------
-     Site-wide 3D icon concept swap (Ahmed, 2026-08-19)
-     Every 3D icon has an alternate-CONCEPT variant; the Green/Orange
-     toggle swaps them everywhere (dashboard, tracker, product story…),
-     not just a restyle. Base(green) → alt(orange). A MutationObserver
-     re-applies to icons injected after load (drawer, recent rail).
+     Icon concept swap (Ahmed, 2026-08-19; narrowed 2026-08-23)
+     The Green/Orange toggle swaps the four PRODUCT-BENEFIT icons for a
+     different metaphor per slot - leaf->select, bolt->cup, shield->serve,
+     delivery->parcel - so the idea changes, not just the styling.
+
+     It used to swap the fourteen account and tracker icons too, each to its
+     own `*-3d--alt.png`. That pairing existed because the old set came in two
+     rendered concepts; the clay set replacing it is ONE concept for the whole
+     site ("clay all"), so there is no second version of a wallet or a map pin
+     to swap to and those mappings are gone with the files. Both sides of the
+     four that remain are clay, so the toggle changes the metaphor without
+     changing the material.
+
+     A MutationObserver re-applies to icons injected after load (drawer,
+     recent rail).
      --------------------------------------------------------------- */
   const ICON_ALT = {
     "images/jaad/icons/spec-leaf.png": "images/jaad/icons/spec-select.png",
     "images/jaad/icons/spec-bolt.png": "images/jaad/icons/spec-cup.png",
     "images/jaad/icons/spec-shield.png": "images/jaad/icons/spec-serve.png",
     "images/jaad/icons/spec-delivery.png": "images/jaad/icons/spec-parcel.png",
-    "images/jaad/icons/wallet-3d.png": "images/jaad/icons/wallet-3d--alt.png",
-    "images/jaad/icons/points-3d.png": "images/jaad/icons/points-3d--alt.png",
-    "images/jaad/icons/discount-tag-3d.png": "images/jaad/icons/discount-tag-3d--alt.png",
-    "images/jaad/icons/orders-3d.png": "images/jaad/icons/orders-3d--alt.png",
-    "images/jaad/icons/voucher-3d.png": "images/jaad/icons/voucher-3d--alt.png",
-    "images/jaad/icons/profile-3d.png": "images/jaad/icons/profile-3d--alt.png",
-    "images/jaad/icons/otp-3d.png": "images/jaad/icons/otp-3d--alt.png",
-    "images/jaad/icons/home-3d.png": "images/jaad/icons/home-3d--alt.png",
-    "images/jaad/icons/favorites-3d.png": "images/jaad/icons/favorites-3d--alt.png",
-    "images/jaad/icons/addresses-3d.png": "images/jaad/icons/addresses-3d--alt.png",
-    "images/jaad/icons/track-placed-3d.png": "images/jaad/icons/track-placed-3d--alt.png",
-    "images/jaad/icons/track-preparing-3d.png": "images/jaad/icons/track-preparing-3d--alt.png",
-    "images/jaad/icons/track-transit-3d.png": "images/jaad/icons/track-transit-3d--alt.png",
-    "images/jaad/icons/track-delivered-3d.png": "images/jaad/icons/track-delivered-3d--alt.png",
   };
   const ICON_BASE = {};
   Object.keys(ICON_ALT).forEach((k) => { ICON_BASE[ICON_ALT[k]] = k; });
@@ -7680,6 +8393,190 @@
     });
   }
 
+  /* ---------------------------------------------------------------
+     Payment method — reveal the card form, and format what is typed into it
+
+     ⚠️ PROTOTYPE. These fields are a mock-up of a gateway screen; the real
+     one has to be the provider's hosted fields or iframe, so a card number
+     never lands in a Jaad-served input. See build/pages/payment.py's module
+     docstring. Nothing here validates, transmits or stores anything — it only
+     spaces the digits so the field is readable while the flow is reviewed.
+
+     The reveal is driven off the radios rather than CSS `:has()` so it also
+     fires for syncGiftRules(), which can move the selection off a blocked row
+     programmatically — a `change` event the radios do not emit on their own,
+     hence the explicit call at the end.
+     --------------------------------------------------------------- */
+  function initPaymentMethod() {
+    const box = document.querySelector("[data-card-fields]");
+    if (!box) return;
+    const radios = [...document.querySelectorAll('input[name="payment-method"]')];
+
+    function sync() {
+      const picked = radios.find((r) => r.checked);
+      const isCard = !!picked && picked.value === "card";
+      box.hidden = !isCard;
+      // A hidden fieldset must not be submitted or tabbed into.
+      box.querySelectorAll("input").forEach((i) => (i.disabled = !isCard));
+    }
+    radios.forEach((r) => r.addEventListener("change", sync));
+
+    /* Group the number in fours as it is typed. The caret is put back at the
+       end rather than preserved mid-string: this runs on `input`, and a naive
+       reformat otherwise throws the caret to position 0 on every keystroke. */
+    const num = box.querySelector("[data-card-number]");
+    if (num) {
+      num.addEventListener("input", () => {
+        const digits = num.value.replace(/\D/g, "").slice(0, 16);
+        num.value = digits.replace(/(.{4})/g, "$1 ").trim();
+      });
+    }
+    /* MM/YY — the slash is inserted, never typed. */
+    const exp = box.querySelector("[data-card-expiry]");
+    if (exp) {
+      exp.addEventListener("input", () => {
+        const digits = exp.value.replace(/\D/g, "").slice(0, 4);
+        exp.value = digits.length > 2 ? digits.slice(0, 2) + "/" + digits.slice(2) : digits;
+      });
+    }
+    const cvv = box.querySelector("#card-cvv");
+    if (cvv) {
+      cvv.addEventListener("input", () => {
+        cvv.value = cvv.value.replace(/\D/g, "").slice(0, 4);
+      });
+    }
+    sync();
+  }
+
+  /* ---------------------------------------------------------------
+     Order-placed celebration (thank-you page)
+
+     `celebrate()` above is the small twelve-dot beat that marks a discount on
+     a cart. Placing an order is the one genuinely big moment in the whole
+     flow, and the page marked it with a green tick and nothing else (Ahmed,
+     2026-08-23) — so this is the larger sibling: a short confetti fall across
+     the width of the page, plus a pop on the tick itself.
+
+     Deliberately still restrained, and it obeys the same three rules as every
+     other bit of motion here:
+       * it runs ONCE, on arrival, and never again — no loop to sit under
+         someone reading their order number;
+       * it is `position: fixed` under a `pointer-events: none` wrapper, so no
+         ancestor's overflow clips it and nothing it drops can swallow a click;
+       * reduced motion (or a browser without Element.animate) skips it
+         entirely. The tick and the "تم تقديم طلبك بنجاح" line are the real
+         confirmation; this only dresses them.
+     --------------------------------------------------------------- */
+  function initOrderCelebration() {
+    const host = document.querySelector("[data-order-celebrate]");
+    if (!host) return;
+    const badge = host.querySelector("[data-order-check]");
+    if (badge) pulse(badge);
+    if (reduceMotion() || !document.body.animate) return;
+
+    const wrap = document.createElement("div");
+    wrap.setAttribute("aria-hidden", "true");
+    wrap.style.cssText =
+      "position:fixed;inset:0;z-index:60;pointer-events:none;overflow:hidden";
+    // Brand greens + the lime and cream that already carry "good news" here.
+    const colors = ["#006328", "#618F2B", "#8ACC3E", "#98CA55", "#EA983E", "#FDF8F1"];
+    const N = 44;
+    for (let i = 0; i < N; i++) {
+      const bit = document.createElement("span");
+      const round = i % 3 === 0;
+      const w = round ? 8 : 6 + Math.random() * 5;
+      const h = round ? 8 : 10 + Math.random() * 6;
+      bit.style.cssText =
+        "position:absolute;top:-24px;left:" + (Math.random() * 100).toFixed(2) + "%;" +
+        "width:" + w.toFixed(1) + "px;height:" + h.toFixed(1) + "px;" +
+        "border-radius:" + (round ? "9999px" : "2px") + ";" +
+        "background:" + colors[i % colors.length] + ";opacity:0";
+      wrap.appendChild(bit);
+      const drift = (Math.random() - 0.5) * 220;
+      const spin = 360 + Math.random() * 720;
+      bit.animate(
+        [
+          { transform: "translate3d(0,0,0) rotate(0deg)", opacity: 0 },
+          { transform: "translate3d(" + drift * 0.3 + "px, 12vh, 0) rotate(" + spin * 0.25 + "deg)", opacity: 1, offset: 0.12 },
+          { transform: "translate3d(" + drift + "px, 104vh, 0) rotate(" + spin + "deg)", opacity: 1, offset: 0.92 },
+          { transform: "translate3d(" + drift + "px, 112vh, 0) rotate(" + spin + "deg)", opacity: 0 },
+        ],
+        {
+          duration: 2600 + Math.random() * 1400,
+          delay: Math.random() * 700,
+          easing: "cubic-bezier(0.25, 0.6, 0.45, 1)",
+          fill: "forwards",
+        },
+      );
+    }
+    document.body.appendChild(wrap);
+    // Longest possible piece (delay + duration) plus a little slack.
+    setTimeout(() => wrap.remove(), 5000);
+  }
+
+  /* ---------------------------------------------------------------
+     Order tracker — the demo cycle
+
+     ⚠️ REVIEW BEHAVIOUR, not product behaviour. A real tracker moves when the
+     order moves; this one walks the four stages on a timer so the whole
+     progression can be seen without placing four orders (Ahmed, 2026-08-23:
+     "make it go through the 4 states as a test"). It only runs on trackers
+     built with `demo=True` — see DEMO_TRACKER in build/pages/_account.py, which
+     is the one switch to flip when real order state arrives.
+
+     It repaints CLASSES and CUSTOM PROPERTIES on the existing nodes rather than
+     re-rendering the tracker: every node already ships its check badge and the
+     courier already ships on every tracker, precisely so a stage change is a
+     class toggle and nothing animating is thrown away mid-transition.
+
+     The percentage formulas mirror `_ride_style()` in _account.py. They are
+     four lines of arithmetic in two places, which is worth one comment each
+     rather than a runtime round-trip; if the stage count ever stops being four,
+     both read it from the node count.
+     --------------------------------------------------------------- */
+  const RIDE_DEMO_MS = 3200;   // per stage
+  const RIDE_HOLD_MS = 4200;   // longer pause on "delivered" before looping
+
+  function paintOrderRide(root, step) {
+    const nodes = [...root.querySelectorAll(".order-ride__node")];
+    const n = nodes.length;
+    if (!n) return;
+    const last = n - 1;
+    const at = Math.max(0, Math.min(step, last));
+    const delivered = at >= last;
+
+    nodes.forEach((node, i) => {
+      const done = i < at || (delivered && i === last);
+      const now = i === at && !delivered;
+      node.classList.toggle("is-done", done);
+      node.classList.toggle("is-now", now);
+      node.classList.toggle("is-todo", !done && !now);
+    });
+
+    root.classList.toggle("is-delivered", delivered);
+    // The courier rides one leg only: "in transit" -> "delivered".
+    root.classList.toggle("is-transit", at === last - 1);
+    root.style.setProperty("--fillto", ((last ? at / last : 0) * 100).toFixed(3) + "%");
+    root.dataset.rideStep = String(at);
+  }
+
+  function initOrderRideDemo() {
+    const rides = [...document.querySelectorAll("[data-ride-demo]")];
+    if (!rides.length) return;
+    // One timer for all of them, so several trackers on a page (the dashboard
+    // card and the order drawer) stay in step instead of drifting apart.
+    let step = parseInt(rides[0].dataset.rideStep, 10);
+    if (!isFinite(step)) step = 0;
+    const last = (rides[0].querySelectorAll(".order-ride__node").length || 4) - 1;
+
+    const tick = () => {
+      step = step >= last ? 0 : step + 1;
+      rides.forEach((r) => paintOrderRide(r, step));
+      window.setTimeout(tick, step >= last ? RIDE_HOLD_MS : RIDE_DEMO_MS);
+    };
+    window.setTimeout(tick, RIDE_DEMO_MS);
+  }
+
   function boot() {
     initBtnStyleSwitch();
     const header = document.getElementById("site-header");
@@ -7714,6 +8611,8 @@
     initVouchers();
     initOrders();
     initReorder();
+    // No-op off the payment page (guards on [data-card-fields]).
+    initPaymentMethod();
     // Must run after the chrome is in the DOM and after initFavsUI, so the
     // dictionary pass sees every string on the page. Without this call a
     // stored English preference only styled the chrome.
@@ -7730,9 +8629,18 @@
     // Blog post ?post=<slug> swap — no-op off the post page.
     initBlogPost();
 
+    // Confetti on arrival at the thank-you page; no-op everywhere else
+    // (guards on [data-order-celebrate]).
+    initOrderCelebration();
+
+    // Demo-only: walk the order tracker through its four stages. No-op
+    // wherever no tracker carries [data-ride-demo].
+    initOrderRideDemo();
+
     // About page: pinned scroll journey, hero parallax, stat count-up. Each
     // guards off its own markup, so all three are no-ops elsewhere.
     initAboutJourney();
+    initAboutTimeline();
     initAboutParallax();
     initStatCountUp();
 
