@@ -3452,19 +3452,20 @@ html[dir="rtl"] .order-ride__face { transform: none; }
  * the brand orange but uses BLACK labels (#000) — 9.1:1, passes AA + AAA
  * (Ahmed's call). Icons inherit via currentColor.
  * ------------------------------------------------------------------ */
+/* Buttons take the 16px radius in BOTH variants; only the fill and the label
+   colour are still variant-specific. */
+a.bg-cta, button.bg-cta { border-radius: 16px !important; }
 html[data-btn="v2"] a.bg-cta,
 html[data-btn="v2"] button.bg-cta {
   background-color: #EA983E !important;
   color: #000 !important;
-  border-radius: 16px !important;
 }
 html[data-btn="v2"] a.bg-cta [class*="text-white"],
 html[data-btn="v2"] button.bg-cta [class*="text-white"],
 html[data-btn="v2"] a.bg-cta svg,
 html[data-btn="v2"] button.bg-cta svg { color: #000 !important; }
 html[data-btn="v2"] .hover\:bg-cta-hover:hover { background-color: #d9852f !important; }
-html[data-btn="v2"] a.border-cta,
-html[data-btn="v2"] button.border-cta { border-radius: 16px !important; }
+a.border-cta, button.border-cta { border-radius: 16px !important; }
 /* Orange outline buttons take a BLACK label (Ahmed, 2026-08-19): with the stroke
    now orange, the old cta-green `text-cta` label read as a leftover from the
    green theme. Black (#000, 9.1:1 on white) matches the filled orange CTA, whose
@@ -3511,24 +3512,36 @@ html[data-btn="v2"] [data-sticky-actions][data-stuck="true"] [data-open="search"
    — down to a tighter scale, so the whole site sharpens when you flip to orange.
    Genuine circles (avatars, icon buttons, the count badge) keep rounded-full and
    stay round; the primary buttons already square to 16px above. */
-html[data-btn="v2"] .rounded-3xl { border-radius: 12px !important; }
-html[data-btn="v2"] .rounded-2xl { border-radius: 10px !important; }
-html[data-btn="v2"] .rounded-xl  { border-radius: 8px  !important; }
-html[data-btn="v2"] .rounded-lg  { border-radius: 6px  !important; }
-html[data-btn="v2"] .rounded-\[20px\]    { border-radius: 12px !important; }
-html[data-btn="v2"] .rounded-\[12px\]    { border-radius: 8px  !important; }
-html[data-btn="v2"] .rounded-\[8px\]     { border-radius: 6px  !important; }
-html[data-btn="v2"] .rounded-tl-\[20px\] { border-top-left-radius: 12px !important; }
-html[data-btn="v2"] .rounded-br-\[20px\] { border-bottom-right-radius: 12px !important; }
-html[data-btn="v2"] .rounded-tl-\[22px\] { border-top-left-radius: 12px !important; }
-html[data-btn="v2"] .rounded-br-\[22px\] { border-bottom-right-radius: 12px !important; }
-html[data-btn="v2"] .rounded-tl-\[14px\] { border-top-left-radius: 8px !important; }
-html[data-btn="v2"] .rounded-br-\[14px\] { border-bottom-right-radius: 8px !important; }
+/* ------------------------------------------------------------------ *
+ * ONE radius scale for the whole site (Ahmed, 2026-08-24).
+ *
+ * This scale used to live behind html[data-btn="v2"], so the two button
+ * variants disagreed about more than colour: green shipped full pills and 20px
+ * cards, orange shipped 16px buttons and a stepped-down card radius. That made
+ * the toggle a switch between two DESIGN SYSTEMS rather than two palettes, and
+ * every new component had to be drawn twice to look right in both.
+ *
+ * The orange variant's radius is now simply the radius. Un-prefixing it is the
+ * whole change — the values below are the ones that were already there.
+ * ------------------------------------------------------------------ */
+.rounded-3xl { border-radius: 12px !important; }
+.rounded-2xl { border-radius: 10px !important; }
+.rounded-xl  { border-radius: 8px  !important; }
+.rounded-lg  { border-radius: 6px  !important; }
+.rounded-\[20px\]    { border-radius: 12px !important; }
+.rounded-\[12px\]    { border-radius: 8px  !important; }
+.rounded-\[8px\]     { border-radius: 6px  !important; }
+.rounded-tl-\[20px\] { border-top-left-radius: 12px !important; }
+.rounded-br-\[20px\] { border-bottom-right-radius: 12px !important; }
+.rounded-tl-\[22px\] { border-top-left-radius: 12px !important; }
+.rounded-br-\[22px\] { border-bottom-right-radius: 12px !important; }
+.rounded-tl-\[14px\] { border-top-left-radius: 8px !important; }
+.rounded-br-\[14px\] { border-bottom-right-radius: 8px !important; }
 /* Pills square too (Ahmed): every rounded-full pill steps to the 16px squared
    radius. Small circles are self-correcting — a ≤32px badge/dot with a 16px
    radius still exceeds its own half-dimension, so the browser clamps it back to
    a circle; only elongated pills and larger buttons actually square. */
-html[data-btn="v2"] .rounded-full { border-radius: 16px !important; }
+.rounded-full { border-radius: 16px !important; }
 
 /* Product image toggle: 'plain' shows the white-background originals. On the
    cards these are cut-outs, so they sit contained on the card's white plate
@@ -4135,3 +4148,130 @@ html[data-btn="v2"] [data-card-stepper] button { border-radius: 12px !important;
 
    Scoped by the control's own attribute, so nothing else changes face. */
 [data-lang-toggle] { font-family: "Almarai", system-ui, sans-serif; }
+
+
+/* ==========================================================================
+   V3 — "Moss" (Ahmed, 2026-08-24)
+
+   The third palette. Two things separate it from V1/V2 beyond colour:
+
+   1. The GREEN is not the inherited one. V1 and V2 both run on #006328 /
+      #29612F / #0D3711 — the deep, slightly blue forest green carried over
+      from the fork, which is the thing that still reads as the old brand. V3
+      replaces the whole family with a warmer, greyer moss built around
+      #5A6E3A. Chosen from four candidates (olive / emerald / pine / moss);
+      moss keeps the existing lime, mint and cream accents working untouched,
+      which the cooler options did not.
+
+   2. The CHROME IS LIGHT. The masthead is bg-heading and the footer is
+      bg-greenDeepest in the other two, i.e. two large dark green slabs top and
+      bottom. Here both go to cream with moss type, so the page reads as one
+      light surface and the green is reserved for the things you can act on.
+
+   Scoped entirely to html[data-btn="v3"]; V1 and V2 are untouched.
+
+   The overrides are per UTILITY CLASS rather than per variable because the
+   Tailwind build inlines literal hex — there is no custom property to
+   redefine. The list below is the 24 green classes an audit of the built HTML
+   actually found, plus the raw hexes the component CSS hardcodes.
+   ========================================================================== */
+html[data-btn="v3"] {
+  --moss-deep: #5A6E3A;     /* CTA, price badge, primary fills */
+  --moss-dark: #46562C;     /* hover, headings, strong type */
+  --moss-ink:  #33401F;     /* deepest — body ink on light chrome */
+  --moss-mid:  #8AA55C;     /* secondary fills, tracker rail */
+  --moss-tint: #C6D9A6;     /* soft fills, borders */
+  --moss-soft: #DEE9CC;     /* softest fill */
+  --moss-mint: #EAF0E0;     /* "good news" tint */
+  --moss-orange: #F0A860;   /* the lighter orange, dark labels on it */
+}
+
+/* --- fills ------------------------------------------------------------- */
+html[data-btn="v3"] .bg-cta,
+html[data-btn="v3"] .bg-primary,
+html[data-btn="v3"] .bg-greenDeep     { background-color: var(--moss-deep) !important; }
+html[data-btn="v3"] .hover\:bg-cta-hover:hover,
+html[data-btn="v3"] .hover\:bg-primary-hover:hover { background-color: var(--moss-dark) !important; }
+html[data-btn="v3"] .bg-greenDeepest  { background-color: var(--moss-ink) !important; }
+html[data-btn="v3"] .bg-mint          { background-color: var(--moss-mint) !important; }
+html[data-btn="v3"] .bg-primary-50    { background-color: var(--moss-mint) !important; }
+html[data-btn="v3"] .bg-greenTintSoft { background-color: var(--moss-soft) !important; }
+html[data-btn="v3"] .bg-greenTint     { background-color: var(--moss-tint) !important; }
+
+/* --- type -------------------------------------------------------------- */
+html[data-btn="v3"] .text-heading,
+html[data-btn="v3"] .text-greenDeep,
+html[data-btn="v3"] .text-primary     { color: var(--moss-dark) !important; }
+html[data-btn="v3"] .text-cta         { color: var(--moss-deep) !important; }
+html[data-btn="v3"] .text-ink,
+html[data-btn="v3"] .text-ink-800,
+html[data-btn="v3"] .text-greenDeepest { color: var(--moss-ink) !important; }
+
+/* --- lines ------------------------------------------------------------- */
+html[data-btn="v3"] .border-cta,
+html[data-btn="v3"] .border-primary   { border-color: var(--moss-deep) !important; }
+html[data-btn="v3"] .border-heading   { border-color: var(--moss-dark) !important; }
+html[data-btn="v3"] .accent-ink-800   { accent-color: var(--moss-deep) !important; }
+
+/* --- the lighter orange ------------------------------------------------- *
+   Labels stay DARK on it. #F0A860 is 1.9:1 with white — lighter than the
+   brand orange, so it moves further from white, not toward it. Passing 4.5:1
+   with white needs #AE6413, which is darker than the brand colour rather than
+   lighter, so it is not what was asked for here. */
+html[data-btn="v3"] a.bg-cta.is-orange,
+html[data-btn="v3"] .bg-orange,
+html[data-btn="v3"] .bg-highlight     { background-color: var(--moss-orange) !important; color: #2A1C0B !important; }
+
+/* --- LIGHT chrome: masthead + footer ------------------------------------ */
+html[data-btn="v3"] [data-navbar] { background-color: #FFFFFF !important; box-shadow: inset 0 -1px 0 var(--moss-tint); }
+html[data-btn="v3"] [data-navbar] .text-white,
+html[data-btn="v3"] [data-navbar] a,
+html[data-btn="v3"] [data-navbar] button { color: var(--moss-ink) !important; }
+html[data-btn="v3"] [data-navbar] svg { color: var(--moss-ink); }
+
+/* The footer carries .bg-greenDeepest, which the class rule above repaints to
+   moss-ink — a DARK slab. This has to out-specify it, hence the class in the
+   selector rather than the bare element. */
+html[data-btn="v3"] footer,
+html[data-btn="v3"] footer.bg-greenDeepest { background-color: #FDF8F1 !important; }
+html[data-btn="v3"] footer .text-white,
+html[data-btn="v3"] footer a,
+html[data-btn="v3"] footer h2 { color: var(--moss-ink) !important; }
+html[data-btn="v3"] footer .text-white\/70,
+html[data-btn="v3"] footer .text-white\/60,
+html[data-btn="v3"] footer .text-white\/50 { color: #5f6b52 !important; }
+html[data-btn="v3"] footer .bg-white\/\[0\.06\],
+html[data-btn="v3"] footer .bg-white\/10 { background-color: rgba(90, 110, 58, 0.08) !important; }
+html[data-btn="v3"] footer .border-white\/10 { border-color: rgba(90, 110, 58, 0.18) !important; }
+/* The footer's artwork was drawn for a DARK ground and does not survive the
+   swap to cream, in two different ways.
+
+   The social marks are solid `fill="#fff"` SVGs — invisible on cream. invert(1)
+   turns white to black cleanly (they are single-colour, so nothing else moves),
+   and the opacity softens it to match the muted type beside it.
+
+   The logo is the harder case: it is a FULL-COLOUR mark whose eight cream
+   paths (#FDF8F1) are exactly the footer's new background, so recolouring it
+   with a filter would either destroy the greens or leave the cream invisible.
+   Instead it keeps its own ground — a moss plate behind it, which is what the
+   mark was drawn to sit on. */
+html[data-btn="v3"] footer a[aria-label] img { filter: invert(1); opacity: 0.65; }
+html[data-btn="v3"] footer img[src*="logo-jaad-mark"] {
+  background: var(--moss-ink);
+  border-radius: 16px;
+  padding: 10px;
+  box-sizing: content-box;
+}
+
+/* The flash strip is the top of the header, so it goes light too — a moss
+   tint band rather than the deep green slab. */
+html[data-btn="v3"] [data-flash-sale] { background-color: var(--moss-soft) !important; color: var(--moss-ink) !important; }
+html[data-btn="v3"] [data-flash-sale] .text-white { color: var(--moss-ink) !important; }
+html[data-btn="v3"] [data-flash-sale] .text-white\/60 { color: #6b7560 !important; }
+html[data-btn="v3"] [data-flash-sale] .bg-white\/10 { background-color: rgba(90, 110, 58, 0.12) !important; }
+html[data-btn="v3"] [data-flash-sale] .bg-limeFigma { background-color: var(--moss-deep) !important; color: #fff !important; }
+html[data-btn="v3"] [data-flash-sale] .text-limeFigma { color: var(--moss-deep) !important; }
+
+/* --- raw hexes the component CSS hardcodes ------------------------------ */
+html[data-btn="v3"] .radio-dot { border-color: var(--moss-deep); }
+html[data-btn="v3"] [data-tab-indicator] { background-color: var(--moss-deep) !important; }

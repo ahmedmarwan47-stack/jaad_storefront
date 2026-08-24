@@ -8423,6 +8423,7 @@
           '<div class="btnswitch__seg">' +
             '<button type="button" data-btn-v="v1"><span class="btnswitch__dot" style="background:#00451C"></span>Green</button>' +
             '<button type="button" data-btn-v="v2"><span class="btnswitch__dot" style="background:#EA983E"></span>Orange</button>' +
+            '<button type="button" data-btn-v="v3"><span class="btnswitch__dot" style="background:#5A6E3A"></span>Moss</button>' +
           '</div>' +
         '</div>' +
         '<div class="btnswitch__row">' +
