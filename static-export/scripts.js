@@ -4219,6 +4219,15 @@
     whole: "text-[16px]",
     box: "bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px]",
   };
+  /* `md` matches components.price_sticker("md") — the size the product CARD
+     uses. Added so the JS-rendered card stops drawing its own (Ahmed,
+     2026-08-24): it had an 18px "EGP" against the component's 15px, the same
+     3px disagreement the Python card had. */
+  const STICKER_MD = {
+    egp: "text-[15px]",
+    whole: "text-[24px]",
+    box: "bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px]",
+  };
   function priceStickerHTML(price, attrs) {
     return (
       '<span ' + (attrs || "") + ' data-price-sticker class="inline-flex items-end gap-0.5 shrink-0 ' +
@@ -5951,6 +5960,23 @@
      sale strike-through and the "peek" zoom badge, because a stored view —
      unlike a card built from catalog.json — never carries `regular`/`sale`.
      --------------------------------------------------------------- */
+  /* The scene shot for a product id.
+   *
+   * Recently-viewed entries are whatever `data-image` said when the product was
+   * viewed, and until 2026-08-24 the product page put the WHITE CUT-OUT there
+   * while recentCardHTML treated the stored path as the scene. The result was a
+   * rail where anything the shopper had actually visited rendered as a pale
+   * cut-out in scenes mode, while the seeded entries looked right.
+   *
+   * The page records the scene now, but entries already in localStorage still
+   * hold the old path, so this heals them on read rather than waiting for the
+   * shopper to re-visit each product: a stored path under products/ is the
+   * cut-out, and every one of the 26 SKUs has products-styled/<id>.jpg. */
+  function sceneFor(id, stored) {
+    if (stored && stored.indexOf("products-styled/") !== -1) return stored;
+    return "images/jaad/products-styled/" + String(id) + ".jpg";
+  }
+
   function recentCardHTML(p, compact) {
     const id = esc(String(p.id));
     const name = esc(p.name || "");
@@ -5975,18 +6001,17 @@
     const stepBtn = c ? "size-10 sm:size-7" : "size-10 sm:size-8";
     const stepIco = "w-5 h-5 sm:w-4 sm:h-4";
     const pad = c ? "gap-2 p-2 pt-8 sm:pt-2" : "gap-3 p-3 pt-9 sm:pt-3";
-    const bPad = c ? "px-1.5" : "px-2";
-    const bRad = c ? "rounded-tl-[14px] rounded-br-[14px]" : "rounded-tl-[20px] rounded-br-[20px]";
-    const bSh = c ? "shadow-[2px_3px_0px_#98CA55]" : "shadow-[3px_5px_0px_#98CA55]";
-    const sEGP = c ? "text-[11px]" : "text-[18px]";
-    const sWhole = c ? "text-[16px]" : "text-[24px]";
+    /* The badge comes from the shared sticker constants — sm for the compact
+       drawer card, md for the full one — rather than five separate size
+       ternaries that had drifted 3px off the component. */
+    const stick = c ? STICKER_SM : STICKER_MD;
     const titleCls = c ? "text-sm line-clamp-2 min-h-[2.5em]" : "text-lg";
     return `
       <article class="product-widget${c ? " product-widget--sm" : ""} carousel-slide ${width} shrink-0 snap-start"
                data-product data-id="${id}" data-name="${name}" data-price="${price}" data-image="${esc(p.image || "")}">
         <div class="relative">
           <a href="product-${id}.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
-            <img src="${esc(imgFor(p.image, PLAIN_BY_ID[id]))}" data-img-scene="${esc(p.image || "")}" data-img-plain="${esc(PLAIN_BY_ID[id] || p.image || "")}" alt="${name}" class="w-full h-full object-cover" loading="lazy" />
+            <img src="${esc(imgFor(sceneFor(id, p.image), PLAIN_BY_ID[id]))}" data-img-scene="${esc(sceneFor(id, p.image))}" data-img-plain="${esc(PLAIN_BY_ID[id] || p.image || "")}" alt="${name}" class="w-full h-full object-cover" loading="lazy" />
           </a>
           <div class="${btnPos} z-10 absolute">
             <button type="button" data-add-to-cart aria-label="Add to cart"
@@ -6001,10 +6026,10 @@
           </div>
         </div>
         <div class="product-widget__body flex flex-col ${pad}">
-          <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep ${bSh} ${bPad} ${bRad} text-white latin">
-            <span class="${sEGP} leading-[1.4]">EGP</span>
-            <span class="${sWhole} leading-[1.2]">${whole}</span>
-            <span class="${sEGP} leading-[1.4]">.${dec}</span>
+          <span class="items-end gap-0.5 self-start inline-flex ${stick.box} font-bold text-white latin">
+            <span class="${stick.egp} leading-[1.4]">EGP</span>
+            <span class="${stick.whole} leading-[1.2]">${whole}</span>
+            <span class="${stick.egp} leading-[1.4]">.${dec}</span>
           </span>
           <div class="flex flex-col gap-0.5">
             <h3 class="font-semibold text-black ${titleCls} leading-snug">

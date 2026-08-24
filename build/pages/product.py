@@ -28,6 +28,7 @@ from components import (
     ICON, accordion, best_seller_badge, button, carousel, page, page_header,
     points_callout, product_card, product_gallery, price_sticker, qty_stepper,
     rating, size_chips, sold_proof, specs_block, bundle_item, section_heading,
+    scene_image,
 )
 
 SLUG = "product.html"
@@ -389,7 +390,7 @@ def _render(p):
                beside it. lg+ keeps the card. -->
           <div class="flex flex-col gap-5 lg:bg-white lg:shadow-custom4 lg:p-6 xl:p-8 lg:rounded-[20px]{story_host_cls}"
                data-product data-record-view data-id="{p.get('id', 0)}" data-name="{e(title(p))}"
-               data-price="{p.get('sale') or p.get('price') or 0}" data-image="{e(p['image'])}">
+               data-price="{p.get('sale') or p.get('price') or 0}" data-image="{e(scene_image(p))}">
             <div class="flex flex-col gap-3">
               {best_seller_badge(p)}
               <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">{e(title(p))}</h1>

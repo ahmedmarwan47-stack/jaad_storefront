@@ -1955,11 +1955,13 @@ def product_widget(p, sale=None, slide=True, cat=None):
             </div>
             <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="items-end gap-0.5 self-start inline-flex bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] text-white latin">
-                  <span class="text-[18px] leading-[1.4]">EGP</span>
-                  <span class="text-[24px] leading-[1.2]">{whole}</span>
-                  <span class="text-[18px] leading-[1.4]">.{dec}</span>
-                </span>
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                {price_sticker(price, "md")}
                 {old}
               </div>
               <div class="flex flex-col gap-0.5">
