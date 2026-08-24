@@ -3501,8 +3501,16 @@ html[data-btn="v2"] .border-cta { border-color: #EA983E !important; }
    turns orange, so an orange badge would vanish into it — the badge instead
    goes deep green (#006328, white text = 7.5:1), the complementary pop against
    the orange button and a clear tell that the theme has switched. */
+/* The count badge sits ON the orange cart button, so it belongs to the ORANGE
+   family (Ahmed, 2026-08-24). It was #006328 — deep green — which was the one
+   green left in an otherwise orange theme and read as a leftover.
+
+   #7A3E06 is the brand orange taken right down in lightness: 8.34:1 for its
+   white digits, and 3.60:1 against the #EA983E button behind it, so the badge
+   still separates from the button as a distinct shape (3:1 is the bar for a
+   non-text graphic boundary). */
 html[data-btn="v2"] [data-cart-count] {
-  background-color: #006328 !important;
+  background-color: #7A3E06 !important;
   color: #fff !important;
   --tw-ring-color: #fff !important;
 }
@@ -4160,6 +4168,28 @@ html[data-btn="v2"] [data-card-stepper] button { border-radius: 12px !important;
 }
 
 
+/* --- Lime utility strip: legible ink -------------------------------------
+   The language switch (and anything else in this band) inherits text-heading
+   #29612F, which measures 3.84:1 on the lime #98CA55 — under AA. This is
+   PRE-EXISTING and shows in every variant, not something a palette introduced;
+   it surfaced during the v1 header pass because that pass swept the header for
+   contrast. #1F4A24 keeps the same dark-green reading at 5.29:1.
+
+   Global rather than per-variant: the lime strip is untouched by all three
+   palettes, so the fix belongs with the strip. */
+[data-lang-toggle],
+.bg-limeFigma .text-heading,
+/* The flash strip's "Up To 50% Off" pill carries BOTH classes on the one
+   element, so the descendant selector above missed it — it needs the compound
+   form. Same 3.84:1 failure, same fix. */
+.bg-limeFigma.text-heading { color: #1F4A24; }
+
+/* "Shop Now" in the flash strip is lime type on the deep-green band: #98CA55
+   on #006328 is 3.88:1. #BFE08D is the same lime opened up two steps and
+   clears at 5.07:1. Scoped to the strip so the lime token is unchanged
+   everywhere else. */
+[data-flash-sale] .text-limeFigma { color: #BFE08D; }
+
 /* --- Language switch ------------------------------------------------------
    ALMARAI, whichever way the site is currently set (Ahmed, 2026-08-24). This
    control is the one label on the page always written in the language you are
@@ -4314,6 +4344,13 @@ html[data-btn="v3"] [data-flash-sale] .bg-limeFigma,
 html[data-btn="v3"] [data-flash-sale] .bg-limeFigma.text-heading { background-color: var(--moss-deep) !important; color: #FFFFFF !important; }
 html[data-btn="v3"] [data-flash-sale] .text-limeFigma { color: var(--moss-deep) !important; }
 
+/* The lime utility strip stays lime in v3 (Ahmed: "keep this green"), but the
+   blanket .text-heading -> --moss-dark above lands on it at 4.15:1. Moss-ink is
+   the same family two steps down and clears at 5.76:1. The flash-strip rule
+   above carries [data-flash-sale] and so still wins inside the strip. */
+html[data-btn="v3"] .bg-limeFigma .text-heading,
+html[data-btn="v3"] .bg-limeFigma.text-heading { color: var(--moss-ink) !important; }
+
 /* --- raw hexes the component CSS hardcodes ------------------------------ */
 /* The cart control keeps a GREEN container (Ahmed, 2026-08-24): on cream
    chrome the white circular button lost its edge entirely and the cart stopped
@@ -4375,3 +4412,56 @@ html[data-btn="v3"] .radio-dot { border-color: var(--moss-deep); }
    the active label, which is dark, sitting on a dark fill (Ahmed, 2026-08-24:
    "contrast of the active state"). White pill, dark label, exactly as V1 and
    V2 — and it reads as selected against the light green track on its own. */
+
+
+/* ==========================================================================
+   V1 — orange header (Ahmed, 2026-08-24)
+
+   Only the GREEN toggle. Its three header bands were deep green, lime, deep
+   green; the ask was to make the header something other than green and to
+   follow the rule Moss uses — three parts, TWO colours, with the middle band
+   left as the accent.
+
+   So the flash strip and the nav row take the brand orange and the lime
+   utility strip between them is untouched, exactly mirroring Moss (cream,
+   lime, cream).
+
+   INK IS DARK, and that is not a style choice. White on #EA983E measures
+   2.32:1, which fails AA for body text and fails the 3:1 large-text bar too;
+   the same orange with #2A1C0B ink is 7.14:1. Every white-on-green label in
+   these two bands therefore has to flip, not just the background.
+   ========================================================================== */
+html[data-btn="v1"] [data-navbar],
+html[data-btn="v1"] [data-navbar][data-stuck="true"] { background-color: #EA983E !important; }
+html[data-btn="v1"] [data-flash-sale] { background-color: #EA983E !important; }
+
+/* Type and glyphs in both orange bands. */
+html[data-btn="v1"] [data-navbar] .text-white,
+html[data-btn="v1"] [data-navbar] a,
+html[data-btn="v1"] [data-navbar] button,
+html[data-btn="v1"] [data-flash-sale],
+html[data-btn="v1"] [data-flash-sale] .text-white { color: #2A1C0B !important; }
+html[data-btn="v1"] [data-flash-sale] .text-white\/60,
+html[data-btn="v1"] [data-flash-sale] .text-white\/55 { color: #5A4426 !important; }
+html[data-btn="v1"] [data-flash-sale] .text-white\/30 { color: #6E5734 !important; }
+html[data-btn="v1"] [data-flash-sale] .bg-white\/10 { background-color: rgba(42, 28, 11, 0.10) !important; }
+
+/* The timer pill and the "Shop now" link were lime on green; on orange the
+   lime disappears, so the pill inverts to the dark ink with orange type. */
+html[data-btn="v1"] [data-flash-sale] .bg-limeFigma,
+html[data-btn="v1"] [data-flash-sale] .bg-limeFigma.text-heading { background-color: #2A1C0B !important; color: #EA983E !important; }
+html[data-btn="v1"] [data-flash-sale] .text-limeFigma { color: #2A1C0B !important; }
+
+/* hdr-user.svg and hdr-search.svg carry a hardcoded stroke="white" and are
+   external <img>, so CSS colour cannot reach inside them — the same problem
+   the Moss masthead had. Inverted to the dark ink. */
+html[data-btn="v1"] [data-navbar] img[src*="hdr-user"],
+html[data-btn="v1"] [data-navbar] img[src*="hdr-search"] { filter: invert(1) brightness(0.18); }
+
+/* The cart control keeps a filled container so it still reads as the one thing
+   in the header you act on — deep green would be a leftover here, so it takes
+   the same dark ink the type uses, with a white glyph. */
+html[data-btn="v1"] [data-navbar] [data-open="cart"] { background-color: #2A1C0B !important; color: #FFFFFF !important; }
+html[data-btn="v1"] [data-navbar] [data-open="cart"] svg,
+html[data-btn="v1"] [data-navbar] [data-open="cart"] [data-cart-glyph] { color: #FFFFFF !important; }
+html[data-btn="v1"] [data-navbar] [data-cart-count] { background-color: #FDF8F1 !important; color: #2A1C0B !important; }
