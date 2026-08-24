@@ -2955,8 +2955,20 @@ input:checked + .radio-card-accent {
   0% { transform: translateX(130%); }
   55%, 100% { transform: translateX(-130%); }
 }
+/* Gold means gold, and it does NOT follow the palette switcher (Ahmed,
+   2026-08-24). A membership tier is a fixed thing — silver, gold, platinum —
+   so it should read the same whichever colourway the site is set to, and it is
+   deliberately the one element on the page that ignores the theme.
+
+   The middle stop used to be #8ACC3E, i.e. brand LIME, so the "gold" badge ran
+   gold into green into amber. That is what made it look like it belonged to
+   the palette rather than to the tier. It is a clean gold ramp now.
+
+   The darkest stop is #D0A339, not the #C9932A the ramp naturally wanted: the
+   ink is #4A3708 and has to stay legible across the whole gradient, and
+   #C9932A measured 4.18:1. This clears at 4.88:1. */
 .tier-badge--gold {
-  background: linear-gradient(135deg, #f6e6a6 0%, #8ACC3E 45%, #d4a72c 100%);
+  background: linear-gradient(135deg, #F6E6A6 0%, #E3B44A 45%, #D0A339 100%);
   color: #4a3708;
 }
 .tier-badge--silver {
@@ -4355,22 +4367,6 @@ html[data-btn="v3"] [data-flash-sale] .text-white\/30 { color: #68775A !importan
 html[data-btn="v3"] [data-sticky-actions][data-stuck="true"] { background: var(--moss-deep) !important; }
 html[data-btn="v3"] [data-sticky-actions][data-stuck="true"] [data-open="cart"],
 html[data-btn="v3"] [data-sticky-actions][data-stuck="true"] [data-open="search"] { background: transparent !important; box-shadow: none !important; }
-
-/* --- membership badge: green, not gold ---------------------------------- *
-   The base badge is `linear-gradient(135deg, #f6e6a6, #8ACC3E, #d4a72c)` —
-   pale gold into lime into amber, i.e. literally gold AND green in one pill
-   (Ahmed, 2026-08-24: "not gold, not gold and green"). In the moss palette
-   that reads as a stray metallic from another system.
-
-   Replaced with a moss wash. The stops are deliberately all LIGHT: the ink is
-   the same dark moss the rest of the chrome uses, and it has to stay legible
-   across the whole gradient — #8AA55C as the darkest stop measured 4.02:1 and
-   failed, so the run stops at #9BB87A (5.03:1). The gloss sweep from
-   .tier-badge is untouched. */
-html[data-btn="v3"] .tier-badge--gold {
-  background: linear-gradient(135deg, #EDF3E2 0%, #C6D9A6 45%, #9BB87A 100%);
-  color: #33401F;
-}
 
 html[data-btn="v3"] .radio-dot { border-color: var(--moss-deep); }
 /* The segmented control's active pill is NOT repainted. It was, briefly, as
