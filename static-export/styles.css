@@ -4230,9 +4230,12 @@ html[data-btn="v3"] .bg-highlight     { background-color: var(--moss-orange) !im
    different light greens. */
 html[data-btn="v3"] [data-navbar],
 html[data-btn="v3"] [data-navbar][data-stuck="true"] { background-color: #FDF8F1 !important; box-shadow: inset 0 -1px 0 var(--moss-tint); }
-/* The lime utility strip ("100% Natural Based Products") is the bottom band of
-   the header block and goes with it. */
-html[data-btn="v3"] header .bg-limeFigma:not([data-flash-sale] *) { background-color: #FDF8F1 !important; color: var(--moss-ink) !important; box-shadow: inset 0 -1px 0 var(--moss-tint); }
+/* The lime utility strip ("100% Natural Based Products" + the support links)
+   KEEPS ITS GREEN (Ahmed, 2026-08-24). It was briefly turned cream with the
+   rest of the chrome, on a misreading of "the bottom part of the navbar" — that
+   meant the nav row, not this band. It is the one green left in the header, and
+   it is what keeps the cream chrome from reading as a blank sheet. Deliberately
+   NOT overridden here, so it renders exactly as it does in V1 and V2. */
 html[data-btn="v3"] [data-navbar] .text-white,
 html[data-btn="v3"] [data-navbar] a,
 html[data-btn="v3"] [data-navbar] button { color: var(--moss-ink) !important; }
