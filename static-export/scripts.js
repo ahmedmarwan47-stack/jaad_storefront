@@ -8203,19 +8203,31 @@
        arrives — the two read the same number. */
     function mobileTarget() {
       const vh = window.innerHeight;
-      const trigger = vh * 0.75;
-      const tops = rows.map((r) => r.getBoundingClientRect().top);
+      // Measured on the row's CENTRE, not its top — and that distinction is the
+      // whole thing. A node sits at its row's vertical centre, so triggering on
+      // the row's TOP crossing the screen put the line's head half a card
+      // LOWER than the trigger, i.e. at or past the bottom edge: the line was
+      // technically drawing but every inch of its travel happened below the
+      // fold (Ahmed, 2026-08-24: "I can't see the line traveling, it is way in
+      // the bottom"). Keyed to the centre, the lit node lands at 0.55 of the
+      // viewport — just above the middle, where it is plainly in view and the
+      // stretch between two nodes draws across the screen as you scroll.
+      const trigger = vh * 0.55;
+      const mids = rows.map((r) => {
+        const b = r.getBoundingClientRect();
+        return b.top + b.height / 2;
+      });
       const rowH = Math.max(1, rows[0].getBoundingClientRect().height);
       let last = -1;
-      for (let i = 0; i < rows.length; i++) if (tops[i] < trigger) last = i;
+      for (let i = 0; i < rows.length; i++) if (mids[i] < trigger) last = i;
       // Approaching the first node.
-      if (last < 0) return nodeFrac(0) * clamp01((trigger + rowH - tops[0]) / rowH);
+      if (last < 0) return nodeFrac(0) * clamp01((trigger + rowH - mids[0]) / rowH);
       // Past the last one: run the tail out to 1.
       if (last >= rows.length - 1) {
-        const t = clamp01((trigger - tops[last]) / rowH);
+        const t = clamp01((trigger - mids[last]) / rowH);
         return nodeFrac(last) + (1 - nodeFrac(last)) * t;
       }
-      const t = clamp01((trigger + rowH - tops[last + 1]) / rowH);
+      const t = clamp01((trigger + rowH - mids[last + 1]) / rowH);
       return nodeFrac(last) + (nodeFrac(last + 1) - nodeFrac(last)) * t;
     }
 
