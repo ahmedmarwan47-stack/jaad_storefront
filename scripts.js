@@ -388,10 +388,10 @@
     "الدفع من المحفظة": "Pay from wallet",
     "تم الخصم من رصيدك": "Deducted from your balance",
     // locale popup + addresses
-    "الدولة واللغة": "Country & language",
+    "الدولة واللغة": "Country & Language",
     "الدولة و العملة": "Country & currency",
     "تطبيق": "Apply",
-    "اضف عنوان": "Add address",
+    "اضف عنوان": "Add Address",
     "تعديل العنوان": "Edit address",
     "اسم العنوان": "Address name",
     "العنوان": "Address",
@@ -449,14 +449,14 @@
     "وصل حديثاً": "New arrivals",
     "السعر: من الأقل": "Price: low to high",
     "السعر: من الأعلى": "Price: high to low",
-    "سلة التسوق": "Shopping cart",
-    "ملخص السلة": "Cart summary",
+    "سلة التسوق": "Shopping Cart",
+    "ملخص السلة": "Cart Summary",
     "تعديل": "Edit",
     "الإجمالي": "Total",
     "مصاريف التوصيل": "Delivery fee",
     "أطلب الآن": "Order now",
     "اشتري الان": "Buy now",
-    "هل لديك برومو كود؟": "Have a promo code?",
+    "هل لديك برومو كود؟": "Have A Promo Code?",
     "توصيل خلال ساعتين": "Delivered within 2 hours",
     "داخل القاهرة الكبرى، ولباقي المحافظات حسب المنطقة": "Within Greater Cairo, and to other governorates by area",
     "داخل القاهرة الكبرى": "Within Greater Cairo",
@@ -468,11 +468,11 @@
     "اكتشف تشكيلة": "Discover JAAD's full",
     "كاملة من جاد.": "collection.",
     "تسوّق الكل": "Shop all",
-    "أضف كود قسيمة": "Add voucher code",
+    "أضف كود قسيمة": "Add Voucher Code",
     "الكود": "Code",
     "الكود صالح للاستخدام مرة واحدة فقط.": "Code valid for one-time use only.",
     "أضف القسيمة": "Add voucher",
-    "تفعيل القسيمة": "Activate voucher",
+    "تفعيل القسيمة": "Activate Voucher",
     "سيتم إضافة": "Will add",
     "إلى رصيد محفظتك": "to your wallet balance",
     "حوّل نقاطك إلى رصيد في محفظتك": "Convert your points into wallet balance",
@@ -1027,25 +1027,59 @@
   function headerHTML() {
     const checkout = isCheckout();
 
-    /* --- flash-sale countdown bar (Figma node 9943:16452) ---
-       Topmost green strip: white Days/Hours/Mins boxes, "Flash Sale Within" +
-       a spark icon, and "Up To 50%". The countdown is a rolling 2-day demo
-       (initFlashCountdown), since the catalog carries no real sale window. */
-    const flashBox = (key, label, w) =>
-      `<span class="flex flex-col justify-center items-center bg-white px-1 py-0.5 rounded" style="min-width:${w}px">
-         <span class="font-bold text-heading text-sm leading-[1.2] latin" data-flash="${key}">00</span>
-         <span class="font-bold text-heading text-[10px] leading-[1.2]">${esc(t(label))}</span>
+    /* --- flash-sale strip: the topmost bar ---------------------------------
+       Redesigned (Ahmed, 2026-08-24), same height, new contents.
+
+       What was wrong with it. It read "00 Days 14 Hours 31 Mins Flash Sale
+       Within Up To 50%" — the countdown arrived BEFORE the label telling you
+       what was being counted, so the first thing in the header was three
+       unexplained numbers. The three white boxes made the timer the loudest
+       thing in the bar while the actual offer, "Up To 50%", was plain text at
+       the end. And the whole strip was a <div>: a flash-sale announcement you
+       cannot click.
+
+       Now it reads in the order a person needs it — what (Flash Sale), how much
+       (the lime pill, which is the only thing here that should shout), then how
+       long — and the whole strip is a link to the shop with a chevron to say so.
+       The timer sits in one recessed block instead of three white cards, so it
+       supports the offer rather than competing with it.
+
+       Height is unchanged at 47px: same px-4 py-[7px] as before, and the
+       contents are sized to the same 33px inner band.
+
+       The countdown is a rolling 2-day demo (initFlashCountdown), since the
+       catalogue carries no real sale window. The data-flash hooks are kept
+       exactly as they were, so that function needs no change. */
+    const flashUnit = (key, label) =>
+      `<span class="flex flex-col items-center leading-none">
+         <span class="font-bold text-white text-[13px] tabular-nums latin" data-flash="${key}">00</span>
+         <span class="mt-0.5 font-medium text-white/55 text-[9px] uppercase">${esc(t(label))}</span>
        </span>`;
+    const flashSep = `<span class="pb-2 font-bold text-white/30 text-[13px]">:</span>`;
     const flashBar = checkout
       ? ""
-      : `<div data-flash-sale class="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 bg-greenDeep px-4 py-[7px] text-white">
-           <span class="flex items-center gap-1">${flashBox("days", "Days", 40)}${flashBox("hours", "Hours", 35)}${flashBox("mins", "Mins", 33)}</span>
-           <span class="flex items-center gap-1.5">
-             <span class="font-bold text-white text-xs">${esc(t("Flash Sale Within"))}</span>
-             <img src="images/jaad/icons/flash-sale.png" alt="" class="w-[26px] h-[26px] object-contain" />
+      : `<a href="${pageHref("/shop")}" data-flash-sale
+             class="group flex flex-wrap justify-center items-center gap-x-3 gap-y-1 bg-greenDeep hover:bg-[#00551f] px-4 py-[7px] min-h-[47px] text-white transition-colors">
+           <span class="flex items-center gap-2">
+             <img src="images/jaad/icons/flash-sale.png" alt="" class="w-[22px] h-[22px] object-contain shrink-0" />
+             <span class="font-bold text-white text-xs uppercase tracking-[0.5px]">${esc(t("عروض فلاش"))}</span>
+             <span class="bg-limeFigma px-2 py-0.5 rounded-full font-bold text-heading text-[11px] whitespace-nowrap">${esc(t("خصم حتى 50%"))}</span>
            </span>
-           <span class="font-bold text-white text-xs">${esc(t("Up To 50%"))}</span>
-         </div>`;
+           <span class="flex items-center gap-2">
+             <!-- Hidden below sm so the strip holds ONE line at 375px and keeps
+                  its 47px height. The timer's own DAYS/HOURS/MINS labels
+                  already say it is a countdown, so this is the phrase the small
+                  screen can most afford to lose. -->
+             <span class="hidden sm:inline text-white/60 text-[11px] whitespace-nowrap">${esc(t("ينتهي خلال"))}</span>
+             <span class="flex items-center gap-1.5 bg-white/10 px-2 py-0.5 rounded-md">
+               ${flashUnit("days", "يوم")}${flashSep}${flashUnit("hours", "ساعة")}${flashSep}${flashUnit("mins", "دقيقة")}
+             </span>
+             <span class="hidden sm:flex items-center gap-1 font-semibold text-limeFigma text-[11px] whitespace-nowrap">
+               ${esc(t("تسوق الآن"))}
+               <span class="ltr:scale-flip w-3 h-3 transition-transform group-hover:translate-x-0.5">${ICON.arrowRight}</span>
+             </span>
+           </span>
+         </a>`;
 
     /* --- support (utility) menu --- */
     const support = SUPPORT_MENU.map(
@@ -1221,8 +1255,37 @@
       </footer>`;
     }
 
+    /* Phone and email sit under SUPPORT, not under the logo (Ahmed,
+       2026-08-24). Two reasons, and the second is the one that shows: getting
+       in touch is support, so that is the column a shopper scans for it — and
+       with the contact rows stacked under the brand block that column ran far
+       taller than the three beside it, which is what made the footer look
+       lopsided. Moving them evens the columns and puts them where they belong.
+
+       Rendered as a block appended INSIDE the Support column rather than as a
+       fourth column, so it inherits the column's heading rhythm and the mobile
+       accordion keeps working unchanged. */
+    const contact = `
+      <div class="flex flex-col gap-2.5 mt-2 pt-4 border-t border-white/10">
+        <a href="tel:${CONTACT.hotline}" class="group flex items-center gap-2.5 text-white hover:text-lime text-sm transition-colors">
+          <span class="place-items-center grid bg-white/10 group-hover:bg-white/15 rounded-full size-8 shrink-0 transition-colors">
+            <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 6.5 6.5l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.2 2 2 0 0 1 6.5 3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="latin">${CONTACT.hotline}</span>
+        </a>
+        <a href="mailto:${CONTACT.email}" class="group flex items-center gap-2.5 text-white hover:text-lime text-sm transition-colors">
+          <span class="place-items-center grid bg-white/10 group-hover:bg-white/15 rounded-full size-8 shrink-0 transition-colors">
+            <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="m3.5 7.5 7.9 5.3a1 1 0 0 0 1.2 0l7.9-5.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          </span>
+          <span class="latin">${CONTACT.email}</span>
+        </a>
+      </div>`;
+
+    // `contact` is appended to the LAST column so the phone and email land
+    // under Support. It has to be defined ABOVE this: .map() runs immediately,
+    // so the template literal is evaluated here and not later.
     const columns = FOOTER_COLUMNS.map(
-      (col) => `
+      (col, ci) => `
       <div class="flex flex-col gap-6 min-w-[142px]">
         <h2 class="font-normal text-white text-lg leading-tight">${esc(t(col.name))}</h2>
         <ul class="flex flex-col gap-2">
@@ -1233,6 +1296,7 @@
             )
             .join("")}
         </ul>
+        ${ci === FOOTER_COLUMNS.length - 1 ? contact : ""}
       </div>`,
     ).join("");
 
@@ -1272,6 +1336,11 @@
           </div>
         </div>`,
         ).join("")}
+        <!-- Outside the accordion on purpose: a phone number a shopper has to
+             open a collapsed panel to find is a phone number they do not find.
+             The desktop layout can afford to nest it under Support because the
+             column is open; on a phone the panel is closed by default. -->
+        ${contact}
       </div>`;
 
     const socials = SOCIALS.map(
@@ -1281,54 +1350,52 @@
          </a></li>`,
     ).join("");
 
-    /* --- pre-footer: newsletter + FAQ, split 50/50 on desktop --- */
-    const preFooter = `
-      <div class="bg-cream border-primary border-b">
-        <div class="flex md:flex-row flex-col justify-center items-stretch gap-8 md:gap-12 mx-auto px-4 py-6 max-w-[1536px]">
-          <div class="flex flex-col justify-center gap-6 py-6 md:py-[42px] flex-1">
-            <div class="flex flex-col gap-2">
-              <h2 class="font-bold text-ink text-2xl md:text-3xl xl:text-4xl leading-tight xl:leading-[48px]">عندك اي اسئلة؟ كل حاجة هنا..</h2>
-              <p class="font-semibold text-primary text-sm xl:text-xl leading-relaxed">لو عندك أي استفسار أو عايز تطرح أي سؤال ، هتلاقي كل حاجة هنا</p>
-            </div>
-            <a href="faqs.html" class="self-start bg-cta hover:bg-cta-hover px-8 xl:px-10 py-3 xl:py-[18px] rounded-full font-semibold text-white text-sm xl:text-xl transition-colors">الاسئلة و الاجابات</a>
-          </div>
-
-          <div class="flex flex-col justify-center gap-6 py-6 md:py-[42px] flex-1">
-            <div class="flex flex-col gap-2">
-              <h2 class="font-bold text-ink text-2xl md:text-3xl xl:text-4xl leading-tight xl:leading-[48px]">اشترك لتعرف على أجدد العروض والخصومات</h2>
-              <p class="font-semibold text-primary text-sm xl:text-xl leading-relaxed">كن أول من يعرف كل ما هو جديد في جاد</p>
-            </div>
-            <form data-newsletter class="flex flex-row-reverse items-center gap-2 bg-transparent py-2 xl:py-[9px] pe-5 ps-2.5 border-2 border-outline rounded-2xl w-full">
-              <span class="text-muted shrink-0" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" class="w-6 h-6"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="m3 7 8.4 5.6a1 1 0 0 0 1.2 0L21 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
-              <input type="email" required aria-label="البريد الالكتروني"
-                     placeholder="أدخل عنوان البريد الالكتروني"
-                     class="flex-1 bg-transparent outline-none min-w-0 font-normal text-ink placeholder:text-onBeigeMuted text-sm xl:text-base" />
-              <button type="submit" class="bg-cta hover:bg-cta-hover px-5 py-2 xl:py-2.5 rounded-full font-bold text-white text-sm xl:text-base whitespace-nowrap transition-colors">اشتراك</button>
-            </form>
-          </div>
-        </div>
-      </div>`;
-
-    /* Orange newsletter card + socials (Figma node 9943:21633). The form keeps
-       the existing [data-newsletter] hook, so subscribe still toasts success. */
+    /* The newsletter, as a BAND across the top of the footer.
+       
+       It used to be a saturated orange card floating in the right-hand column,
+       with a blue-and-purple envelope inside it. Both came from the fork: the
+       orange is the one place on the site that colour appears at that size, and
+       against the deep green it read as a panel belonging to a different site
+       that had been pasted in. As a full-width band in the footer's own greens
+       it introduces the footer instead of interrupting it, and the form gets
+       the room to be a real target rather than a squeezed pill.
+       Keeps the [data-newsletter] hook, so subscribing still toasts. */
     const newsletter = `
-      <div class="flex flex-col gap-6 xl:items-end shrink-0">
-        <div class="flex items-center gap-4 bg-[#EA983E] p-5 xl:p-8 rounded-[20px] w-full max-w-[519px]">
-          <img src="images/jaad/site/newsletter-mail.png" alt="" class="w-[92px] xl:w-[122px] shrink-0 object-contain" />
-          <div class="flex flex-col gap-4 min-w-0">
-            <p class="font-medium text-ink text-lg leading-[1.4]">${esc(t("Stay Connected With Our Exclusive Offers"))}</p>
-            <form data-newsletter class="flex items-center gap-2 bg-white ps-4 pe-2 py-2 border border-[#FEFCFA] rounded-full w-full">
-              <input type="email" required aria-label="${esc(t("Email"))}" placeholder="${esc(t("Enter your email"))}"
-                     class="flex-1 bg-transparent outline-none min-w-0 text-black text-sm placeholder:text-black/50" />
-              <button type="submit" class="bg-heading hover:bg-[#1f4a24] px-6 py-2 rounded-full text-white text-sm whitespace-nowrap transition-colors">${esc(t("Subscribe"))}</button>
-            </form>
-          </div>
+      <div class="flex md:flex-row flex-col md:items-center gap-6 bg-white/[0.06] p-6 xl:p-8 border border-white/10 rounded-[20px]">
+        <img src="images/jaad/icons/newsletter-3d.png" alt="" aria-hidden="true"
+             class="w-16 xl:w-20 h-auto shrink-0" />
+        <div class="flex flex-col gap-1 min-w-0 md:flex-1">
+          <p class="font-medium text-white text-lg xl:text-xl leading-snug">${esc(t("اشترك واعرف كل جديد وعروضنا الحصرية"))}</p>
+          <p class="text-white/60 text-sm">${esc(t("كن أول من يعرف كل ما هو جديد في جاد"))}</p>
         </div>
-        <ul class="flex items-center gap-4">${socials}</ul>
+        <form data-newsletter class="flex items-center gap-2 bg-white ps-4 pe-2 py-2 rounded-full w-full md:w-auto md:min-w-[380px] shrink-0">
+          <input type="email" required aria-label="${esc(t("البريد الالكتروني"))}" placeholder="${esc(t("أدخل عنوان البريد الالكتروني"))}"
+                 class="flex-1 bg-transparent outline-none min-w-0 text-ink text-sm placeholder:text-muted" />
+          <button type="submit" class="bg-heading hover:bg-[#1f4a24] px-6 min-h-10 rounded-full font-semibold text-white text-sm whitespace-nowrap transition-colors">${esc(t("اشتراك"))}</button>
+        </form>
       </div>`;
+
+    /* The brand column. The logo, what JAAD is, how to reach it and where to
+       follow it, in one block — rather than the logo alone on the left with the
+       phone and email floated to the far right of the same row, which is where
+       they were and which read as a header, not a footer.
+
+       The contact rows are LABELLED and carry their own glyph. Unlabelled
+       digits in the corner of a dark band are not a phone number anyone finds
+       when they need one. */
+    const brand = `
+      <div class="flex flex-col gap-5 md:max-w-[300px]">
+        <img src="images/jaad/brand/logo-jaad-mark.svg" alt="جاد" class="w-[72px] xl:w-[84px] h-auto" />
+        <p class="text-white/70 text-sm leading-relaxed">${esc(t("قهوة ومكسرات وبهارات طبيعية، مصدرها الأصلي في قلب كل منتج."))}</p>
+        <ul class="flex items-center gap-3">${socials}</ul>
+      </div>`;
+
 
     /* Scattered leaves — the third leaf field (with Our Story + Reviews). They
-       drift with the cursor via initLeafWind, same as the page-body leaves. */
+       drift with the cursor via initLeafWind, same as the page-body leaves.
+       Visible at every width so the leaves-on-scroll wind runs on phones too;
+       the inline max-width in vw caps the fixed px widths below md, and at
+       >=768px 9vw always exceeds the largest leaf, so desktop is unaffected. */
     const footerLeaves = [
       ["leaf-1.svg", "6%", "1%", "w-12", 20],
       ["leaf-3.svg", "70%", "2%", "w-16", -150],
@@ -1339,37 +1406,31 @@
     ]
       .map(
         (l) =>
-          // Visible at every width (was `hidden md:block`) so the leaves-on-scroll
-          // wind effect runs on phones too. On mobile the fixed px widths (w-8..w-16)
-          // could crowd/overflow the narrow footer, so an inline max-width in vw caps
-          // them below md; at >=768px 9vw always exceeds the largest leaf (64px), so
-          // the desktop field is left byte-identical.
           `<img src="images/jaad/decor/${l[0]}" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute ${l[3]} h-auto opacity-90 brightness-150 pointer-events-none z-0" style="top:${l[1]};left:${l[2]};--lr:${l[4]}deg;max-width:9vw" />`,
       )
       .join("");
 
     return `<footer class="relative bg-greenDeepest overflow-hidden">
-      <div class="relative flex flex-col gap-8 mx-auto px-4 xl:px-[60px] pt-12 xl:pt-[60px] pb-6 max-w-[1512px]">
+      <div class="relative flex flex-col gap-10 xl:gap-12 mx-auto px-4 xl:px-[60px] pt-12 xl:pt-[60px] pb-6 max-w-[1512px]">
         ${footerLeaves}
-        <!-- logo + contact -->
-        <div class="flex justify-between items-center gap-4">
-          <img src="images/jaad/brand/logo-jaad-mark.svg" alt="جاد" class="w-[64px] xl:w-[88px] h-auto" />
-          <div class="flex flex-col gap-0.5 text-white text-sm xl:text-base text-end latin">
-            <a href="tel:${CONTACT.hotline}" class="hover:text-lime transition-colors">${CONTACT.hotline}</a>
-            <a href="mailto:${CONTACT.email}" class="hover:text-lime transition-colors">${CONTACT.email}</a>
-          </div>
+        ${newsletter}
+
+        <!-- Brand block, then the link columns. A 4-track grid from md, the
+             brand track wider than the three link tracks: the columns used to be
+             three narrow min-w-[142px] boxes crowded against the inline start
+             with a large dead gap after them. -->
+        <div class="gap-10 xl:gap-12 grid md:grid-cols-[1.4fr_repeat(3,1fr)]">
+          ${brand}
+          <div class="hidden md:contents">${columns}</div>
         </div>
-        <div class="bg-white/15 w-full h-px"></div>
-        <!-- link columns + newsletter -->
-        <div class="flex xl:flex-row flex-col justify-between gap-10">
-          <div class="hidden md:flex flex-wrap gap-10 xl:gap-20">${columns}</div>
-          ${columnsMobile}
-          ${newsletter}
-        </div>
-        <!-- payments + copyright -->
-        <div class="flex flex-wrap justify-between items-center gap-4 pt-2">
+        ${columnsMobile}
+
+        <!-- Bottom bar. The rule is what separates the legal line from the
+             footer proper; before, the copyright simply floated under the
+             payment marks. -->
+        <div class="flex flex-wrap justify-between items-center gap-4 pt-6 border-t border-white/10">
           ${paymentMarks("sm")}
-          <p class="text-[#2f6a35] text-[11px] text-end">© JAAD <span class="latin">${YEAR}</span> - ${esc(t("All Rights Reserved"))}</p>
+          <p class="text-white/50 text-xs text-end">© JAAD <span class="latin">${YEAR}</span> · ${esc(t("جميع الحقوق محفوظة"))}</p>
         </div>
       </div>
     </footer>`;
@@ -3234,6 +3295,25 @@
      JS-built cards (Recently Viewed) carry only the scene path in their seed /
      Recent store, and the originals are slug-named, so this maps id -> original.
      Generated from catalog.json; keep in sync if the catalog SKUs change. */
+  /* Pack weight per product id, mirroring `weight` in data/catalog.json.
+     PLACEHOLDER figures — see catalog.weight() in build/catalog.py for why they
+     exist and what has to replace them.
+
+     A literal for the same reason PLAIN_BY_ID below is one: the drawer, the
+     cart page and the recent rail are all built before any fetch could land,
+     and they are handed product objects from localStorage and from the cart
+     store, neither of which carries a weight. Keyed by id so whatever a caller
+     hands over, the size shown is the catalogue's.
+
+     KEEP IN STEP with catalog.json — this is a copy, and a SKU whose weight
+     changes there and not here will show the old figure in the cart while the
+     card shows the new one. */
+  const WEIGHT_BY_ID = {"1":250,"2":250,"3":250,"4":250,"5":250,"6":250,"7":250,"8":250,"9":200,"10":200,"11":250,"12":200,"13":75,"14":100,"15":75,"16":100,"17":50,"18":75,"19":100,"20":100,"21":50,"22":50,"23":100,"24":75,"25":75,"26":75};
+  function weightOf(id) {
+    const w = WEIGHT_BY_ID[String(id)];
+    return w ? w + " " + t("جم") : "";
+  }
+
   const PLAIN_BY_ID = {"1":"images/jaad/products/coffee-light-plain.png","2":"images/jaad/products/coffee-medium-plain.png","3":"images/jaad/products/coffee-dark-plain.png","4":"images/jaad/products/coffee-light-cardamom.png","5":"images/jaad/products/coffee-medium-cardamom.png","6":"images/jaad/products/coffee-dark-cardamom.png","7":"images/jaad/products/coffee-espresso.png","8":"images/jaad/products/nuts-cashew.png","9":"images/jaad/products/nuts-hazelnut.png","10":"images/jaad/products/nuts-pistachio.png","11":"images/jaad/products/nuts-almond.png","12":"images/jaad/products/nuts-walnut.png","13":"images/jaad/products/spices-chili.png","14":"images/jaad/products/spices-turmeric.png","15":"images/jaad/products/spices-ginger.png","16":"images/jaad/products/spices-coriander.png","17":"images/jaad/products/spices-nutmeg.png","18":"images/jaad/products/spices-cinnamon.png","19":"images/jaad/products/spices-paprika.png","20":"images/jaad/products/spices-black-pepper.png","21":"images/jaad/products/spices-cardamom.png","22":"images/jaad/products/spices-cloves.png","23":"images/jaad/products/spices-cumin.png","24":"images/jaad/products/spices-meat.png","25":"images/jaad/products/spices-chicken.png","26":"images/jaad/products/spices-fish.png"};
 
   const Favs = (function () {
@@ -4171,7 +4251,10 @@
         <img src="${esc(it.image)}" alt="${esc(it.name)}" class="cart-thumb bg-cream shrink-0 rounded-lg w-12 h-12" loading="lazy" />
         <div class="flex flex-col flex-1 min-w-0">
           <p class="font-semibold text-ink text-sm line-clamp-1">${esc(it.name)}</p>
-          <p class="text-muted text-xs">${esc(t("العدد"))}: <span class="latin" data-line-qty>${it.qty}</span></p>
+          <!-- Pack weight beside the count, separated by a middot: on the
+               locked summary the row is a receipt, and "250 g · Qty 2" is the
+               line a shopper checks against what they meant to buy. -->
+          <p class="text-muted text-xs">${weightOf(it.id) ? esc(weightOf(it.id)) + " · " : ""}${esc(t("العدد"))}: <span class="latin" data-line-qty>${it.qty}</span></p>
         </div>
         ${priceStickerHTML(it.price * it.qty, "data-line-total")}
       </div>`;
@@ -4201,7 +4284,7 @@
             <p class="flex-1 min-w-0 font-semibold text-ink text-sm line-clamp-2">${esc(it.name)}</p>
             ${priceStickerHTML(it.price * it.qty, "data-line-total")}
           </div>
-          <p class="mt-1 text-muted text-xs">العدد: <span class="latin" data-line-qty>${it.qty}</span></p>
+          <p class="mt-1 text-muted text-xs">${weightOf(it.id) ? esc(weightOf(it.id)) + " · " : ""}${esc(t("العدد"))}: <span class="latin" data-line-qty>${it.qty}</span></p>
           <!-- gap-1 until sm: at 320 the stepper (122) + حذف (24) + gap (8)
                came to 154 inside a 141px column, overflowing the row by 13px.
                The tighter gap brings it to 138. The baseline sweep missed
@@ -5923,9 +6006,12 @@
             <span class="${sWhole} leading-[1.2]">${whole}</span>
             <span class="${sEGP} leading-[1.4]">.${dec}</span>
           </span>
-          <h3 class="font-semibold text-black ${titleCls} leading-snug">
-            <a href="product-${id}.html" data-product-title class="hover:text-heading transition-colors">${name}</a>
-          </h3>
+          <div class="flex flex-col gap-0.5">
+            <h3 class="font-semibold text-black ${titleCls} leading-snug">
+              <a href="product-${id}.html" data-product-title class="hover:text-heading transition-colors">${name}</a>
+            </h3>
+            ${weightOf(id) ? `<span class="text-muted ${c ? "text-xs" : "text-sm"} latin" data-product-weight>${esc(weightOf(id))}</span>` : ""}
+          </div>
         </div>
       </article>`;
   }
