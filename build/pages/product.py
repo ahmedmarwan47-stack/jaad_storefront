@@ -23,7 +23,7 @@ ours — same rule as the branch phone numbers.
 import re
 from html import unescape
 
-from catalog import PRODUCTS, e, in_category, money, rail_products, title
+from catalog import PRODUCTS, e, in_category, money, rail_products, title, weight
 from components import (
     ICON, accordion, best_seller_badge, button, carousel, page, page_header,
     points_callout, product_card, product_gallery, price_sticker, qty_stepper,
@@ -207,6 +207,16 @@ _STORY_ICONS_ALT = [
 ]
 
 
+def _weight_pill(p):
+    """The pack-weight pill for the product page, or "" when there is none."""
+    w = weight(p)
+    if not w:
+        return ""
+    return ('<span class="self-start inline-flex items-center bg-cream px-3 py-1 '
+            'rounded-full font-semibold text-heading text-sm latin" '
+            f'data-product-weight>{e(w)}</span>')
+
+
 def _story_html(p):
     """White-image-mode scroll story (Ahmed, 2026-08-18) — prototype on the hero
     product only. A pinned, scroll-scrubbed stage: the white-bg packshot locks to
@@ -292,6 +302,7 @@ def _render(p):
     # specs_block from the SPECS_* copy above. It replaced the per-product
     # icon/label tiles, whose text came from the client's benefit lines and so
     # ranged from full sentences to single words like "مخبوزة".
+    weight_pill = _weight_pill(p)
     trust_html = specs_block(SPECS_TAGLINE, SPECS_DESC, SPECS_POINTS)
 
     # Related products — an INTERACTIVE "you may also like" widget in the sticky
@@ -382,6 +393,13 @@ def _render(p):
             <div class="flex flex-col gap-3">
               {best_seller_badge(p)}
               <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">{e(title(p))}</h1>
+              <!-- Pack weight, directly under the name. PLACEHOLDER figures —
+                   see catalog.weight(). It sits here rather than down with the
+                   specs because it is part of WHAT this is: on a page selling
+                   one product, "which size am I buying" is answered above the
+                   price, not below it. The pill keeps it from reading as a
+                   second line of the title. -->
+              {weight_pill}
               <!-- Points callout sits with the rating + social-proof line, right
                    beside the red "best seller" proof text (Ahmed, 2026-08-04) —
                    not up by the yellow best-seller badge. Wraps on a narrow

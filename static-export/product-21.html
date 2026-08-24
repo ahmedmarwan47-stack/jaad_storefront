@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=648100aa" />
-    <link rel="stylesheet" href="styles.css?v=01c41858" />
+    <link rel="stylesheet" href="tailwind.css?v=6b91edf3" />
+    <link rel="stylesheet" href="styles.css?v=f8d00b82" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -45,8 +45,8 @@
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js?v=8ec05b7f"></script>
-    <script defer src="scripts.js?v=b7fca59b"></script>
+    <script defer src="i18n-en.js?v=365b3d71"></script>
+    <script defer src="scripts.js?v=9a099e20"></script>
   </head>
   <body data-page="product" data-path="/product" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -206,6 +206,13 @@
             <div class="flex flex-col gap-3">
               <span data-best-seller class="inline-flex self-start items-center bg-[#8ACC3E] px-3 rounded-full h-7 font-bold text-ink text-xs leading-none">الأكثر مبيعاً</span>
               <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">حبهان</h1>
+              <!-- Pack weight, directly under the name. PLACEHOLDER figures —
+                   see catalog.weight(). It sits here rather than down with the
+                   specs because it is part of WHAT this is: on a page selling
+                   one product, "which size am I buying" is answered above the
+                   price, not below it. The pill keeps it from reading as a
+                   second line of the title. -->
+              <span class="self-start inline-flex items-center bg-cream px-3 py-1 rounded-full font-semibold text-heading text-sm latin" data-product-weight>50 جم</span>
               <!-- Points callout sits with the rating + social-proof line, right
                    beside the red "best seller" proof text (Ahmed, 2026-08-04) —
                    not up by the yellow best-seller badge. Wraps on a narrow
@@ -616,9 +623,18 @@
                 </span>
                 
               </div>
-              <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-8.html" data-product-title class="hover:text-heading transition-colors">Cashew</a>
-              </h3>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-8.html" data-product-title class="hover:text-heading transition-colors">Cashew</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
             </div>
           </article>
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="nuts"
@@ -660,9 +676,18 @@
                 </span>
                 
               </div>
-              <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-9.html" data-product-title class="hover:text-heading transition-colors">Hazelnut</a>
-              </h3>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-9.html" data-product-title class="hover:text-heading transition-colors">Hazelnut</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>200 جم</span>
+              </div>
             </div>
           </article>
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="nuts"
@@ -704,9 +729,18 @@
                 </span>
                 
               </div>
-              <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-10.html" data-product-title class="hover:text-heading transition-colors">Pistachio</a>
-              </h3>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-10.html" data-product-title class="hover:text-heading transition-colors">Pistachio</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>200 جم</span>
+              </div>
             </div>
           </article>
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="nuts"
@@ -748,9 +782,18 @@
                 </span>
                 
               </div>
-              <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-11.html" data-product-title class="hover:text-heading transition-colors">Almond</a>
-              </h3>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-11.html" data-product-title class="hover:text-heading transition-colors">Almond</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
             </div>
           </article>
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="nuts"
@@ -792,9 +835,18 @@
                 </span>
                 
               </div>
-              <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-12.html" data-product-title class="hover:text-heading transition-colors">Walnut</a>
-              </h3>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-12.html" data-product-title class="hover:text-heading transition-colors">Walnut</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>200 جم</span>
+              </div>
             </div>
           </article>
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
@@ -836,9 +888,18 @@
                 </span>
                 
               </div>
-              <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-1.html" data-product-title class="hover:text-heading transition-colors">Light Roasted Coffee</a>
-              </h3>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-1.html" data-product-title class="hover:text-heading transition-colors">Light Roasted Coffee</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
             </div>
           </article>
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
@@ -880,9 +941,18 @@
                 </span>
                 
               </div>
-              <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-2.html" data-product-title class="hover:text-heading transition-colors">Medium Roasted Coffee</a>
-              </h3>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-2.html" data-product-title class="hover:text-heading transition-colors">Medium Roasted Coffee</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
             </div>
           </article>
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
@@ -924,9 +994,18 @@
                 </span>
                 
               </div>
-              <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-3.html" data-product-title class="hover:text-heading transition-colors">Dark Roasted Coffee</a>
-              </h3>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-3.html" data-product-title class="hover:text-heading transition-colors">Dark Roasted Coffee</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
             </div>
           </article>
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
@@ -968,9 +1047,18 @@
                 </span>
                 
               </div>
-              <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-4.html" data-product-title class="hover:text-heading transition-colors">Light Roasted with Cardamom</a>
-              </h3>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-4.html" data-product-title class="hover:text-heading transition-colors">Light Roasted with Cardamom</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
             </div>
           </article>
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
@@ -1012,9 +1100,18 @@
                 </span>
                 
               </div>
-              <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-5.html" data-product-title class="hover:text-heading transition-colors">Medium Roasted with Cardamom</a>
-              </h3>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-5.html" data-product-title class="hover:text-heading transition-colors">Medium Roasted with Cardamom</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
             </div>
           </article>
             </div>

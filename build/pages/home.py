@@ -90,7 +90,7 @@ REVIEW_LEAVES = [
     ("leaf-5.svg", "92%", "61%", "w-8", 70),
 ]
 
-# Latest from JAAD — Figma node 9974:21059. The posts themselves live in
+# Latest From JAAD — Figma node 9974:21059. The posts themselves live in
 # _posts.POSTS (Ahmed, 2026-08-20), shared with the blog index and post pages,
 # so the homepage teaser always shows the three most recent real articles
 # instead of its own hardcoded copy of them.
@@ -287,7 +287,7 @@ def build():
            (products right), text block left, scalloped white bottom edge
            (the 'Union' shape). One static hero, no carousel. -->
       <section id="hero" class="relative bg-white w-full">
-        <h1 class="sr-only">Jaad — natural coffee, nuts and spices</h1>
+        <h1 class="sr-only">JAAD — Natural Coffee, Nuts &amp; Spices</h1>
         <div class="relative w-full">
           <!-- Language + device aware hero (Ahmed, 2026-08-19). Four sources:
                the product cluster sits on the side OPPOSITE the (side-aligned)
@@ -412,7 +412,7 @@ def build():
           <div class="flex flex-col gap-3">
             <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-greenDeep text-[13px] uppercase tracking-[1px]">Media Center</span>
             <div class="flex flex-wrap justify-between items-end gap-4">
-              <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-none tracking-[-1px]">Latest from JAAD</h2>
+              <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-none tracking-[-1px]">Latest From JAAD</h2>
               <a href="blogs.html" class="group/link inline-flex items-center gap-2 font-bold text-heading text-base">
                 Explore All Articles
                 <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 transition-transform group-hover/link:translate-x-1"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>

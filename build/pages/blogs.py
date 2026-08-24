@@ -1,4 +1,4 @@
-"""Blog index — JAAD Media Center, matching the homepage's 'Latest from JAAD'
+"""Blog index — JAAD Media Center, matching the homepage's 'Latest From JAAD'
 section (Figma node 9974:21059).
 
 Rebuilt (Ahmed, 2026-08-20): the page previously rendered the inherited Abu-Auf
@@ -29,7 +29,7 @@ def build():
         <div class="flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="flex flex-col gap-3">
             <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-greenDeep text-[13px] uppercase tracking-[1px]">Media Center</span>
-            <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-none tracking-[-1px]">Latest from JAAD</h1>
+            <h1 class="font-medium text-heading text-[32px] md:text-[40px] leading-none tracking-[-1px]">Latest From JAAD</h1>
             <p class="max-w-[630px] text-bodyMuted text-base leading-[1.5]">
               Guides, recipes and notes on coffee, nuts, dates and spices — written by the JAAD team.
             </p>

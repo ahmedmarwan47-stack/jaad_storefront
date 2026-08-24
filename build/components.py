@@ -20,7 +20,7 @@ import html as html_mod
 import os
 import re
 
-from catalog import e, money, title
+from catalog import weight as weight_of, e, money, title
 
 # Styled product photography (bag on a soft fabric ground with the product
 # scattered around) — the Figma look. Exported from the design where available;
@@ -1730,8 +1730,17 @@ def price_sticker(price, size="md"):
             f'<span class="{egp} leading-[1.4]">.{dec}</span></span>')
 
 
-def cart_line(p, qty=1, weight="250 جم"):
+def cart_line(p, qty=1, weight_str=None):
+    """`weight_str` defaults to the PRODUCT's own pack weight.
+
+    It used to default to the literal "250 جم", which every row on the cart page
+    then printed regardless of what it was — a 50 g jar of cardamom and a 250 g
+    bag of coffee both claimed 250 g. The figures themselves are still
+    placeholders (see catalog.weight), but at least the row now says what the
+    catalogue says.
+    """
     from catalog import money, title as _title
+    weight = weight_str if weight_str is not None else weight_of(p)
     return f"""
               <!-- The thumb, stepper and price chip are all shrink-0 and with
                    gaps come to ~302px, so in a 295px column they squeezed the
@@ -1904,6 +1913,9 @@ def product_widget(p, sale=None, slide=True, cat=None):
     old = (f'<span class="text-muted text-sm line-through latin">EGP {money(p["price"])}</span>'
            if on_offer else "")
     width = "w-[258px] shrink-0 snap-start" if slide else "w-full"
+    w = weight_of(p)
+    weight_line = (f'<span class="text-muted text-sm latin" data-product-weight>{e(w)}</span>'
+                   if w else "")
     # Prefer the styled Figma photography where we have it (keyed by id).
     # Two sources for the image-style toggle: the in-scene styled shot (default)
     # and the white-background original. initImgStyleSwitch swaps [data-img-scene]
@@ -1950,9 +1962,18 @@ def product_widget(p, sale=None, slide=True, cat=None):
                 </span>
                 {old}
               </div>
-              <h3 class="font-semibold text-black text-lg leading-snug">
-                <a href="product-{pid}.html" data-product-title class="hover:text-heading transition-colors">{e(en_name)}</a>
-              </h3>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-{pid}.html" data-product-title class="hover:text-heading transition-colors">{e(en_name)}</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                {weight_line}
+              </div>
             </div>
           </article>"""
 

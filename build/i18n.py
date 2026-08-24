@@ -617,7 +617,7 @@ TPL = {
     "تشكيلة متنوعة تبدا من {0} جنية": "A varied range starting from EGP {0}",
     "الوزن الصافي: {0}": "Net weight: {0}",
     "رصيدك {0}": "Your balance {0}",
-    "طلب رقم {0}": "Order number {0}",
+    "طلب رقم {0}": "Order Number {0}",
     "250 جم · عدد {0}": "250 g · qty {0}",
     "{0} منتج": "{0} products",
     "({0} منتج)": "({0} products)",

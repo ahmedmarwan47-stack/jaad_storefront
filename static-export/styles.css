@@ -24,6 +24,31 @@
 @font-face { font-family: "Aeonik"; font-weight: 700; font-style: normal; font-display: swap; src: url("fonts/aeonik/Aeonik-Bold.ttf") format("truetype"); }
 @font-face { font-family: "Aeonik"; font-weight: 900; font-style: normal; font-display: swap; src: url("fonts/aeonik/Aeonik-Black.ttf") format("truetype"); }
 
+/* Almarai, self-hosted alongside Aeonik (Ahmed, 2026-08-24).
+   Added for the language-switch control, which has to render "العربية" in a
+   real Arabic face rather than whatever the system happens to substitute — and
+   Aeonik carries no Arabic glyphs at all, so in English mode that word was
+   being drawn by a fallback nobody chose.
+
+   Self-hosted rather than linked, to match how Aeonik is served here. (Note the
+   page already pulls Baloo Bhaijaan 2 from Google via the @import above, so
+   this is not the only remote font on the page — self-hosting Almarai simply
+   avoids adding a second request and keeps this one working from file://.)
+   Arabic and Latin subsets are separate files with their own unicode-range, so
+   a Latin-only page never downloads the Arabic subset. */
+@font-face { font-family: "Almarai"; font-weight: 400; font-style: normal; font-display: swap;
+  src: url("fonts/almarai/Almarai-400-arabic.woff2") format("woff2");
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+@font-face { font-family: "Almarai"; font-weight: 400; font-style: normal; font-display: swap;
+  src: url("fonts/almarai/Almarai-400-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Almarai"; font-weight: 700; font-style: normal; font-display: swap;
+  src: url("fonts/almarai/Almarai-700-arabic.woff2") format("woff2");
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+@font-face { font-family: "Almarai"; font-weight: 700; font-style: normal; font-display: swap;
+  src: url("fonts/almarai/Almarai-700-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
 /* Font variables referenced by the Tailwind fontFamily tokens. */
 :root {
   --font-arabic: "Baloo Bhaijaan 2", system-ui, sans-serif;
@@ -787,6 +812,29 @@ body.no-scroll {
   }
 }
 
+/* --- Decorative leaves: HIDDEN, not removed (Ahmed, 2026-08-24) -----------
+   The drifting leaf fields on the homepage and in the footer are switched off
+   for now, deliberately kept in the markup so they can come back.
+
+   TO RESTORE: delete this one rule. Nothing else was touched — the markup that
+   places them (_LEAF_FIELD in build/pages/home.py, footerLeaves in scripts.js),
+   the .leaf-wind transform above and initLeafWind() are all still in place and
+   will start working again the moment this block goes.
+
+   `display: none` rather than `opacity: 0`, which is what was asked for and is
+   the same single line to undo: it additionally stops initLeafWind writing
+   transforms to invisible nodes on every pointer move and every scroll frame.
+   If you would rather they stayed in the layout — to fade them back in, or to
+   flip them on from devtools — swap the line below for:
+       opacity: 0; pointer-events: none;
+
+   Scoped to [data-leaf], which is the homepage and footer fields only. The
+   Our Story journey throws its OWN leaves on each chapter hand-off
+   ([data-journey-leaf]); those are a different effect and are untouched. */
+[data-leaf] {
+  display: none;
+}
+
 /* Accordion (FAQ) */
 .accordion-item .accordion-panel {
   overflow: hidden;
@@ -1210,6 +1258,13 @@ fieldset {
 [data-navbar][data-stuck="true"] .masthead-logo,
 body[data-page="checkout"] .masthead-logo {
   align-self: flex-start;
+  /* Nudged UP by 6px (Ahmed, 2026-08-24). Aligning to the row's start put the
+     mark's top exactly on the bar's top edge, which left it sitting a touch low
+     against the bar and hanging further over the page than it needed to. Six
+     pixels is deliberately small: the bar is pinned to the viewport top, so
+     whatever the logo gains above the edge is clipped rather than shown, and
+     the whole of that 6px comes back off the overhang below. */
+  transform: translateY(-6px);
   filter: drop-shadow(0 6px 10px rgba(6, 42, 28, 0.18));
 }
 [data-navbar][data-stuck="true"] .masthead-logo img,
@@ -4068,3 +4123,15 @@ html[data-btn="v2"] [data-card-stepper] button { border-radius: 12px !important;
   padding: 0;
   overflow: hidden;
 }
+
+
+/* --- Language switch ------------------------------------------------------
+   ALMARAI, whichever way the site is currently set (Ahmed, 2026-08-24). This
+   control is the one label on the page always written in the language you are
+   switching TO — it reads "العربية" while the site is in English and "English"
+   while it is in Arabic — so it cannot usefully inherit the page's own face.
+   In English mode the page font is Aeonik, which has no Arabic glyphs, and the
+   word was being drawn by whatever the OS happened to substitute.
+
+   Scoped by the control's own attribute, so nothing else changes face. */
+[data-lang-toggle] { font-family: "Almarai", system-ui, sans-serif; }

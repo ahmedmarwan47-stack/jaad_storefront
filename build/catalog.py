@@ -40,6 +40,23 @@ def money(v):
     return f"{v:.2f}".rstrip("0").rstrip(".") if v % 1 else f"{int(v)}"
 
 
+def weight(p):
+    """Pack weight as the display string, e.g. "250 جم" — or "" when unknown.
+
+    PLACEHOLDER DATA (Ahmed, 2026-08-24). The client's table carries name,
+    category and price only; these figures were added to catalog.json as
+    plausible retail sizes per category so the card, the cart line and the
+    product page can all show a pack size. They are not the real pack weights
+    and must be replaced from the client's own list before launch.
+
+    Returned from ONE place so every surface says the same thing: the card, the
+    drawer, the cart page, the checkout summary and the product page all call
+    this rather than formatting the number themselves.
+    """
+    w = p.get("weight")
+    return f"{w} جم" if w else ""
+
+
 def in_category(api_name, limit=None):
     out = [p for p in PRODUCTS if p["category"] == api_name]
     return out[:limit] if limit else out
