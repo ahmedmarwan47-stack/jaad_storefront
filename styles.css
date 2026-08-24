@@ -4441,9 +4441,18 @@ html[data-btn="v1"] [data-navbar] a,
 html[data-btn="v1"] [data-navbar] button,
 html[data-btn="v1"] [data-flash-sale],
 html[data-btn="v1"] [data-flash-sale] .text-white { color: #2A1C0B !important; }
+/* The countdown's three tiers, re-darkened (Ahmed, 2026-08-24). These were
+   read as passing on the first sweep only because the timer had not populated
+   yet — the labels are written by the interval, so they measured as invisible
+   nodes. Once running they were 3.96:1 and 2.95:1.
+   Brand orange leaves almost no room: 4.5:1 arrives at roughly #4C3922, so the
+   old three-step ramp cannot survive as-is. It is compressed instead of
+   flattened — the digits keep #2A1C0B (7.14:1), the labels take #3B2C19
+   (5.81:1) and the separators #4A3720 (4.87:1) — so the hierarchy still reads
+   and every step clears AA. */
 html[data-btn="v1"] [data-flash-sale] .text-white\/60,
-html[data-btn="v1"] [data-flash-sale] .text-white\/55 { color: #5A4426 !important; }
-html[data-btn="v1"] [data-flash-sale] .text-white\/30 { color: #6E5734 !important; }
+html[data-btn="v1"] [data-flash-sale] .text-white\/55 { color: #3B2C19 !important; }
+html[data-btn="v1"] [data-flash-sale] .text-white\/30 { color: #4A3720 !important; }
 html[data-btn="v1"] [data-flash-sale] .bg-white\/10 { background-color: rgba(42, 28, 11, 0.10) !important; }
 
 /* The timer pill and the "Shop now" link were lime on green; on orange the
@@ -4465,3 +4474,11 @@ html[data-btn="v1"] [data-navbar] [data-open="cart"] { background-color: #2A1C0B
 html[data-btn="v1"] [data-navbar] [data-open="cart"] svg,
 html[data-btn="v1"] [data-navbar] [data-open="cart"] [data-cart-glyph] { color: #FFFFFF !important; }
 html[data-btn="v1"] [data-navbar] [data-cart-count] { background-color: #FDF8F1 !important; color: #2A1C0B !important; }
+
+/* The middle band goes cream (Ahmed, 2026-08-24). With orange above and below
+   it, lime was a third hue competing with both — cream is the site's own
+   ground, so the strip reads as a gap between the two orange bands rather than
+   a band of its own, and the masthead settles into orange / cream / orange.
+   The type on it is already near-black (.text-black) or the darkened heading
+   green, both far past AA on cream, so nothing else has to move. */
+html[data-btn="v1"] [data-utility-bar] { background-color: #FDF8F1 !important; }

@@ -1101,7 +1101,7 @@
         ${
           checkout
             ? ""
-            : `<div class="bg-limeFigma">
+            : `<div data-utility-bar class="bg-limeFigma">
                  <div class="flex justify-between items-center gap-6 mx-auto px-4 xl:px-[60px] py-1.5 max-w-[1512px]">
                    <span class="font-medium text-black text-sm whitespace-nowrap">${esc(t("100% Natural Based Products"))}</span>
                    <nav class="flex items-center gap-4 xl:gap-6 min-w-0 overflow-hidden">
