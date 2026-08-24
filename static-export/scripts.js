@@ -1076,7 +1076,7 @@
              </span>
              <span class="hidden sm:flex items-center gap-1 font-semibold text-limeFigma text-[11px] whitespace-nowrap">
                ${esc(t("تسوق الآن"))}
-               <span class="ltr:scale-flip w-3 h-3 transition-transform group-hover:translate-x-0.5">${ICON.arrowRight}</span>
+               <span class="rtl:scale-flip w-3 h-3 transition-transform group-hover:translate-x-0.5">${ICON.arrowRight}</span>
              </span>
            </span>
          </a>`;
