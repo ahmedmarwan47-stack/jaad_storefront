@@ -8183,8 +8183,49 @@
       measureNodes(cmds, len);
     }
 
+    const nodeFrac = (i) =>
+      (nodeAt[i] === undefined ? (i + 0.5) / rows.length : nodeAt[i]);
+
+    /* MOBILE progress, derived from where the ROWS are rather than from the
+       section's box.
+       
+       The previous attempt drove the two separately: the line still drew off
+       the section's scroll position while the cards woke off their own
+       position in the viewport. They inevitably drifted, and the visible result
+       was a card appearing before the line had reached its circle (Ahmed,
+       2026-08-24).
+       
+       So on mobile the progress is BUILT from the rows: it returns exactly the
+       node fraction of the last row to pass the trigger, plus however far the
+       next row has travelled toward it. The line's head therefore sits on the
+       last lit circle by construction, and because the reveal test below is
+       once again simply `d >= nodeFrac(i)`, a card cannot light before the line
+       arrives — the two read the same number. */
+    function mobileTarget() {
+      const vh = window.innerHeight;
+      const trigger = vh * 0.75;
+      const tops = rows.map((r) => r.getBoundingClientRect().top);
+      const rowH = Math.max(1, rows[0].getBoundingClientRect().height);
+      let last = -1;
+      for (let i = 0; i < rows.length; i++) if (tops[i] < trigger) last = i;
+      // Approaching the first node.
+      if (last < 0) return nodeFrac(0) * clamp01((trigger + rowH - tops[0]) / rowH);
+      // Past the last one: run the tail out to 1.
+      if (last >= rows.length - 1) {
+        const t = clamp01((trigger - tops[last]) / rowH);
+        return nodeFrac(last) + (1 - nodeFrac(last)) * t;
+      }
+      const t = clamp01((trigger + rowH - tops[last + 1]) / rowH);
+      return nodeFrac(last) + (nodeFrac(last + 1) - nodeFrac(last)) * t;
+    }
+
     // Scroll position -> the raw progress the page is actually at.
     function readTarget() {
+      if (window.innerWidth < 768) {
+        target = clamp01(mobileTarget());
+        kick();
+        return;
+      }
       const rect = body.getBoundingClientRect();
       const vh = window.innerHeight;
       // Span: from first-touch at the bottom edge to last-exit past the top.
@@ -8234,24 +8275,10 @@
       path.style.setProperty("--draw", (1 - d).toFixed(4));
 
       rows.forEach((row, i) => {
-        // On DESKTOP a row wakes when the drawn line reaches its node, which is
-        // the whole point of the mechanic — the line arrives, the card follows.
-        //
-        // On MOBILE that coupling breaks down. The section is far taller
-        // relative to the viewport there, so the line reaches a node long
-        // before, or long after, that card is somewhere a reader is looking —
-        // cards were lighting while still well above the fold (Ahmed,
-        // 2026-08-24). Below md the row therefore wakes off its OWN position:
-        // once its top has risen past three-quarters of the viewport, i.e. as
-        // it settles into the middle of the screen.
-        let on;
-        if (window.innerWidth < 768) {
-          const rr = row.getBoundingClientRect();
-          on = rr.top < window.innerHeight * 0.75;
-        } else {
-          on = d >= (nodeAt[i] === undefined ? (i + 0.5) / rows.length : nodeAt[i]);
-        }
-        row.classList.toggle("is-reached", on);
+        // ONE test on both breakpoints: the line arrives, the card follows.
+        // What differs is where `d` comes from — see mobileTarget() — not how a
+        // row decides it has been reached.
+        row.classList.toggle("is-reached", d >= nodeFrac(i));
       });
 
       if (head) {
