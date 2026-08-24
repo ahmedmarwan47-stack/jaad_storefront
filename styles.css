@@ -3898,7 +3898,15 @@ html[dir="rtl"] .about-hero__scrim { --hero-scrim-to: left; }
    way the reference's does. */
 .about-time__vector {
   position: absolute; inset-block: 0; inset-inline-start: 0;
-  width: 64px; height: 100%; overflow: visible; pointer-events: none; z-index: 0;
+  width: 64px; height: 100%; pointer-events: none; z-index: 0;
+  /* CLIPPED to its own box (Ahmed, 2026-08-24). The path deliberately starts
+     above the block and ends below it, so the line enters and leaves the
+     section rather than starting on a stub — but with overflow visible that
+     lead-in painted straight up through the "The Road To JAAD" heading on
+     mobile, where the section sits directly under it. Clipping keeps the
+     entry curve (it is still drawn, just cropped at the edge) and stops it
+     crossing anything above or below. */
+  overflow: hidden;
 }
 @media (min-width: 768px) {
   .about-time__vector { inset-inline: 0; width: 100%; }
@@ -4333,5 +4341,41 @@ html[data-btn="v3"] [data-flash-sale] .text-white\/55 { color: #5f6b52 !importan
    beside them (5.35:1) without failing. */
 html[data-btn="v3"] [data-flash-sale] .text-white\/30 { color: #68775A !important; }
 
+/* --- the parked mobile actions pill ------------------------------------- *
+   On phones the stuck pill is a plate with `background: #006328` — a RAW HEX
+   in the base stylesheet, not a utility class, so none of the class overrides
+   above reached it. With the cart button inside it repainted moss, the result
+   was two different greens stacked: an old-brand deep-green plate around a
+   moss circle (Ahmed, 2026-08-24: "don't want both greens").
+
+   Resolved by making it ONE green rather than matching them: the plate takes
+   moss and the control inside goes transparent, so the pill reads as a single
+   moss button rather than a button on a plate. The glyph and the count badge
+   keep the treatment they already had. */
+html[data-btn="v3"] [data-sticky-actions][data-stuck="true"] { background: var(--moss-deep) !important; }
+html[data-btn="v3"] [data-sticky-actions][data-stuck="true"] [data-open="cart"],
+html[data-btn="v3"] [data-sticky-actions][data-stuck="true"] [data-open="search"] { background: transparent !important; box-shadow: none !important; }
+
+/* --- membership badge: green, not gold ---------------------------------- *
+   The base badge is `linear-gradient(135deg, #f6e6a6, #8ACC3E, #d4a72c)` —
+   pale gold into lime into amber, i.e. literally gold AND green in one pill
+   (Ahmed, 2026-08-24: "not gold, not gold and green"). In the moss palette
+   that reads as a stray metallic from another system.
+
+   Replaced with a moss wash. The stops are deliberately all LIGHT: the ink is
+   the same dark moss the rest of the chrome uses, and it has to stay legible
+   across the whole gradient — #8AA55C as the darkest stop measured 4.02:1 and
+   failed, so the run stops at #9BB87A (5.03:1). The gloss sweep from
+   .tier-badge is untouched. */
+html[data-btn="v3"] .tier-badge--gold {
+  background: linear-gradient(135deg, #EDF3E2 0%, #C6D9A6 45%, #9BB87A 100%);
+  color: #33401F;
+}
+
 html[data-btn="v3"] .radio-dot { border-color: var(--moss-deep); }
-html[data-btn="v3"] [data-tab-indicator] { background-color: var(--moss-deep) !important; }
+/* The segmented control's active pill is NOT repainted. It was, briefly, as
+   part of the "raw hexes" sweep — but its base value is `background: #fff`,
+   which is not a green and had no business in that list. Turning it moss left
+   the active label, which is dark, sitting on a dark fill (Ahmed, 2026-08-24:
+   "contrast of the active state"). White pill, dark label, exactly as V1 and
+   V2 — and it reads as selected against the light green track on its own. */

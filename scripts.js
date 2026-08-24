@@ -8234,7 +8234,24 @@
       path.style.setProperty("--draw", (1 - d).toFixed(4));
 
       rows.forEach((row, i) => {
-        row.classList.toggle("is-reached", d >= (nodeAt[i] === undefined ? (i + 0.5) / rows.length : nodeAt[i]));
+        // On DESKTOP a row wakes when the drawn line reaches its node, which is
+        // the whole point of the mechanic — the line arrives, the card follows.
+        //
+        // On MOBILE that coupling breaks down. The section is far taller
+        // relative to the viewport there, so the line reaches a node long
+        // before, or long after, that card is somewhere a reader is looking —
+        // cards were lighting while still well above the fold (Ahmed,
+        // 2026-08-24). Below md the row therefore wakes off its OWN position:
+        // once its top has risen past three-quarters of the viewport, i.e. as
+        // it settles into the middle of the screen.
+        let on;
+        if (window.innerWidth < 768) {
+          const rr = row.getBoundingClientRect();
+          on = rr.top < window.innerHeight * 0.75;
+        } else {
+          on = d >= (nodeAt[i] === undefined ? (i + 0.5) / rows.length : nodeAt[i]);
+        }
+        row.classList.toggle("is-reached", on);
       });
 
       if (head) {
