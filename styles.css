@@ -959,16 +959,18 @@ body.no-scroll {
   bottom: 2px;
   left: 0;
   width: 0;
-  /* FULLY ROUNDED, to nest inside the track (Ahmed, 2026-08-20).
-     This was a fixed 14px, chosen on 2026-08-19 to echo the green/orange
-     switcher's pill. It does not survive contact with the track it sits in:
-     the container is rounded-full, so at ~54px tall its corner curves inward by
-     ~27px, while the pill is inset only 2px and curved just 14px. At the first
-     and last chip the pill's squarer corner therefore pushes OUT past the
-     track's curve and white bleeds over the green edge.
-     A stadium pill (25px at 50px tall) sits inside the track's 27px curve with
-     the inset to spare, so the two curves nest at every position. */
-  border-radius: 9999px;
+  /* FOLLOWS THE TRACK's corner, not a stadium (Ahmed, 2026-08-24).
+     History worth keeping, because this has now been both: it was 14px, then
+     fully rounded on 2026-08-20 — correctly at the time, because the track was
+     `rounded-full` and at ~54px tall its corner curved inward ~27px, so a 14px
+     pill inset only 2px pushed OUT past that curve at the first and last chip
+     and bled white over the green edge.
+     The radius unification (2026-08-24) took every `rounded-full` down to 16px,
+     so the track is no longer a stadium and the stadium pill is now the thing
+     that disagrees with it. 14px = the track's 16px minus the pill's 2px inset,
+     which is the radius that keeps the two curves concentric — the same
+     relationship the fully-round version was reaching for. */
+  border-radius: 14px;
   background: #fff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
   transform: translateX(0);
@@ -4307,6 +4309,29 @@ html[data-btn="v3"] [data-open="cart"] svg { color: #FFFFFF !important; }
 /* The count badge sits ON that green, so it takes the light tint with dark
    type rather than the reverse. */
 html[data-btn="v3"] [data-cart-count] { background-color: var(--moss-tint) !important; color: var(--moss-ink) !important; }
+
+/* --- artwork that was drawn for the DARK bar ---------------------------- *
+   hdr-user.svg and hdr-search.svg are external <img> SVGs with a hardcoded
+   stroke="white", so CSS `color` cannot reach inside them — on the cream
+   masthead they were invisible. invert(1) takes white to black; they are
+   single-stroke marks, so nothing else in them moves. (hdr-cart.svg is already
+   stroke="#29612F" and is left alone; the cart button keeps its green fill and
+   uses the inline SVG, not this file.) */
+html[data-btn="v3"] [data-navbar] img[src*="hdr-user"],
+html[data-btn="v3"] [data-navbar] img[src*="hdr-search"] { filter: invert(1) brightness(0.28); }
+
+/* --- flash strip: the faded white type ---------------------------------- *
+   The timer's unit labels and its ":" separators are text-white/55 and
+   text-white/30. The earlier v3 rules caught .text-white and .text-white/60 but
+   not these two, so they stayed white on cream — 1.06:1, the worst failures on
+   the page. Found by an automated sweep rather than by eye, which is how they
+   survived the first pass. */
+html[data-btn="v3"] [data-flash-sale] .text-white\/55 { color: #5f6b52 !important; }
+/* #68775A, not the #8D977F this first used: that measured 2.89:1 on cream and
+   the sweep still flagged it. This is the LIGHTEST moss-grey that clears 4.5:1
+   on the cream ground (4.54:1), so the separators stay quieter than the labels
+   beside them (5.35:1) without failing. */
+html[data-btn="v3"] [data-flash-sale] .text-white\/30 { color: #68775A !important; }
 
 html[data-btn="v3"] .radio-dot { border-color: var(--moss-deep); }
 html[data-btn="v3"] [data-tab-indicator] { background-color: var(--moss-deep) !important; }
