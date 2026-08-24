@@ -4193,6 +4193,7 @@ html[data-btn="v3"] .bg-greenDeep     { background-color: var(--moss-deep) !impo
 html[data-btn="v3"] .hover\:bg-cta-hover:hover,
 html[data-btn="v3"] .hover\:bg-primary-hover:hover { background-color: var(--moss-dark) !important; }
 html[data-btn="v3"] .bg-greenDeepest  { background-color: var(--moss-ink) !important; }
+html[data-btn="v3"] .bg-heading       { background-color: var(--moss-deep) !important; }
 html[data-btn="v3"] .bg-mint          { background-color: var(--moss-mint) !important; }
 html[data-btn="v3"] .bg-primary-50    { background-color: var(--moss-mint) !important; }
 html[data-btn="v3"] .bg-greenTintSoft { background-color: var(--moss-soft) !important; }
@@ -4223,7 +4224,15 @@ html[data-btn="v3"] .bg-orange,
 html[data-btn="v3"] .bg-highlight     { background-color: var(--moss-orange) !important; color: #2A1C0B !important; }
 
 /* --- LIGHT chrome: masthead + footer ------------------------------------ */
-html[data-btn="v3"] [data-navbar] { background-color: #FFFFFF !important; box-shadow: inset 0 -1px 0 var(--moss-tint); }
+/* One surface for all the chrome (Ahmed, 2026-08-24): the flash strip, the
+   navbar, the utility strip under it and the stuck bar all take the FOOTER's
+   cream, so the page opens and closes on the same colour instead of three
+   different light greens. */
+html[data-btn="v3"] [data-navbar],
+html[data-btn="v3"] [data-navbar][data-stuck="true"] { background-color: #FDF8F1 !important; box-shadow: inset 0 -1px 0 var(--moss-tint); }
+/* The lime utility strip ("100% Natural Based Products") is the bottom band of
+   the header block and goes with it. */
+html[data-btn="v3"] header .bg-limeFigma:not([data-flash-sale] *) { background-color: #FDF8F1 !important; color: var(--moss-ink) !important; box-shadow: inset 0 -1px 0 var(--moss-tint); }
 html[data-btn="v3"] [data-navbar] .text-white,
 html[data-btn="v3"] [data-navbar] a,
 html[data-btn="v3"] [data-navbar] button { color: var(--moss-ink) !important; }
@@ -4234,9 +4243,16 @@ html[data-btn="v3"] [data-navbar] svg { color: var(--moss-ink); }
    selector rather than the bare element. */
 html[data-btn="v3"] footer,
 html[data-btn="v3"] footer.bg-greenDeepest { background-color: #FDF8F1 !important; }
-html[data-btn="v3"] footer .text-white,
-html[data-btn="v3"] footer a,
+/* Scoped away from FILLED controls. The first version darkened every
+   .text-white in the footer, which included the Subscribe button's label —
+   moss-ink type on a moss-deep fill, the worst contrast on the page. Anything
+   sitting on a coloured fill keeps its white. */
+html[data-btn="v3"] footer .text-white:not(.bg-heading):not(.bg-cta):not(.bg-primary),
+html[data-btn="v3"] footer a:not(.bg-heading):not(.bg-cta):not(.bg-primary),
 html[data-btn="v3"] footer h2 { color: var(--moss-ink) !important; }
+html[data-btn="v3"] footer .bg-heading,
+html[data-btn="v3"] footer .bg-cta,
+html[data-btn="v3"] footer button[type="submit"] { color: #FFFFFF !important; }
 html[data-btn="v3"] footer .text-white\/70,
 html[data-btn="v3"] footer .text-white\/60,
 html[data-btn="v3"] footer .text-white\/50 { color: #5f6b52 !important; }
@@ -4256,22 +4272,38 @@ html[data-btn="v3"] footer .border-white\/10 { border-color: rgba(90, 110, 58, 0
    Instead it keeps its own ground — a moss plate behind it, which is what the
    mark was drawn to sit on. */
 html[data-btn="v3"] footer a[aria-label] img { filter: invert(1); opacity: 0.65; }
-html[data-btn="v3"] footer img[src*="logo-jaad-mark"] {
-  background: var(--moss-ink);
-  border-radius: 16px;
-  padding: 10px;
-  box-sizing: content-box;
-}
+/* The logo is ISOLATED — no plate behind it (Ahmed, 2026-08-24). Its cream
+   paths do go quiet against the cream ground, but the mark still reads from
+   its greens and the lime, and a container around it looked like a button. */
 
 /* The flash strip is the top of the header, so it goes light too — a moss
    tint band rather than the deep green slab. */
-html[data-btn="v3"] [data-flash-sale] { background-color: var(--moss-soft) !important; color: var(--moss-ink) !important; }
+html[data-btn="v3"] [data-flash-sale] { background-color: #FDF8F1 !important; color: var(--moss-ink) !important; box-shadow: inset 0 -1px 0 var(--moss-tint); }
 html[data-btn="v3"] [data-flash-sale] .text-white { color: var(--moss-ink) !important; }
 html[data-btn="v3"] [data-flash-sale] .text-white\/60 { color: #6b7560 !important; }
 html[data-btn="v3"] [data-flash-sale] .bg-white\/10 { background-color: rgba(90, 110, 58, 0.12) !important; }
-html[data-btn="v3"] [data-flash-sale] .bg-limeFigma { background-color: var(--moss-deep) !important; color: #fff !important; }
+/* The pill carries .text-heading, which the type rule above repaints to
+   moss-dark — dark type on a dark moss fill. The class has to be in the
+   selector to out-specify it. */
+html[data-btn="v3"] [data-flash-sale] .bg-limeFigma,
+html[data-btn="v3"] [data-flash-sale] .bg-limeFigma.text-heading { background-color: var(--moss-deep) !important; color: #FFFFFF !important; }
 html[data-btn="v3"] [data-flash-sale] .text-limeFigma { color: var(--moss-deep) !important; }
 
 /* --- raw hexes the component CSS hardcodes ------------------------------ */
+/* The cart control keeps a GREEN container (Ahmed, 2026-08-24): on cream
+   chrome the white circular button lost its edge entirely and the cart stopped
+   reading as the one thing in the header you act on. Moss fill, white glyph. */
+/* Specificity note: the navbar type rule above is (0,2,1) and repaints every
+   button in the header to moss-ink, so these need the [data-navbar] in the
+   selector too or the glyph comes out dark green on the green fill. */
+html[data-btn="v3"] [data-open="cart"],
+html[data-btn="v3"] [data-navbar] [data-open="cart"] { background-color: var(--moss-deep) !important; color: #FFFFFF !important; }
+html[data-btn="v3"] [data-navbar] [data-open="cart"] svg,
+html[data-btn="v3"] [data-navbar] [data-open="cart"] [data-cart-glyph],
+html[data-btn="v3"] [data-open="cart"] svg { color: #FFFFFF !important; }
+/* The count badge sits ON that green, so it takes the light tint with dark
+   type rather than the reverse. */
+html[data-btn="v3"] [data-cart-count] { background-color: var(--moss-tint) !important; color: var(--moss-ink) !important; }
+
 html[data-btn="v3"] .radio-dot { border-color: var(--moss-deep); }
 html[data-btn="v3"] [data-tab-indicator] { background-color: var(--moss-deep) !important; }
