@@ -208,7 +208,7 @@ select,
 textarea {
   outline: none;
   width: 100%;
-  border-radius: 0.5rem;
+  border-radius: 8px;
   caret-color: #ab7c5f;
 }
 
@@ -689,7 +689,7 @@ select {
   bottom: 0;
   z-index: 100;
   background: #fff;
-  border-radius: 22px 22px 0 0;
+  border-radius: 12px 12px 0 0;
   padding: 20px 16px 28px;
   transform: translateY(110%);
   transition: transform 0.3s ease;
@@ -713,7 +713,7 @@ select {
     margin-inline: auto;
     width: min(420px, calc(100vw - 2rem));
     max-height: 80vh;
-    border-radius: 22px;
+    border-radius: 12px;
     padding: 24px;
     transform: translateY(-50%) scale(0.97);
     opacity: 0;
@@ -984,7 +984,10 @@ body.no-scroll {
   position: relative;
   z-index: 1;
   border-bottom: 0;
-  border-radius: 9999px;
+  /* 16px, not a stadium. The button paints no background of its own — the
+     active pill behind it does — so this radius is invisible either way, but
+     leaving a 9999px in the file is what lets the scale drift back. */
+  border-radius: 16px;
   /* Bigger tap target on phones (Ahmed, 2026-08-19); tightens back up from sm. */
   padding: 0.7rem 1.15rem;
   font-weight: 500;
@@ -1812,7 +1815,7 @@ body[data-page="checkout"] .masthead-logo img {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  border-radius: 14px;
+  border-radius: 8px;
   overflow: hidden;
   transform-origin: center;
   transition: transform 0.23s var(--ease-out), box-shadow 0.23s var(--ease-out);
@@ -1962,7 +1965,7 @@ select.select-control {
 .dd__trigger {
   display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
   width: 100%; height: 3rem; padding-inline: 1rem;
-  background: #fff; border: 1px solid var(--dd-border, #E5E7EB); border-radius: 1rem;
+  background: #fff; border: 1px solid var(--dd-border, #E5E7EB); border-radius: 12px;
   color: #1e2219; font-size: 1rem; text-align: start; cursor: pointer;
   transition: border-color 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
 }
@@ -1981,7 +1984,7 @@ select.select-control {
   position: absolute; inset-inline: 0; top: calc(100% + 0.5rem); z-index: 50;
   max-height: 16rem; overflow-y: auto; overscroll-behavior: contain;
   margin: 0; padding: 0.375rem; list-style: none;
-  background: #fff; border: 1px solid #E5E7EB; border-radius: 1rem;
+  background: #fff; border: 1px solid #E5E7EB; border-radius: 12px;
   box-shadow: 0 12px 28px -10px rgba(6, 42, 28, 0.28), 0 4px 10px -6px rgba(6, 42, 28, 0.16);
   opacity: 0; transform: translateY(-10px) scale(0.95); transform-origin: top center;
   visibility: hidden; pointer-events: none;
@@ -1995,7 +1998,7 @@ select.select-control {
 
 .dd__opt {
   display: flex; align-items: center; gap: 0.5rem;
-  padding: 0.5rem 0.75rem; border-radius: 0.75rem;
+  padding: 0.5rem 0.75rem; border-radius: 12px;
   font-size: 0.9375rem; color: #1e2219; cursor: pointer;
   opacity: 0; transform: translateX(-20px);
   transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out),
@@ -2023,7 +2026,7 @@ html[dir="rtl"] .dd__opt { transform: translateX(20px); }
    panel is the positioned ancestor and the marker is inside its scroll box. */
 .dd__marker {
   position: absolute; inset-inline: 0.375rem; top: 0; height: 0; z-index: 0;
-  border-radius: 0.75rem; background: #FDF8F1; opacity: 0;
+  border-radius: 12px; background: #FDF8F1; opacity: 0;
   transform: translateY(var(--y, 0px));
   transition: transform 0.18s var(--ease-out), height 0.18s var(--ease-out),
               opacity 0.15s var(--ease-out);
@@ -3564,6 +3567,13 @@ html[data-btn="v2"] [data-sticky-actions][data-stuck="true"] [data-open="search"
    radius still exceeds its own half-dimension, so the browser clamps it back to
    a circle; only elongated pills and larger buttons actually square. */
 .rounded-full { border-radius: 16px !important; }
+/* The small end of the ramp. `rounded` (4px), `rounded-sm` (2px) and
+   `rounded-md` (6px) were never in the override list, so 263 elements sat below
+   the scale's floor at Tailwind's stock values — which is most of what "some
+   elements don't respect the corner radius" was pointing at. They all take the
+   floor, 6px, rather than three near-identical values nobody can tell apart. */
+.rounded, .rounded-sm, .rounded-md { border-radius: 6px !important; }
+.rounded-b-2xl { border-bottom-left-radius: 10px !important; border-bottom-right-radius: 10px !important; }
 
 /* Product image toggle: 'plain' shows the white-background originals. On the
    cards these are cut-outs, so they sit contained on the card's white plate
@@ -3673,7 +3683,7 @@ html[data-img="plain"] .story-fb-plain { display: block; }
   background: rgba(255, 255, 255, 0.40);
   -webkit-backdrop-filter: blur(24px) saturate(1.4);
   backdrop-filter: blur(24px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.7); border-radius: 18px; padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.7); border-radius: 12px; padding: 14px 16px;
   box-shadow: 0 18px 44px rgba(6, 42, 28, 0.16);
   opacity: 0; transform: translateY(20px);
   will-change: opacity, transform; pointer-events: none;
@@ -3701,7 +3711,7 @@ html[data-img="plain"] .story-fb-plain { display: block; }
 @media (max-width: 640px) {
   .product-story__img { width: 64vw; }
   .product-story__panel {
-    width: min(52vw, 196px); gap: 9px; padding: 9px 11px; border-radius: 13px;
+    width: min(52vw, 196px); gap: 9px; padding: 9px 11px; border-radius: 8px;
   }
   .product-story__panel.is-right { left: auto; right: 8px; }
   .product-story__panel.is-left { right: auto; left: 8px; }
@@ -4017,7 +4027,7 @@ html[dir="rtl"] .about-time__row.is-reached .about-time__dot { transform: transl
    reads as arriving IN the card rather than the whole tile sliding as one flat
    object. */
 .about-time__card {
-  max-width: 42ch; border-radius: 20px; overflow: hidden;
+  max-width: 42ch; border-radius: 12px; overflow: hidden;
   background: #FDF8F1; border: 1px solid #EFE7DA;
   opacity: 0; transform: translateY(22px);
   transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
@@ -4141,10 +4151,10 @@ html[dir="rtl"] .about-time__row.is-reached .about-time__dot { transform: transl
 .btnswitch.is-collapsed .btnswitch__body { display: none; }
 .btnswitch__row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .btnswitch__lbl { min-width: 76px; font-size: 11px; font-weight: 600; color: #5E6353; white-space: nowrap; }
-.btnswitch__seg { display: inline-flex; background: #F4EEE1; border-radius: 999px; padding: 2px; }
+.btnswitch__seg { display: inline-flex; background: #F4EEE1; border-radius: 16px; padding: 2px; }
 .btnswitch__seg button {
   border: 0; background: transparent; font-family: inherit; font-size: 11px;
-  font-weight: 600; color: #5E6353; padding: 5px 10px; border-radius: 999px;
+  font-weight: 600; color: #5E6353; padding: 5px 10px; border-radius: 12px;
   cursor: pointer; transition: background .15s, color .15s;
   display: inline-flex; align-items: center; gap: 5px;
 }
@@ -4155,11 +4165,15 @@ html[dir="rtl"] .about-time__row.is-reached .about-time__dot { transform: transl
 .btnswitch__dot { width: 9px; height: 9px; border-radius: 3px; }
 @media (max-width: 480px) { .btnswitch__lbl { display: none; } }
 
-/* V2 also squares the steppers so the − N + follows the 16px variant (Ahmed). */
-html[data-btn="v2"] [data-stepper],
-html[data-btn="v2"] [data-card-stepper] { border-radius: 16px !important; }
-html[data-btn="v2"] [data-stepper] button,
-html[data-btn="v2"] [data-card-stepper] button { border-radius: 12px !important; }
+/* The steppers, UN-PREFIXED (Ahmed, 2026-08-25: "there are still some corner
+   radius containers switching between the toggles"). These were the last two
+   rules where a radius depended on which palette was selected — the rest of
+   the scale was un-prefixed on 2026-08-24 and these were missed. Same values,
+   now the site's. */
+[data-stepper],
+[data-card-stepper] { border-radius: 16px !important; }
+[data-stepper] button,
+[data-card-stepper] button { border-radius: 12px !important; }
 
 /* ==========================================================================
    Cart / summary thumbnails (Ahmed, 2026-08-23)
