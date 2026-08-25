@@ -756,31 +756,109 @@ body.no-scroll {
   overflow: hidden;
 }
 
+/* The two-hour delivery promise on the product page (Ahmed, 2026-08-25).
+
+   It sat on `bg-cream`, which is the same surface as the specs strip above it
+   and the FAQ cards below it — the FAQ card's own comment in this file is about
+   deliberately unifying those two on that cream. So the row that carries the
+   panel's only PROMISE was painted exactly like the rows that carry its
+   details, and "highlighted" meant nothing there.
+
+   A tint alone would just have been a fourth flat fill, so the highlight is a
+   shape as well as a colour: the `mint` token the system already defines for
+   success rows, a hairline in the same family, and a 3px rule down the
+   inline-start edge. The rule is a pseudo-element rather than a border-left, so
+   it swaps sides on its own in Arabic; `inset-block: 0` gives it the row's full
+   height without a fixed number to keep in step with the padding.
+
+   Both colours come through custom properties so the Moss variant can point
+   them at its own ramp without this rule being repeated. */
+.delivery-note {
+  position: relative;
+  overflow: hidden;
+  background: var(--note-fill, #E9F3E6);
+  border: 1px solid var(--note-edge, rgba(0, 99, 40, 0.16));
+}
+.delivery-note::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 3px;
+  background: var(--note-rule, #006328);
+}
+html[data-btn="v3"] .delivery-note {
+  --note-fill: var(--moss-mint);
+  --note-edge: rgba(37, 54, 19, 0.18);
+  /* The ink, not the lime: a lime rule on the mint tint is 1.3:1 and would
+     have disappeared into its own background. */
+  --note-rule: var(--moss-ink);
+}
+
 /* Home FAQ cards (Figma 9967:21115). Closed rows are a warm grey; the open row
    is a lime tint with a bold green question and a −-in-a-white-chip toggle.
    Reuses the .accordion-item / .is-open contract initAccordions drives. */
 .faq-card {
-  /* ONE surface, open or closed (Ahmed, 2026-08-23), and it is the SAME cream
-     the product page's specs strip and delivery row sit on — so the whole right
-     column of a product page reads as one family of cards instead of three
-     near-miss tints (specs cream, FAQ warm grey, open FAQ a deeper warm grey).
-     Opening a question is now purely the +/− swap and the panel reveal; the
-     background never moves, which is also what stops the row flashing a
-     "selected" colour it never meant. */
-  background: #FDF8F1;
+  /* ONE surface, open or closed (Ahmed, 2026-08-23) — opening a question is
+     purely the +/− swap and the panel reveal, so the background never moves and
+     the row cannot flash a "selected" colour it never meant.
+     
+     That surface is now a NEUTRAL grey rather than the brand cream (Ahmed,
+     2026-08-25, twice: "the overall FAQs in all the site need to be neutral
+     color"). This deliberately breaks the cream it used to share with the
+     product page's specs strip and delivery row: those two carry brand warmth
+     because they are selling something, and an FAQ is not. It reads as the one
+     genuinely neutral block on the page, which is the point.
+     
+     #F7F7F6 is a hair off true grey so it does not go cold against the cream
+     sections it sits between; every ink on it is neutral too. It is a step
+     lighter than the #F3F3F2 this first shipped as (Ahmed, 2026-08-25: "the
+     FAQs should have slight lighter color than now") — the inks all gain
+     contrast rather than lose it: 9.5:1 question, 5.0:1 answer, 3.9:1 glyph. */
+  background: #F7F7F6;
   transition: background 0.25s ease;
 }
 .faq-card.is-open {
-  background: #FDF8F1;
+  background: #F7F7F6;
 }
-/* Weight stays constant open/closed — only the colour changes — so the
+/* NEUTRAL, and off the top of the contrast range (Ahmed, 2026-08-25: "the
+   overall FAQs in all the site need to be neutral color without harsh
+   contrast"). Every FAQ on the site — homepage, the FAQ page, the product
+   page's accordion — is this one card, so the three change together.
+   
+   Two things were making it shout. The question ink was #111827, which is a
+   BLUE-grey near-black: on the card's warm cream that is 16.5:1 and the hue is
+   pulling the opposite way to every other surface around it. And the +/− was
+   painted with a brand-green utility, so a row of questions read as a row of
+   green marks. Both go to the same warm neutral ramp as the card itself —
+   #414141 for the question (9.5:1, comfortably past AA for its weight and
+   size), #6B6B6B for the answer (5.0:1) and #7C7C7C for the toggle (3.9:1, past
+   the 3:1 a non-text glyph needs).
+   
+   Weight still stays constant open/closed — only the colour changes — so the
    question never reflows (no jump). */
 .faq-q {
-  color: #111827;
+  color: #414141;
   font-weight: 600;
 }
 .faq-card.is-open .faq-q {
-  color: #111827;
+  color: #414141;
+}
+/* The panel's inner block carries a `text-bodyMuted` utility (#4b5563, cool
+   grey). Two classes deep so this wins without an !important. */
+.faq-card .accordion-panel > div {
+  color: #6B6B6B;
+}
+/* Was `text-greenDeep` in the markup. The class went away rather than being
+   overridden here, because the variant sheet repaints .text-greenDeep with
+   !important — a colour rule at this end would have lost in Moss and the
+   toggle would have gone green again on one theme only. */
+.faq-toggle {
+  color: #7C7C7C;
+  transition: color 0.2s ease;
+}
+.accordion-trigger:hover .faq-toggle {
+  color: #414141;
 }
 /* Plus and minus share one fixed-size slot; only the glyph swaps, so the
    toggle never moves or resizes (no jump). */
@@ -947,6 +1025,26 @@ body.no-scroll {
    drives, so no extra JS. */
 .pp-tabs {
   position: relative;
+  /* The active pill is the TRACK'S OWN HUE, several steps down (Ahmed,
+     2026-08-25: "the active one should have the same hue of the container but
+     with a different active shade"). It was white — which is not a shade of
+     anything, so the control read as a white chip parked on a green bar rather
+     than as one object with one part lit.
+     
+     #8ACC3E is the brand lime and it measures h=88°, the track's #E3F2D1 is
+     h=87°: the same hue, 36 points of lightness apart. The label goes to the
+     bottom of that same ramp rather than to black — 6.98:1 on the pill, so the
+     active chip is still the highest-contrast thing in the control. */
+  --sw-pill: #8ACC3E;
+  --sw-pill-ink: #003616;
+}
+/* Moss keeps the rule, not the hex. Its ramp is now one lime and one dark, so
+   --moss-mid resolves to the lime itself and the pill is the same #98CA55 the
+   base theme uses — the two variants agree on this control rather than each
+   picking a step. Label: the variant's ink, 6.8:1 on it. */
+html[data-btn="v3"] .pp-tabs {
+  --sw-pill: var(--moss-mid);
+  --sw-pill-ink: var(--moss-ink);
 }
 /* The active pill is a single element that SLIDES between chips (initTabs sizes
    and positions it), so the label font/size never changes — no reflow jump. */
@@ -971,8 +1069,10 @@ body.no-scroll {
      which is the radius that keeps the two curves concentric — the same
      relationship the fully-round version was reaching for. */
   border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  background: var(--sw-pill, #8ACC3E);
+  /* Softer than the white pill's shadow: a mid-tone chip on a light track is
+     already legible by colour, so the shadow only has to seat it. */
+  box-shadow: 0 1px 2px rgba(31, 45, 20, 0.14);
   transform: translateX(0);
   transition:
     transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),
@@ -1005,7 +1105,7 @@ body.no-scroll {
   color: #212121;
 }
 .pp-tabs .tab-btn.is-active {
-  color: #212121;
+  color: var(--sw-pill-ink, #003616);
 }
 
 /* The `hidden` attribute only sets display:none via the UA stylesheet, so any
@@ -1260,6 +1360,33 @@ fieldset {
    trying to read (Ahmed, 2026-08-23: "the logo is falling too much"). 84/96
    keeps the falling shape and the full mark while cutting the overhang to
    28/40px, which clears the bar without leaning on the page. */
+/* The RESTING masthead's logo grew 96/116 -> 106/128 (Ahmed, 2026-08-25:
+   "increase the size of the logo a little bit but keep the part that is coming
+   out of the navbar the same, so the increase should be pushed upward").
+
+   The logo is a flex item on a 56px row with `items-center`, so height added to
+   it splits evenly above and below the bar — half the increase would have hung
+   further over the page, which is the half that was explicitly not wanted. This
+   nudge takes that half back off the bottom, so every added pixel lands above
+   the bar instead.
+
+   The number is not ΔH/2, and that is the point. The mark's own artwork carries
+   25 units of empty margin at the top and bottom of a 158-unit viewBox, i.e.
+   15.8% of whatever height the <img> is set to, at BOTH ends — so the visible
+   ink overhangs the bar by far less than the box does, and it grows more slowly
+   than the box as the box grows. Holding the INK's lower edge still (which is
+   what a reader actually sees hanging over the page) needs 0.3418 * ΔH, not
+   half of it: 4px at 128 and 3px at 106. Verified against the rendered boxes —
+   the ink's bottom edge lands within a pixel of where it was at 116.
+
+   There is room overhead for the rest: the same empty top margin means the
+   box's top can pass the page's own top edge without a pixel of the mark being
+   cut. At 128 the ink still starts ~10px inside the viewport. */
+[data-navbar]:not([data-stuck="true"]) .masthead-logo { transform: translateY(-3px); }
+@media (min-width: 1280px) {
+  [data-navbar]:not([data-stuck="true"]) .masthead-logo { transform: translateY(-4px); }
+}
+
 [data-navbar][data-stuck="true"] .masthead-logo,
 body[data-page="checkout"] .masthead-logo {
   align-self: flex-start;
@@ -1906,13 +2033,46 @@ select.select-control {
 
    A container query asks the right question. The card declares itself a
    container and its body keeps the clearance whenever the CARD is too narrow
-   to seat both, whatever the viewport is doing. 232px is the measured
-   threshold: 108 + 98 plus the body's own 12px insets and a little air.
+   to seat both, whatever the viewport is doing. 248px is the measured
+   threshold: the 108px price badge plus the counter, which grew from 98 to
+   116px when its +/- went to 40px to match the enlarged add button (Ahmed,
+   2026-08-25), plus the body's own 12px insets and a little air. It was 232
+   against the old counter — leaving it there would have let a card between
+   232 and 248 seat the badge and the counter on the same line again.
 
    `container-type: inline-size` only establishes an inline-axis containment,
    so the card's height still comes from its content and nothing about the
    existing layout moves. */
 .product-widget { container-type: inline-size; container-name: pcard; }
+
+/* The photograph pushes in on hover (Ahmed, 2026-08-25: "increasing the inside
+   image size without it getting out of the frame").
+   
+   Authored HERE rather than as a utility on the <img>, because the card has two
+   renderers — product_widget() in components.py and productCard() in scripts.js
+   — and a class added to one of them would have shipped a card that zooms on
+   the homepage and a card that does not in the drawer. One rule on the shared
+   class covers both, plus every listing built from either.
+   
+   It cannot leave the frame: the <a> around the image is `overflow-hidden` with
+   the image `w-full h-full` inside it, so the scale is clipped to the rounded
+   square no matter what it is set to. 700ms is deliberately slower than the
+   button and title transitions on the same card — the picture drifts, the
+   controls respond.
+   
+   :focus-within as well as :hover, so a keyboard tab through the card gets the
+   same acknowledgement a mouse does. */
+.product-widget img[data-img-scene] {
+  transition: transform 0.7s var(--ease-out, cubic-bezier(0.22, 0.68, 0.32, 1));
+  will-change: transform;
+}
+.product-widget:hover img[data-img-scene],
+.product-widget:focus-within img[data-img-scene] { transform: scale(1.06); }
+@media (prefers-reduced-motion: reduce) {
+  .product-widget img[data-img-scene] { transition: none; }
+  .product-widget:hover img[data-img-scene],
+  .product-widget:focus-within img[data-img-scene] { transform: none; }
+}
 /* The drawer's compact card is EXCLUDED, by being a differently-named
    container. It is 152px, narrower than anything the rule is aimed at, and it
    does not need the clearance: its badge is 72px and its round add button 36px,
@@ -1922,7 +2082,7 @@ select.select-control {
    inside a container query has to match a DESCENDANT of the container and the
    card is not its own descendant. */
 .product-widget--sm { container-name: pcard-sm; }
-@container pcard (max-width: 232px) {
+@container pcard (max-width: 248px) {
   .product-widget__body { padding-top: 2.25rem; }
 }
 
@@ -3554,6 +3714,12 @@ html[data-btn="v2"] [data-sticky-actions][data-stuck="true"] [data-open="search"
 .rounded-xl  { border-radius: 8px  !important; }
 .rounded-lg  { border-radius: 6px  !important; }
 .rounded-\[20px\]    { border-radius: 12px !important; }
+/* The RESPONSIVE variant escaped the sweep: `lg:rounded-[20px]` compiles to a
+   different class than `rounded-[20px]`, so the product page's details card
+   was the one 20px corner left on the site (found by the 2026-08-25 UI audit).
+   Unscoped on purpose — below lg the element has no background, so a radius
+   there paints nothing. */
+.lg\:rounded-\[20px\] { border-radius: 12px !important; }
 .rounded-\[12px\]    { border-radius: 8px  !important; }
 .rounded-\[8px\]     { border-radius: 6px  !important; }
 .rounded-tl-\[20px\] { border-top-left-radius: 12px !important; }
@@ -3567,6 +3733,30 @@ html[data-btn="v2"] [data-sticky-actions][data-stuck="true"] [data-open="search"
    radius still exceeds its own half-dimension, so the browser clamps it back to
    a circle; only elongated pills and larger buttons actually square. */
 .rounded-full { border-radius: 16px !important; }
+/* Quantity steppers: their +/- keep a CORNER, they do not go round (Ahmed,
+   2026-08-25: "why is the counter fully rounded here, it should have the same
+   semi rounded concept").
+
+   These were already inside the unification — `rounded-full` and therefore
+   16px — but 16px on a 32px button is more than half its width, so the browser
+   clamps it back to a perfect circle and the rule above says as much ("small
+   circles are self-correcting"). That is right for a badge or an avatar and
+   wrong for these: the stepper's buttons are the same kind of object as every
+   other control on the page, and they were the last place on the site still
+   drawing pills.
+
+   10px rather than the scale's 16, because the radius has to stay under half
+   of the smallest button it lands on (32px) or the clamp puts the circle
+   straight back. It also sits concentric inside the container: the track is
+   16px with 4px of padding, so its inner corner is 12px against the button's
+   10px. Selected by the step attributes rather than by class, which is what
+   makes one rule cover all four steppers — product page, product card, cart
+   line and the sticky re-CTA. */
+button[data-step],
+button[data-card-step],
+button[data-cart-step],
+button[data-sticky-step] { border-radius: 10px !important; }
+
 /* The small end of the ramp. `rounded` (4px), `rounded-sm` (2px) and
    `rounded-md` (6px) were never in the override list, so 263 elements sat below
    the scale's floor at Tailwind's stock values — which is most of what "some
@@ -3913,8 +4103,14 @@ html[dir="rtl"] .about-hero__scrim { --hero-scrim-to: left; }
    1px-tall one. It is also why the node dots are CSS circles in the rows rather
    than <circle> in the SVG: a circle under a non-uniform scale is an ellipse.
    ========================================================================== */
-.about-time { padding: 4.5rem 0; background: #fff; }
-@media (min-width: 1280px) { .about-time { padding: 6rem 0; } }
+/* NO bottom padding (Ahmed, 2026-08-25). The line's destination is the stats
+   cards below, and 96px of section padding plus 56px of the stats' own top
+   padding parked the head dot in 152px of empty white above them — it read as
+   the line stopping short rather than arriving. The run-out spacer inside the
+   body (.about-time__tail) is what carries the distance below the last
+   milestone now; the section padding was only ever dead space on top of it. */
+.about-time { padding: 4.5rem 0 0; background: #fff; }
+@media (min-width: 1280px) { .about-time { padding: 6rem 0 0; } }
 
 .about-time__body { position: relative; }
 
@@ -3937,6 +4133,22 @@ html[dir="rtl"] .about-hero__scrim { --hero-scrim-to: left; }
      entry curve (it is still drawn, just cropped at the edge) and stops it
      crossing anything above or below. */
   overflow: hidden;
+  /* The LINE stops before the stats; only the DOT goes on to meet them (Ahmed,
+     2026-08-25: "the line should not continue to the metrics section, only the
+     circle"). Both strokes are masked out over the last stretch of the box —
+     the drawn line and the grey track it runs on, which is the one that was
+     actually reaching the cards, since the track paints its full length from
+     the first frame however far the drawing has got.
+     
+     A mask rather than a shorter path, because the path is also the DOT's
+     rail: the head is positioned from getPointAtLength on this same geometry,
+     so cutting the path short would cut the dot's travel short with it. Masking
+     hides the last 120px of ink and leaves the rail intact underneath, so the
+     line dissolves into the tail and the dot carries the last stretch on its
+     own. The head is a separate element outside the SVG, so the mask cannot
+     touch it. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 120px), transparent calc(100% - 12px));
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 120px), transparent calc(100% - 12px));
 }
 @media (min-width: 768px) {
   .about-time__vector { inset-inline: 0; width: 100%; }
@@ -3959,10 +4171,23 @@ html[dir="rtl"] .about-hero__scrim { --hero-scrim-to: left; }
   width: 14px; height: 14px; border-radius: 999px;
   background: #98CA55; box-shadow: 0 0 0 5px rgba(152, 202, 85, 0.22);
   transform: translate(-50%, -50%); opacity: 0;
-  transition: opacity 0.25s var(--ease-out, ease-out);
+  transition: opacity 0.25s var(--ease-out, ease-out),
+              transform 0.25s var(--ease-out, ease-out);
   pointer-events: none; z-index: 2;
 }
 .about-time__head.is-on { opacity: 1; }
+/* Arrival. The dot does not park on the cards, it goes OUT on them (Ahmed,
+   2026-08-25: "the circle should vanish once it clashes with the metrics").
+   Fading alone read as the script losing track of it, so it expands as it goes:
+   the same 0.25s, but the dot swells past its own halo and thins out — the
+   energy going into the cards, which pop on the very same frame (both are
+   driven off d >= 0.995 in initAboutTimeline, so they cannot drift apart).
+   It is a class toggle, not a one-shot, so scrolling back up brings the dot
+   back and hands it the line again. */
+.about-time__head.is-done {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(2.1);
+}
 
 .about-time__rows {
   display: grid; grid-auto-rows: 1fr; position: relative; margin: 0; padding: 0;
@@ -4071,14 +4296,31 @@ html[dir="rtl"] .about-time__row.is-reached .about-time__dot { transform: transl
    faster: the body is normal document flow, and initContactParallax translates
    only the photograph. That is why .contact-hero__img is 128% tall and inset
    past both edges — it has to travel without ever revealing a gap. */
+/* TALLER (Ahmed, 2026-08-25). 52vh capped at 470 gave the photograph a band
+   barely deeper than the header + title block, so the picture read as a strip
+   behind the words rather than as the page opening on a photograph. 64vh with
+   a 560 cap is roughly two thirds of a laptop screen — enough that the glass
+   cards sit entirely ON the picture, which is the only place glass has
+   anything to refract. */
+/* The height lives on the BODY as a token because the section below has to do
+   arithmetic with it, and the two are siblings — a custom property on
+   .contact-hero would not reach .contact-body. */
+body[data-page="contact-us"] {
+  --hero-h: clamp(360px, 64vh, 560px);
+  /* How far below the hero's TOP the body starts. See .contact-body. */
+  --hero-lift: 220px;
+}
 .contact-hero {
   position: relative; overflow: hidden;
-  height: clamp(320px, 52vh, 470px);
+  height: var(--hero-h, clamp(360px, 64vh, 560px));
   background: #F3EDE4;
 }
+/* 140% tall, inset 20% above: the overhang IS the parallax's travel budget, so
+   a stronger rate needs a deeper one. 20% of the frame is available in either
+   direction, which is what the clamp in initContactParallax spends. */
 .contact-hero__img {
-  position: absolute; inset-inline: 0; top: -14%;
-  width: 100%; height: 128%; object-fit: cover;
+  position: absolute; inset-inline: 0; top: -20%;
+  width: 100%; height: 140%; object-fit: cover;
   will-change: transform;
 }
 /* Reads from the START edge, where the photograph is softest, and fades to the
@@ -4093,7 +4335,10 @@ html[dir="rtl"] .contact-hero__veil { --veil-dir: left; }
 .contact-hero__inner {
   position: relative; z-index: 1;
   display: flex; flex-direction: column; gap: 0.75rem;
-  max-width: 1100px; margin-inline: auto; padding: 3.5rem 1rem 0;
+  /* 2.25rem, not 3.5: the title block and the form are competing for the same
+     screen, and every pixel the words sit lower is a pixel the form's submit
+     button is pushed toward the fold. */
+  max-width: 1100px; margin-inline: auto; padding: 2.25rem 1rem 0;
 }
 .contact-hero__title {
   font-size: clamp(30px, 4.6vw, 46px); font-weight: 500; line-height: 1.15;
@@ -4112,7 +4357,27 @@ html[dir="rtl"] .contact-hero__veil { --veil-dir: left; }
 /* The overlap. The body is lifted over the hero's lower edge and given its own
    stacking context so the glass cards refract the photograph rather than the
    flat cream below it. */
+/* The overlap, deepened (Ahmed, 2026-08-25: "the form should be in a more up
+   position that I can see the full form"). At -108 the form's submit button
+   landed just under the fold on a 900px screen — the one control the page
+   exists for was the one thing you had to scroll for. -300 from md up puts the
+   whole form, button included, on the first screen at 900px and lifts the
+   cards fully onto the photograph.
+   
+   Kept shallow below 900px, where the grid is a single column: there the cards
+   sit under the hero's own title rather than beside it, so the same lift would
+   drive them straight through it. */
 .contact-body { position: relative; z-index: 2; margin-top: -108px; padding-bottom: 4rem; }
+@media (min-width: 900px) {
+  /* Anchored to the hero's TOP, not its bottom. A flat -300px would have been
+     correct at exactly one window height: the hero is 64vh, so on a short
+     laptop it shrinks while the pull stays put and the cards climb into the
+     title. `lift - height` makes the body start a fixed 220px below the hero's
+     top whatever the hero measures, which is what the layout actually wants —
+     clear of the title block, and high enough that the form's submit button
+     lands about 30px above the fold on an 860px window. */
+  .contact-body { margin-top: calc(var(--hero-lift) - var(--hero-h)); }
+}
 .contact-body__grid {
   display: grid; gap: 1.25rem;
   max-width: 1100px; margin-inline: auto; padding-inline: 1rem;
@@ -4186,45 +4451,58 @@ a.contact-card:hover {
   .contact-hero__img { transform: none !important; }
 }
 
-/* ---- hero trust badge ---------------------------------------------------
-   A ring of type around a clay mark, turning as the page scrolls.
+/* ---- hero trust seal ----------------------------------------------------
+   The supplied badge artwork, in two layers: .hero-badge__face is the lime disc
+   and the 100% NATURAL lockup, .hero-badge__ring is the circular legend on a
+   transparent ground stacked exactly on top of it. Same viewBox in both files,
+   so "stacked" means "reassembled".
 
-   Sized in vw between two clamps so it stays proportionate to a hero that is
-   itself a percentage of the viewport, and never shrinks past the point where
-   the ring type stops being legible.
+   Only the RING turns (initHeroBadge writes --badge-spin off scrollY). Turning
+   the whole seal would spin the words in the middle with it, which reads as a
+   sticker caught in a draught rather than a seal with a moving legend.
 
-   Only the RING turns. The mark in the middle is deliberately left upright —
-   turning the shield with it made the whole thing read as a spinning sticker
-   rather than a seal with a rotating legend. */
+   STRADDLES THE HERO'S BOTTOM EDGE (Ahmed, 2026-08-25: "the offset of it to be
+   on the border of the hero section so part is in and a part is outside").
+   bottom:0 puts its lower edge on that border and translateY(50%) pushes half
+   of it past — so the split is exactly half, at every width, without a second
+   number to keep in step with the badge's size. Nothing clips it: neither the
+   hero section nor its inner frame carries overflow, and the seal is positioned
+   with a z-index while the section below it is not, so it paints over that
+   section rather than being covered by it. */
 .hero-badge {
   position: absolute; z-index: 3;
-  inset-inline-end: 6%; bottom: 11%;
-  width: clamp(94px, 10.5vw, 150px); aspect-ratio: 1 / 1;
-  display: grid; place-items: center;
+  /* Sat on the BOX's bottom edge at first, which put roughly a third of the
+     seal inside the hero and two thirds below it (Ahmed, 2026-08-25: "the badge
+     need to be more to the upward so half is in and half is out"). The reason
+     is the scalloped white edge: hero-wave.svg is drawn INSIDE the hero, 28px
+     tall on phones and 45 from md, so the picture — the thing a reader sees as
+     the hero — stops that far above the box. Sitting the seal's centre on the
+     wave's top edge instead splits it in half against the boundary that is
+     actually visible. The two numbers track the wave's own h-[28px] md:h-[45px];
+     they move together or the split drifts again. */
+  inset-inline-end: 7%; bottom: 28px;
+  transform: translateY(50%);
+  width: clamp(120px, 14vw, 200px); aspect-ratio: 1 / 1;
   pointer-events: none;
+  /* Lifts the seal off the seam it is sitting on — without it the flat lime
+     disc reads as printed onto the boundary rather than laid over it. */
+  filter: drop-shadow(0 12px 26px rgba(20, 34, 12, 0.22));
 }
-.hero-badge__disc {
-  position: absolute; inset: 0; border-radius: 50%;
-  background: rgba(253, 248, 241, 0.86);
-  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+.hero-badge__face,
+.hero-badge__ring {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
 }
 .hero-badge__ring {
-  position: absolute; inset: 0; width: 100%; height: 100%;
   transform: rotate(var(--badge-spin, 0deg));
   will-change: transform;
 }
-.hero-badge__ring text {
-  font-size: 15px; font-weight: 700; letter-spacing: 0.8px;
-  fill: var(--badge-ink, #1F4A24);
-}
-.hero-badge__icon {
-  position: relative; width: 46%; height: 46%; object-fit: contain;
-}
+@media (min-width: 768px) { .hero-badge { bottom: 45px; } }
 @media (max-width: 639px) {
-  /* The phone hero is a tall portrait and the badge would sit on top of the
-     product cluster; it moves up out of the way and shrinks. */
-  .hero-badge { bottom: auto; top: 46%; inset-inline-end: 4%; }
+  /* Smaller on phones, and pulled in from the edge: the badge is straddling a
+     boundary the section below starts its own padding from, and at 120px it
+     would reach the categories heading. */
+  .hero-badge { width: 104px; inset-inline-end: 5%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-badge__ring { transform: none; }
@@ -4240,15 +4518,34 @@ a.contact-card:hover {
    trails the bags rather than competing with them. .in-view mirrors hover for
    touch, exactly as the bags already do. */
 .cat-blob {
-  position: absolute; left: 50%; top: 54%;
+  position: absolute; left: 50%; top: 52%;
   /* Sized off HEIGHT, not width. The tile is 356x260, so a square at 76% of
      the width came out 270px tall in a 260px box — and once rotated 8deg its
      bounding box grew another 13%, pushing the blob out under the heading.
-     88% of the height leaves room for the rotation and the hover scale. */
-  height: 80%; aspect-ratio: 1 / 1;
+     88% of the height leaves room for the rotation and the hover scale.
+     
+     It is no longer a SQUARE (Ahmed, 2026-08-25: "a little bit more bigger
+     blobs and make it more shape-y"). A square at 92% was near-circular and
+     boxed in by the wrong dimension: the tile is 356x260, so height is the
+     scarce axis and width is the one with room going spare. Full width and 88%
+     of the height is a bigger shape than the square was in every direction that
+     matters, and it reads as a blob rather than a disc.
+     
+     The rotation drops 8deg -> 5deg to pay for the width. Rotation is what
+     decides whether this fits: a rotated box's bounding height is
+     h*cos + w*sin, so at 8deg a 356px-wide shape gains 49px of height it does
+     not use, and at 5deg only 31px. 229*cos5 + 356*sin5 = 259px against a 260px
+     tile — the blob now fills the tile almost exactly and still clears the
+     heading below it, hover included (the hover scale is 1.04, not 1.075, for
+     the same reason).
+     
+     The corner list is pushed well off 50% in both axes, which is the "shape-y"
+     part: near-50% values draw an ellipse, and it is the disagreement between
+     the horizontal and vertical percentages that makes a corner bulge. */
+  width: 100%; height: 88%;
   background: var(--cat-blob, rgba(152, 202, 85, 0.24));
-  border-radius: 58% 42% 47% 53% / 47% 53% 47% 53%;
-  transform: translate(-50%, -50%) rotate(-8deg);
+  border-radius: 64% 36% 52% 48% / 40% 58% 42% 60%;
+  transform: translate(-50%, -50%) rotate(-5deg);
   transition: transform 0.7s cubic-bezier(0.22, 0.68, 0.32, 1),
               border-radius 0.7s cubic-bezier(0.22, 0.68, 0.32, 1),
               background-color 0.45s ease-out;
@@ -4258,8 +4555,8 @@ a.contact-card:hover {
 .group:hover .cat-blob,
 .group.in-view .cat-blob {
   background: var(--cat-blob-hover, rgba(152, 202, 85, 0.34));
-  border-radius: 44% 56% 62% 38% / 56% 41% 59% 44%;
-  transform: translate(-50%, -50%) rotate(7deg) scale(1.075);
+  border-radius: 38% 62% 66% 34% / 62% 36% 64% 38%;
+  transform: translate(-50%, -50%) rotate(6deg) scale(1.04);
 }
 @media (prefers-reduced-motion: reduce) {
   .cat-blob, .group:hover .cat-blob, .group.in-view .cat-blob { transition: none; transform: translate(-50%, -50%); }
@@ -4271,7 +4568,15 @@ a.contact-card:hover {
 .about-time__tail { height: 120px; }
 @media (min-width: 768px) { .about-time__tail { height: 168px; } }
 
-.about-stats { padding: 3.5rem 0; background: #fff; }
+/* The stats sit directly under the end of the line — no gap, and NO OVERLAP
+   either (Ahmed, 2026-08-25: "the line should not extend with it to the metrics
+   section"). It briefly did overlap by 14px, which put the dot half on the
+   middle card and drew the last of the line across the card's top edge. Butted
+   up instead, the vector's box ends exactly where the cards begin, so the line
+   arrives at the edge and stops at it — the collision is the arrival, not an
+   intersection. The dot's own disappearance is the other half of it; see
+   .about-time__head.is-done. */
+.about-stats { padding: 0 0 3.5rem; background: #fff; }
 
 /* The line does not stop at the last milestone any more — it runs down into
    these cards and they answer (Ahmed, 2026-08-25). Fired by the timeline's own
@@ -4284,8 +4589,18 @@ a.contact-card:hover {
   box-shadow: 0 0 0 3px var(--stat-pop-ring, rgba(152, 202, 85, 0.30)), 0 8px 8px rgba(0, 0, 0, 0.03);
   animation: about-stat-pop 0.62s cubic-bezier(0.2, 0.7, 0.3, 1) both;
 }
+/* The stagger RADIATES FROM THE MIDDLE from sm up, because that is the card
+   the line actually lands on — a left-to-right sweep read as three cards
+   blinking in order rather than as the impact travelling outward from where
+   the dot hit. Below sm the cards are one stacked column and the line arrives
+   at the top of the first, so the order there stays top-down. */
 [data-about-stats].is-hit .about-stat:nth-child(2) { animation-delay: 0.10s; transition-delay: 0.10s; }
 [data-about-stats].is-hit .about-stat:nth-child(3) { animation-delay: 0.20s; transition-delay: 0.20s; }
+@media (min-width: 640px) {
+  [data-about-stats].is-hit .about-stat:nth-child(2) { animation-delay: 0s; transition-delay: 0s; }
+  [data-about-stats].is-hit .about-stat:nth-child(1),
+  [data-about-stats].is-hit .about-stat:nth-child(3) { animation-delay: 0.09s; transition-delay: 0.09s; }
+}
 @keyframes about-stat-pop {
   0%   { transform: translateY(10px) scale(0.97); }
   55%  { transform: translateY(0)    scale(1.035); }
@@ -4327,6 +4642,317 @@ a.contact-card:hover {
   .about-time__shot img { opacity: 1; transform: none; }
   .about-time__dot { background: #98CA55; border-color: #29612F; }
   .about-hero__img { transform: none !important; }
+}
+
+/* ==========================================================================
+   OUR STORY — the progressive carousel
+   ==========================================================================
+   A rebuild of the 21st.dev "progressive carousel" arrangement in this
+   project's stack (see STORY_COLUMNS in home.py for why it is a rebuild rather
+   than an install): one large photograph, and a glass bar of four steps across
+   its foot. Picking a step brings its photograph forward.
+
+   Every stacked photograph is in the DOM and positioned on top of the others;
+   only opacity and scale change, so switching costs no layout and the frame
+   never resizes under the reader. The one that is showing also holds a slow
+   push-in, which is what makes a still photograph feel like it is being
+   presented rather than swapped.
+   ========================================================================== */
+.story__cap [data-reveal]:nth-child(2) { transition-delay: 0.08s; }
+.story__cap [data-reveal]:nth-child(3) { transition-delay: 0.16s; }
+
+.pcar {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #1B2114;
+  box-shadow: 0 18px 44px rgba(31, 45, 20, 0.14);
+}
+.pcar__stage {
+  position: relative;
+  /* Tracks the 16:9 the photographs are generated at, floored so the frame
+     never gets so short that the glass bar covers the picture, and capped so it
+     cannot eat a laptop screen. The floor is set by the PHONE case: there the
+     bar is two rows rather than one, so it takes ~150px of the frame and a
+     300px stage left a 165px slot of photograph. */
+  height: clamp(400px, 46vw, 520px);
+}
+.pcar__shot {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.06);
+  transition: opacity 0.7s ease-out, transform 1.6s cubic-bezier(0.22, 0.68, 0.32, 1);
+  will-change: opacity, transform;
+}
+.pcar__shot.is-on { opacity: 1; transform: scale(1); }
+
+/* A scrim under the glass bar only: the bar is translucent, and two of the four
+   photographs are bright enough at the bottom to swallow the step titles. */
+.pcar__panel::before {
+  content: "";
+  position: absolute; inset-inline: 0; bottom: 0; top: -40px;
+  background: linear-gradient(to top, rgba(9, 14, 6, 0.55), rgba(9, 14, 6, 0));
+  pointer-events: none;
+}
+.pcar__panel {
+  position: absolute; inset-inline: 0; bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(253, 248, 241, 0.16);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  border-top: 1px solid rgba(253, 248, 241, 0.24);
+}
+@media (min-width: 768px) {
+  .pcar__panel { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.pcar__btn {
+  position: relative;
+  display: flex; flex-direction: column; gap: 0.15rem;
+  padding: 0.9rem 1rem 1rem;
+  text-align: start;
+  /* The 1px grid gap shows this through as the hairline between steps. */
+  background: rgba(9, 14, 6, 0.34);
+  color: #fff;
+  transition: background-color 0.4s ease-out;
+  cursor: pointer;
+  overflow: hidden;
+}
+@media (min-width: 768px) { .pcar__btn { padding: 1.1rem 1.25rem 1.25rem; } }
+.pcar__btn:hover { background: rgba(9, 14, 6, 0.18); }
+/* Was the lightest plate in the bar, which is how the active step used to
+   announce itself. The filled rectangle does that now, so this goes back to
+   roughly the others' weight — a light base under a 30% lime wash would have
+   taken the white type down with it. */
+.pcar__btn.is-on { background: rgba(9, 14, 6, 0.30); cursor: default; }
+.pcar__btn:focus-visible { outline: 3px solid #98CA55; outline-offset: -3px; }
+
+/* Above the fill — see .pcar__bar. */
+.pcar__num, .pcar__btnTitle, .pcar__btnDesc { position: relative; z-index: 1; }
+.pcar__num {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  color: rgba(253, 248, 241, 0.6);
+  transition: color 0.4s ease-out;
+}
+.pcar__btn.is-on .pcar__num { color: #98CA55; }
+.pcar__btnTitle {
+  font-size: 15px; font-weight: 700; line-height: 1.2;
+  overflow-wrap: break-word;
+}
+@media (min-width: 768px) { .pcar__btnTitle { font-size: 17px; } }
+/* Two lines, exactly as the component has it — the steps are a control bar,
+   not the place the story is told. */
+.pcar__btnDesc {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: 12.5px; line-height: 1.45;
+  color: rgba(255, 255, 255, 0.78);
+}
+@media (min-width: 768px) { .pcar__btnDesc { font-size: 13px; } }
+
+@media (max-width: 767px) {
+  /* Two rows of steps on a phone is twice the bar: at 375px it took 214 of the
+     frame and left 166 for the photograph. The descriptions go — clamped to one
+     line they were a truncated fragment rather than a sentence, which is worth
+     less than the picture they were covering. Titles and numbers stay, the copy
+     stays in the DOM for a screen reader, and the full description is one tap
+     away on any wider screen. */
+  .pcar__btn { padding: 0.7rem 0.85rem 0.8rem; }
+  .pcar__btnDesc { display: none; }
+}
+
+/* The autoplay clock IS THE RECTANGLE (Ahmed, 2026-08-25: "in the reference the
+   loading state was the rectangles themselves"). It was a 3px rule along the
+   step's top edge — a progress bar drawn ON a button rather than the button
+   filling up, which is the reference's whole gesture.
+
+   Two states in one element, and that is what makes it work when the carousel
+   is NOT running its own clock:
+
+     .is-on          resting — the fill is already at scaleX(1), so the step
+                     that is showing is a filled rectangle even when the
+                     autoplay is held (which it is for 12s after any click, and
+                     for as long as a pointer is over the bar). Without this the
+                     active step would be indistinguishable the moment the timer
+                     stopped.
+     .is-timing      the animation runs 0 -> 1 over the dwell and overrides the
+                     resting transform; `both` leaves it at 1, i.e. exactly the
+                     resting state, so the hand-off at the end is invisible.
+
+   It sits UNDER the step's text (z-index 0 against the content's 1) and the
+   step clips it, so the fill sweeps inside the rectangle's own corners. */
+.pcar__bar {
+  position: absolute; inset: 0;
+  z-index: 0;
+  background: rgba(152, 202, 85, 0.30);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s ease-out;
+  pointer-events: none;
+}
+html[dir="rtl"] .pcar__bar { transform-origin: right center; }
+.pcar__btn.is-on .pcar__bar { transform: scaleX(1); }
+.pcar__btn.is-timing .pcar__bar {
+  animation: pcar-bar var(--pcar-dwell, 5.5s) linear both;
+}
+@keyframes pcar-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .pcar__shot { transition: opacity 0.2s linear; transform: none; }
+  .pcar__shot.is-on { transform: none; }
+  .pcar__bar { display: none; }
+}
+
+/* ==========================================================================
+   CUSTOMER REVIEWS — the staggered fan
+   ==========================================================================
+   A rebuild of the 21st.dev "stagger testimonials" arrangement in this
+   project's own stack (see review_cards in home.py for why it is a rebuild
+   rather than an install), on a LIGHT ground and at the site's own radius.
+
+   Every card is placed by ONE transform built from three custom properties
+   that initReviewFan writes per card:
+
+       --pos    signed distance from the centre card: 0, ±1, ±2 …
+       --rise   how far it sits up or down the arc
+       --tilt   its rotation in degrees
+
+   The arithmetic stays here, in CSS, so the fan can be widened, flattened or
+   retimed without touching the script. The horizontal step is a fraction of the
+   card's own width, so the fan opens proportionally at every breakpoint from
+   one clamp.
+   ========================================================================== */
+.rv {
+  /* The centre card is the only saturated surface in a light section; it
+     follows the variant, so the highlight is always the theme's primary.
+     Ink is chosen per variant too — cream on the deep green, near-black on the
+     orange and on Moss's lime, all of which clear AA on their own fill. */
+  --rv-hi: #006328;
+  --rv-hi-ink: #FDF8F1;
+}
+html[data-btn="v2"] .rv { --rv-hi: #EA983E; --rv-hi-ink: #2A1C0B; }
+html[data-btn="v3"] .rv { --rv-hi: var(--moss-lime); --rv-hi-ink: var(--moss-ink); }
+
+.rv__kicker {
+  display: inline-flex; align-items: center;
+  background: rgba(152, 202, 85, 0.18);
+  color: #29612F;
+  padding: 0.25rem 0.75rem; border-radius: 6px;
+  font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+}
+
+.rv__fan {
+  position: relative;
+  width: 100%;
+  /* The fan is WIDER than the page: the cards two places out sit mostly off the
+     side, and the section clips them. That overhang is the effect — it says the
+     row continues — so the clip lives on the section, not here. */
+  /* Card height plus the centre card's lift, and nothing more — the fan was
+     400px and left a band of dead cream between the cards and the arrows. */
+  height: 352px;
+  --card-w: clamp(248px, 27vw, 336px);
+  outline: none;
+  cursor: grab;
+  touch-action: pan-y;
+}
+.rv__fan.is-dragging { cursor: grabbing; }
+.rv__fan:focus-visible { outline: 3px solid #98CA55; outline-offset: 6px; border-radius: 12px; }
+@media (min-width: 768px) { .rv__fan { height: 334px; } }
+
+.rv__card {
+  position: absolute; left: 50%; top: 50%;
+  display: flex; flex-direction: column; gap: 0.85rem;
+  width: var(--card-w);
+  height: 300px;
+  padding: 1.5rem;
+  /* 12px — the site's card radius, not the component's. */
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(41, 97, 47, 0.14);
+  box-shadow: 0 14px 30px rgba(31, 45, 20, 0.08);
+  cursor: pointer;
+  /* ONE transform, built from the three properties the script sets. The
+     translate(-50%,-50%) centres the card on the fan's middle first; every
+     term after it displaces from there. */
+  transform:
+    translate(-50%, -50%)
+    translateX(calc(var(--card-w) / 1.55 * var(--pos, 0)))
+    translateY(var(--rise, 0px))
+    rotate(calc(var(--tilt, 0) * 1deg));
+  transition: transform 0.55s cubic-bezier(0.22, 0.68, 0.32, 1),
+              background-color 0.45s ease-out,
+              color 0.45s ease-out,
+              border-color 0.45s ease-out,
+              box-shadow 0.45s ease-out;
+  will-change: transform;
+}
+@media (min-width: 768px) { .rv__card { height: 282px; padding: 1.75rem; } }
+
+/* The centre card: the theme's fill, lifted, upright, and lit. */
+.rv__card.is-center {
+  background: var(--rv-hi);
+  border-color: var(--rv-hi);
+  color: var(--rv-hi-ink);
+  box-shadow: 0 22px 44px rgba(31, 45, 20, 0.18);
+  cursor: default;
+}
+/* Cards further out recede. Set on a property the transform already reads
+   rather than a second transform, so nothing fights. */
+.rv__card[data-far="1"] { opacity: 0.9; }
+.rv__card[data-far="2"] { opacity: 0.62; }
+.rv__card[data-far="3"] { opacity: 0; pointer-events: none; }
+.rv__fan.is-dragging .rv__card { transition: none; }
+
+.rv__quote {
+  font-size: 46px; line-height: 0.5; height: 20px;
+  font-weight: 700; color: #98CA55;
+}
+.rv__card.is-center .rv__quote { color: var(--rv-hi-ink); opacity: 0.75; }
+.rv__text {
+  flex: 1;
+  color: #1e2219; font-size: 15px; line-height: 1.6;
+  overflow: hidden;
+}
+.rv__card.is-center .rv__text { color: var(--rv-hi-ink); }
+.rv__who { display: flex; align-items: center; gap: 0.75rem; }
+.rv__avatar {
+  display: grid; place-items: center; flex: 0 0 auto;
+  width: 40px; height: 40px; border-radius: 10px;
+  background: rgba(152, 202, 85, 0.24);
+  color: #29612F; font-size: 14px; font-weight: 700; letter-spacing: 0.5px;
+}
+.rv__card.is-center .rv__avatar {
+  background: rgba(253, 248, 241, 0.20);
+  color: var(--rv-hi-ink);
+}
+.rv__whoText { display: flex; flex-direction: column; min-width: 0; }
+.rv__name { color: #1F4A24; font-size: 15px; font-weight: 700; }
+.rv__role { color: #5A6553; font-size: 13px; }
+.rv__card.is-center .rv__name { color: var(--rv-hi-ink); }
+.rv__card.is-center .rv__role { color: var(--rv-hi-ink); opacity: 0.78; }
+
+.rv__controls { display: flex; align-items: center; gap: 0.75rem; }
+.rv__nav {
+  display: grid; place-items: center;
+  width: 44px; height: 44px;
+  /* 10px, matching the stepper buttons — the two are the same kind of small
+     square control and were the last pair on the site to disagree about it. */
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid rgba(41, 97, 47, 0.16);
+  color: #1F4A24;
+  box-shadow: 0 6px 14px rgba(31, 45, 20, 0.06);
+  transition: background-color 0.25s ease-out, transform 0.25s ease-out, border-color 0.25s ease-out;
+}
+.rv__nav:hover { background: var(--rv-hi); border-color: var(--rv-hi); color: var(--rv-hi-ink); transform: translateY(-2px); }
+.rv__nav:focus-visible { outline: 3px solid #98CA55; outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rv__card { transition: opacity 0.2s linear; }
 }
 
 /* Dev/preview UI-toggle panel. Parked bottom-LEFT, compact, and COLLAPSIBLE
@@ -4422,7 +5048,14 @@ a.contact-card:hover {
    #29612F, which measures 3.84:1 on the lime #98CA55 — under AA. This is
    PRE-EXISTING and shows in every variant, not something a palette introduced;
    it surfaced during the v1 header pass because that pass swept the header for
-   contrast. #1F4A24 keeps the same dark-green reading at 5.29:1.
+   contrast. #1F4A24 took it to 5.29:1.
+
+   Now #0D3711 — 6.94:1 (Ahmed, 2026-08-25: "increase the contrast ratio").
+   5.29:1 passed AA and still read weak, and the reason is what the band is
+   made of: the flash clock's unit labels are 10px uppercase, and small type at
+   that weight loses more to a bright ground than a ratio suggests. #0D3711 is
+   the greenDeepest token — no new colour, the same green family two steps
+   down — so the ink gets heavier without the strip turning to black type.
 
    Global rather than per-variant: the lime strip is untouched by all three
    palettes, so the fix belongs with the strip. */
@@ -4431,7 +5064,7 @@ a.contact-card:hover {
 /* The flash strip's "Up To 50% Off" pill carries BOTH classes on the one
    element, so the descendant selector above missed it — it needs the compound
    form. Same 3.84:1 failure, same fix. */
-.bg-limeFigma.text-heading { color: #1F4A24; }
+.bg-limeFigma.text-heading { color: #0D3711; }
 
 /* "Shop Now" in the flash strip is lime type on the deep-green band: #98CA55
    on #006328 is 3.88:1. #BFE08D is the same lime opened up two steps and
@@ -4476,35 +5109,104 @@ a.contact-card:hover {
    actually found, plus the raw hexes the component CSS hardcodes.
    ========================================================================== */
 html[data-btn="v3"] {
-  /* LIME, not olive (Ahmed, 2026-08-25: "replace that muted green with the
-     lime green"). The ramp keeps its structure and its hue discipline — every
-     step is hue 86, the same yellow-green family as the brand lime — but the
-     saturation roughly doubles, so the variant reads as a deep lime rather
-     than a muted olive.
+  /* ONE GREEN (Ahmed, 2026-08-25: "I can still see different shades of green in
+     the moss version, change the whole moss to the lime green I showed you").
 
-     It cannot BE the brand lime. #98CA55 carries white text at 1.92:1, and
-     --moss-deep is a fill with white type on it (CTAs, price badges, the
-     cart). The brightest lime that still clears 4.5:1 with white sits around
-     26% lightness, which is what --moss-deep is; going lighter would mean
-     giving up white type on every primary control in the variant. */
-  --moss-deep: #4A790C;     /* CTA, price badge, primary fills — white 5.21:1 */
-  --moss-dark: #3C6309;     /* hover, headings, strong type — white 7.05:1 */
-  --moss-ink:  #293D0F;     /* deepest — body ink on light chrome, 11.24:1 on cream */
-  --moss-mid:  #7BB234;     /* secondary fills, tracker rail — NO white type on it */
-  --moss-tint: #BCDA95;     /* soft fills, borders */
-  --moss-soft: #D9E9C4;     /* softest fill */
-  --moss-mint: #E9F2DE;     /* "good news" tint */
+     Every previous pass kept a RAMP — a deep olive-lime for fills, a darker one
+     for hover, a third for type — and hue-matched the steps to the brand lime
+     without ever being it. Five greens that are nearly the same green is the
+     one thing that reads as an accident, so the variant is now built from two
+     colours and three tints of the first:
+
+         --moss-lime   #98CA55   the brand lime. EVERY fill, badge and accent.
+         --moss-ink    #253613   the one dark. All type, and the one dark band.
+
+     The consequence, and it is the whole reason this could not be done before:
+     white type is off the table. White on #98CA55 is 1.92:1. So the labels on
+     every primary control invert — dark ink on lime, 6.8:1 — which is exactly
+     what the "Natural Snacks" chip in the hero has always done, and is where
+     this request came from. The fill rules below carry that inversion; a green
+     fill in this variant sets its own text colour rather than leaving it to
+     whatever `text-white` the markup happens to have.
+
+     --moss-ink is not a neutral black: it is the same hue 86 taken to 12%
+     lightness, so the dark reads as the lime's own shadow rather than as a
+     second colour. 12.3:1 on cream, 6.8:1 on the lime.
+
+     Hover goes LIGHTER (--moss-hi), which is the pattern the rest of the site
+     already uses and, here, the only direction available — a darker hover would
+     have reintroduced the extra shade this change exists to remove. */
+  --moss-lime: #98CA55;     /* THE green — fills, badges, accents */
+  --moss-hi:   #A9D46E;     /* the same lime opened up — hover state only */
+  --moss-ink:  #253613;     /* the one dark — all type, labels on lime, dark band */
+  --moss-tint: #C7E39F;     /* soft fills, borders */
+  --moss-soft: #DCEDC6;     /* softest fill */
+  --moss-mint: #ECF5DF;     /* "good news" tint */
   --moss-orange: #F0A860;   /* the lighter orange, dark labels on it */
+
+  /* Aliases. The mapping rules below and a few components (.delivery-note, the
+     switcher pill) were written against the old names; pointing them at the two
+     real colours keeps one source of truth instead of a find-and-replace that
+     would miss the next reader. */
+  --moss-deep: var(--moss-lime);
+  --moss-mid:  var(--moss-lime);
+  --moss-dark: var(--moss-ink);
 }
 
 /* --- fills ------------------------------------------------------------- */
+/* CONTROLS take the lime. SURFACES do not — and that distinction is the whole
+   rule (Ahmed, 2026-08-25: "the header ... looks crashed").
+
+   The first cut of the one-lime palette painted every .bg-cta/.bg-primary lime,
+   including the ones that are not buttons. The phone masthead is a `bg-primary`
+   BAR with a `bg-cta` cart button inside it, so both went the same lime and the
+   button vanished into the bar it sits on — a contrast failure that a
+   text-on-fill audit cannot catch, because both colours passed against their
+   text and the problem was between two surfaces.
+
+   V2 never had this bug and the reason is instructive: it repaints
+   `a.bg-cta`/`button.bg-cta` only, so its orange lands on controls and its bars
+   stay green. V3 now follows the same shape — an element-qualified selector for
+   the things you press, and the variant's dark for the things you press them
+   on. The 4.4:1 between them is what makes the button a button again.
+
+   The ink assertion moves with it: on a lime CONTROL the markup's `text-white`
+   would be 1.92:1, so the ink is set here rather than chased around ~40
+   templates — but on a dark SURFACE white is correct and must be left alone,
+   which is why these two lists are no longer one list. */
+html[data-btn="v3"] a.bg-cta,
+html[data-btn="v3"] button.bg-cta,
+html[data-btn="v3"] a.bg-primary,
+html[data-btn="v3"] button.bg-primary,
+html[data-btn="v3"] a.bg-greenDeep,
+html[data-btn="v3"] button.bg-greenDeep,
+html[data-btn="v3"] a.bg-heading,
+html[data-btn="v3"] button.bg-heading { background-color: var(--moss-lime) !important; color: var(--moss-ink) !important; }
+html[data-btn="v3"] a.bg-cta .text-white,
+html[data-btn="v3"] button.bg-cta .text-white,
+html[data-btn="v3"] a.bg-primary .text-white,
+html[data-btn="v3"] button.bg-primary .text-white,
+html[data-btn="v3"] a.bg-greenDeep .text-white,
+html[data-btn="v3"] button.bg-greenDeep .text-white,
+html[data-btn="v3"] a.bg-cta .text-cream,
+html[data-btn="v3"] button.bg-cta .text-cream { color: var(--moss-ink) !important; }
+/* Surfaces: bars, bands and plates. The variant's dark, with whatever light
+   type the markup already puts on them. Lower specificity than the control
+   rules above, so a button that happens to carry one of these classes still
+   comes out lime. */
 html[data-btn="v3"] .bg-cta,
 html[data-btn="v3"] .bg-primary,
-html[data-btn="v3"] .bg-greenDeep     { background-color: var(--moss-deep) !important; }
+html[data-btn="v3"] .bg-greenDeep,
+html[data-btn="v3"] .bg-heading       { background-color: var(--moss-ink) !important; }
+/* Hover opens UP, not down — see the note on --moss-hi. */
 html[data-btn="v3"] .hover\:bg-cta-hover:hover,
-html[data-btn="v3"] .hover\:bg-primary-hover:hover { background-color: var(--moss-dark) !important; }
+html[data-btn="v3"] .hover\:bg-primary-hover:hover { background-color: var(--moss-hi) !important; }
+/* The one dark surface in the variant (the reviews band). It is --moss-ink, so
+   it is the lime's own shadow rather than a second green. */
 html[data-btn="v3"] .bg-greenDeepest  { background-color: var(--moss-ink) !important; }
-html[data-btn="v3"] .bg-heading       { background-color: var(--moss-deep) !important; }
+/* The sticker's offset shadow is handled with the rest of the badge system —
+   see --badge-edge near the end of this file. It was a v3-only override here
+   while Moss was the only palette whose badge colour moved. */
 html[data-btn="v3"] .bg-mint          { background-color: var(--moss-mint) !important; }
 html[data-btn="v3"] .bg-primary-50    { background-color: var(--moss-mint) !important; }
 html[data-btn="v3"] .bg-greenTintSoft { background-color: var(--moss-soft) !important; }
@@ -4514,16 +5216,23 @@ html[data-btn="v3"] .bg-greenTint     { background-color: var(--moss-tint) !impo
 html[data-btn="v3"] .text-heading,
 html[data-btn="v3"] .text-greenDeep,
 html[data-btn="v3"] .text-primary     { color: var(--moss-dark) !important; }
-html[data-btn="v3"] .text-cta         { color: var(--moss-deep) !important; }
+/* NOT the lime: this is link and accent type on light grounds, where #98CA55
+   measures 1.9:1. Everything that has to be read is the one dark. */
+html[data-btn="v3"] .text-cta         { color: var(--moss-ink) !important; }
 html[data-btn="v3"] .text-ink,
 html[data-btn="v3"] .text-ink-800,
 html[data-btn="v3"] .text-greenDeepest { color: var(--moss-ink) !important; }
 
 /* --- lines ------------------------------------------------------------- */
+/* Borders and form accents are the ink, not the lime, for the same reason as
+   .text-cta plus one more: `focus:border-cta` is a focus indicator, and WCAG
+   asks 3:1 of one against the surface it sits on. The lime gives 1.9:1 on
+   white; the ink gives 11.9:1. A checkbox's accent-color paints a WHITE tick on
+   the fill, so that one has to be dark as well. */
 html[data-btn="v3"] .border-cta,
-html[data-btn="v3"] .border-primary   { border-color: var(--moss-deep) !important; }
-html[data-btn="v3"] .border-heading   { border-color: var(--moss-dark) !important; }
-html[data-btn="v3"] .accent-ink-800   { accent-color: var(--moss-deep) !important; }
+html[data-btn="v3"] .border-primary,
+html[data-btn="v3"] .border-heading   { border-color: var(--moss-ink) !important; }
+html[data-btn="v3"] .accent-ink-800   { accent-color: var(--moss-ink) !important; }
 
 /* --- the lighter orange ------------------------------------------------- *
    Labels stay DARK on it. #F0A860 is 1.9:1 with white — lighter than the
@@ -4556,11 +5265,18 @@ html[data-btn="v1"] { --chrome-ink: #1F4A24; --chrome-muted: #4B5A4D; --chrome-a
                       --chrome-edge: rgba(41,97,47,0.18);  --chrome-fill: rgba(41,97,47,0.08); }
 html[data-btn="v2"] { --chrome-ink: #2A1C0B; --chrome-muted: #5A4426; --chrome-accent: #A65A12;
                       --chrome-edge: rgba(42,28,11,0.16);  --chrome-fill: rgba(42,28,11,0.07); }
-html[data-btn="v3"] { --stat-pop: #7BB234; --stat-pop-ring: rgba(123,178,52,0.32);
-                      --cat-blob: rgba(123,178,52,0.24); --cat-blob-hover: rgba(123,178,52,0.36);
-                      --badge-ink: #293D0F; }
-html[data-btn="v3"] { --chrome-ink: #293D0F; --chrome-muted: #525F3C; --chrome-accent: #4A790C;
-                      --chrome-edge: rgba(74,121,12,0.20); --chrome-fill: rgba(74,121,12,0.09); }
+/* Decorative greens are the lime itself, at alpha. These were the last three
+   #7BB234s in the variant — a stat-card ring, a category blob and its hover —
+   and being 6 points off the lime they read as a mismatch rather than a tone. */
+html[data-btn="v3"] { --stat-pop: #98CA55; --stat-pop-ring: rgba(152,202,85,0.34);
+                      --cat-blob: rgba(152,202,85,0.24); --cat-blob-hover: rgba(152,202,85,0.36);
+                      --badge-ink: var(--moss-ink); }
+/* Chrome is ink + lime-at-alpha. --chrome-accent was the olive #4A790C; it
+   paints 20px icon glyphs and the nav's hover, both on cream, so it is the ink
+   — the lime would be 1.9:1 there. The hover keeps its feedback through the
+   opacity rule further down instead of through a second colour. */
+html[data-btn="v3"] { --chrome-ink: var(--moss-ink); --chrome-muted: #566044; --chrome-accent: var(--moss-ink);
+                      --chrome-edge: rgba(37,54,19,0.18); --chrome-fill: rgba(152,202,85,0.22); }
 
 /* Nav row — V2 and V3 only. */
 html[data-btn="v2"] [data-navbar],
@@ -4579,6 +5295,29 @@ html[data-btn="v3"] [data-navbar] svg { color: var(--chrome-ink); }
    slab. On cream it is nearly invisible, so hover moves to the variant accent. */
 html[data-btn="v2"] [data-navbar] a:hover,
 html[data-btn="v3"] [data-navbar] a:hover { color: var(--chrome-accent) !important; }
+/* V3's accent IS its ink now (one dark, see the token block), so a colour
+   change cannot express hover here. Opacity does, and it stays legible at
+   0.62 — 7.6:1 against the cream bar. */
+html[data-btn="v3"] [data-navbar] a:not(.masthead-logo):hover { opacity: 0.62; }
+
+/* THE LOGO DOES NOT RESPOND TO HOVER (Ahmed, 2026-08-25: "the logo should not
+   have hover effect"). It is an <a> sitting inside [data-navbar], so it was
+   collected by the nav-link rules above — the opacity one dimmed the whole mark
+   to 62% on the way past, which is what made a brand seal look like it was
+   loading. The :not() takes it out of that rule; the two below take it out of
+   anything a later pass adds to the same selector, including the `color`
+   inherited from the type rule, which the mark has no use for since its colour
+   is inside the SVG.
+
+   Only OPACITY is pinned here. `filter` is deliberately left alone: the stuck
+   masthead paints the mark with a drop-shadow, and resetting the filter on
+   hover would have swapped one unwanted hover effect for another — the shadow
+   vanishing as the pointer crossed it. */
+[data-navbar] .masthead-logo:hover,
+[data-navbar] .masthead-logo:focus,
+html[data-btn] [data-navbar] .masthead-logo:hover {
+  opacity: 1 !important;
+}
 
 /* hdr-user.svg and hdr-search.svg carry a hardcoded stroke="white" and are
    external <img>, so CSS colour cannot reach inside them. */
@@ -4608,6 +5347,9 @@ html[data-btn] footer h2 { color: var(--chrome-ink) !important; }
 html[data-btn] footer .bg-heading,
 html[data-btn] footer .bg-cta,
 html[data-btn] footer button[type="submit"] { color: #FFFFFF !important; }
+/* ...except in V3, where that button's fill is the lime and white would be
+   1.9:1 on it. Same specificity as the rule above, later in the file. */
+html[data-btn="v3"] footer button[type="submit"] { color: var(--moss-ink) !important; }
 html[data-btn] footer .text-white\/70,
 html[data-btn] footer .text-white\/60,
 html[data-btn] footer .text-white\/50 { color: var(--chrome-muted) !important; }
@@ -4639,8 +5381,10 @@ html[data-btn="v3"] .bg-limeFigma.text-heading { color: var(--moss-ink) !importa
    down in the same family and carries all three — 7.56:1, 5.98:1, 3.69:1.
    The glyph also moves off brand lime, which reads as a foreign hue against
    moss, onto --moss-tint (4.63:1). */
-html[data-btn="v3"] [data-review-card] { background-color: var(--moss-dark) !important; }
-html[data-btn="v3"] [data-review-card] .text-limeFigma { color: var(--moss-tint) !important; }
+/* The review cards used to be a dark surface this rule had to repaint. They are
+   white on a cream section now and take their highlight from --rv-hi, so both
+   of the rules that lived here are gone rather than left pointing at a
+   data-review-card attribute nothing carries any more. */
 
 /* --- raw hexes the component CSS hardcodes ------------------------------ */
 /* The cart control keeps a GREEN container (Ahmed, 2026-08-24): on cream
@@ -4649,14 +5393,38 @@ html[data-btn="v3"] [data-review-card] .text-limeFigma { color: var(--moss-tint)
 /* Specificity note: the navbar type rule above is (0,2,1) and repaints every
    button in the header to moss-ink, so these need the [data-navbar] in the
    selector too or the glyph comes out dark green on the green fill. */
+/* Lime fill, INK glyph (was a white one on the olive). The button still reads
+   as the one thing in the header you act on — a saturated lime chip on cream —
+   and its glyph clears 6.8:1 instead of 1.9:1. */
 html[data-btn="v3"] [data-open="cart"],
-html[data-btn="v3"] [data-navbar] [data-open="cart"] { background-color: var(--moss-deep) !important; color: #FFFFFF !important; }
+html[data-btn="v3"] [data-navbar] [data-open="cart"] { background-color: var(--moss-lime) !important; color: var(--moss-ink) !important; }
 html[data-btn="v3"] [data-navbar] [data-open="cart"] svg,
 html[data-btn="v3"] [data-navbar] [data-open="cart"] [data-cart-glyph],
-html[data-btn="v3"] [data-open="cart"] svg { color: #FFFFFF !important; }
+html[data-btn="v3"] [data-open="cart"] svg { color: var(--moss-ink) !important; }
 /* The count badge sits ON that green, so it takes the light tint with dark
    type rather than the reverse. */
-html[data-btn="v3"] [data-cart-count] { background-color: var(--moss-tint) !important; color: var(--moss-ink) !important; }
+/* ORANGE (Ahmed, 2026-08-25: "the circle of the number of the moss version
+   need to be orange"), and it takes the variant's badge tokens rather than a
+   hex of its own — a count chip is a badge, so it belongs to the same pair as
+   the price tags. That also makes it the one thing on a lime cart button that
+   is not lime: it was a dark chip with lime digits, which read as a hole in the
+   button rather than as a number attached to it. #2A1C0B on #F0A860 is 8.3:1,
+   and the chip clears 3:1 against the lime it sits on, so it stays a separate
+   shape and not a smudge. */
+/* No ring (Ahmed, 2026-08-25: "remove the border around the circle of the
+   number"), and the surface audit's finding about it stands on record rather
+   than in pixels: #F0A860 on the #98CA55 button is 1.04:1 — distinct in hue,
+   near-identical in luminance — so the chip has no measurable edge against the
+   button and disappears in greyscale. The ink ring was the fix; it was seen and
+   declined, which makes this a recorded design decision, not an oversight. The
+   digits themselves stay comfortably legible (8.3:1 on the orange). */
+html[data-btn="v3"] [data-cart-count],
+html[data-btn="v3"] [data-sticky-actions][data-stuck="true"] [data-cart-count] {
+  background-color: var(--badge-fill) !important;
+  color: var(--badge-ink) !important;
+  box-shadow: none !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+}
 
 /* --- artwork that was drawn for the DARK bar ---------------------------- *
    hdr-user.svg and hdr-search.svg are external <img> SVGs with a hardcoded
@@ -4756,3 +5524,349 @@ html[data-btn="v1"] [data-navbar] [data-cart-count] { background-color: #FDF8F1 
    Its type is near-black or the darkened heading green, both far past AA on
    cream, so nothing else has to move. */
 html[data-btn="v1"] [data-utility-bar] { background-color: #FDF8F1 !important; }
+
+
+/* ==========================================================================
+   PARKED CART, PHONE: one container, not two (Ahmed, 2026-08-25: "remove all
+   the double container in the scrolling cart in the mobile version")
+
+   The parked actions element is a PLATE with a padding ring, built when it held
+   two controls (search + cart). On phones it holds one: the cart button, which
+   is itself a filled circle — so a green circle sat inside a green rounded box
+   and the pill read as a button wearing a second button.
+
+   The V3 block earlier in this file already solved the same complaint one
+   variant at a time ("don't want both greens") by hollowing out the BUTTON and
+   keeping the plate. This does it the other way round and for every variant:
+   the plate goes, the button keeps its own fill, and it takes over the shadow
+   that made the pill read as floating. Desktop is untouched — there the plate
+   is deep green and the button inside it is white, so the two are doing
+   different jobs rather than repeating one.
+
+   Placed at the end of the sheet, and with !important on the properties the
+   variant sheets set, because those rules are more specific than a plain
+   media-query block and would otherwise put the plate straight back.
+   ========================================================================== */
+@media (max-width: 767px) {
+  /* Every selector here carries an `html[data-btn]` it does not otherwise need.
+     That is the point: the V2 and V3 sheets both paint this plate at (0,3,1)
+     with !important, so a bare [data-sticky-actions] rule loses to them and the
+     plate came back — lime on lime in Moss, which is what "the scrolling cart
+     looks crashed" was. Matching their specificity and sitting later in the
+     file is what makes "no plate" actually stick in all three. */
+  html[data-btn] [data-sticky-actions][data-stuck="true"],
+  [data-sticky-actions][data-stuck="true"] {
+    background: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+  /* The float, and the fill, now belong to the BUTTON. V3 had hollowed the
+     button out to avoid its double-green (the plate was carrying the colour);
+     with the plate gone it needs both back, or the parked cart is an unfilled
+     glyph floating on the page. The (0,4,1) selectors match V3's own so this
+     wins on order rather than on an arms race of !importants. */
+  html[data-btn] [data-sticky-actions][data-stuck="true"] [data-open="cart"],
+  [data-sticky-actions][data-stuck="true"] [data-open="cart"] {
+    box-shadow: var(--lift-shadow) !important;
+  }
+  html[data-btn="v3"] [data-sticky-actions][data-stuck="true"] [data-open="cart"] {
+    background: var(--moss-lime) !important;
+    color: var(--moss-ink) !important;
+    box-shadow: var(--lift-shadow) !important;
+  }
+  html[data-btn="v2"] [data-sticky-actions][data-stuck="true"] [data-open="cart"] {
+    background: #EA983E !important;
+    color: #000 !important;
+    box-shadow: var(--lift-shadow) !important;
+  }
+}
+
+
+/* ==========================================================================
+   BADGES ARE NOT BUTTONS (Ahmed, 2026-08-25)
+   ==========================================================================
+   "the orange one has a distinct primary button colour, then a green colour for
+   the badges ... apply the same concept for all the three palettes ... the price
+   tags, the best selling badge in the single product page should be different."
+
+   Scope, after a follow-up: this paints the PRICE TAGS. The best-seller chip and
+   the points pill were in here too for about ten minutes and are now neutral in
+   every palette — see .badge-neutral below.
+
+   The Orange variant already worked this way, by accident of how it was written:
+   it repaints `a.bg-cta` and `button.bg-cta` only, so the CONTROLS turned orange
+   while the price tags and chips stayed green. The other two had no such split —
+   Green paints its buttons and its price tags the same deep green, and Moss went
+   further and made everything one lime — so in both, the badge disappeared into
+   the button.
+
+   The pair has to differ in HUE, not merely in lightness (Ahmed, 2026-08-25:
+   "the difference should not be only in the chroma or value, it should be in
+   hue too, like the orange version"). That is the test the first cut failed:
+   Moss ran a lime button against a dark badge that was the same hue 86° two
+   thirds of the way down in lightness, which is a shade of the button, not a
+   second colour. Measured hue angles, and the gap each palette opens:
+
+     v1  Green   buttons #00451C h=144°  ->  badges ORANGE #F7931E h=32°   Δ112°
+     v2  Orange  buttons #EA983E h=33°   ->  badges GREEN  #006328 h=145°  Δ112°
+     v3  Moss    buttons #98CA55 h=86°   ->  badges ORANGE #F0A860 h=30°   Δ56°
+
+   So the system is one rule in words: green-led palettes badge in orange, the
+   orange-led palette badges in green. v2 already did it and is unchanged; the
+   other two now match it. Moss takes the softer #F0A860 rather than the brand
+   orange because it is the orange that variant already defines for itself, and
+   at 86° its button is nearer the badge than the other two are — the lighter
+   orange keeps the two apart in value as well as hue.
+
+   Ink on every one of them is near-black rather than white: white on orange is
+   2.3:1 and is a locked rule in tailwind.config.js. Measured — #2A1C0B on
+   #F7931E is 7.2:1, on #F0A860 8.3:1, and v2's white on #006328 is 7.06:1.
+
+   NOTE for the brand review: tailwind.config.js records "orange sparingly,
+   sale/highlight only". Price tags on every card is not sparing, so this is a
+   deliberate departure for two of the three palettes and wants a decision, not
+   a shrug — the alternative that keeps that rule is a deep-green badge in v3
+   and a lime one in v1, which is what shipped an hour ago and is the version
+   this replaced.
+
+   `--badge-edge` is the price tag's offset shadow, the second colour in that
+   little two-tone stamp. It takes the palette's BUTTON colour, so the tag
+   carries the same pair the page does.
+   ========================================================================== */
+:root,
+html[data-btn="v1"] {
+  --badge-fill: #F7931E;   /* the manual's orange, h=32° against a 144° button */
+  --badge-ink:  #2A1C0B;
+  --badge-edge: #00451C;   /* the button colour, so the stamp is the pair */
+}
+html[data-btn="v2"] {
+  --badge-fill: #006328;
+  --badge-ink:  #FFFFFF;
+  --badge-edge: #98CA55;
+}
+html[data-btn="v3"] {
+  --badge-fill: var(--moss-orange);  /* #F0A860, h=30° against an 86° button */
+  --badge-ink:  #2A1C0B;
+  /* NOT the lime here: an orange chip on a lime stamp is two bright colours
+     touching with no value gap between them. The variant's dark does the job
+     the other two get from their deep button colour. */
+  --badge-edge: var(--moss-ink);
+}
+
+/* Two selectors for one rule. The bare one is what a no-JS visit gets, where
+   <html> carries no data-btn at all; the html[data-btn] one exists purely to
+   outrank the variant sheets above, which repaint .bg-greenDeep with
+   !important at (0,2,1) — a plain .price-sticker would lose to them. */
+.price-sticker,
+html[data-btn] .price-sticker {
+  background-color: var(--badge-fill) !important;
+  color: var(--badge-ink) !important;
+}
+/* The offset stamp keeps its two sizes and swaps only its colour — the offsets
+   are baked into the utility class names in the markup. */
+.shadow-\[2px_3px_0px_\#98CA55\] { box-shadow: 2px 3px 0 var(--badge-edge) !important; }
+.shadow-\[3px_5px_0px_\#98CA55\] { box-shadow: 3px 5px 0 var(--badge-edge) !important; }
+
+
+/* --- Neutral chips -------------------------------------------------------
+   The best-seller chip and the "earn N points" pill are grey in every palette
+   (Ahmed, 2026-08-25: "make these badges a neutral color in all versions").
+
+   They sit in the same 40px band as the price tag, the rating and the
+   sold-proof line, and once each palette started painting its badges in a
+   saturated hue that band was four coloured chips arguing about which one you
+   should read first. The price tag is the one that should win, so the labels
+   around it stop competing: a light neutral plate, near-black type, and the
+   colour they used to carry — lime on one, mint on the other — is gone.
+
+   #F4F4F2 — a step lighter than the #EDEDEB this first shipped as (Ahmed,
+   2026-08-25: "the neutral colors in the single product page need to be
+   slightly lighter, not to make a harsh contrast with the background behind
+   them"). The chips sit on the details card, which is white, and at #EDEDEB the
+   plate was reading as a filled grey box beside the price rather than as a
+   quiet label. The ink is unaffected either way — 9.3:1 with #414141.
+
+   The `html[data-btn]` twin is there for specificity — the variant sheets
+   repaint .bg-mint with !important at (0,2,1), and a lone .badge-neutral would
+   lose to them. */
+.badge-neutral,
+html[data-btn] .badge-neutral {
+  background-color: #F4F4F2 !important;
+  color: #414141 !important;
+}
+
+/* --- The favourites heart is RED, always --------------------------------
+   (Ahmed, 2026-08-25: "the heart icon should be red in all versions".)
+
+   It used to paint `.text-cta`, i.e. the palette's own button colour, so the
+   heart was green in one variant, orange in another and near-black ink in Moss
+   — and a heart is not a palette element. It is the one control on the page
+   whose colour IS its meaning, which is also why the saved state has been an
+   off-system pink since 2026-07-29 (DESIGN-NOTES §3). Both states are that same
+   red now; outline versus solid still carries saved/not, which is the
+   convention every shopper already knows.
+
+   !important and a [data-btn] ancestor because the variant sheets repaint
+   .text-cta — which .fav-btn carries — with !important of their own. */
+html[data-btn] .fav-btn,
+.fav-btn {
+  color: #e11d48 !important;
+}
+
+
+/* --- The sort popup's rows sit ABOVE its marker --------------------------
+   The travelling fill is inserted as the panel's first child by
+   initFancySelect; without a stacking order the rows' own backgrounds would be
+   painted under it and the fill would cover the labels. Same pairing the design
+   system dropdown uses for .dd__opt. */
+[data-fancy-pop] { position: absolute; }
+[data-fancy-pop] [data-fancy-opt] { position: relative; z-index: 1; background: transparent; }
+
+/* --- Checkmarks follow the palette --------------------------------------
+   (Ahmed, 2026-08-25: "the checkmarks should follow the palettes as well".)
+
+   One token, used as an icon colour AND as a checkbox/radio accent-color, so
+   every tick on the site — the two dropdowns' selected marks, the bundle
+   checkboxes, the checkout radios, the register consent box — turns with the
+   switcher.
+
+   The value is NOT each palette's button colour, and that is deliberate: these
+   are small marks on white. The orange button (#EA983E) measures 2.06:1 there
+   and Moss's lime 1.9:1, both under the 3:1 a graphic needs. Each token is that
+   palette's own hue taken down until it clears — 7.06:1, 5.4:1 and 5.2:1 — so
+   the mark still reads as green, orange or lime without being unreadable. As a
+   checkbox fill they all carry the browser's white tick as well. */
+:root,
+html[data-btn="v1"] { --pal-mark: #006328; }
+html[data-btn="v2"] { --pal-mark: #A65A12; }
+html[data-btn="v3"] { --pal-mark: #4A790C; }
+
+.dd__opt-check,
+html[data-btn] .dd__opt-check,
+[data-fancy-check],
+html[data-btn] [data-fancy-check] { color: var(--pal-mark) !important; }
+
+.accent-ink-800,
+html[data-btn] .accent-ink-800 { accent-color: var(--pal-mark) !important; }
+
+/* --- Moss's hero chips ---------------------------------------------------
+   The two stacked chips in the hero are the same two colours as the buttons in
+   this variant, which is why they stopped reading as chips at all: "Natural
+   Snacks" was #98CA55 on a page whose buttons are #98CA55, and "For Every
+   Event" was white.
+
+   So in Moss only the kicker goes WHITE and the title takes the variant's
+   orange (Ahmed, 2026-08-25: "make this lighter green", then "make natural
+   snacks container white"; and "make the For Every Event container orange").
+   White reads as a card rather than as a third green, which is what the tint it
+   briefly held still looked like next to the lime buttons; the orange is the
+   same colour the variant's badges use. Ink stays what the markup sets —
+   12.3:1 on the white, 6.3:1 on the orange.
+
+   Scoped to these two hooks rather than to .bg-limeFigma, because that class is
+   also the utility strip, and the strip keeping its green in every variant is a
+   standing decision (2026-08-24). */
+html[data-btn="v3"] [data-hero-kicker] { background-color: #FFFFFF !important; }
+html[data-btn="v3"] [data-hero-title]  { background-color: var(--moss-orange) !important; }
+
+/* The trust seal's disc follows the same rule as every other badge in Moss
+   (Ahmed, 2026-08-25: "change the color of this badge to something different
+   other than the primary color"): the exported lime became this variant's
+   BUTTON colour, so a lime seal read as a giant unlabelled button floating on
+   the hero. The disc takes the variant's badge orange — the colour its price
+   tags already carry — and the black lockup and ring lettering sit on it
+   unchanged (black on #F0A860 is 8.3:1). Reachable at all only because the
+   face half is inlined at build time; see _seal_face() in home.py. */
+html[data-btn="v3"] .seal-disc { fill: var(--moss-orange); }
+
+
+/* ==========================================================================
+   DELIGHT PASS (Ahmed, 2026-08-25)
+   ==========================================================================
+   The finishing motion layer. Everything here obeys two house rules the
+   existing motion already follows: transforms and opacity only (nothing that
+   relayouts), and one reduced-motion block at the end that turns the whole
+   layer off rather than each piece opting out on its own. */
+
+/* --- Anchor scrolling glides. Reduced-motion resets it below. */
+html { scroll-behavior: smooth; }
+
+/* --- Card cascade (tagged by initAutoReveal). The cards ride the existing
+   [data-reveal] system; the only new rule is a snappier TRANSFORM leg —
+   the reveal's 0.5s is right for a whole section but reads sluggish on the
+   hover lift below, and both share this one transition. The doubled
+   selector out-ranks `.js-reveal [data-reveal]` (0,2,0), which would
+   otherwise win the transition back. */
+.js-reveal .product-widget[data-reveal],
+.product-widget {
+  transition: opacity 0.5s var(--ease-out), transform 0.3s var(--ease-out);
+}
+
+/* --- Product card hover lift. The image already pushes in; the card now
+   rises 4px with it and its plate picks up a soft shadow, so the whole
+   object answers the pointer, not just the photograph. The doubled selector
+   is the same specificity trick: `[data-reveal="in"]` pins transform:none
+   at (0,2,0) and a bare :hover would lose to it. */
+.js-reveal .product-widget[data-reveal]:hover,
+.product-widget:hover { transform: translateY(-4px); }
+.product-widget > .relative > a {
+  transition: box-shadow 0.35s var(--ease-out);
+}
+.product-widget:hover > .relative > a {
+  box-shadow: 0 14px 28px rgba(31, 45, 20, 0.10);
+}
+
+/* --- Nav tab underline: wipes out from the inline start, the same gesture
+   the .tab-btn underline makes. currentColor, so it follows whatever ink
+   each palette gives the tabs without a token of its own. */
+.nav-tab::after {
+  content: "";
+  position: absolute; inset-inline: 0; bottom: -4px;
+  height: 2px; border-radius: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.28s var(--ease-out);
+}
+html[dir="rtl"] .nav-tab::after { transform-origin: right center; }
+.nav-tab:hover::after, .nav-tab:focus-visible::after { transform: scaleX(1); }
+
+/* --- Press states. The site had hover everywhere and almost no :active —
+   a button that does not move under the finger reads as printed, and on
+   touch, hover states never fire at all, so this is the only motion a
+   phone shopper gets from a tap. .btn-elevate already has its own press
+   and is excluded. Steppers dip harder: they are small, repeat-tapped
+   controls and the dip is the tap-counter feedback. */
+a.bg-cta:not(.btn-elevate):active,
+button.bg-cta:not(.btn-elevate):active,
+button.bg-primary:active,
+.rv__nav:active,
+.pcar__btn:active {
+  transform: translateY(1px) scale(0.985);
+  transition: transform 0.1s ease-out;
+}
+button[data-step]:active,
+button[data-card-step]:active,
+button[data-cart-step]:active,
+button[data-sticky-step]:active { transform: scale(0.88); }
+
+/* --- Lazy image fade (tagged by initImgFade — only images still loading
+   when the script runs, so cached pictures never blink). */
+.img-fade { opacity: 0; }
+.img-fade.img-in { opacity: 1; transition: opacity 0.5s ease-out; }
+
+/* --- The whole layer folds at once. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js-reveal .product-widget[data-reveal], .product-widget,
+  .product-widget > .relative > a, .nav-tab::after { transition: none; }
+  .js-reveal .product-widget[data-reveal]:hover,
+  .product-widget:hover { transform: none; }
+  a.bg-cta:not(.btn-elevate):active,
+  button.bg-cta:not(.btn-elevate):active,
+  button.bg-primary:active, .rv__nav:active, .pcar__btn:active,
+  button[data-step]:active, button[data-card-step]:active,
+  button[data-cart-step]:active, button[data-sticky-step]:active { transform: none; }
+  .img-fade { opacity: 1; transition: none; }
+}
