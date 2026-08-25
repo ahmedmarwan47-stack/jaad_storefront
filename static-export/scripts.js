@@ -1027,59 +1027,55 @@
   function headerHTML() {
     const checkout = isCheckout();
 
-    /* --- flash-sale strip: the topmost bar ---------------------------------
-       Redesigned (Ahmed, 2026-08-24), same height, new contents.
+    /* --- flash-sale promo -------------------------------------------------
+       Relocated INTO the utility bar (Ahmed, 2026-08-25). It used to be the
+       header's own topmost band, which made the masthead three stacked bars
+       before the page had said anything. The promo is not worth a third of the
+       header, so it now rides in the utility bar's start slot — the space the
+       "100% Natural Based Products" line held, which was a claim nobody came
+       here to read.
 
-       What was wrong with it. It read "00 Days 14 Hours 31 Mins Flash Sale
-       Within Up To 50%" — the countdown arrived BEFORE the label telling you
-       what was being counted, so the first thing in the header was three
-       unexplained numbers. The three white boxes made the timer the loudest
-       thing in the bar while the actual offer, "Up To 50%", was plain text at
-       the end. And the whole strip was a <div>: a flash-sale announcement you
-       cannot click.
+       Contents are deliberately down to three things: the icon, the words, the
+       clock. The discount pill, the "ends in" phrase, and the "shop now" link
+       with its chevron are all gone — at utility-bar scale they turned a glance
+       into a paragraph. The whole thing is still an <a> to the sale, so the
+       click target the chevron used to advertise survives without it.
 
-       Now it reads in the order a person needs it — what (Flash Sale), how much
-       (the lime pill, which is the only thing here that should shout), then how
-       long — and the whole strip is a link to the shop with a chevron to say so.
-       The timer sits in one recessed block instead of three white cards, so it
-       supports the offer rather than competing with it.
-
-       Height is unchanged at 47px: same px-4 py-[7px] as before, and the
-       contents are sized to the same 33px inner band.
-
-       The countdown is a rolling 2-day demo (initFlashCountdown), since the
-       catalogue carries no real sale window. The data-flash hooks are kept
-       exactly as they were, so that function needs no change. */
+       Units render inline rather than stacked over their labels: the bar is
+       ~30px tall and the old two-line unit needed 33px on its own. Labels drop
+       below lg, where the support nav and the promo start competing for width;
+       the digits and colons still read as a clock without them. */
     const flashUnit = (key, label) =>
-      `<span class="flex flex-col items-center leading-none">
-         <span class="font-bold text-white text-[13px] tabular-nums latin" data-flash="${key}">00</span>
-         <span class="mt-0.5 font-medium text-white/55 text-[9px] uppercase">${esc(t(label))}</span>
+      `<span class="inline-flex items-baseline gap-1">
+         <span class="font-bold tabular-nums latin" data-flash="${key}">00</span>
+         <span class="hidden lg:inline text-[10px] uppercase">${esc(t(label))}</span>
        </span>`;
-    const flashSep = `<span class="pb-2 font-bold text-white/30 text-[13px]">:</span>`;
-    const flashBar = checkout
+    /* No opacity dimming on the label or the separator. The obvious way to
+       recess them is opacity-70 / opacity-40, but the promo's ink is already a
+       dark green on a light bar, and knocking it back that far put the colon at
+       1.8:1 — a fail that the earlier sweeps could not have caught, since it
+       arrived with this markup. Hierarchy comes from weight and size instead:
+       bold tabular digits against 10px uppercase labels, all at full ink. */
+    const flashSep = `<span class="font-bold">:</span>`;
+    /* text-heading rather than a literal colour: the bar is cream in v1 and
+       lime in v2/v3, and the existing `.bg-limeFigma .text-heading` rule plus
+       the v3 override already resolve an AA-passing ink for each ground. */
+    const promo = checkout
       ? ""
       : `<a href="${pageHref("/shop")}" data-flash-sale
-             class="group flex flex-wrap justify-center items-center gap-x-3 gap-y-1 bg-greenDeep hover:bg-[#00551f] px-4 py-[7px] min-h-[47px] text-white transition-colors">
-           <span class="flex items-center gap-2">
-             <img src="images/jaad/icons/flash-sale.png" alt="" class="w-[22px] h-[22px] object-contain shrink-0" />
-             <span class="font-bold text-white text-xs uppercase tracking-[0.5px]">${esc(t("عروض فلاش"))}</span>
-             <span class="bg-limeFigma px-2 py-0.5 rounded-full font-bold text-heading text-[11px] whitespace-nowrap">${esc(t("خصم حتى 50%"))}</span>
-           </span>
-           <span class="flex items-center gap-2">
-             <!-- Hidden below sm so the strip holds ONE line at 375px and keeps
-                  its 47px height. The timer's own DAYS/HOURS/MINS labels
-                  already say it is a countdown, so this is the phrase the small
-                  screen can most afford to lose. -->
-             <span class="hidden sm:inline text-white/60 text-[11px] whitespace-nowrap">${esc(t("ينتهي خلال"))}</span>
-             <span class="flex items-center gap-1.5 bg-white/10 px-2 py-0.5 rounded-md">
-               ${flashUnit("days", "يوم")}${flashSep}${flashUnit("hours", "ساعة")}${flashSep}${flashUnit("mins", "دقيقة")}
-             </span>
-             <span class="hidden sm:flex items-center gap-1 font-semibold text-limeFigma text-[11px] whitespace-nowrap">
-               ${esc(t("تسوق الآن"))}
-               <span class="rtl:scale-flip w-3 h-3 transition-transform group-hover:translate-x-0.5">${ICON.arrowRight}</span>
-             </span>
+             class="flex items-center gap-2 min-w-0 text-heading text-xs whitespace-nowrap hover:opacity-70 transition-opacity">
+           <img src="images/jaad/icons/flash-sale.png" alt="" class="w-[18px] h-[18px] object-contain shrink-0" />
+           <span class="font-bold uppercase tracking-[0.5px]">${esc(t("عروض فلاش"))}</span>
+           <span class="flex items-center gap-1.5">
+             ${flashUnit("days", "يوم")}${flashSep}${flashUnit("hours", "ساعة")}${flashSep}${flashUnit("mins", "دقيقة")}
            </span>
          </a>`;
+    /* Phones carry no utility bar, so the promo would disappear with the band
+       it used to live in. It keeps its own slim strip there instead — same
+       three elements, so the two never drift apart. */
+    const promoBand = checkout
+      ? ""
+      : `<div class="md:hidden flex justify-center bg-limeFigma px-4 py-1.5">${promo}</div>`;
 
     /* --- support (utility) menu --- */
     const support = SUPPORT_MENU.map(
@@ -1103,7 +1099,7 @@
             ? ""
             : `<div data-utility-bar class="bg-limeFigma">
                  <div class="flex justify-between items-center gap-6 mx-auto px-4 xl:px-[60px] py-1.5 max-w-[1512px]">
-                   <span class="font-medium text-black text-sm whitespace-nowrap">${esc(t("100% Natural Based Products"))}</span>
+                   ${promo}
                    <nav class="flex items-center gap-4 xl:gap-6 min-w-0 overflow-hidden">
                      ${support}
                      <button type="button" data-lang-toggle data-no-i18n class="shrink-0 font-medium text-heading text-sm underline whitespace-nowrap">${currentLang() === "ar" ? "English" : "العربية"}</button>
@@ -1214,7 +1210,7 @@
              </div>`
       }`;
 
-    return `<header>${flashBar}${desktop}${mobile}</header>`;
+    return `<header>${desktop}${promoBand}${mobile}</header>`;
   }
 
   /* ---------------------------------------------------------------
@@ -6141,13 +6137,21 @@
      countdown and resets cleanly. Updates Days/Hours/Mins (no seconds in the
      design), so a 20s tick keeps the minutes honest without churn. */
   function initFlashCountdown() {
-    const bar = document.querySelector("[data-flash-sale]");
-    if (!bar) return;
-    if (bar._flashTimer) clearInterval(bar._flashTimer);
+    /* querySelectorAll, not querySelector (Ahmed, 2026-08-25). The promo now
+       renders TWICE — once in the desktop utility bar, once in the phone's own
+       strip — and only one of the two is ever visible, so a single-element
+       lookup had a 50/50 chance of driving the hidden one and leaving the
+       visible clock frozen at 00:00:00. */
+    const bars = [...document.querySelectorAll("[data-flash-sale]")];
+    if (!bars.length) return;
+    bars.forEach((b) => { if (b._flashTimer) clearInterval(b._flashTimer); });
     const CYCLE = 2 * 24 * 60 * 60 * 1000;
     const set = (k, v) => {
-      const el = bar.querySelector(`[data-flash="${k}"]`);
-      if (el) el.textContent = String(v).padStart(2, "0");
+      const txt = String(v).padStart(2, "0");
+      bars.forEach((b) => {
+        const el = b.querySelector(`[data-flash="${k}"]`);
+        if (el) el.textContent = txt;
+      });
     };
     const tick = () => {
       const now = Date.now();
@@ -6162,7 +6166,8 @@
       set("mins", m);
     };
     tick();
-    bar._flashTimer = setInterval(tick, 20000);
+    const timer = setInterval(tick, 20000);
+    bars.forEach((b) => { b._flashTimer = timer; });
   }
 
   /* Proximity scatter: a leaf only moves when the cursor passes NEAR it — it is

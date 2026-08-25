@@ -4188,7 +4188,6 @@ html[data-btn="v2"] [data-card-stepper] button { border-radius: 12px !important;
    on #006328 is 3.88:1. #BFE08D is the same lime opened up two steps and
    clears at 5.07:1. Scoped to the strip so the lime token is unchanged
    everywhere else. */
-[data-flash-sale] .text-limeFigma { color: #BFE08D; }
 
 /* --- Language switch ------------------------------------------------------
    ALMARAI, whichever way the site is currently set (Ahmed, 2026-08-24). This
@@ -4275,79 +4274,99 @@ html[data-btn="v3"] a.bg-cta.is-orange,
 html[data-btn="v3"] .bg-orange,
 html[data-btn="v3"] .bg-highlight     { background-color: var(--moss-orange) !important; color: #2A1C0B !important; }
 
-/* --- LIGHT chrome: masthead + footer ------------------------------------ */
-/* One surface for all the chrome (Ahmed, 2026-08-24): the flash strip, the
-   navbar, the utility strip under it and the stuck bar all take the FOOTER's
-   cream, so the page opens and closes on the same colour instead of three
-   different light greens. */
+/* --- LIGHT chrome: masthead + footer ------------------------------------ *
+   Was V3-only; now shared (Ahmed, 2026-08-25: "unify that light mood header
+   and footer in all the variants").
+
+   The footer goes cream in ALL THREE. The nav row goes cream in V2 and V3 —
+   V1 keeps its orange masthead, which was an explicit call, so it is the one
+   variant whose nav opts out.
+
+   Everything below is one implementation reading --chrome-* tokens, rather
+   than the same dozen rules pasted per variant. That duplication is exactly
+   what made the radius scale drift into two design systems before it was
+   un-prefixed, and chrome colour would have gone the same way.
+
+   The lime utility strip KEEPS ITS GREEN in every variant (Ahmed, 2026-08-24).
+   It was briefly turned cream on a misreading of "the bottom part of the
+   navbar" — that meant the nav row, not this band. It is the one green left in
+   the header and it is what stops the cream chrome reading as a blank sheet.
+   V1 is the exception: its bar is cream because its nav is orange.  */
+html[data-btn="v1"] { --chrome-ink: #1F4A24; --chrome-muted: #4B5A4D; --chrome-accent: #29612F;
+                      --chrome-edge: rgba(41,97,47,0.18);  --chrome-fill: rgba(41,97,47,0.08); }
+html[data-btn="v2"] { --chrome-ink: #2A1C0B; --chrome-muted: #5A4426; --chrome-accent: #A65A12;
+                      --chrome-edge: rgba(42,28,11,0.16);  --chrome-fill: rgba(42,28,11,0.07); }
+html[data-btn="v3"] { --chrome-ink: #33401F; --chrome-muted: #5F6B52; --chrome-accent: #5A6E3A;
+                      --chrome-edge: rgba(90,110,58,0.18); --chrome-fill: rgba(90,110,58,0.08); }
+
+/* Nav row — V2 and V3 only. */
+html[data-btn="v2"] [data-navbar],
+html[data-btn="v2"] [data-navbar][data-stuck="true"],
 html[data-btn="v3"] [data-navbar],
-html[data-btn="v3"] [data-navbar][data-stuck="true"] { background-color: #FDF8F1 !important; box-shadow: inset 0 -1px 0 var(--moss-tint); }
-/* The lime utility strip ("100% Natural Based Products" + the support links)
-   KEEPS ITS GREEN (Ahmed, 2026-08-24). It was briefly turned cream with the
-   rest of the chrome, on a misreading of "the bottom part of the navbar" — that
-   meant the nav row, not this band. It is the one green left in the header, and
-   it is what keeps the cream chrome from reading as a blank sheet. Deliberately
-   NOT overridden here, so it renders exactly as it does in V1 and V2. */
+html[data-btn="v3"] [data-navbar][data-stuck="true"] { background-color: #FDF8F1 !important; box-shadow: inset 0 -1px 0 var(--chrome-edge); }
+html[data-btn="v2"] [data-navbar] .text-white,
+html[data-btn="v2"] [data-navbar] a,
+html[data-btn="v2"] [data-navbar] button,
 html[data-btn="v3"] [data-navbar] .text-white,
 html[data-btn="v3"] [data-navbar] a,
-html[data-btn="v3"] [data-navbar] button { color: var(--moss-ink) !important; }
-html[data-btn="v3"] [data-navbar] svg { color: var(--moss-ink); }
+html[data-btn="v3"] [data-navbar] button { color: var(--chrome-ink) !important; }
+html[data-btn="v2"] [data-navbar] svg,
+html[data-btn="v3"] [data-navbar] svg { color: var(--chrome-ink); }
+/* The nav tabs hover to #ACD574, a pale lime picked to lift off a deep green
+   slab. On cream it is nearly invisible, so hover moves to the variant accent. */
+html[data-btn="v2"] [data-navbar] a:hover,
+html[data-btn="v3"] [data-navbar] a:hover { color: var(--chrome-accent) !important; }
 
-/* The footer carries .bg-greenDeepest, which the class rule above repaints to
-   moss-ink — a DARK slab. This has to out-specify it, hence the class in the
-   selector rather than the bare element. */
-html[data-btn="v3"] footer,
-html[data-btn="v3"] footer.bg-greenDeepest { background-color: #FDF8F1 !important; }
-/* Scoped away from FILLED controls. The first version darkened every
-   .text-white in the footer, which included the Subscribe button's label —
-   moss-ink type on a moss-deep fill, the worst contrast on the page. Anything
-   sitting on a coloured fill keeps its white. */
-html[data-btn="v3"] footer .text-white:not(.bg-heading):not(.bg-cta):not(.bg-primary),
-html[data-btn="v3"] footer a:not(.bg-heading):not(.bg-cta):not(.bg-primary),
-html[data-btn="v3"] footer h2 { color: var(--moss-ink) !important; }
-html[data-btn="v3"] footer .bg-heading,
-html[data-btn="v3"] footer .bg-cta,
-html[data-btn="v3"] footer button[type="submit"] { color: #FFFFFF !important; }
-html[data-btn="v3"] footer .text-white\/70,
-html[data-btn="v3"] footer .text-white\/60,
-html[data-btn="v3"] footer .text-white\/50 { color: #5f6b52 !important; }
-html[data-btn="v3"] footer .bg-white\/\[0\.06\],
-html[data-btn="v3"] footer .bg-white\/10 { background-color: rgba(90, 110, 58, 0.08) !important; }
-html[data-btn="v3"] footer .border-white\/10 { border-color: rgba(90, 110, 58, 0.18) !important; }
-/* The footer's artwork was drawn for a DARK ground and does not survive the
-   swap to cream, in two different ways.
+/* hdr-user.svg and hdr-search.svg carry a hardcoded stroke="white" and are
+   external <img>, so CSS colour cannot reach inside them. */
+html[data-btn="v2"] [data-navbar] img[src*="hdr-user"],
+html[data-btn="v2"] [data-navbar] img[src*="hdr-search"] { filter: invert(1) brightness(0.18); }
 
-   The social marks are solid `fill="#fff"` SVGs — invisible on cream. invert(1)
-   turns white to black cleanly (they are single-colour, so nothing else moves),
-   and the opacity softens it to match the muted type beside it.
+/* V2's cart control keeps its orange fill — it is the brand accent and the one
+   thing in the header you act on — but white on #EA983E is 2.32:1, under even
+   the 3:1 graphic bar, so the glyph flips dark instead. The count badge was
+   already moved to #7A3E06 (white digits 8.34:1, 3.60:1 against the orange). */
+html[data-btn="v2"] [data-navbar] [data-open="cart"] svg,
+html[data-btn="v2"] [data-navbar] [data-open="cart"] [data-cart-glyph] { color: #2A1C0B !important; }
 
-   The logo is the harder case: it is a FULL-COLOUR mark whose eight cream
-   paths (#FDF8F1) are exactly the footer's new background, so recolouring it
-   with a filter would either destroy the greens or leave the cream invisible.
-   Instead it keeps its own ground — a moss plate behind it, which is what the
-   mark was drawn to sit on. */
-html[data-btn="v3"] footer a[aria-label] img { filter: invert(1); opacity: 0.65; }
+/* Footer — ALL variants. The unprefixed pair carries the pre-JS paint (data-btn
+   is set by initBtnStyleSwitch, so it is absent on the first frame); the
+   html[data-btn] pair out-specifies the .bg-greenDeepest -> moss-ink class rule
+   in the V3 block above, which would otherwise repaint the slab dark. */
+footer, footer.bg-greenDeepest,
+html[data-btn] footer, html[data-btn] footer.bg-greenDeepest { background-color: #FDF8F1 !important; }
+/* Scoped away from FILLED controls. An early version darkened every .text-white
+   in the footer, which included the Subscribe button's label — dark type on a
+   dark fill, the worst contrast on the page. Anything on a coloured fill keeps
+   its white. */
+html[data-btn] footer .text-white:not(.bg-heading):not(.bg-cta):not(.bg-primary),
+html[data-btn] footer a:not(.bg-heading):not(.bg-cta):not(.bg-primary),
+html[data-btn] footer h2 { color: var(--chrome-ink) !important; }
+html[data-btn] footer .bg-heading,
+html[data-btn] footer .bg-cta,
+html[data-btn] footer button[type="submit"] { color: #FFFFFF !important; }
+html[data-btn] footer .text-white\/70,
+html[data-btn] footer .text-white\/60,
+html[data-btn] footer .text-white\/50 { color: var(--chrome-muted) !important; }
+html[data-btn] footer .bg-white\/\[0\.06\],
+html[data-btn] footer .bg-white\/10 { background-color: var(--chrome-fill) !important; }
+html[data-btn] footer .border-white\/10 { border-color: var(--chrome-edge) !important; }
+/* The footer's artwork was drawn for a DARK ground. The social marks are solid
+   fill="#fff" SVGs — invisible on cream. invert(1) turns white to black cleanly
+   (single-colour, so nothing else moves) and the opacity softens it to match
+   the muted type beside it. The logo is left alone: it is a FULL-COLOUR mark
+   whose cream paths are exactly the new background, so a filter would either
+   destroy its greens or erase its cream. It still reads from its greens and
+   the lime, and Ahmed asked for it isolated — no plate behind it. */
+html[data-btn] footer a[aria-label] img { filter: invert(1); opacity: 0.65; }
 /* The logo is ISOLATED — no plate behind it (Ahmed, 2026-08-24). Its cream
    paths do go quiet against the cream ground, but the mark still reads from
    its greens and the lime, and a container around it looked like a button. */
 
-/* The flash strip is the top of the header, so it goes light too — a moss
-   tint band rather than the deep green slab. */
-html[data-btn="v3"] [data-flash-sale] { background-color: #FDF8F1 !important; color: var(--moss-ink) !important; box-shadow: inset 0 -1px 0 var(--moss-tint); }
-html[data-btn="v3"] [data-flash-sale] .text-white { color: var(--moss-ink) !important; }
-html[data-btn="v3"] [data-flash-sale] .text-white\/60 { color: #6b7560 !important; }
-html[data-btn="v3"] [data-flash-sale] .bg-white\/10 { background-color: rgba(90, 110, 58, 0.12) !important; }
-/* The pill carries .text-heading, which the type rule above repaints to
-   moss-dark — dark type on a dark moss fill. The class has to be in the
-   selector to out-specify it. */
-html[data-btn="v3"] [data-flash-sale] .bg-limeFigma,
-html[data-btn="v3"] [data-flash-sale] .bg-limeFigma.text-heading { background-color: var(--moss-deep) !important; color: #FFFFFF !important; }
-html[data-btn="v3"] [data-flash-sale] .text-limeFigma { color: var(--moss-deep) !important; }
-
 /* The lime utility strip stays lime in v3 (Ahmed: "keep this green"), but the
    blanket .text-heading -> --moss-dark above lands on it at 4.15:1. Moss-ink is
-   the same family two steps down and clears at 5.76:1. The flash-strip rule
-   above carries [data-flash-sale] and so still wins inside the strip. */
+   the same family two steps down and clears at 5.76:1. This is also the ink
+   the relocated flash promo inherits, since it sits in this bar now. */
 html[data-btn="v3"] .bg-limeFigma .text-heading,
 html[data-btn="v3"] .bg-limeFigma.text-heading { color: var(--moss-ink) !important; }
 
@@ -4392,12 +4411,10 @@ html[data-btn="v3"] [data-navbar] img[src*="hdr-search"] { filter: invert(1) bri
    not these two, so they stayed white on cream — 1.06:1, the worst failures on
    the page. Found by an automated sweep rather than by eye, which is how they
    survived the first pass. */
-html[data-btn="v3"] [data-flash-sale] .text-white\/55 { color: #5f6b52 !important; }
 /* #68775A, not the #8D977F this first used: that measured 2.89:1 on cream and
    the sweep still flagged it. This is the LIGHTEST moss-grey that clears 4.5:1
    on the cream ground (4.54:1), so the separators stay quieter than the labels
    beside them (5.35:1) without failing. */
-html[data-btn="v3"] [data-flash-sale] .text-white\/30 { color: #68775A !important; }
 
 /* --- the parked mobile actions pill ------------------------------------- *
    On phones the stuck pill is a plate with `background: #006328` — a RAW HEX
@@ -4424,51 +4441,36 @@ html[data-btn="v3"] .radio-dot { border-color: var(--moss-deep); }
 
 
 /* ==========================================================================
-   V1 — orange header (Ahmed, 2026-08-24)
+   V1 — orange header (Ahmed, 2026-08-24, revised 2026-08-25)
 
-   Only the GREEN toggle. Its three header bands were deep green, lime, deep
-   green; the ask was to make the header something other than green and to
-   follow the rule Moss uses — three parts, TWO colours, with the middle band
-   left as the accent.
+   Only the GREEN toggle. Its header bands were deep green, lime, deep green;
+   the ask was to make the header something other than green.
 
-   So the flash strip and the nav row take the brand orange and the lime
-   utility strip between them is untouched, exactly mirroring Moss (cream,
-   lime, cream).
+   It was three bands when this was written — orange, cream, orange — but the
+   promo band has since moved into the utility bar, so the masthead is two:
+   a cream utility bar over an orange nav row. The two-colour rule it was
+   reaching for now falls out of the structure rather than being imposed on it.
 
    INK IS DARK, and that is not a style choice. White on #EA983E measures
    2.32:1, which fails AA for body text and fails the 3:1 large-text bar too;
    the same orange with #2A1C0B ink is 7.14:1. Every white-on-green label in
-   these two bands therefore has to flip, not just the background.
+   the nav row therefore has to flip, not just the background.
    ========================================================================== */
 html[data-btn="v1"] [data-navbar],
 html[data-btn="v1"] [data-navbar][data-stuck="true"] { background-color: #EA983E !important; }
-html[data-btn="v1"] [data-flash-sale] { background-color: #EA983E !important; }
 
-/* Type and glyphs in both orange bands. */
+/* Type and glyphs in the orange nav row. The countdown's own three-tier ramp
+   used to be tuned here against orange; it moved to the cream utility bar with
+   the promo, where .text-heading already resolves an AA ink, so those rules
+   are gone rather than retargeted. */
 html[data-btn="v1"] [data-navbar] .text-white,
 html[data-btn="v1"] [data-navbar] a,
-html[data-btn="v1"] [data-navbar] button,
-html[data-btn="v1"] [data-flash-sale],
-html[data-btn="v1"] [data-flash-sale] .text-white { color: #2A1C0B !important; }
-/* The countdown's three tiers, re-darkened (Ahmed, 2026-08-24). These were
-   read as passing on the first sweep only because the timer had not populated
-   yet — the labels are written by the interval, so they measured as invisible
-   nodes. Once running they were 3.96:1 and 2.95:1.
-   Brand orange leaves almost no room: 4.5:1 arrives at roughly #4C3922, so the
-   old three-step ramp cannot survive as-is. It is compressed instead of
-   flattened — the digits keep #2A1C0B (7.14:1), the labels take #3B2C19
-   (5.81:1) and the separators #4A3720 (4.87:1) — so the hierarchy still reads
-   and every step clears AA. */
-html[data-btn="v1"] [data-flash-sale] .text-white\/60,
-html[data-btn="v1"] [data-flash-sale] .text-white\/55 { color: #3B2C19 !important; }
-html[data-btn="v1"] [data-flash-sale] .text-white\/30 { color: #4A3720 !important; }
-html[data-btn="v1"] [data-flash-sale] .bg-white\/10 { background-color: rgba(42, 28, 11, 0.10) !important; }
-
-/* The timer pill and the "Shop now" link were lime on green; on orange the
-   lime disappears, so the pill inverts to the dark ink with orange type. */
-html[data-btn="v1"] [data-flash-sale] .bg-limeFigma,
-html[data-btn="v1"] [data-flash-sale] .bg-limeFigma.text-heading { background-color: #2A1C0B !important; color: #EA983E !important; }
-html[data-btn="v1"] [data-flash-sale] .text-limeFigma { color: #2A1C0B !important; }
+html[data-btn="v1"] [data-navbar] button { color: #2A1C0B !important; }
+html[data-btn="v1"] [data-navbar] svg { color: #2A1C0B; }
+/* COFFEE / SPICES / NUTS hover to #ACD574, drawn to lift off a deep green
+   slab; on orange it vanishes. The nav tabs are also hidden below lg, which is
+   why this only shows up on a wide sweep. */
+html[data-btn="v1"] [data-navbar] a:hover { color: #5A3708 !important; }
 
 /* hdr-user.svg and hdr-search.svg carry a hardcoded stroke="white" and are
    external <img>, so CSS colour cannot reach inside them — the same problem
@@ -4484,10 +4486,10 @@ html[data-btn="v1"] [data-navbar] [data-open="cart"] svg,
 html[data-btn="v1"] [data-navbar] [data-open="cart"] [data-cart-glyph] { color: #FFFFFF !important; }
 html[data-btn="v1"] [data-navbar] [data-cart-count] { background-color: #FDF8F1 !important; color: #2A1C0B !important; }
 
-/* The middle band goes cream (Ahmed, 2026-08-24). With orange above and below
-   it, lime was a third hue competing with both — cream is the site's own
-   ground, so the strip reads as a gap between the two orange bands rather than
-   a band of its own, and the masthead settles into orange / cream / orange.
-   The type on it is already near-black (.text-black) or the darkened heading
-   green, both far past AA on cream, so nothing else has to move. */
+/* The utility bar is cream (Ahmed, 2026-08-24). It was the MIDDLE band then,
+   and cream stopped the lime being a third hue between two oranges; now that
+   the promo has moved into it and the band above is gone, it is the top of the
+   masthead and cream still reads as the lighter shelf above the orange nav.
+   Its type is near-black or the darkened heading green, both far past AA on
+   cream, so nothing else has to move. */
 html[data-btn="v1"] [data-utility-bar] { background-color: #FDF8F1 !important; }
