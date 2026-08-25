@@ -2,3 +2,5 @@ node_modules/
 __pycache__/
 *.pyc
 .DS_Store
+# Local Claude Code session config — machine-local permissions, not source.
+.claude/

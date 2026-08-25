@@ -1094,7 +1094,7 @@
     // bold, straight to each category — no mega panel.
     const navTabs = MAIN_MENU.map(
       (i) =>
-        `<a href="${pageHref(i.url)}" class="font-bold text-white hover:text-[#ACD574] text-lg uppercase whitespace-nowrap transition-colors">${esc(t(i.name))}</a>`,
+        `<a href="${pageHref(i.url)}" class="nav-tab relative font-bold text-white hover:text-[#ACD574] text-lg uppercase whitespace-nowrap transition-colors">${esc(t(i.name))}</a>`,
     ).join("");
 
     const desktop = `
@@ -1120,25 +1120,41 @@
                 : `<nav class="hidden lg:flex flex-1 items-center gap-6 xl:gap-8 min-w-0">${navTabs}</nav>`
             }
             <!-- Logo is much taller than the 56px bar on purpose (Figma): it
-                 overflows well above and below. z-10 keeps it above the bands. -->
+                 overflows well above and below. z-10 keeps it above the bands.
+                 96/116 -> 106/128 (Ahmed, 2026-08-25), and the extra height goes
+                 UP, not down — see .masthead-logo in styles.css for the nudge
+                 that holds the overhang below the bar where it was. -->
             <a href="index.html" class="masthead-logo relative z-10 block shrink-0" aria-label="Jaad">
-              <img src="images/jaad/brand/logo-jaad-full.svg" alt="Jaad" class="w-auto h-[96px] xl:h-[116px] object-contain" />
+              <img src="images/jaad/brand/logo-jaad-full.svg" alt="Jaad" class="w-auto h-[106px] xl:h-[128px] object-contain" />
             </a>
             ${
               checkout
                 ? ""
-                : `<div class="flex flex-1 justify-end items-center gap-5 xl:gap-8">
-                     <a href="login.html" data-account-link data-fav-target aria-label="${esc(t("الحساب"))}" class="hover:opacity-80 transition-opacity">
-                       <img src="images/jaad/icons/hdr-user.svg" alt="" class="w-6 h-6" />
+                : `<!-- Tight cluster (Ahmed, 2026-08-25: "reduce the in between
+                       spaces"). The gaps were sized when the glyphs were bare
+                       24px images; each control now sits in a 44px hit box, so
+                       20/32px of gap ON TOP of that padding pushed the three
+                       apart into three separate things. 4/8px keeps the boxes
+                       from touching and lets the padding do the spacing. -->
+                  <div class="flex flex-1 justify-end items-center gap-1 xl:gap-2">
+                     <!-- 20px glyphs, down from 24 (Ahmed, 2026-08-25: "the
+                          search and account icons need to be a little smaller").
+                          The account link picks up the search button's size-11
+                          box while it shrinks: it was a bare 24px <img>, i.e.
+                          already under the project's 44px minimum target, and
+                          taking the glyph to 20 without a box would have made
+                          the smallest target on the masthead smaller still. -->
+                     <a href="login.html" data-account-link data-fav-target aria-label="${esc(t("الحساب"))}" class="place-items-center grid hover:opacity-80 rounded-full size-11 transition-opacity">
+                       <img src="images/jaad/icons/hdr-user.svg" alt="" class="w-5 h-5" />
                      </a>
                      <!-- Only the CART rides along on scroll (Ahmed, 2026-08-19):
                           search stays in the masthead and scrolls away with it, so
                           it is NOT inside [data-sticky-actions] and the parked pill
                           is cart-only. -->
                      <button type="button" data-open="search" aria-label="${esc(t("بحث"))}" class="place-items-center grid hover:opacity-80 rounded-full size-11 transition-opacity">
-                       <img src="images/jaad/icons/hdr-search.svg" alt="" class="w-6 h-6" />
+                       <img src="images/jaad/icons/hdr-search.svg" alt="" class="w-5 h-5" />
                      </button>
-                     <div data-sticky-actions class="flex items-center gap-5 xl:gap-6">
+                     <div data-sticky-actions class="flex items-center gap-1 xl:gap-2">
                        <button type="button" data-open="cart" aria-label="${esc(t("السلة"))}" class="relative place-items-center grid bg-white shadow-custom4 rounded-full size-11">
                          <span class="w-6 h-6 text-ink">${ICON.cart}</span>
                          <span class="-top-1 -end-1 absolute place-items-center grid bg-[#ACD574] px-1 rounded-full min-w-[20px] h-5 font-semibold text-ink-800 text-xs latin" data-cart-count>2</span>
@@ -2928,8 +2944,13 @@
       els.forEach((el) => el.setAttribute("data-reveal", "in"));
       return;
     }
+    // A LIVE observer always makes an initial report (isIntersecting false
+    // for everything off-screen) — so "the observer is inert" is detectable,
+    // and the failsafe below keys off this flag instead of firing blind.
+    let observerAlive = false;
     const io = new IntersectionObserver(
       (entries) => {
+        observerAlive = true;
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           entry.target.setAttribute("data-reveal", "in");
@@ -2968,7 +2989,19 @@
      * has already failed.
      */
     if (pending.length) {
+      /* Conditional now (2026-08-25). As written, this fired at 2.5s in EVERY
+         session — including perfectly healthy ones — which meant the scroll
+         reveal only existed for the first 2.5 seconds of a visit; everything
+         below the fold was force-shown before the shopper got there, and the
+         card cascade added in the delight pass would never have played past
+         the first screen. The guarantee it exists for ("observer inert in a
+         hidden/background document → content stays invisible") is preserved
+         through observerAlive: an inert observer never makes its initial
+         report, so the flag stays false and the blanket reveal still runs.
+         A live observer reports immediately, and its sessions keep their
+         scroll-triggered animation for the whole visit. */
       setTimeout(() => {
+        if (observerAlive) return;
         pending.forEach((el) => {
           if (el.getAttribute("data-reveal") !== "in") {
             el.setAttribute("data-reveal", "in");
@@ -4218,7 +4251,7 @@
   const STICKER_SM = {
     egp: "text-[11px]",
     whole: "text-[16px]",
-    box: "bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px]",
+    box: "price-sticker bg-greenDeep shadow-[2px_3px_0px_#98CA55] px-1.5 rounded-tl-[14px] rounded-br-[14px]",
   };
   /* `md` matches components.price_sticker("md") — the size the product CARD
      uses. Added so the JS-rendered card stops drawing its own (Ahmed,
@@ -4227,7 +4260,7 @@
   const STICKER_MD = {
     egp: "text-[15px]",
     whole: "text-[24px]",
-    box: "bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px]",
+    box: "price-sticker bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px]",
   };
   function priceStickerHTML(price, attrs) {
     return (
@@ -5990,17 +6023,38 @@
     // keeping the exact same design language as the homepage card.
     const c = compact === true;
     const width = c ? "w-[152px]" : "w-[258px]";
-    const btnPos = c ? "right-3 -bottom-4" : "right-4 -bottom-5";
-    const btnSize = c ? "size-9" : "size-10";
-    const cartIco = c ? "w-5 h-5" : "w-[22px] h-[22px]";
+    /* Add button: 48px full / 44px compact, up from 40/36, with the glyph
+       going 22 -> 26 and 20 -> 24 (Ahmed, 2026-08-25). The offsets are half the
+       button in each case, which is what keeps it straddling the image's edge;
+       they move together or the geometry breaks. Same numbers as
+       product_widget() in components.py. */
+    const btnPos = c ? "right-3 -bottom-[22px]" : "right-4 -bottom-6";
+    const btnSize = c ? "size-11" : "size-12";
+    const cartIco = c ? "w-6 h-6" : "w-[26px] h-[26px]";
     const stepH = c ? "h-9" : "h-10";
-    // Phone-first counter sizing + badge clearance, matching product_widget()
-    // in components.py (Ahmed, 2026-08-19): the +/- targets grow to size-10 on
-    // phones (compact stays small from sm up), and the text block takes extra
-    // top padding so the straddling counter clears the price badge. Keep the
-    // two in step — the cards must read as ONE control site-wide.
-    const stepBtn = c ? "size-10 sm:size-7" : "size-10 sm:size-8";
-    const stepIco = "w-5 h-5 sm:w-4 sm:h-4";
+    /* Counter sizing follows the ADD BUTTON, at every width (Ahmed, 2026-08-25:
+       "we up-sized the cart icon, the counter should follow"). The two swap
+       places in the same slot, so the pill's height has to equal the button's
+       diameter: 3px of vertical padding plus the pill's own 1px border top and
+       bottom turn 40px buttons into a 48px pill for the full card's 48px
+       button, and 36px buttons into a 44px pill for the compact card's 44px
+       one. (p-1 came out 2px over — the border counts toward the height and
+       the button has none.) Those are also exactly twice the -bottom
+       offsets above, which is what keeps both halves straddling the frame.
+
+       The full card's `sm:size-8` shrink is gone with it: it existed to fit the
+       previous 40px footprint and would now break the match from sm up. Same
+       numbers as product_widget() in components.py.
+
+       The COMPACT card keeps its own sizing and its p-1, deliberately (Ahmed,
+       2026-08-25: "restore the counter size in the drawer"). Matching it to its
+       44px add button had cost the +/- 4px on phones — 40 -> 36 — because the
+       drawer card is 152px wide and two 40px targets plus the number will not
+       sit inside a 44px pill. The phone tap target is worth more there than the
+       2px the pill stands over the button it replaces. */
+    const stepBtn = c ? "size-10 sm:size-7" : "size-10";
+    const stepIco = c ? "w-5 h-5 sm:w-4 sm:h-4" : "w-5 h-5";
+    const stepPad = c ? "p-1" : "px-1 py-[3px]";
     const pad = c ? "gap-2 p-2 pt-8 sm:pt-2" : "gap-3 p-3 pt-9 sm:pt-3";
     /* The badge comes from the shared sticker constants — sm for the compact
        drawer card, md for the full one — rather than five separate size
@@ -6019,7 +6073,7 @@
                     class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full ${btnSize} text-white transition-colors">
               <span class="${cartIco}">${ICON.cart}</span>
             </button>
-            <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
+            <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 ${stepPad} border border-divider rounded-full flex">
               <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full ${stepBtn} text-ink shrink-0 transition-colors"><span class="${stepIco}">${ICON.minus}</span></button>
               <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
               <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full ${stepBtn} text-white shrink-0 transition-colors"><span class="${stepIco}">${ICON.plus}</span></button>
@@ -6805,6 +6859,39 @@
       // once here; from then on visibility is the CSS's business.
       pop.classList.remove("hidden");
       box.setAttribute("data-state", "closed");
+
+      /* The travelling hover fill, borrowed from the design-system dropdown
+         (Ahmed, 2026-08-25: "the transition of the hover effect we applied here
+         need to be in the sorting drop down too").
+
+         Same element and the same .dd__marker styles, not a copy: one fill that
+         SLIDES between rows rather than a background painted on whichever row
+         the pointer is over. The per-row `hover:bg-cream` this replaces
+         cross-faded — the old row let go while the new one took hold, which at
+         speed reads as flicker.
+
+         It works here without any CSS of its own because the two panels happen
+         to agree on the one number that matters: .dd__marker insets itself by
+         0.375rem and this popup's padding is p-1.5, the same 6px. If that
+         padding ever changes, the marker needs its own inset rule. */
+      const marker = document.createElement("span");
+      marker.className = "dd__marker";
+      marker.setAttribute("aria-hidden", "true");
+      pop.insertBefore(marker, pop.firstChild);
+
+      function markRow(li) {
+        if (!li) { marker.style.opacity = "0"; return; }
+        // The first placement must not animate, or the fill slides in from the
+        // panel's top edge every time the menu opens. Only moves BETWEEN rows
+        // are the effect. (Same reasoning as upgradeSelect's setActive.)
+        const first = marker.style.opacity !== "1";
+        if (first) marker.style.transition = "none";
+        marker.style.setProperty("--y", li.offsetTop + "px");
+        marker.style.height = li.offsetHeight + "px";
+        marker.style.opacity = "1";
+        if (first) { void marker.offsetWidth; marker.style.transition = ""; }
+      }
+
       const isOpen = () => box.getAttribute("data-state") === "open";
       function onOutside(e) {
         if (!box.contains(e.target)) close(false);
@@ -6812,16 +6899,20 @@
       const open = () => {
         box.setAttribute("data-state", "open");
         trigger.setAttribute("aria-expanded", "true");
-        (
+        const sel =
           items.find((li) => li.getAttribute("aria-selected") === "true") ||
-          items[0]
-        ).focus();
+          items[0];
+        sel.focus();
+        // Parks on the chosen row, so the menu opens with the fill already
+        // where the reader's eye is going.
+        markRow(sel);
         document.addEventListener("pointerdown", onOutside, true);
       };
       const close = (focusTrigger) => {
         box.setAttribute("data-state", "closed");
         trigger.setAttribute("aria-expanded", "false");
         document.removeEventListener("pointerdown", onOutside, true);
+        marker.style.opacity = "0";
         if (focusTrigger) trigger.focus();
       };
       const choose = (li) => {
@@ -6844,6 +6935,10 @@
       });
       items.forEach((li, i) => {
         li.tabIndex = -1;
+        // Pointer and keyboard both move the fill, so tabbing through the list
+        // is lit the same way hovering it is.
+        li.addEventListener("pointerenter", () => markRow(li));
+        li.addEventListener("focus", () => markRow(li));
         li.addEventListener("click", () => choose(li));
         li.addEventListener("keydown", (e) => {
           if (e.key === "Enter" || e.key === " ") {
@@ -8040,6 +8135,281 @@
      Inert without [data-about-timeline], and a full no-op under reduced motion,
      where the CSS hands over a drawn line and visible rows.
      --------------------------------------------------------------- */
+  /* ---------------------------------------------------------------
+     OUR STORY — the progressive carousel (Ahmed, 2026-08-25)
+
+     One photograph is showing; its step in the glass bar is lit. Click, keyboard
+     focus, hover and a 5.5s autoplay all move the same `is-on` class across both
+     lists, so there is one notion of "which step is showing" and the four inputs
+     cannot disagree about it.
+
+     The autoplay is deliberately timid — on screen only, yields instantly to any
+     input, and stays out of the way for 12s after a click rather than snatching
+     the photograph back after five. Same contract the fan below uses.
+     --------------------------------------------------------------- */
+  function initStoryCarousel() {
+    const box = document.querySelector("[data-pcar]");
+    if (!box) return;
+    const btns = [...box.querySelectorAll("[data-pcar-btn]")];
+    const shots = [...box.querySelectorAll("[data-pcar-shot]")];
+    if (btns.length < 2 || shots.length !== btns.length) return;
+
+    const DWELL = 5500;
+    const canHover = window.matchMedia("(hover: hover)").matches;
+    let current = 0, timer = 0, release = 0, held = false, onScreen = false;
+
+    function show(i) {
+      current = ((i % btns.length) + btns.length) % btns.length;
+      btns.forEach((b, n) => {
+        const on = n === current;
+        b.classList.toggle("is-on", on);
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+        b.classList.remove("is-timing");
+      });
+      shots.forEach((img, n) => img.classList.toggle("is-on", n === current));
+    }
+
+    function stop() { clearTimeout(timer); timer = 0; btns[current].classList.remove("is-timing"); }
+
+    function play() {
+      stop();
+      if (reduceMotion() || held || !onScreen || document.hidden) return;
+      const b = btns[current];
+      // Restarting a CSS animation needs the class off, a reflow, then the class
+      // on; without the reflow the two changes coalesce and it never replays.
+      void b.offsetWidth;
+      b.classList.add("is-timing");
+      timer = setTimeout(() => { show(current + 1); play(); }, DWELL);
+    }
+
+    function hold(ms) {
+      held = true;
+      clearTimeout(release);
+      stop();
+      if (ms) release = setTimeout(() => { held = false; play(); }, ms);
+    }
+
+    btns.forEach((b, i) => {
+      if (canHover) {
+        b.addEventListener("pointerenter", (e) => {
+          if (e.pointerType === "touch") return;
+          hold(0); show(i);
+        });
+      }
+      b.addEventListener("click", () => { show(i); hold(12000); });
+      b.addEventListener("focus", () => { show(i); hold(0); });
+    });
+    box.addEventListener("pointerleave", (e) => {
+      if (e.pointerType === "touch") return;
+      held = false; play();
+    });
+    box.addEventListener("focusout", (e) => {
+      if (box.contains(e.relatedTarget)) return;
+      held = false; play();
+    });
+
+    try {
+      new IntersectionObserver((entries) => {
+        entries.forEach((en) => { onScreen = en.isIntersecting; onScreen ? play() : stop(); });
+      }, { threshold: 0.3 }).observe(box);
+    } catch (e) { onScreen = true; play(); }
+    document.addEventListener("visibilitychange", () => (document.hidden ? stop() : play()));
+  }
+
+  /* ---------------------------------------------------------------
+     CUSTOMER REVIEWS — the staggered fan (Ahmed, 2026-08-25)
+
+     A rebuild of the 21st.dev "stagger testimonials" arrangement — see
+     review_cards in build/pages/home.py for why it is a rebuild and not an
+     `npx shadcn add`.
+
+     The only state is `center`. Everything visible is derived from it by
+     writing three custom properties and one attribute per card:
+
+         --pos     signed distance from centre, wrapped so the fan is
+                   symmetrical: with five cards the far one goes to -2, not +3,
+                   and slides out of the near side instead of travelling the
+                   whole way around
+         --rise    the arc: the centre card lifts, its neighbours alternate
+         --tilt    the tilt, alternating with the same parity as the rise
+         data-far  |pos|, which is what CSS fades the outer cards with
+
+     Positions are written, not transforms: the arithmetic that turns them into
+     one transform lives in styles.css, so the fan's spread and tilt can be
+     changed without opening this file.
+     --------------------------------------------------------------- */
+  function initReviewFan() {
+    const fan = document.querySelector("[data-rv-fan]");
+    if (!fan) return;
+    const cards = [...fan.querySelectorAll("[data-rv-card]")];
+    const n = cards.length;
+    if (!n) return;
+
+    const DWELL = 6000;
+    const rtl = document.documentElement.getAttribute("dir") === "rtl";
+    let center = 0, timer = 0, release = 0, held = false, onScreen = false;
+
+    function paint() {
+      cards.forEach((card, i) => {
+        // Wrapped signed offset. Without the wrap the last card would fan out
+        // to +4 and fly across the whole section to get back to the front.
+        let pos = i - center;
+        if (pos > n / 2) pos -= n;
+        if (pos < -n / 2) pos += n;
+        const far = Math.abs(pos);
+        const isCenter = pos === 0;
+        card.style.setProperty("--pos", String(pos));
+        card.style.setProperty("--rise", isCenter ? "-38px" : (far % 2 ? "16px" : "-10px"));
+        card.style.setProperty("--tilt", isCenter ? "0" : (pos < 0 ? "-2.5" : "2.5"));
+        // Nearest on top, so the fan overlaps outward from the middle.
+        card.style.zIndex = String(20 - far);
+        card.setAttribute("data-far", String(Math.min(far, 3)));
+        card.classList.toggle("is-center", isCenter);
+        // Only the centred testimonial is in the reading order; the rest are
+        // its neighbours in a graphic, and a screen reader stepping through
+        // five overlapping quotes learns nothing from the arrangement.
+        card.setAttribute("aria-hidden", isCenter ? "false" : "true");
+      });
+    }
+
+    function stop() { clearTimeout(timer); timer = 0; }
+
+    function play() {
+      stop();
+      if (reduceMotion() || held || !onScreen || document.hidden) return;
+      timer = setTimeout(() => { go(1); play(); }, DWELL);
+    }
+
+    function hold(ms) {
+      held = true;
+      clearTimeout(release);
+      stop();
+      if (ms) release = setTimeout(() => { held = false; play(); }, ms);
+    }
+
+    function go(dir) { center = (center + dir + n) % n; paint(); }
+    function focusCard(i) { center = ((i % n) + n) % n; paint(); }
+
+    // Clicking a card brings it to the middle — the fan's own affordance, and
+    // the reason the off-centre cards keep pointer events.
+    cards.forEach((card, i) => {
+      card.addEventListener("click", () => {
+        if (Math.abs(dragMoved) > 6) return;      // that was a drag, not a click
+        focusCard(i); hold(9000);
+      });
+    });
+
+    /* Drag/swipe. The whole fan follows the pointer as one, and past 60px it
+       commits a step; anything shorter snaps back. */
+    let dragX = 0, dragging = false, dragMoved = 0;
+    fan.addEventListener("pointerdown", (e) => {
+      if (e.button) return;
+      dragging = true; dragX = e.clientX; dragMoved = 0;
+      fan.classList.add("is-dragging");
+      hold(0);
+      try { fan.setPointerCapture(e.pointerId); } catch (err) { /* not fatal */ }
+    });
+    fan.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      dragMoved = e.clientX - dragX;
+      fan.style.setProperty("transform", "translateX(" + (dragMoved * 0.35).toFixed(1) + "px)");
+    });
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      fan.classList.remove("is-dragging");
+      fan.style.removeProperty("transform");
+      if (Math.abs(dragMoved) > 60) go(dragMoved < 0 ? 1 : -1);
+      hold(9000);
+      // Cleared on the next frame so the click handler above can still see it.
+      setTimeout(() => { dragMoved = 0; }, 0);
+    }
+    fan.addEventListener("pointerup", endDrag);
+    fan.addEventListener("pointercancel", endDrag);
+
+    fan.addEventListener("keydown", (e) => {
+      const next = rtl ? "ArrowLeft" : "ArrowRight";
+      const prev = rtl ? "ArrowRight" : "ArrowLeft";
+      if (e.key === next) { go(1); hold(9000); e.preventDefault(); }
+      else if (e.key === prev) { go(-1); hold(9000); e.preventDefault(); }
+    });
+
+    const prevBtn = document.querySelector("[data-rv-prev]");
+    const nextBtn = document.querySelector("[data-rv-next]");
+    if (prevBtn) prevBtn.addEventListener("click", () => { go(-1); hold(9000); });
+    if (nextBtn) nextBtn.addEventListener("click", () => { go(1); hold(9000); });
+
+    fan.addEventListener("pointerenter", (e) => { if (e.pointerType !== "touch") hold(0); });
+    fan.addEventListener("pointerleave", (e) => { if (e.pointerType !== "touch") { held = false; play(); } });
+    fan.addEventListener("focusin", () => hold(0));
+    fan.addEventListener("focusout", (e) => {
+      if (fan.contains(e.relatedTarget)) return;
+      held = false; play();
+    });
+
+    paint();
+    try {
+      new IntersectionObserver((entries) => {
+        entries.forEach((en) => { onScreen = en.isIntersecting; onScreen ? play() : stop(); });
+      }, { threshold: 0.35 }).observe(fan);
+    } catch (e) { onScreen = true; play(); }
+    document.addEventListener("visibilitychange", () => (document.hidden ? stop() : play()));
+  }
+
+  /* ---------------------------------------------------------------
+     DELIGHT PASS (Ahmed, 2026-08-25): the section-level reveal already
+     exists on every page (see components.py _SECTION_OPEN); what it cannot
+     give is a CASCADE — a section fades in as one slab and the cards inside
+     it arrive with it. These two helpers add the finer grain, and both are
+     tag-only: everything visual stays in styles.css, and every failure mode
+     degrades to "unanimated", never "invisible" — the same contract
+     initReveal's own failsafe documents.
+     --------------------------------------------------------------- */
+
+  /* Cards cascade inside their section. Tags the four card families with
+     data-reveal plus a per-sibling stagger, so a row arrives as a wave
+     rather than a slab. Runs BEFORE kInit so initReveal picks the tags up
+     in its one pass; anything already tagged (the story cap) is left alone.
+
+     The stagger is index-within-parent, capped: the shop grid holds 26
+     cards, and an uncapped 70ms ramp would still be dribbling cards in
+     nearly two seconds after the shopper arrived. Capped at 6 steps, a row
+     entering the viewport finishes inside ~420ms wherever it sits in the
+     grid. */
+  function initAutoReveal() {
+    if (!("IntersectionObserver" in window)) return;   // initReveal will show all
+    const CARDS = ".product-widget, [data-cat-card], .faq-card, #latest a.group";
+    document.querySelectorAll(CARDS).forEach((el) => {
+      if (el.hasAttribute("data-reveal")) return;
+      el.setAttribute("data-reveal", "");
+      const i = [...el.parentElement.children].indexOf(el);
+      if (i > 0) el.style.transitionDelay = Math.min(i, 6) * 70 + "ms";
+    });
+  }
+
+  /* Lazy photographs fade in instead of popping. Only images that have NOT
+     loaded yet are tagged — a cached image completing before this runs stays
+     untouched, so a warm reload never flashes. pcar/journey shots manage
+     their own opacity and are excluded rather than fought.
+
+     The 3s failsafe mirrors initReveal's: if a load event never comes (or
+     came before the listener), the image is shown anyway. */
+  function initImgFade() {
+    if (reduceMotion()) return;
+    const skip = ".pcar__shot, [data-journey-img]";
+    document.querySelectorAll('img[loading="lazy"]').forEach((img) => {
+      if (img.complete || img.matches(skip)) return;
+      img.classList.add("img-fade");
+      const done = () => img.classList.add("img-in");
+      img.addEventListener("load", done, { once: true });
+      img.addEventListener("error", done, { once: true });
+    });
+    setTimeout(() => {
+      document.querySelectorAll(".img-fade:not(.img-in)").forEach((img) =>
+        img.classList.add("img-in"));
+    }, 3000);
+  }
+
   function initAboutTimeline() {
     const section = document.querySelector("[data-about-timeline]");
     if (!section) return;
@@ -8325,13 +8695,22 @@
         row.classList.toggle("is-reached", d >= nodeFrac(i));
       });
 
-      if (d >= 0.995) hitStats();
+      /* ARRIVED is the one number the ending is built on: the cards pop, and
+         the dot goes out, on the same frame. Two thresholds would have let the
+         two drift apart at different scroll speeds, which is the exact failure
+         this section keeps coming back to. */
+      const ARRIVED = 0.995;
+      if (d >= ARRIVED) hitStats();
 
       if (head) {
-        /* Only d <= 0 hides it now. It used to hide at d >= 1 as well, which
-           is what made the head vanish exactly when it reached the end of its
-           travel; the point is clamped to the path's length instead, so it
-           parks on the final point and stays there. */
+        /* The dot BURSTS on arrival rather than parking (Ahmed, 2026-08-25:
+           "the circle should vanish once it clashes with the metrics"). It used
+           to hide at d >= 1 for a different reason and was changed to park,
+           because back then it stopped in empty white 150px above the cards and
+           blinking out there looked like a bug. Now that it actually reaches
+           them, going out ON them is the ending. A toggle, not a one-shot:
+           scroll back up and the dot returns to the line. */
+        head.classList.toggle("is-done", d >= ARRIVED);
         if (d <= 0) {
           head.classList.remove("is-on");
         } else {
@@ -8362,13 +8741,18 @@
 
      The PHOTOGRAPH moves, the body does not — the body is ordinary document
      flow travelling at scroll speed, and the separation between the two is the
-     whole effect. Rate is 0.28, i.e. the image drifts down at just over a
-     quarter of the page's speed.
+     whole effect. Rate is 0.5: the image drifts at half the page's speed, up
+     from 0.28 (Ahmed, 2026-08-25: "the parallax effect is a little weak"). At
+     0.28 against a 65px travel budget the whole move was spent inside the
+     first 230px of scroll and measured a couple of pixels per wheel notch —
+     present in the code, invisible on screen.
 
-     Travel is bounded by the image's own overhang: it is 128% of the frame and
-     starts 14% above it, so 14% of the frame height is available in either
+     Travel is bounded by the image's own overhang: it is 140% of the frame and
+     starts 20% above it, so 20% of the frame height is available in either
      direction. Clamping to that is what guarantees no gap ever opens at an
-     edge, whatever the viewport does. */
+     edge, whatever the viewport does. The overhang went 14% -> 20% with the
+     rate, because a faster drift that hits its stop early just looks like a
+     slow one that stopped. */
   function initContactParallax() {
     const img = document.querySelector("[data-contact-parallax]");
     if (!img) return;
@@ -8379,8 +8763,8 @@
       ticking = false;
       const rect = hero.getBoundingClientRect();
       if (rect.bottom < 0 || rect.top > window.innerHeight) return;   // off screen: nothing to do
-      const limit = rect.height * 0.14;
-      const shift = Math.max(-limit, Math.min(limit, -rect.top * 0.28));
+      const limit = rect.height * 0.20;
+      const shift = Math.max(-limit, Math.min(limit, -rect.top * 0.5));
       img.style.transform = "translate3d(0," + shift.toFixed(1) + "px,0)";
     }
     function schedule() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
@@ -8551,6 +8935,13 @@
     return null;
   }
   function applyIconConceptTo(img) {
+    /* An icon can OPT OUT (Ahmed, 2026-08-25: "unify this icon in the badge in
+       all the switcher"). The hero badge is the one place a spec icon is not
+       labelling a benefit — it is the mark at the centre of a brand seal, so it
+       has to be the same object in every variant rather than a shield in two of
+       them and a teapot in the third. data-icon-fixed says "this src is the
+       decision", and the swap leaves it alone. */
+    if (img.hasAttribute("data-icon-fixed")) return;
     let base = img.getAttribute("data-icon-base");
     if (!base) {
       base = iconBaseOf(img.getAttribute("src"));
@@ -8887,6 +9278,10 @@
     initReorder();
     // No-op off the payment page (guards on [data-card-fields]).
     initPaymentMethod();
+    // Tag-only passes; must precede kInit so initReveal sees the tags, and
+    // sit after the header/footer injection so chrome images are covered.
+    initAutoReveal();
+    initImgFade();
     // Must run after the chrome is in the DOM and after initFavsUI, so the
     // dictionary pass sees every string on the page. Without this call a
     // stored English preference only styled the chrome.
@@ -8922,6 +9317,8 @@
 
     // Swap every 3D icon to the concept that matches the current toggle, and
     // keep watching for icons injected later (drawer, recent rail).
+    initStoryCarousel();
+    initReviewFan();
     initIconConcepts();
   }
 

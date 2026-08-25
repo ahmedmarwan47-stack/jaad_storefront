@@ -100,14 +100,46 @@ _BENEFIT_ITEMS = [
     ("الأنسب للضيافة", "خيار رائع للمشاركة مع العائلة والأصحاب."),
     ("طازج حتى آخر قضمة", "يصلك بتغليف يحافظ على جودته وطزاجته."),
 ]
+# Two concept sets for the four benefit icons, swapped by the runtime
+# Green/Orange toggle (Ahmed, 2026-08-19). Same benefit order in both, but a
+# DIFFERENT metaphor per slot — not a restyle of the same object. V2 keeps the
+# same green/lime/orange 3D house style so only the idea changes, not the look.
+#   slot 0  selected ingredients   leaf        -> magnifier + bean
+#   slot 1  rich balanced flavor   bolt        -> steaming cup
+#   slot 2  best for hosting       shield      -> tray with two cups
+#   slot 3  fresh arrival          motorbike   -> parcel with a leaf seal
+_STORY_ICONS = [
+    "images/jaad/icons/spec-leaf.png",
+    "images/jaad/icons/spec-bolt.png",
+    "images/jaad/icons/spec-shield.png",
+    "images/jaad/icons/spec-delivery.png",
+]
+_STORY_ICONS_ALT = [
+    "images/jaad/icons/spec-select.png",
+    "images/jaad/icons/spec-cup.png",
+    "images/jaad/icons/spec-serve.png",
+    "images/jaad/icons/spec-parcel.png",
+]
+
+# Each point is marked by its OWN 3D icon rather than a bullet (Ahmed,
+# 2026-08-25: "the dots need to be replaced with the 3d icons"). The icons are
+# not a new set — they are _STORY_ICONS, slot for slot, so the four benefits
+# carry the same four marks in the panel here as they do in the white-mode
+# scroll story, and initIconConcepts swaps both to the alt concept together when
+# the runtime toggle goes to Orange. A 1.5px dot said nothing about which
+# benefit it belonged to; these are the marks the page already owns for exactly
+# these four lines.
+#
+# NOTE the ordering dependency: this list zips with _BENEFIT_ITEMS by INDEX, so
+# a benefit added or reordered above has to move its icon with it.
 BENEFITS_UNIFORM = '<ul class="flex flex-col gap-4">' + "".join(f"""
-                        <li class="flex gap-2.5">
-                          <span class="mt-1.5 bg-cta rounded-full size-1.5 shrink-0"></span>
+                        <li class="flex items-start gap-2.5">
+                          <img src="{_STORY_ICONS[i % len(_STORY_ICONS)]}" alt="" class="w-6 h-6 object-contain shrink-0" loading="lazy" />
                           <div class="min-w-0">
                             <p class="font-semibold text-ink text-sm">{t}</p>
                             <p class="text-muted text-xs leading-6">{d}</p>
                           </div>
-                        </li>""" for t, d in _BENEFIT_ITEMS) + """
+                        </li>""" for i, (t, d) in enumerate(_BENEFIT_ITEMS)) + """
                       </ul>"""
 
 BENEFITS = """
@@ -185,27 +217,6 @@ def _plain(text):
     stripped = re.sub(r"<[^>]*>", " ", text)
     return re.sub(r"\s+", " ", unescape(stripped)).strip()
 
-
-# Two concept sets for the four benefit icons, swapped by the runtime
-# Green/Orange toggle (Ahmed, 2026-08-19). Same benefit order in both, but a
-# DIFFERENT metaphor per slot — not a restyle of the same object. V2 keeps the
-# same green/lime/orange 3D house style so only the idea changes, not the look.
-#   slot 0  selected ingredients   leaf        -> magnifier + bean
-#   slot 1  rich balanced flavor   bolt        -> steaming cup
-#   slot 2  best for hosting       shield      -> tray with two cups
-#   slot 3  fresh arrival          motorbike   -> parcel with a leaf seal
-_STORY_ICONS = [
-    "images/jaad/icons/spec-leaf.png",
-    "images/jaad/icons/spec-bolt.png",
-    "images/jaad/icons/spec-shield.png",
-    "images/jaad/icons/spec-delivery.png",
-]
-_STORY_ICONS_ALT = [
-    "images/jaad/icons/spec-select.png",
-    "images/jaad/icons/spec-cup.png",
-    "images/jaad/icons/spec-serve.png",
-    "images/jaad/icons/spec-parcel.png",
-]
 
 
 def _weight_pill(p):
@@ -313,15 +324,18 @@ def _render(p):
     # total and the add cover the RELATED items only — the current product is not
     # folded in the way "frequently bought together" folds it (productFrom walks
     # up and finds no [data-product] host on this side, so the base is empty).
-    # Capped to four so the media side stays shorter than the scrollable info
-    # side; dropped entirely when the category has no companions.
+    # Capped to TWO (Ahmed, 2026-08-25: "there should be only 2 options in every
+    # page"); dropped entirely when the category has no companions. It was four,
+    # which is also why the cap is worth keeping as one number: the running
+    # total, the "add all" button and the box's height all read off this list,
+    # so the whole widget follows the slice.
     # The related list now lives in the content column beneath the details card
     # (Ahmed, 2026-08-19), so it simply fills that column — no gallery-alignment
     # inset any more (it used to be inset 96px to line up under the main photo
     # back when it sat in the gallery column).
     related_list = ""
     if similar:
-        picks = similar[:4]
+        picks = similar[:2]
         related_total = sum(x["price"] for x in picks)
         rows = "".join(bundle_item(x) for x in picks)
         related_list = f"""
@@ -354,7 +368,18 @@ def _render(p):
                                  (title(p), None)])}
 
       <!-- ============================ PRODUCT ============================ -->
-      <section class="pt-6 pb-12">
+      <!-- pt-12/xl:pt-16, up from a flat pt-6 (Ahmed, 2026-08-25: "make both
+           sides have more space between them and the navbar above them"). This
+           section is the FIRST thing under the masthead on every product page —
+           page_header is called with an empty heading here, so it draws no
+           breadcrumb band to separate them — and 24px left the gallery and the
+           details card sitting right up against the bar.
+
+           It stays under the sticky column's 104px offset by a wide margin,
+           which is what keeps the two columns starting level: see the note on
+           that column below for why the offset has to be the smaller of the
+           two numbers. -->
+      <section class="pt-12 xl:pt-16 pb-12">
         <div class="items-start gap-8 xl:gap-12 grid lg:grid-cols-2 mx-auto px-4 max-w-[1536px]">
 
           <!-- Media column FIRST in the DOM, so it leads the reading order in
@@ -368,8 +393,32 @@ def _render(p):
                it is what lets a grid child be shorter than its row so sticky
                has room to move. Sticky scoped to lg; below it the columns stack
                and there is nothing to scroll past. Works only because <main> is
-               overflow-x-clip (see page()). -->
-          <div class="flex flex-col gap-6 min-w-0 lg:self-start lg:sticky lg:top-[132px]">
+               overflow-x-clip (see page()).
+
+               The sticky offset is 104px, and the number matters less than the
+               INEQUALITY it satisfies (Ahmed, 2026-08-25: "I want the two begin
+               at the same position").
+
+               `position: sticky` parks an element at `top` from the viewport —
+               and at rest, when the page has not scrolled, that means `top`
+               down the page. So any `top` GREATER than this column's natural
+               position pushes it down and away from the card beside it, and any
+               `top` LESS than it leaves both columns starting on the same line.
+               The natural position is the grid's own top, measured at 112 from
+               1024 up.
+
+               An earlier pass read this the other way round and matched `top` to
+               the card's own p-6/p-8, which lined the photograph up with the
+               first line of type INSIDE the card — correct if the card is
+               invisible, wrong now that it reads as a card, because its edge
+               then sat 32px above the photograph's.
+
+               So the number has to satisfy two things: below 112, so the columns
+               start level; and above the stuck header's reach, so the gallery
+               does not slide under it once you scroll — the stuck bar is 56px
+               and its logo hangs to about 75. 104 sits between them with room
+               either side. -->
+          <div class="flex flex-col gap-6 min-w-0 lg:self-start lg:sticky lg:top-[104px]">
           {product_gallery(p.get("images") or [p["image"]], title(p), p)}
           <!-- SCENE version: frequently-bought UNDER the gallery. Hidden in the
                white/story version, which shows its own copy in the right column
@@ -425,7 +474,7 @@ def _render(p):
             <div class="flex flex-wrap items-center gap-3">
               {old_price}
               <span data-price-display data-unit-price="{p.get('sale') or p.get('price') or 0}"
-                    class="inline-flex items-center bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-3 py-1 rounded-tl-[20px] rounded-br-[20px] font-bold text-white text-2xl latin">EGP {money(p['price'])}</span>
+                    class="price-sticker inline-flex items-center bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-3 py-1 rounded-tl-[20px] rounded-br-[20px] font-bold text-white text-2xl latin">EGP {money(p['price'])}</span>
             </div>
 
             <!-- The stepper IS the add control (Ahmed, 2026-07-26). There is
@@ -445,9 +494,24 @@ def _render(p):
                  commit step has nothing left to do. -->
             <!-- data-buy-block: the sticky re-CTA watches this row and appears
                  once it has scrolled above the viewport. -->
-            <div data-buy-block class="flex items-center gap-3">
+            <!-- items-STRETCH, not center (Ahmed, 2026-08-25: "these should be
+                 same height"). The two controls are built differently — the
+                 counter is a padded pill around 44px buttons (54px tall), the
+                 CTA is type with py-4 around it (58px) — so centring them left
+                 a 4px difference that reads as one control sitting inside the
+                 other's line. Stretching makes the row's height the CTA's and
+                 the pill match it, which also means the pill keeps up on its own
+                 if the button's type or padding is ever changed. The pill is
+                 `inline-flex items-center`, so its +/- stay centred in whatever
+                 height it is given rather than stretching with it. -->
+            <div data-buy-block class="flex items-stretch gap-3">
 {qty_stepper(cart_bound=True)}
-              <button type="button" data-buy-cta class="flex-1 bg-cta hover:bg-cta-hover py-4 rounded-full font-semibold text-white text-base transition-colors">
+              <!-- 18px label, up from 16 (Ahmed, 2026-08-25: "the label of the
+                   CTA in the single product card need to be a little bit
+                   bigger"). The button's box is unchanged — py-4 and the
+                   stepper beside it still set the row's height — so this is the
+                   type growing inside the control, not the control growing. -->
+              <button type="button" data-buy-cta class="flex-1 bg-cta hover:bg-cta-hover py-4 rounded-full font-semibold text-white text-lg transition-colors">
                 اشتري الان
               </button>
             </div>
@@ -460,7 +524,15 @@ def _render(p):
 
             {trust_html}
 
-            <div class="flex flex-wrap justify-between items-center gap-3 bg-cream px-4 py-3 rounded-xl">
+            <!-- The two-hour promise is highlighted a DIFFERENT way now
+                 (Ahmed, 2026-08-25: "this needs to be highlighted in another
+                 way"). It was a cream fill — and cream is what the specs strip
+                 above it and the FAQ cards below it are, so the one row on the
+                 panel that makes a promise was painted as a third spec. See
+                 .delivery-note in styles.css: the success tint the design system
+                 already has a token for, plus a rule down the inline-start
+                 edge, which is a highlight the surrounding cards cannot make. -->
+            <div class="delivery-note flex flex-wrap justify-between items-center gap-3 ps-5 pe-4 py-3 rounded-xl">
               <span class="flex items-center gap-2 font-semibold text-primary text-sm">
                 <span class="place-items-center grid bg-primary rounded-full text-white size-5 text-xs">✓</span>
                 التوصيل خلال ساعتين في القاهرة الكبرى

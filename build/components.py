@@ -373,7 +373,7 @@ def sort_select(options, label="ترتيب حسب"):
     # <option>s). initFancySelect() in scripts.js only wires behaviour.
     li = "".join(f"""
                 <li role="option" data-fancy-opt data-value="{e(v)}" aria-selected="{'true' if i == 0 else 'false'}"
-                    class="flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer text-sm font-medium text-ink hover:bg-cream focus-visible:bg-cream focus:outline-none transition-colors">
+                    class="flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer text-sm font-medium text-ink focus:outline-none transition-colors">
                   <span class="w-4 h-4 shrink-0 text-cta" data-fancy-check>{ICON['check']}</span>
                   <span data-opt-text class="whitespace-nowrap">{e(t)}</span>
                 </li>""" for i, (v, t) in enumerate(options))
@@ -635,7 +635,7 @@ def accordion(items, multi=False):
                 <div class="faq-card accordion-item rounded-xl overflow-hidden{' is-open' if i == 0 else ''}">
                   <button type="button" class="accordion-trigger flex justify-between items-center gap-3 px-4 py-3.5 w-full text-start">
                     <span class="faq-q text-[15px] leading-snug">{e(heading)}</span>
-                    <span class="place-items-center grid size-5 text-greenDeep shrink-0">
+                    <span class="faq-toggle place-items-center grid size-5 shrink-0">
                       <span class="faq-plus w-4 h-4">{ICON['plus']}</span>
                       <span class="faq-minus w-4 h-4">{ICON['minus']}</span>
                     </span>
@@ -847,7 +847,12 @@ def best_seller_badge(p):
     # (a different font, no such descent) off-centre downward (Ahmed, 2026-08-19).
     # Centre with the flex line box + a fixed pill height instead, which reads
     # centred in both fonts without a per-language nudge.
-    return ('<span data-best-seller class="inline-flex self-start items-center bg-[#8ACC3E] px-3 '
+    # `badge-neutral`: this chip is grey in every palette (Ahmed, 2026-08-25).
+    # It briefly followed the per-palette badge colour with the price tags, but
+    # a price tag is the one thing on the page that should shout and this is a
+    # label next to it — two saturated chips 40px apart cancelled each other
+    # out. The bg-[#8ACC3E] stays as the no-CSS fallback.
+    return ('<span data-best-seller class="badge-neutral inline-flex self-start items-center bg-[#8ACC3E] px-3 '
             'rounded-full h-7 font-bold text-ink text-xs leading-none">'
             f'{e(label)}</span>')
 
@@ -867,14 +872,17 @@ def points_callout(p):
     pts = int(round(price))
     if pts <= 0:
         return ""
-    # Green "good news" pill, the same family as the discount/wallet chips, so
-    # points read as a reward rather than as another price (which is yellow). A
-    # leading hairline divider (matching the one sold_proof folds in) separates
-    # it from the red proof line; the pill padding is trimmed and it centres in
-    # the row rather than sitting to the top (Ahmed, 2026-08-04).
+    # NEUTRAL, not the "good news" green it used to be (Ahmed, 2026-08-25:
+    # "make these badges a neutral color in all versions"). It sits in a row
+    # beside the rating, the best-seller chip and the sold-proof line, and with
+    # every palette painting its own badge colour that row had turned into four
+    # coloured chips competing for the same glance. The 3D points mark carries
+    # the reward on its own. `badge-neutral` is the shared hook; see styles.css.
+    # A leading hairline divider (matching the one sold_proof folds in)
+    # separates it from the red proof line.
     return ('<span class="inline-flex items-center gap-2">'
             '<span aria-hidden="true" class="bg-divider w-px h-4"></span>'
-            '<span class="inline-flex items-center gap-1 bg-mint px-2.5 py-0.5 '
+            '<span class="badge-neutral inline-flex items-center gap-1 bg-mint px-2.5 py-0.5 '
             'rounded-full font-bold text-ink-800 text-xs">'
             '<img src="images/jaad/icons/points-3d.png" alt="" class="w-4 h-4 shrink-0 object-contain" />'
             f'<span>اكسب <span class="latin">{pts}</span> نقطة</span></span></span>')
@@ -1724,7 +1732,11 @@ def price_sticker(price, size="md"):
         "lg": ("px-3 py-1", "rounded-tl-[22px] rounded-br-[22px]", "shadow-[3px_5px_0px_#98CA55]", "text-[19px]", "text-[32px]"),
     }
     pad, rad, sh, egp, wh = variants.get(size, variants["md"])
-    return (f'<span class="inline-flex items-end gap-0.5 shrink-0 bg-greenDeep {sh} {pad} {rad} font-bold text-white latin">'
+    # `price-sticker` is the hook the palette system paints through: a price tag
+    # is a BADGE, and badges do not take the palette's button colour (see the
+    # badge tokens in styles.css). bg-greenDeep/text-white stay as the no-CSS
+    # fallback and as what a reader of this markup sees by default.
+    return (f'<span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep {sh} {pad} {rad} font-bold text-white latin">'
             f'<span class="{egp} leading-[1.4]">EGP</span>'
             f'<span class="{wh} leading-none">{whole}</span>'
             f'<span class="{egp} leading-[1.4]">.{dec}</span></span>')
@@ -1936,20 +1948,42 @@ def product_widget(p, sale=None, slide=True, cat=None):
                    the card button and the primary CTAs never disagree. Once the
                    product is in the cart it swaps for a compact − N + counter
                    that edits the cart line (syncCardSteppers drives the swap). -->
-              <div class="right-4 -bottom-5 z-10 absolute">
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
                 <button type="button" data-add-to-cart aria-label="Add to cart"
-                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-10 text-white transition-colors">
-                  <span class="w-[22px] h-[22px]">{ICON['cart']}</span>
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]">{ICON['cart']}</span>
                 </button>
                 <!-- The card counter is the SAME control as the product page's
                      qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
-                     − and the green-filled +, scaled compact (size-8) to sit in
-                     the add button's footprint. shadow-custom4 lifts it off the
-                     photo the way the round add button was lifted. -->
-                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 p-1 border border-divider rounded-full flex">
-                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 sm:size-8 text-ink shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4">{ICON['minus']}</span></button>
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5">{ICON['minus']}</span></button>
                   <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
-                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 sm:size-8 text-white shrink-0 transition-colors"><span class="w-5 h-5 sm:w-4 sm:h-4">{ICON['plus']}</span></button>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5">{ICON['plus']}</span></button>
                 </div>
               </div>
             </div>
