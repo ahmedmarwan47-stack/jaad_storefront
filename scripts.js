@@ -584,7 +584,12 @@
 
   const inSkipped = (el) => {
     for (let n = el; n; n = n.parentElement) {
-      if (I18N_SKIP[n.tagName]) return true;
+      // SVG is skipped wholesale: the icon sprites carry <title>s and stray
+      // labels that must not be rewritten, and there are hundreds of them.
+      // An <svg data-i18n> is the deliberate exception — the hero badge's ring
+      // is real copy on a path, and without this it stayed Arabic on the
+      // English build (Ahmed, 2026-08-25).
+      if (I18N_SKIP[n.tagName] && !(n.tagName === "svg" && n.hasAttribute("data-i18n"))) return true;
       // Opt-out hook: an element (or any ancestor) tagged data-no-i18n is left
       // exactly as rendered. Used by the header language toggle, which must keep
       // showing the native script "العربية" even while the page reads English.
@@ -1027,59 +1032,55 @@
   function headerHTML() {
     const checkout = isCheckout();
 
-    /* --- flash-sale strip: the topmost bar ---------------------------------
-       Redesigned (Ahmed, 2026-08-24), same height, new contents.
+    /* --- flash-sale promo -------------------------------------------------
+       Relocated INTO the utility bar (Ahmed, 2026-08-25). It used to be the
+       header's own topmost band, which made the masthead three stacked bars
+       before the page had said anything. The promo is not worth a third of the
+       header, so it now rides in the utility bar's start slot — the space the
+       "100% Natural Based Products" line held, which was a claim nobody came
+       here to read.
 
-       What was wrong with it. It read "00 Days 14 Hours 31 Mins Flash Sale
-       Within Up To 50%" — the countdown arrived BEFORE the label telling you
-       what was being counted, so the first thing in the header was three
-       unexplained numbers. The three white boxes made the timer the loudest
-       thing in the bar while the actual offer, "Up To 50%", was plain text at
-       the end. And the whole strip was a <div>: a flash-sale announcement you
-       cannot click.
+       Contents are deliberately down to three things: the icon, the words, the
+       clock. The discount pill, the "ends in" phrase, and the "shop now" link
+       with its chevron are all gone — at utility-bar scale they turned a glance
+       into a paragraph. The whole thing is still an <a> to the sale, so the
+       click target the chevron used to advertise survives without it.
 
-       Now it reads in the order a person needs it — what (Flash Sale), how much
-       (the lime pill, which is the only thing here that should shout), then how
-       long — and the whole strip is a link to the shop with a chevron to say so.
-       The timer sits in one recessed block instead of three white cards, so it
-       supports the offer rather than competing with it.
-
-       Height is unchanged at 47px: same px-4 py-[7px] as before, and the
-       contents are sized to the same 33px inner band.
-
-       The countdown is a rolling 2-day demo (initFlashCountdown), since the
-       catalogue carries no real sale window. The data-flash hooks are kept
-       exactly as they were, so that function needs no change. */
+       Units render inline rather than stacked over their labels: the bar is
+       ~30px tall and the old two-line unit needed 33px on its own. Labels drop
+       below lg, where the support nav and the promo start competing for width;
+       the digits and colons still read as a clock without them. */
     const flashUnit = (key, label) =>
-      `<span class="flex flex-col items-center leading-none">
-         <span class="font-bold text-white text-[13px] tabular-nums latin" data-flash="${key}">00</span>
-         <span class="mt-0.5 font-medium text-white/55 text-[9px] uppercase">${esc(t(label))}</span>
+      `<span class="inline-flex items-baseline gap-1">
+         <span class="font-bold tabular-nums latin" data-flash="${key}">00</span>
+         <span class="hidden lg:inline text-[10px] uppercase">${esc(t(label))}</span>
        </span>`;
-    const flashSep = `<span class="pb-2 font-bold text-white/30 text-[13px]">:</span>`;
-    const flashBar = checkout
+    /* No opacity dimming on the label or the separator. The obvious way to
+       recess them is opacity-70 / opacity-40, but the promo's ink is already a
+       dark green on a light bar, and knocking it back that far put the colon at
+       1.8:1 — a fail that the earlier sweeps could not have caught, since it
+       arrived with this markup. Hierarchy comes from weight and size instead:
+       bold tabular digits against 10px uppercase labels, all at full ink. */
+    const flashSep = `<span class="font-bold">:</span>`;
+    /* text-heading rather than a literal colour: the bar is cream in v1 and
+       lime in v2/v3, and the existing `.bg-limeFigma .text-heading` rule plus
+       the v3 override already resolve an AA-passing ink for each ground. */
+    const promo = checkout
       ? ""
       : `<a href="${pageHref("/shop")}" data-flash-sale
-             class="group flex flex-wrap justify-center items-center gap-x-3 gap-y-1 bg-greenDeep hover:bg-[#00551f] px-4 py-[7px] min-h-[47px] text-white transition-colors">
-           <span class="flex items-center gap-2">
-             <img src="images/jaad/icons/flash-sale.png" alt="" class="w-[22px] h-[22px] object-contain shrink-0" />
-             <span class="font-bold text-white text-xs uppercase tracking-[0.5px]">${esc(t("عروض فلاش"))}</span>
-             <span class="bg-limeFigma px-2 py-0.5 rounded-full font-bold text-heading text-[11px] whitespace-nowrap">${esc(t("خصم حتى 50%"))}</span>
-           </span>
-           <span class="flex items-center gap-2">
-             <!-- Hidden below sm so the strip holds ONE line at 375px and keeps
-                  its 47px height. The timer's own DAYS/HOURS/MINS labels
-                  already say it is a countdown, so this is the phrase the small
-                  screen can most afford to lose. -->
-             <span class="hidden sm:inline text-white/60 text-[11px] whitespace-nowrap">${esc(t("ينتهي خلال"))}</span>
-             <span class="flex items-center gap-1.5 bg-white/10 px-2 py-0.5 rounded-md">
-               ${flashUnit("days", "يوم")}${flashSep}${flashUnit("hours", "ساعة")}${flashSep}${flashUnit("mins", "دقيقة")}
-             </span>
-             <span class="hidden sm:flex items-center gap-1 font-semibold text-limeFigma text-[11px] whitespace-nowrap">
-               ${esc(t("تسوق الآن"))}
-               <span class="rtl:scale-flip w-3 h-3 transition-transform group-hover:translate-x-0.5">${ICON.arrowRight}</span>
-             </span>
+             class="flex items-center gap-2 min-w-0 text-heading text-xs whitespace-nowrap hover:opacity-70 transition-opacity">
+           <img src="images/jaad/icons/flash-sale.png" alt="" class="w-[18px] h-[18px] object-contain shrink-0" />
+           <span class="font-bold uppercase tracking-[0.5px]">${esc(t("عروض فلاش"))}</span>
+           <span class="flex items-center gap-1.5">
+             ${flashUnit("days", "يوم")}${flashSep}${flashUnit("hours", "ساعة")}${flashSep}${flashUnit("mins", "دقيقة")}
            </span>
          </a>`;
+    /* Phones carry no utility bar, so the promo would disappear with the band
+       it used to live in. It keeps its own slim strip there instead — same
+       three elements, so the two never drift apart. */
+    const promoBand = checkout
+      ? ""
+      : `<div class="md:hidden flex justify-center bg-limeFigma px-4 py-1.5">${promo}</div>`;
 
     /* --- support (utility) menu --- */
     const support = SUPPORT_MENU.map(
@@ -1103,7 +1104,7 @@
             ? ""
             : `<div data-utility-bar class="bg-limeFigma">
                  <div class="flex justify-between items-center gap-6 mx-auto px-4 xl:px-[60px] py-1.5 max-w-[1512px]">
-                   <span class="font-medium text-black text-sm whitespace-nowrap">${esc(t("100% Natural Based Products"))}</span>
+                   ${promo}
                    <nav class="flex items-center gap-4 xl:gap-6 min-w-0 overflow-hidden">
                      ${support}
                      <button type="button" data-lang-toggle data-no-i18n class="shrink-0 font-medium text-heading text-sm underline whitespace-nowrap">${currentLang() === "ar" ? "English" : "العربية"}</button>
@@ -1214,7 +1215,7 @@
              </div>`
       }`;
 
-    return `<header>${flashBar}${desktop}${mobile}</header>`;
+    return `<header>${desktop}${promoBand}${mobile}</header>`;
   }
 
   /* ---------------------------------------------------------------
@@ -6141,13 +6142,21 @@
      countdown and resets cleanly. Updates Days/Hours/Mins (no seconds in the
      design), so a 20s tick keeps the minutes honest without churn. */
   function initFlashCountdown() {
-    const bar = document.querySelector("[data-flash-sale]");
-    if (!bar) return;
-    if (bar._flashTimer) clearInterval(bar._flashTimer);
+    /* querySelectorAll, not querySelector (Ahmed, 2026-08-25). The promo now
+       renders TWICE — once in the desktop utility bar, once in the phone's own
+       strip — and only one of the two is ever visible, so a single-element
+       lookup had a 50/50 chance of driving the hidden one and leaving the
+       visible clock frozen at 00:00:00. */
+    const bars = [...document.querySelectorAll("[data-flash-sale]")];
+    if (!bars.length) return;
+    bars.forEach((b) => { if (b._flashTimer) clearInterval(b._flashTimer); });
     const CYCLE = 2 * 24 * 60 * 60 * 1000;
     const set = (k, v) => {
-      const el = bar.querySelector(`[data-flash="${k}"]`);
-      if (el) el.textContent = String(v).padStart(2, "0");
+      const txt = String(v).padStart(2, "0");
+      bars.forEach((b) => {
+        const el = b.querySelector(`[data-flash="${k}"]`);
+        if (el) el.textContent = txt;
+      });
     };
     const tick = () => {
       const now = Date.now();
@@ -6162,7 +6171,8 @@
       set("mins", m);
     };
     tick();
-    bar._flashTimer = setInterval(tick, 20000);
+    const timer = setInterval(tick, 20000);
+    bars.forEach((b) => { b._flashTimer = timer; });
   }
 
   /* Proximity scatter: a leaf only moves when the cursor passes NEAR it — it is
@@ -8141,7 +8151,15 @@
           pts.push({ x: clampX((nodes[i].x + b.x) / 2 + lobe), y: (nodes[i].y + b.y) / 2 });
         }
       }
-      pts.push({ x: clampX(last.x - w * SWING * 0.5), y: h + h * 0.04 });
+      /* The run-out used to leave sideways and finish BELOW the box, where it
+         was clipped away — the line simply stopped at the last milestone and
+         the head blinked out (Ahmed, 2026-08-25: "I want that circle to not
+         fade out at the end"). It now swings once more and lands centred on
+         the bottom edge, inside the tail spacer, which puts the head directly
+         over the middle stat card. Two points rather than one so the spline
+         still has a wander to flow through instead of straightening early. */
+      pts.push({ x: clampX((last.x + w / 2) / 2 - w * SWING * 0.28), y: last.y + (h - last.y) * 0.45 });
+      pts.push({ x: w / 2, y: h - 4 });
       return pts;
     }
 
@@ -8185,6 +8203,20 @@
 
     const nodeFrac = (i) =>
       (nodeAt[i] === undefined ? (i + 0.5) / rows.length : nodeAt[i]);
+
+    /* The stats row is the line's destination. It fires ONCE, from the drawing
+       progress rather than from an IntersectionObserver, so the cards answer
+       when the head actually arrives rather than when they happen to be 40% on
+       screen — which, scrolling quickly, was usually well before the line got
+       anywhere near them. */
+    const statsRow = document.querySelector("[data-about-stats]");
+    let statsHit = false;
+    function hitStats() {
+      if (statsHit || !statsRow) return;
+      statsHit = true;
+      statsRow.classList.add("is-hit");
+      runStatCountUp(statsRow);
+    }
 
     /* MOBILE progress, derived from where the ROWS are rather than from the
        section's box.
@@ -8293,11 +8325,17 @@
         row.classList.toggle("is-reached", d >= nodeFrac(i));
       });
 
+      if (d >= 0.995) hitStats();
+
       if (head) {
-        if (d <= 0 || d >= 1) {
+        /* Only d <= 0 hides it now. It used to hide at d >= 1 as well, which
+           is what made the head vanish exactly when it reached the end of its
+           travel; the point is clamped to the path's length instead, so it
+           parks on the final point and stays there. */
+        if (d <= 0) {
           head.classList.remove("is-on");
         } else {
-          const pt = path.getPointAtLength(len * d);
+          const pt = path.getPointAtLength(len * Math.min(d, 1));
           const m = path.getScreenCTM();
           if (m) {
             const sp = new DOMPoint(pt.x, pt.y).matrixTransform(m);
@@ -8318,6 +8356,59 @@
     readTarget();
     shown = target;
     paint(shown);
+  }
+
+  /* Contact hero parallax (Ahmed, 2026-08-25).
+
+     The PHOTOGRAPH moves, the body does not — the body is ordinary document
+     flow travelling at scroll speed, and the separation between the two is the
+     whole effect. Rate is 0.28, i.e. the image drifts down at just over a
+     quarter of the page's speed.
+
+     Travel is bounded by the image's own overhang: it is 128% of the frame and
+     starts 14% above it, so 14% of the frame height is available in either
+     direction. Clamping to that is what guarantees no gap ever opens at an
+     edge, whatever the viewport does. */
+  function initContactParallax() {
+    const img = document.querySelector("[data-contact-parallax]");
+    if (!img) return;
+    const hero = img.closest("[data-contact-hero]");
+    if (!hero || reduceMotion()) return;
+    let ticking = false;
+    function frame() {
+      ticking = false;
+      const rect = hero.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) return;   // off screen: nothing to do
+      const limit = rect.height * 0.14;
+      const shift = Math.max(-limit, Math.min(limit, -rect.top * 0.28));
+      img.style.transform = "translate3d(0," + shift.toFixed(1) + "px,0)";
+    }
+    function schedule() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
+    frame();
+  }
+
+  /* The hero badge's ring turns with the scroll (Ahmed, 2026-08-25).
+
+     Driven off scrollY rather than the badge's own position, so it keeps
+     turning for the whole first screenful instead of stopping the moment the
+     hero leaves — the badge is still on screen while the hero exits, and a ring
+     that freezes mid-word looks broken. 0.12 deg per pixel is roughly one full
+     turn per three screens: present, not a fidget spinner. */
+  function initHeroBadge() {
+    const badge = document.querySelector("[data-hero-badge]");
+    if (!badge) return;
+    const ring = badge.querySelector(".hero-badge__ring");
+    if (!ring || reduceMotion()) return;
+    let ticking = false;
+    function frame() {
+      ticking = false;
+      ring.style.setProperty("--badge-spin", (window.scrollY * 0.12).toFixed(2) + "deg");
+    }
+    function schedule() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    window.addEventListener("scroll", schedule, { passive: true });
+    frame();
   }
 
   /* Slow parallax on the About hero art. Same guards as the journey: opt-out
@@ -8344,29 +8435,44 @@
   /* Count-up for the About stats: runs once when each tile scrolls into view.
      Preserves whatever suffix/format the built value carries ("26", "100%"),
      so the markup stays the source of truth for what the number says. */
+  /* The count itself, callable. Guarded by a flag per tile so the timeline can
+     fire it without having to know whether it already ran. */
+  function runStatCountUp(scope) {
+    const tiles = [...(scope || document).querySelectorAll("[data-stat] [data-stat-value]")];
+    tiles.forEach((el) => {
+      if (el._counted) return;
+      el._counted = true;
+      const raw = el.getAttribute("data-stat-value") || el.textContent;
+      const target = parseFloat(raw);
+      if (!isFinite(target)) { el.textContent = raw; return; }
+      const suffix = String(raw).replace(/^[\d.,]+/, "");
+      const start = performance.now();
+      const DUR = 900;
+      (function step(now) {
+        const t = Math.min(1, (now - start) / DUR);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = Math.round(target * eased) + suffix;
+        if (t < 1) requestAnimationFrame(step);
+        else el.textContent = raw;
+      })(start);
+    });
+  }
+
   function initStatCountUp() {
     const tiles = [...document.querySelectorAll("[data-stat] [data-stat-value]")];
     if (!tiles.length) return;
     if (reduceMotion() || !("IntersectionObserver" in window)) return;  // built values stand
+    /* When the timeline is on the page it OWNS the trigger — the numbers run
+       as the line's head reaches the cards. Leaving this observer attached as
+       well would race it and usually win, which is the behaviour being
+       replaced. */
+    if (document.querySelector("[data-about-timeline]")) return;
 
     const io = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        const el = entry.target;
-        io.unobserve(el);
-        const raw = el.getAttribute("data-stat-value") || el.textContent;
-        const target = parseFloat(raw);
-        if (!isFinite(target)) return;
-        const suffix = String(raw).replace(/^[\d.,]+/, "");
-        const start = performance.now();
-        const DUR = 900;
-        (function step(now) {
-          const t = Math.min(1, (now - start) / DUR);
-          const eased = 1 - Math.pow(1 - t, 3);
-          el.textContent = Math.round(target * eased) + suffix;
-          if (t < 1) requestAnimationFrame(step);
-          else el.textContent = raw;
-        })(start);
+        io.unobserve(entry.target);
+        runStatCountUp(entry.target.closest("[data-stat]") || entry.target);
       });
     }, { threshold: 0.4 });
     tiles.forEach((el) => io.observe(el));
@@ -8504,7 +8610,7 @@
           '<div class="btnswitch__seg">' +
             '<button type="button" data-btn-v="v1"><span class="btnswitch__dot" style="background:#00451C"></span>Green</button>' +
             '<button type="button" data-btn-v="v2"><span class="btnswitch__dot" style="background:#EA983E"></span>Orange</button>' +
-            '<button type="button" data-btn-v="v3"><span class="btnswitch__dot" style="background:#5A6E3A"></span>Moss</button>' +
+            '<button type="button" data-btn-v="v3"><span class="btnswitch__dot" style="background:#4A790C"></span>Moss</button>' +
           '</div>' +
         '</div>' +
         '<div class="btnswitch__row">' +
@@ -8808,6 +8914,8 @@
     // About page: pinned scroll journey, hero parallax, stat count-up. Each
     // guards off its own markup, so all three are no-ops elsewhere.
     initAboutJourney();
+    initHeroBadge();
+    initContactParallax();
     initAboutTimeline();
     initAboutParallax();
     initStatCountUp();

@@ -208,7 +208,7 @@ select,
 textarea {
   outline: none;
   width: 100%;
-  border-radius: 0.5rem;
+  border-radius: 8px;
   caret-color: #ab7c5f;
 }
 
@@ -689,7 +689,7 @@ select {
   bottom: 0;
   z-index: 100;
   background: #fff;
-  border-radius: 22px 22px 0 0;
+  border-radius: 12px 12px 0 0;
   padding: 20px 16px 28px;
   transform: translateY(110%);
   transition: transform 0.3s ease;
@@ -713,7 +713,7 @@ select {
     margin-inline: auto;
     width: min(420px, calc(100vw - 2rem));
     max-height: 80vh;
-    border-radius: 22px;
+    border-radius: 12px;
     padding: 24px;
     transform: translateY(-50%) scale(0.97);
     opacity: 0;
@@ -984,7 +984,10 @@ body.no-scroll {
   position: relative;
   z-index: 1;
   border-bottom: 0;
-  border-radius: 9999px;
+  /* 16px, not a stadium. The button paints no background of its own — the
+     active pill behind it does — so this radius is invisible either way, but
+     leaving a 9999px in the file is what lets the scale drift back. */
+  border-radius: 16px;
   /* Bigger tap target on phones (Ahmed, 2026-08-19); tightens back up from sm. */
   padding: 0.7rem 1.15rem;
   font-weight: 500;
@@ -1812,7 +1815,7 @@ body[data-page="checkout"] .masthead-logo img {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  border-radius: 14px;
+  border-radius: 8px;
   overflow: hidden;
   transform-origin: center;
   transition: transform 0.23s var(--ease-out), box-shadow 0.23s var(--ease-out);
@@ -1962,7 +1965,7 @@ select.select-control {
 .dd__trigger {
   display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
   width: 100%; height: 3rem; padding-inline: 1rem;
-  background: #fff; border: 1px solid var(--dd-border, #E5E7EB); border-radius: 1rem;
+  background: #fff; border: 1px solid var(--dd-border, #E5E7EB); border-radius: 12px;
   color: #1e2219; font-size: 1rem; text-align: start; cursor: pointer;
   transition: border-color 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
 }
@@ -1981,7 +1984,7 @@ select.select-control {
   position: absolute; inset-inline: 0; top: calc(100% + 0.5rem); z-index: 50;
   max-height: 16rem; overflow-y: auto; overscroll-behavior: contain;
   margin: 0; padding: 0.375rem; list-style: none;
-  background: #fff; border: 1px solid #E5E7EB; border-radius: 1rem;
+  background: #fff; border: 1px solid #E5E7EB; border-radius: 12px;
   box-shadow: 0 12px 28px -10px rgba(6, 42, 28, 0.28), 0 4px 10px -6px rgba(6, 42, 28, 0.16);
   opacity: 0; transform: translateY(-10px) scale(0.95); transform-origin: top center;
   visibility: hidden; pointer-events: none;
@@ -1995,7 +1998,7 @@ select.select-control {
 
 .dd__opt {
   display: flex; align-items: center; gap: 0.5rem;
-  padding: 0.5rem 0.75rem; border-radius: 0.75rem;
+  padding: 0.5rem 0.75rem; border-radius: 12px;
   font-size: 0.9375rem; color: #1e2219; cursor: pointer;
   opacity: 0; transform: translateX(-20px);
   transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out),
@@ -2023,7 +2026,7 @@ html[dir="rtl"] .dd__opt { transform: translateX(20px); }
    panel is the positioned ancestor and the marker is inside its scroll box. */
 .dd__marker {
   position: absolute; inset-inline: 0.375rem; top: 0; height: 0; z-index: 0;
-  border-radius: 0.75rem; background: #FDF8F1; opacity: 0;
+  border-radius: 12px; background: #FDF8F1; opacity: 0;
   transform: translateY(var(--y, 0px));
   transition: transform 0.18s var(--ease-out), height 0.18s var(--ease-out),
               opacity 0.15s var(--ease-out);
@@ -3564,6 +3567,13 @@ html[data-btn="v2"] [data-sticky-actions][data-stuck="true"] [data-open="search"
    radius still exceeds its own half-dimension, so the browser clamps it back to
    a circle; only elongated pills and larger buttons actually square. */
 .rounded-full { border-radius: 16px !important; }
+/* The small end of the ramp. `rounded` (4px), `rounded-sm` (2px) and
+   `rounded-md` (6px) were never in the override list, so 263 elements sat below
+   the scale's floor at Tailwind's stock values — which is most of what "some
+   elements don't respect the corner radius" was pointing at. They all take the
+   floor, 6px, rather than three near-identical values nobody can tell apart. */
+.rounded, .rounded-sm, .rounded-md { border-radius: 6px !important; }
+.rounded-b-2xl { border-bottom-left-radius: 10px !important; border-bottom-right-radius: 10px !important; }
 
 /* Product image toggle: 'plain' shows the white-background originals. On the
    cards these are cut-outs, so they sit contained on the card's white plate
@@ -3673,7 +3683,7 @@ html[data-img="plain"] .story-fb-plain { display: block; }
   background: rgba(255, 255, 255, 0.40);
   -webkit-backdrop-filter: blur(24px) saturate(1.4);
   backdrop-filter: blur(24px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.7); border-radius: 18px; padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.7); border-radius: 12px; padding: 14px 16px;
   box-shadow: 0 18px 44px rgba(6, 42, 28, 0.16);
   opacity: 0; transform: translateY(20px);
   will-change: opacity, transform; pointer-events: none;
@@ -3701,7 +3711,7 @@ html[data-img="plain"] .story-fb-plain { display: block; }
 @media (max-width: 640px) {
   .product-story__img { width: 64vw; }
   .product-story__panel {
-    width: min(52vw, 196px); gap: 9px; padding: 9px 11px; border-radius: 13px;
+    width: min(52vw, 196px); gap: 9px; padding: 9px 11px; border-radius: 8px;
   }
   .product-story__panel.is-right { left: auto; right: 8px; }
   .product-story__panel.is-left { right: auto; left: 8px; }
@@ -4017,7 +4027,7 @@ html[dir="rtl"] .about-time__row.is-reached .about-time__dot { transform: transl
    reads as arriving IN the card rather than the whole tile sliding as one flat
    object. */
 .about-time__card {
-  max-width: 42ch; border-radius: 20px; overflow: hidden;
+  max-width: 42ch; border-radius: 12px; overflow: hidden;
   background: #FDF8F1; border: 1px solid #EFE7DA;
   opacity: 0; transform: translateY(22px);
   transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
@@ -4052,12 +4062,246 @@ html[dir="rtl"] .about-time__row.is-reached .about-time__dot { transform: transl
 
 
 /* ---- stats + CTA ---- */
+/* ---- contact page -------------------------------------------------------
+   A photographic hero with the body pulled up over its lower edge, so the form
+   is in frame before any scrolling (Ahmed, 2026-08-25: "should be in first
+   glance ... falling from the hero section").
+
+   The parallax is the image moving SLOWER than the page, not the body moving
+   faster: the body is normal document flow, and initContactParallax translates
+   only the photograph. That is why .contact-hero__img is 128% tall and inset
+   past both edges — it has to travel without ever revealing a gap. */
+.contact-hero {
+  position: relative; overflow: hidden;
+  height: clamp(320px, 52vh, 470px);
+  background: #F3EDE4;
+}
+.contact-hero__img {
+  position: absolute; inset-inline: 0; top: -14%;
+  width: 100%; height: 128%; object-fit: cover;
+  will-change: transform;
+}
+/* Reads from the START edge, where the photograph is softest, and fades to the
+   page's own cream at the bottom so the overlapping body has no seam to cross. */
+.contact-hero__veil {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(253,248,241,0) 55%, rgba(253,248,241,0.55) 78%, #FDF8F1 100%),
+    linear-gradient(to var(--veil-dir, right), rgba(253,248,241,0.92) 0%, rgba(253,248,241,0.72) 34%, rgba(253,248,241,0.18) 62%, rgba(253,248,241,0) 100%);
+}
+html[dir="rtl"] .contact-hero__veil { --veil-dir: left; }
+.contact-hero__inner {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; gap: 0.75rem;
+  max-width: 1100px; margin-inline: auto; padding: 3.5rem 1rem 0;
+}
+.contact-hero__title {
+  font-size: clamp(30px, 4.6vw, 46px); font-weight: 500; line-height: 1.15;
+  color: var(--chrome-ink, #1F4A24); letter-spacing: -0.5px;
+}
+.contact-hero__sub {
+  max-width: 42ch; font-size: 15px; line-height: 1.7; color: #3F4A38;
+}
+/* Both text blocks are capped to the veil's opaque half. The glyphs measure
+   9.7:1 and 6.7:1 against the photograph as it stands, but nothing structural
+   was keeping them there — the h1 is a full-width block, and a longer
+   translation would have run on into the coffee cup, where the veil has faded
+   out and the same ink drops to about 1.4:1. */
+.contact-hero__title, .contact-hero__sub { max-width: min(42ch, 48%); }
+
+/* The overlap. The body is lifted over the hero's lower edge and given its own
+   stacking context so the glass cards refract the photograph rather than the
+   flat cream below it. */
+.contact-body { position: relative; z-index: 2; margin-top: -108px; padding-bottom: 4rem; }
+.contact-body__grid {
+  display: grid; gap: 1.25rem;
+  max-width: 1100px; margin-inline: auto; padding-inline: 1rem;
+}
+@media (min-width: 900px) {
+  /* Cards first, form second — in LTR that puts the form on the right, and in
+     RTL the grid mirrors it without a second rule. */
+  .contact-body__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 2rem; align-items: start; }
+}
+
+.contact-cards { display: flex; flex-direction: column; gap: 0.75rem; }
+.contact-card {
+  display: flex; align-items: center; gap: 0.85rem;
+  padding: 0.95rem 1.1rem; border-radius: 12px;
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(18px) saturate(1.35);
+  backdrop-filter: blur(18px) saturate(1.35);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10px 30px rgba(31, 45, 20, 0.10);
+  color: inherit; text-decoration: none;
+  /* Appear on LOAD, staggered — these sit above the fold, so a scroll trigger
+     would have nothing to wait for. */
+  animation: contact-rise 0.65s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+.contact-card:nth-child(1) { animation-delay: 0.06s; }
+.contact-card:nth-child(2) { animation-delay: 0.15s; }
+.contact-card:nth-child(3) { animation-delay: 0.24s; }
+a.contact-card { transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, background-color 0.3s ease-out; }
+a.contact-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 14px 34px rgba(31, 45, 20, 0.15);
+}
+.contact-card__icon {
+  display: grid; place-items: center; flex: 0 0 auto;
+  width: 40px; height: 40px; border-radius: 12px;
+  background: var(--chrome-fill, rgba(41, 97, 47, 0.09));
+  color: var(--chrome-accent, #29612F);
+}
+.contact-card__body { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+.contact-card__label { font-size: 13px; color: #5A6553; }
+.contact-card__value { font-size: 15px; font-weight: 700; color: var(--chrome-ink, #1F4A24); }
+
+/* Smaller overall (Ahmed): the form was a full-height panel with 32px padding,
+   48px inputs and 16px type. It is a short message form, not a checkout. */
+.contact-form {
+  display: flex; flex-direction: column; gap: 0.85rem;
+  background: #fff; border-radius: 12px; padding: 1.4rem;
+  box-shadow: 0 14px 40px rgba(31, 45, 20, 0.12);
+  animation: contact-drop 0.75s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  animation-delay: 0.12s;
+}
+.contact-form__title { font-size: 18px; font-weight: 700; color: var(--chrome-ink, #1F4A24); }
+.contact-form label { font-size: 13px; }
+.contact-form input {
+  height: 44px;            /* the project's 44px minimum target, not lower */
+  font-size: 14px; border-radius: 8px;
+}
+.contact-form .gap-4 { gap: 0.75rem; }
+
+@keyframes contact-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes contact-drop {
+  from { opacity: 0; transform: translateY(-26px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .contact-card, .contact-form { animation: none; }
+  .contact-hero__img { transform: none !important; }
+}
+
+/* ---- hero trust badge ---------------------------------------------------
+   A ring of type around a clay mark, turning as the page scrolls.
+
+   Sized in vw between two clamps so it stays proportionate to a hero that is
+   itself a percentage of the viewport, and never shrinks past the point where
+   the ring type stops being legible.
+
+   Only the RING turns. The mark in the middle is deliberately left upright —
+   turning the shield with it made the whole thing read as a spinning sticker
+   rather than a seal with a rotating legend. */
+.hero-badge {
+  position: absolute; z-index: 3;
+  inset-inline-end: 6%; bottom: 11%;
+  width: clamp(94px, 10.5vw, 150px); aspect-ratio: 1 / 1;
+  display: grid; place-items: center;
+  pointer-events: none;
+}
+.hero-badge__disc {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: rgba(253, 248, 241, 0.86);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+.hero-badge__ring {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  transform: rotate(var(--badge-spin, 0deg));
+  will-change: transform;
+}
+.hero-badge__ring text {
+  font-size: 15px; font-weight: 700; letter-spacing: 0.8px;
+  fill: var(--badge-ink, #1F4A24);
+}
+.hero-badge__icon {
+  position: relative; width: 46%; height: 46%; object-fit: contain;
+}
+@media (max-width: 639px) {
+  /* The phone hero is a tall portrait and the badge would sit on top of the
+     product cluster; it moves up out of the way and shrinks. */
+  .hero-badge { bottom: auto; top: 46%; inset-inline-end: 4%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-badge__ring { transform: none; }
+}
+
+/* ---- category blobs -----------------------------------------------------
+   An organic shape behind each category's pair of bags. Built from a lopsided
+   border-radius rather than an SVG so the shape itself can be animated — the
+   hover state morphs the radii as well as turning the blob, which is what
+   stops it reading as a circle being scaled.
+
+   Motion is slower (0.7s vs the bags' 0.5s) and much smaller, so the blob
+   trails the bags rather than competing with them. .in-view mirrors hover for
+   touch, exactly as the bags already do. */
+.cat-blob {
+  position: absolute; left: 50%; top: 54%;
+  /* Sized off HEIGHT, not width. The tile is 356x260, so a square at 76% of
+     the width came out 270px tall in a 260px box — and once rotated 8deg its
+     bounding box grew another 13%, pushing the blob out under the heading.
+     88% of the height leaves room for the rotation and the hover scale. */
+  height: 80%; aspect-ratio: 1 / 1;
+  background: var(--cat-blob, rgba(152, 202, 85, 0.24));
+  border-radius: 58% 42% 47% 53% / 47% 53% 47% 53%;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  transition: transform 0.7s cubic-bezier(0.22, 0.68, 0.32, 1),
+              border-radius 0.7s cubic-bezier(0.22, 0.68, 0.32, 1),
+              background-color 0.45s ease-out;
+  will-change: transform, border-radius;
+  pointer-events: none;
+}
+.group:hover .cat-blob,
+.group.in-view .cat-blob {
+  background: var(--cat-blob-hover, rgba(152, 202, 85, 0.34));
+  border-radius: 44% 56% 62% 38% / 56% 41% 59% 44%;
+  transform: translate(-50%, -50%) rotate(7deg) scale(1.075);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cat-blob, .group:hover .cat-blob, .group.in-view .cat-blob { transition: none; transform: translate(-50%, -50%); }
+}
+
+/* The run-out below the last milestone. Height is the whole point: it grows
+   .about-time__body, the vector's viewBox is measured from that box, so the
+   path gains a stretch below the final node with nothing needed in the SVG. */
+.about-time__tail { height: 120px; }
+@media (min-width: 768px) { .about-time__tail { height: 168px; } }
+
 .about-stats { padding: 3.5rem 0; background: #fff; }
+
+/* The line does not stop at the last milestone any more — it runs down into
+   these cards and they answer (Ahmed, 2026-08-25). Fired by the timeline's own
+   progress rather than by an IntersectionObserver, so the pop lands when the
+   head actually arrives instead of when the row happens to be 40% on screen.
+   Staggered left-to-right so it reads as the line arriving, not three cards
+   blinking at once. */
+[data-about-stats].is-hit .about-stat {
+  border-color: var(--stat-pop, #98CA55);
+  box-shadow: 0 0 0 3px var(--stat-pop-ring, rgba(152, 202, 85, 0.30)), 0 8px 8px rgba(0, 0, 0, 0.03);
+  animation: about-stat-pop 0.62s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+[data-about-stats].is-hit .about-stat:nth-child(2) { animation-delay: 0.10s; transition-delay: 0.10s; }
+[data-about-stats].is-hit .about-stat:nth-child(3) { animation-delay: 0.20s; transition-delay: 0.20s; }
+@keyframes about-stat-pop {
+  0%   { transform: translateY(10px) scale(0.97); }
+  55%  { transform: translateY(0)    scale(1.035); }
+  100% { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-about-stats].is-hit .about-stat { animation: none; }
+}
 .about-stat {
   display: flex; flex-direction: column; align-items: center; gap: .25rem;
-  background: #fff; border-radius: 24px; padding: 2rem 1rem; text-align: center;
+  /* 12px, matching .rounded-3xl in the unified scale — this was a raw 24px,
+     one of the hand-written radii the utility overrides never reached. */
+  background: #fff; border-radius: 12px; padding: 2rem 1rem; text-align: center;
   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.03);
   border: 1px solid rgba(41, 97, 47, 0.08);
+  transition: border-color 0.5s ease-out, box-shadow 0.5s ease-out;
 }
 .about-stat__value { font-weight: 500; color: #29612F; font-size: 40px; line-height: 1; }
 .about-stat__label { color: #636959; font-size: 14px; }
@@ -4110,24 +4354,29 @@ html[dir="rtl"] .about-time__row.is-reached .about-time__dot { transform: transl
 .btnswitch.is-collapsed .btnswitch__body { display: none; }
 .btnswitch__row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .btnswitch__lbl { min-width: 76px; font-size: 11px; font-weight: 600; color: #5E6353; white-space: nowrap; }
-.btnswitch__seg { display: inline-flex; background: #F4EEE1; border-radius: 999px; padding: 2px; }
+.btnswitch__seg { display: inline-flex; background: #F4EEE1; border-radius: 16px; padding: 2px; }
 .btnswitch__seg button {
   border: 0; background: transparent; font-family: inherit; font-size: 11px;
-  font-weight: 600; color: #5E6353; padding: 5px 10px; border-radius: 999px;
+  font-weight: 600; color: #5E6353; padding: 5px 10px; border-radius: 12px;
   cursor: pointer; transition: background .15s, color .15s;
   display: inline-flex; align-items: center; gap: 5px;
 }
 .btnswitch__seg button[aria-pressed="true"] { background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.12); }
 .btnswitch__seg button[data-btn-v="v1"][aria-pressed="true"] { color: #00451C; }
 .btnswitch__seg button[data-btn-v="v2"][aria-pressed="true"] { color: #C4741F; }
+.btnswitch__seg button[data-btn-v="v3"][aria-pressed="true"] { color: #3C6309; }
 .btnswitch__dot { width: 9px; height: 9px; border-radius: 3px; }
 @media (max-width: 480px) { .btnswitch__lbl { display: none; } }
 
-/* V2 also squares the steppers so the − N + follows the 16px variant (Ahmed). */
-html[data-btn="v2"] [data-stepper],
-html[data-btn="v2"] [data-card-stepper] { border-radius: 16px !important; }
-html[data-btn="v2"] [data-stepper] button,
-html[data-btn="v2"] [data-card-stepper] button { border-radius: 12px !important; }
+/* The steppers, UN-PREFIXED (Ahmed, 2026-08-25: "there are still some corner
+   radius containers switching between the toggles"). These were the last two
+   rules where a radius depended on which palette was selected — the rest of
+   the scale was un-prefixed on 2026-08-24 and these were missed. Same values,
+   now the site's. */
+[data-stepper],
+[data-card-stepper] { border-radius: 16px !important; }
+[data-stepper] button,
+[data-card-stepper] button { border-radius: 12px !important; }
 
 /* ==========================================================================
    Cart / summary thumbnails (Ahmed, 2026-08-23)
@@ -4188,7 +4437,6 @@ html[data-btn="v2"] [data-card-stepper] button { border-radius: 12px !important;
    on #006328 is 3.88:1. #BFE08D is the same lime opened up two steps and
    clears at 5.07:1. Scoped to the strip so the lime token is unchanged
    everywhere else. */
-[data-flash-sale] .text-limeFigma { color: #BFE08D; }
 
 /* --- Language switch ------------------------------------------------------
    ALMARAI, whichever way the site is currently set (Ahmed, 2026-08-24). This
@@ -4228,13 +4476,24 @@ html[data-btn="v2"] [data-card-stepper] button { border-radius: 12px !important;
    actually found, plus the raw hexes the component CSS hardcodes.
    ========================================================================== */
 html[data-btn="v3"] {
-  --moss-deep: #5A6E3A;     /* CTA, price badge, primary fills */
-  --moss-dark: #46562C;     /* hover, headings, strong type */
-  --moss-ink:  #33401F;     /* deepest — body ink on light chrome */
-  --moss-mid:  #8AA55C;     /* secondary fills, tracker rail */
-  --moss-tint: #C6D9A6;     /* soft fills, borders */
-  --moss-soft: #DEE9CC;     /* softest fill */
-  --moss-mint: #EAF0E0;     /* "good news" tint */
+  /* LIME, not olive (Ahmed, 2026-08-25: "replace that muted green with the
+     lime green"). The ramp keeps its structure and its hue discipline — every
+     step is hue 86, the same yellow-green family as the brand lime — but the
+     saturation roughly doubles, so the variant reads as a deep lime rather
+     than a muted olive.
+
+     It cannot BE the brand lime. #98CA55 carries white text at 1.92:1, and
+     --moss-deep is a fill with white type on it (CTAs, price badges, the
+     cart). The brightest lime that still clears 4.5:1 with white sits around
+     26% lightness, which is what --moss-deep is; going lighter would mean
+     giving up white type on every primary control in the variant. */
+  --moss-deep: #4A790C;     /* CTA, price badge, primary fills — white 5.21:1 */
+  --moss-dark: #3C6309;     /* hover, headings, strong type — white 7.05:1 */
+  --moss-ink:  #293D0F;     /* deepest — body ink on light chrome, 11.24:1 on cream */
+  --moss-mid:  #7BB234;     /* secondary fills, tracker rail — NO white type on it */
+  --moss-tint: #BCDA95;     /* soft fills, borders */
+  --moss-soft: #D9E9C4;     /* softest fill */
+  --moss-mint: #E9F2DE;     /* "good news" tint */
   --moss-orange: #F0A860;   /* the lighter orange, dark labels on it */
 }
 
@@ -4275,79 +4534,102 @@ html[data-btn="v3"] a.bg-cta.is-orange,
 html[data-btn="v3"] .bg-orange,
 html[data-btn="v3"] .bg-highlight     { background-color: var(--moss-orange) !important; color: #2A1C0B !important; }
 
-/* --- LIGHT chrome: masthead + footer ------------------------------------ */
-/* One surface for all the chrome (Ahmed, 2026-08-24): the flash strip, the
-   navbar, the utility strip under it and the stuck bar all take the FOOTER's
-   cream, so the page opens and closes on the same colour instead of three
-   different light greens. */
+/* --- LIGHT chrome: masthead + footer ------------------------------------ *
+   Was V3-only; now shared (Ahmed, 2026-08-25: "unify that light mood header
+   and footer in all the variants").
+
+   The footer goes cream in ALL THREE. The nav row goes cream in V2 and V3 —
+   V1 keeps its orange masthead, which was an explicit call, so it is the one
+   variant whose nav opts out.
+
+   Everything below is one implementation reading --chrome-* tokens, rather
+   than the same dozen rules pasted per variant. That duplication is exactly
+   what made the radius scale drift into two design systems before it was
+   un-prefixed, and chrome colour would have gone the same way.
+
+   The lime utility strip KEEPS ITS GREEN in every variant (Ahmed, 2026-08-24).
+   It was briefly turned cream on a misreading of "the bottom part of the
+   navbar" — that meant the nav row, not this band. It is the one green left in
+   the header and it is what stops the cream chrome reading as a blank sheet.
+   V1 is the exception: its bar is cream because its nav is orange.  */
+html[data-btn="v1"] { --chrome-ink: #1F4A24; --chrome-muted: #4B5A4D; --chrome-accent: #29612F;
+                      --chrome-edge: rgba(41,97,47,0.18);  --chrome-fill: rgba(41,97,47,0.08); }
+html[data-btn="v2"] { --chrome-ink: #2A1C0B; --chrome-muted: #5A4426; --chrome-accent: #A65A12;
+                      --chrome-edge: rgba(42,28,11,0.16);  --chrome-fill: rgba(42,28,11,0.07); }
+html[data-btn="v3"] { --stat-pop: #7BB234; --stat-pop-ring: rgba(123,178,52,0.32);
+                      --cat-blob: rgba(123,178,52,0.24); --cat-blob-hover: rgba(123,178,52,0.36);
+                      --badge-ink: #293D0F; }
+html[data-btn="v3"] { --chrome-ink: #293D0F; --chrome-muted: #525F3C; --chrome-accent: #4A790C;
+                      --chrome-edge: rgba(74,121,12,0.20); --chrome-fill: rgba(74,121,12,0.09); }
+
+/* Nav row — V2 and V3 only. */
+html[data-btn="v2"] [data-navbar],
+html[data-btn="v2"] [data-navbar][data-stuck="true"],
 html[data-btn="v3"] [data-navbar],
-html[data-btn="v3"] [data-navbar][data-stuck="true"] { background-color: #FDF8F1 !important; box-shadow: inset 0 -1px 0 var(--moss-tint); }
-/* The lime utility strip ("100% Natural Based Products" + the support links)
-   KEEPS ITS GREEN (Ahmed, 2026-08-24). It was briefly turned cream with the
-   rest of the chrome, on a misreading of "the bottom part of the navbar" — that
-   meant the nav row, not this band. It is the one green left in the header, and
-   it is what keeps the cream chrome from reading as a blank sheet. Deliberately
-   NOT overridden here, so it renders exactly as it does in V1 and V2. */
+html[data-btn="v3"] [data-navbar][data-stuck="true"] { background-color: #FDF8F1 !important; box-shadow: inset 0 -1px 0 var(--chrome-edge); }
+html[data-btn="v2"] [data-navbar] .text-white,
+html[data-btn="v2"] [data-navbar] a,
+html[data-btn="v2"] [data-navbar] button,
 html[data-btn="v3"] [data-navbar] .text-white,
 html[data-btn="v3"] [data-navbar] a,
-html[data-btn="v3"] [data-navbar] button { color: var(--moss-ink) !important; }
-html[data-btn="v3"] [data-navbar] svg { color: var(--moss-ink); }
+html[data-btn="v3"] [data-navbar] button { color: var(--chrome-ink) !important; }
+html[data-btn="v2"] [data-navbar] svg,
+html[data-btn="v3"] [data-navbar] svg { color: var(--chrome-ink); }
+/* The nav tabs hover to #ACD574, a pale lime picked to lift off a deep green
+   slab. On cream it is nearly invisible, so hover moves to the variant accent. */
+html[data-btn="v2"] [data-navbar] a:hover,
+html[data-btn="v3"] [data-navbar] a:hover { color: var(--chrome-accent) !important; }
 
-/* The footer carries .bg-greenDeepest, which the class rule above repaints to
-   moss-ink — a DARK slab. This has to out-specify it, hence the class in the
-   selector rather than the bare element. */
-html[data-btn="v3"] footer,
-html[data-btn="v3"] footer.bg-greenDeepest { background-color: #FDF8F1 !important; }
-/* Scoped away from FILLED controls. The first version darkened every
-   .text-white in the footer, which included the Subscribe button's label —
-   moss-ink type on a moss-deep fill, the worst contrast on the page. Anything
-   sitting on a coloured fill keeps its white. */
-html[data-btn="v3"] footer .text-white:not(.bg-heading):not(.bg-cta):not(.bg-primary),
-html[data-btn="v3"] footer a:not(.bg-heading):not(.bg-cta):not(.bg-primary),
-html[data-btn="v3"] footer h2 { color: var(--moss-ink) !important; }
-html[data-btn="v3"] footer .bg-heading,
-html[data-btn="v3"] footer .bg-cta,
-html[data-btn="v3"] footer button[type="submit"] { color: #FFFFFF !important; }
-html[data-btn="v3"] footer .text-white\/70,
-html[data-btn="v3"] footer .text-white\/60,
-html[data-btn="v3"] footer .text-white\/50 { color: #5f6b52 !important; }
-html[data-btn="v3"] footer .bg-white\/\[0\.06\],
-html[data-btn="v3"] footer .bg-white\/10 { background-color: rgba(90, 110, 58, 0.08) !important; }
-html[data-btn="v3"] footer .border-white\/10 { border-color: rgba(90, 110, 58, 0.18) !important; }
-/* The footer's artwork was drawn for a DARK ground and does not survive the
-   swap to cream, in two different ways.
+/* hdr-user.svg and hdr-search.svg carry a hardcoded stroke="white" and are
+   external <img>, so CSS colour cannot reach inside them. */
+html[data-btn="v2"] [data-navbar] img[src*="hdr-user"],
+html[data-btn="v2"] [data-navbar] img[src*="hdr-search"] { filter: invert(1) brightness(0.18); }
 
-   The social marks are solid `fill="#fff"` SVGs — invisible on cream. invert(1)
-   turns white to black cleanly (they are single-colour, so nothing else moves),
-   and the opacity softens it to match the muted type beside it.
+/* V2's cart control keeps its orange fill — it is the brand accent and the one
+   thing in the header you act on — but white on #EA983E is 2.32:1, under even
+   the 3:1 graphic bar, so the glyph flips dark instead. The count badge was
+   already moved to #7A3E06 (white digits 8.34:1, 3.60:1 against the orange). */
+html[data-btn="v2"] [data-navbar] [data-open="cart"] svg,
+html[data-btn="v2"] [data-navbar] [data-open="cart"] [data-cart-glyph] { color: #2A1C0B !important; }
 
-   The logo is the harder case: it is a FULL-COLOUR mark whose eight cream
-   paths (#FDF8F1) are exactly the footer's new background, so recolouring it
-   with a filter would either destroy the greens or leave the cream invisible.
-   Instead it keeps its own ground — a moss plate behind it, which is what the
-   mark was drawn to sit on. */
-html[data-btn="v3"] footer a[aria-label] img { filter: invert(1); opacity: 0.65; }
+/* Footer — ALL variants. The unprefixed pair carries the pre-JS paint (data-btn
+   is set by initBtnStyleSwitch, so it is absent on the first frame); the
+   html[data-btn] pair out-specifies the .bg-greenDeepest -> moss-ink class rule
+   in the V3 block above, which would otherwise repaint the slab dark. */
+footer, footer.bg-greenDeepest,
+html[data-btn] footer, html[data-btn] footer.bg-greenDeepest { background-color: #FDF8F1 !important; }
+/* Scoped away from FILLED controls. An early version darkened every .text-white
+   in the footer, which included the Subscribe button's label — dark type on a
+   dark fill, the worst contrast on the page. Anything on a coloured fill keeps
+   its white. */
+html[data-btn] footer .text-white:not(.bg-heading):not(.bg-cta):not(.bg-primary),
+html[data-btn] footer a:not(.bg-heading):not(.bg-cta):not(.bg-primary),
+html[data-btn] footer h2 { color: var(--chrome-ink) !important; }
+html[data-btn] footer .bg-heading,
+html[data-btn] footer .bg-cta,
+html[data-btn] footer button[type="submit"] { color: #FFFFFF !important; }
+html[data-btn] footer .text-white\/70,
+html[data-btn] footer .text-white\/60,
+html[data-btn] footer .text-white\/50 { color: var(--chrome-muted) !important; }
+html[data-btn] footer .bg-white\/\[0\.06\],
+html[data-btn] footer .bg-white\/10 { background-color: var(--chrome-fill) !important; }
+html[data-btn] footer .border-white\/10 { border-color: var(--chrome-edge) !important; }
+/* The footer's artwork was drawn for a DARK ground. The social marks are solid
+   fill="#fff" SVGs — invisible on cream. invert(1) turns white to black cleanly
+   (single-colour, so nothing else moves) and the opacity softens it to match
+   the muted type beside it. The logo is left alone: it is a FULL-COLOUR mark
+   whose cream paths are exactly the new background, so a filter would either
+   destroy its greens or erase its cream. It still reads from its greens and
+   the lime, and Ahmed asked for it isolated — no plate behind it. */
+html[data-btn] footer a[aria-label] img { filter: invert(1); opacity: 0.65; }
 /* The logo is ISOLATED — no plate behind it (Ahmed, 2026-08-24). Its cream
    paths do go quiet against the cream ground, but the mark still reads from
    its greens and the lime, and a container around it looked like a button. */
 
-/* The flash strip is the top of the header, so it goes light too — a moss
-   tint band rather than the deep green slab. */
-html[data-btn="v3"] [data-flash-sale] { background-color: #FDF8F1 !important; color: var(--moss-ink) !important; box-shadow: inset 0 -1px 0 var(--moss-tint); }
-html[data-btn="v3"] [data-flash-sale] .text-white { color: var(--moss-ink) !important; }
-html[data-btn="v3"] [data-flash-sale] .text-white\/60 { color: #6b7560 !important; }
-html[data-btn="v3"] [data-flash-sale] .bg-white\/10 { background-color: rgba(90, 110, 58, 0.12) !important; }
-/* The pill carries .text-heading, which the type rule above repaints to
-   moss-dark — dark type on a dark moss fill. The class has to be in the
-   selector to out-specify it. */
-html[data-btn="v3"] [data-flash-sale] .bg-limeFigma,
-html[data-btn="v3"] [data-flash-sale] .bg-limeFigma.text-heading { background-color: var(--moss-deep) !important; color: #FFFFFF !important; }
-html[data-btn="v3"] [data-flash-sale] .text-limeFigma { color: var(--moss-deep) !important; }
-
 /* The lime utility strip stays lime in v3 (Ahmed: "keep this green"), but the
    blanket .text-heading -> --moss-dark above lands on it at 4.15:1. Moss-ink is
-   the same family two steps down and clears at 5.76:1. The flash-strip rule
-   above carries [data-flash-sale] and so still wins inside the strip. */
+   the same family two steps down and clears at 5.76:1. This is also the ink
+   the relocated flash promo inherits, since it sits in this bar now. */
 html[data-btn="v3"] .bg-limeFigma .text-heading,
 html[data-btn="v3"] .bg-limeFigma.text-heading { color: var(--moss-ink) !important; }
 
@@ -4392,12 +4674,10 @@ html[data-btn="v3"] [data-navbar] img[src*="hdr-search"] { filter: invert(1) bri
    not these two, so they stayed white on cream — 1.06:1, the worst failures on
    the page. Found by an automated sweep rather than by eye, which is how they
    survived the first pass. */
-html[data-btn="v3"] [data-flash-sale] .text-white\/55 { color: #5f6b52 !important; }
 /* #68775A, not the #8D977F this first used: that measured 2.89:1 on cream and
    the sweep still flagged it. This is the LIGHTEST moss-grey that clears 4.5:1
    on the cream ground (4.54:1), so the separators stay quieter than the labels
    beside them (5.35:1) without failing. */
-html[data-btn="v3"] [data-flash-sale] .text-white\/30 { color: #68775A !important; }
 
 /* --- the parked mobile actions pill ------------------------------------- *
    On phones the stuck pill is a plate with `background: #006328` — a RAW HEX
@@ -4424,51 +4704,36 @@ html[data-btn="v3"] .radio-dot { border-color: var(--moss-deep); }
 
 
 /* ==========================================================================
-   V1 — orange header (Ahmed, 2026-08-24)
+   V1 — orange header (Ahmed, 2026-08-24, revised 2026-08-25)
 
-   Only the GREEN toggle. Its three header bands were deep green, lime, deep
-   green; the ask was to make the header something other than green and to
-   follow the rule Moss uses — three parts, TWO colours, with the middle band
-   left as the accent.
+   Only the GREEN toggle. Its header bands were deep green, lime, deep green;
+   the ask was to make the header something other than green.
 
-   So the flash strip and the nav row take the brand orange and the lime
-   utility strip between them is untouched, exactly mirroring Moss (cream,
-   lime, cream).
+   It was three bands when this was written — orange, cream, orange — but the
+   promo band has since moved into the utility bar, so the masthead is two:
+   a cream utility bar over an orange nav row. The two-colour rule it was
+   reaching for now falls out of the structure rather than being imposed on it.
 
    INK IS DARK, and that is not a style choice. White on #EA983E measures
    2.32:1, which fails AA for body text and fails the 3:1 large-text bar too;
    the same orange with #2A1C0B ink is 7.14:1. Every white-on-green label in
-   these two bands therefore has to flip, not just the background.
+   the nav row therefore has to flip, not just the background.
    ========================================================================== */
 html[data-btn="v1"] [data-navbar],
 html[data-btn="v1"] [data-navbar][data-stuck="true"] { background-color: #EA983E !important; }
-html[data-btn="v1"] [data-flash-sale] { background-color: #EA983E !important; }
 
-/* Type and glyphs in both orange bands. */
+/* Type and glyphs in the orange nav row. The countdown's own three-tier ramp
+   used to be tuned here against orange; it moved to the cream utility bar with
+   the promo, where .text-heading already resolves an AA ink, so those rules
+   are gone rather than retargeted. */
 html[data-btn="v1"] [data-navbar] .text-white,
 html[data-btn="v1"] [data-navbar] a,
-html[data-btn="v1"] [data-navbar] button,
-html[data-btn="v1"] [data-flash-sale],
-html[data-btn="v1"] [data-flash-sale] .text-white { color: #2A1C0B !important; }
-/* The countdown's three tiers, re-darkened (Ahmed, 2026-08-24). These were
-   read as passing on the first sweep only because the timer had not populated
-   yet — the labels are written by the interval, so they measured as invisible
-   nodes. Once running they were 3.96:1 and 2.95:1.
-   Brand orange leaves almost no room: 4.5:1 arrives at roughly #4C3922, so the
-   old three-step ramp cannot survive as-is. It is compressed instead of
-   flattened — the digits keep #2A1C0B (7.14:1), the labels take #3B2C19
-   (5.81:1) and the separators #4A3720 (4.87:1) — so the hierarchy still reads
-   and every step clears AA. */
-html[data-btn="v1"] [data-flash-sale] .text-white\/60,
-html[data-btn="v1"] [data-flash-sale] .text-white\/55 { color: #3B2C19 !important; }
-html[data-btn="v1"] [data-flash-sale] .text-white\/30 { color: #4A3720 !important; }
-html[data-btn="v1"] [data-flash-sale] .bg-white\/10 { background-color: rgba(42, 28, 11, 0.10) !important; }
-
-/* The timer pill and the "Shop now" link were lime on green; on orange the
-   lime disappears, so the pill inverts to the dark ink with orange type. */
-html[data-btn="v1"] [data-flash-sale] .bg-limeFigma,
-html[data-btn="v1"] [data-flash-sale] .bg-limeFigma.text-heading { background-color: #2A1C0B !important; color: #EA983E !important; }
-html[data-btn="v1"] [data-flash-sale] .text-limeFigma { color: #2A1C0B !important; }
+html[data-btn="v1"] [data-navbar] button { color: #2A1C0B !important; }
+html[data-btn="v1"] [data-navbar] svg { color: #2A1C0B; }
+/* COFFEE / SPICES / NUTS hover to #ACD574, drawn to lift off a deep green
+   slab; on orange it vanishes. The nav tabs are also hidden below lg, which is
+   why this only shows up on a wide sweep. */
+html[data-btn="v1"] [data-navbar] a:hover { color: #5A3708 !important; }
 
 /* hdr-user.svg and hdr-search.svg carry a hardcoded stroke="white" and are
    external <img>, so CSS colour cannot reach inside them — the same problem
@@ -4484,10 +4749,10 @@ html[data-btn="v1"] [data-navbar] [data-open="cart"] svg,
 html[data-btn="v1"] [data-navbar] [data-open="cart"] [data-cart-glyph] { color: #FFFFFF !important; }
 html[data-btn="v1"] [data-navbar] [data-cart-count] { background-color: #FDF8F1 !important; color: #2A1C0B !important; }
 
-/* The middle band goes cream (Ahmed, 2026-08-24). With orange above and below
-   it, lime was a third hue competing with both — cream is the site's own
-   ground, so the strip reads as a gap between the two orange bands rather than
-   a band of its own, and the masthead settles into orange / cream / orange.
-   The type on it is already near-black (.text-black) or the darkened heading
-   green, both far past AA on cream, so nothing else has to move. */
+/* The utility bar is cream (Ahmed, 2026-08-24). It was the MIDDLE band then,
+   and cream stopped the lime being a third hue between two oranges; now that
+   the promo has moved into it and the band above is gone, it is the top of the
+   masthead and cream still reads as the lighter shelf above the orange nav.
+   Its type is near-black or the darkened heading green, both far past AA on
+   cream, so nothing else has to move. */
 html[data-btn="v1"] [data-utility-bar] { background-color: #FDF8F1 !important; }
