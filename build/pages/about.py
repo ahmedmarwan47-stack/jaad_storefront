@@ -320,9 +320,13 @@ def build():
            hands over a fully drawn line and all rows visible. -->
       <section class="about-time" data-about-timeline aria-label="مسيرة جاد">
         <div class="flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
-          <div class="flex flex-col gap-3">
-            <span class="self-start bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-greenDeep text-[13px] uppercase tracking-[1px]">مسيرتنا</span>
-            <h2 class="font-medium text-heading text-[28px] md:text-[40px] leading-[1.15] tracking-[-0.5px]">الطريق إلى جاد</h2>
+          <!-- CENTRED, and no longer "The Road To JAAD" (Ahmed, 2026-08-25).
+               The timeline is the PARENT company's history — the years that run
+               up to Jaad rather than Jaad's own — so naming it after Jaad
+               described the wrong subject. -->
+          <div class="flex flex-col items-center gap-3 text-center">
+            <span class="bg-[rgba(138,204,62,0.13)] px-3 py-1 rounded-md font-bold text-greenDeep text-[13px] uppercase tracking-[1px]">مسيرتنا</span>
+            <h2 class="font-medium text-heading text-[28px] md:text-[40px] leading-[1.15] tracking-[-0.5px]">إرث الشركة الأم</h2>
           </div>
 
           <div class="about-time__body">
@@ -341,6 +345,12 @@ def build():
 
             <ol class="about-time__rows">{milestones}
             </ol>
+            <!-- The run-out. Empty on purpose: it exists to give the body extra
+                 height below the last milestone, which the vector's viewBox
+                 picks up automatically, so the line has somewhere to travel
+                 after the last node instead of stopping dead at it. The head
+                 rides it down to the stats (Ahmed, 2026-08-25). -->
+            <div class="about-time__tail" aria-hidden="true"></div>
           </div>
         </div>
       </section>
@@ -348,7 +358,7 @@ def build():
       <!-- ============================== STATS ============================== -->
       <section class="about-stats">
         <div class="flex flex-col gap-8 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
-          <div class="gap-6 grid grid-cols-1 sm:grid-cols-3">{stats}
+          <div data-about-stats class="gap-6 grid grid-cols-1 sm:grid-cols-3">{stats}
           </div>
         </div>
       </section>

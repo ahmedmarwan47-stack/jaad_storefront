@@ -8146,7 +8146,15 @@
           pts.push({ x: clampX((nodes[i].x + b.x) / 2 + lobe), y: (nodes[i].y + b.y) / 2 });
         }
       }
-      pts.push({ x: clampX(last.x - w * SWING * 0.5), y: h + h * 0.04 });
+      /* The run-out used to leave sideways and finish BELOW the box, where it
+         was clipped away — the line simply stopped at the last milestone and
+         the head blinked out (Ahmed, 2026-08-25: "I want that circle to not
+         fade out at the end"). It now swings once more and lands centred on
+         the bottom edge, inside the tail spacer, which puts the head directly
+         over the middle stat card. Two points rather than one so the spline
+         still has a wander to flow through instead of straightening early. */
+      pts.push({ x: clampX((last.x + w / 2) / 2 - w * SWING * 0.28), y: last.y + (h - last.y) * 0.45 });
+      pts.push({ x: w / 2, y: h - 4 });
       return pts;
     }
 
@@ -8190,6 +8198,20 @@
 
     const nodeFrac = (i) =>
       (nodeAt[i] === undefined ? (i + 0.5) / rows.length : nodeAt[i]);
+
+    /* The stats row is the line's destination. It fires ONCE, from the drawing
+       progress rather than from an IntersectionObserver, so the cards answer
+       when the head actually arrives rather than when they happen to be 40% on
+       screen — which, scrolling quickly, was usually well before the line got
+       anywhere near them. */
+    const statsRow = document.querySelector("[data-about-stats]");
+    let statsHit = false;
+    function hitStats() {
+      if (statsHit || !statsRow) return;
+      statsHit = true;
+      statsRow.classList.add("is-hit");
+      runStatCountUp(statsRow);
+    }
 
     /* MOBILE progress, derived from where the ROWS are rather than from the
        section's box.
@@ -8298,11 +8320,17 @@
         row.classList.toggle("is-reached", d >= nodeFrac(i));
       });
 
+      if (d >= 0.995) hitStats();
+
       if (head) {
-        if (d <= 0 || d >= 1) {
+        /* Only d <= 0 hides it now. It used to hide at d >= 1 as well, which
+           is what made the head vanish exactly when it reached the end of its
+           travel; the point is clamped to the path's length instead, so it
+           parks on the final point and stays there. */
+        if (d <= 0) {
           head.classList.remove("is-on");
         } else {
-          const pt = path.getPointAtLength(len * d);
+          const pt = path.getPointAtLength(len * Math.min(d, 1));
           const m = path.getScreenCTM();
           if (m) {
             const sp = new DOMPoint(pt.x, pt.y).matrixTransform(m);
@@ -8349,29 +8377,44 @@
   /* Count-up for the About stats: runs once when each tile scrolls into view.
      Preserves whatever suffix/format the built value carries ("26", "100%"),
      so the markup stays the source of truth for what the number says. */
+  /* The count itself, callable. Guarded by a flag per tile so the timeline can
+     fire it without having to know whether it already ran. */
+  function runStatCountUp(scope) {
+    const tiles = [...(scope || document).querySelectorAll("[data-stat] [data-stat-value]")];
+    tiles.forEach((el) => {
+      if (el._counted) return;
+      el._counted = true;
+      const raw = el.getAttribute("data-stat-value") || el.textContent;
+      const target = parseFloat(raw);
+      if (!isFinite(target)) { el.textContent = raw; return; }
+      const suffix = String(raw).replace(/^[\d.,]+/, "");
+      const start = performance.now();
+      const DUR = 900;
+      (function step(now) {
+        const t = Math.min(1, (now - start) / DUR);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = Math.round(target * eased) + suffix;
+        if (t < 1) requestAnimationFrame(step);
+        else el.textContent = raw;
+      })(start);
+    });
+  }
+
   function initStatCountUp() {
     const tiles = [...document.querySelectorAll("[data-stat] [data-stat-value]")];
     if (!tiles.length) return;
     if (reduceMotion() || !("IntersectionObserver" in window)) return;  // built values stand
+    /* When the timeline is on the page it OWNS the trigger — the numbers run
+       as the line's head reaches the cards. Leaving this observer attached as
+       well would race it and usually win, which is the behaviour being
+       replaced. */
+    if (document.querySelector("[data-about-timeline]")) return;
 
     const io = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        const el = entry.target;
-        io.unobserve(el);
-        const raw = el.getAttribute("data-stat-value") || el.textContent;
-        const target = parseFloat(raw);
-        if (!isFinite(target)) return;
-        const suffix = String(raw).replace(/^[\d.,]+/, "");
-        const start = performance.now();
-        const DUR = 900;
-        (function step(now) {
-          const t = Math.min(1, (now - start) / DUR);
-          const eased = 1 - Math.pow(1 - t, 3);
-          el.textContent = Math.round(target * eased) + suffix;
-          if (t < 1) requestAnimationFrame(step);
-          else el.textContent = raw;
-        })(start);
+        io.unobserve(entry.target);
+        runStatCountUp(entry.target.closest("[data-stat]") || entry.target);
       });
     }, { threshold: 0.4 });
     tiles.forEach((el) => io.observe(el));
@@ -8509,7 +8552,7 @@
           '<div class="btnswitch__seg">' +
             '<button type="button" data-btn-v="v1"><span class="btnswitch__dot" style="background:#00451C"></span>Green</button>' +
             '<button type="button" data-btn-v="v2"><span class="btnswitch__dot" style="background:#EA983E"></span>Orange</button>' +
-            '<button type="button" data-btn-v="v3"><span class="btnswitch__dot" style="background:#5A6E3A"></span>Moss</button>' +
+            '<button type="button" data-btn-v="v3"><span class="btnswitch__dot" style="background:#4A790C"></span>Moss</button>' +
           '</div>' +
         '</div>' +
         '<div class="btnswitch__row">' +

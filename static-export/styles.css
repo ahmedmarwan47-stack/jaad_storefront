@@ -4052,12 +4052,43 @@ html[dir="rtl"] .about-time__row.is-reached .about-time__dot { transform: transl
 
 
 /* ---- stats + CTA ---- */
+/* The run-out below the last milestone. Height is the whole point: it grows
+   .about-time__body, the vector's viewBox is measured from that box, so the
+   path gains a stretch below the final node with nothing needed in the SVG. */
+.about-time__tail { height: 120px; }
+@media (min-width: 768px) { .about-time__tail { height: 168px; } }
+
 .about-stats { padding: 3.5rem 0; background: #fff; }
+
+/* The line does not stop at the last milestone any more — it runs down into
+   these cards and they answer (Ahmed, 2026-08-25). Fired by the timeline's own
+   progress rather than by an IntersectionObserver, so the pop lands when the
+   head actually arrives instead of when the row happens to be 40% on screen.
+   Staggered left-to-right so it reads as the line arriving, not three cards
+   blinking at once. */
+[data-about-stats].is-hit .about-stat {
+  border-color: var(--stat-pop, #98CA55);
+  box-shadow: 0 0 0 3px var(--stat-pop-ring, rgba(152, 202, 85, 0.30)), 0 8px 8px rgba(0, 0, 0, 0.03);
+  animation: about-stat-pop 0.62s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+[data-about-stats].is-hit .about-stat:nth-child(2) { animation-delay: 0.10s; transition-delay: 0.10s; }
+[data-about-stats].is-hit .about-stat:nth-child(3) { animation-delay: 0.20s; transition-delay: 0.20s; }
+@keyframes about-stat-pop {
+  0%   { transform: translateY(10px) scale(0.97); }
+  55%  { transform: translateY(0)    scale(1.035); }
+  100% { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-about-stats].is-hit .about-stat { animation: none; }
+}
 .about-stat {
   display: flex; flex-direction: column; align-items: center; gap: .25rem;
-  background: #fff; border-radius: 24px; padding: 2rem 1rem; text-align: center;
+  /* 12px, matching .rounded-3xl in the unified scale — this was a raw 24px,
+     one of the hand-written radii the utility overrides never reached. */
+  background: #fff; border-radius: 12px; padding: 2rem 1rem; text-align: center;
   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.03);
   border: 1px solid rgba(41, 97, 47, 0.08);
+  transition: border-color 0.5s ease-out, box-shadow 0.5s ease-out;
 }
 .about-stat__value { font-weight: 500; color: #29612F; font-size: 40px; line-height: 1; }
 .about-stat__label { color: #636959; font-size: 14px; }
@@ -4120,6 +4151,7 @@ html[dir="rtl"] .about-time__row.is-reached .about-time__dot { transform: transl
 .btnswitch__seg button[aria-pressed="true"] { background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.12); }
 .btnswitch__seg button[data-btn-v="v1"][aria-pressed="true"] { color: #00451C; }
 .btnswitch__seg button[data-btn-v="v2"][aria-pressed="true"] { color: #C4741F; }
+.btnswitch__seg button[data-btn-v="v3"][aria-pressed="true"] { color: #3C6309; }
 .btnswitch__dot { width: 9px; height: 9px; border-radius: 3px; }
 @media (max-width: 480px) { .btnswitch__lbl { display: none; } }
 
@@ -4227,13 +4259,24 @@ html[data-btn="v2"] [data-card-stepper] button { border-radius: 12px !important;
    actually found, plus the raw hexes the component CSS hardcodes.
    ========================================================================== */
 html[data-btn="v3"] {
-  --moss-deep: #5A6E3A;     /* CTA, price badge, primary fills */
-  --moss-dark: #46562C;     /* hover, headings, strong type */
-  --moss-ink:  #33401F;     /* deepest — body ink on light chrome */
-  --moss-mid:  #8AA55C;     /* secondary fills, tracker rail */
-  --moss-tint: #C6D9A6;     /* soft fills, borders */
-  --moss-soft: #DEE9CC;     /* softest fill */
-  --moss-mint: #EAF0E0;     /* "good news" tint */
+  /* LIME, not olive (Ahmed, 2026-08-25: "replace that muted green with the
+     lime green"). The ramp keeps its structure and its hue discipline — every
+     step is hue 86, the same yellow-green family as the brand lime — but the
+     saturation roughly doubles, so the variant reads as a deep lime rather
+     than a muted olive.
+
+     It cannot BE the brand lime. #98CA55 carries white text at 1.92:1, and
+     --moss-deep is a fill with white type on it (CTAs, price badges, the
+     cart). The brightest lime that still clears 4.5:1 with white sits around
+     26% lightness, which is what --moss-deep is; going lighter would mean
+     giving up white type on every primary control in the variant. */
+  --moss-deep: #4A790C;     /* CTA, price badge, primary fills — white 5.21:1 */
+  --moss-dark: #3C6309;     /* hover, headings, strong type — white 7.05:1 */
+  --moss-ink:  #293D0F;     /* deepest — body ink on light chrome, 11.24:1 on cream */
+  --moss-mid:  #7BB234;     /* secondary fills, tracker rail — NO white type on it */
+  --moss-tint: #BCDA95;     /* soft fills, borders */
+  --moss-soft: #D9E9C4;     /* softest fill */
+  --moss-mint: #E9F2DE;     /* "good news" tint */
   --moss-orange: #F0A860;   /* the lighter orange, dark labels on it */
 }
 
@@ -4296,8 +4339,9 @@ html[data-btn="v1"] { --chrome-ink: #1F4A24; --chrome-muted: #4B5A4D; --chrome-a
                       --chrome-edge: rgba(41,97,47,0.18);  --chrome-fill: rgba(41,97,47,0.08); }
 html[data-btn="v2"] { --chrome-ink: #2A1C0B; --chrome-muted: #5A4426; --chrome-accent: #A65A12;
                       --chrome-edge: rgba(42,28,11,0.16);  --chrome-fill: rgba(42,28,11,0.07); }
-html[data-btn="v3"] { --chrome-ink: #33401F; --chrome-muted: #5F6B52; --chrome-accent: #5A6E3A;
-                      --chrome-edge: rgba(90,110,58,0.18); --chrome-fill: rgba(90,110,58,0.08); }
+html[data-btn="v3"] { --stat-pop: #7BB234; --stat-pop-ring: rgba(123,178,52,0.32); }
+html[data-btn="v3"] { --chrome-ink: #293D0F; --chrome-muted: #525F3C; --chrome-accent: #4A790C;
+                      --chrome-edge: rgba(74,121,12,0.20); --chrome-fill: rgba(74,121,12,0.09); }
 
 /* Nav row — V2 and V3 only. */
 html[data-btn="v2"] [data-navbar],
