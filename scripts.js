@@ -1175,8 +1175,17 @@
              min-w-0 because a flex-1 child otherwise cannot shrink below its
              content (the most common bug class in this codebase).
              Live packs these at 36x36; ours stay 44x44 for WCAG 2.5.5, which
-             is the project's standing accessibility deviation. -->
-        <div class="relative flex items-center ${checkout ? "justify-center" : "justify-between"} gap-2 bg-primary px-4 py-2 text-white">
+             is the project's standing accessibility deviation.
+
+             data-navbar-mobile is the palette hook, and it is a SECOND
+             attribute rather than the desktop's data-navbar on purpose: the
+             sticky-masthead handler does querySelector("[data-navbar]") and
+             would start measuring whichever bar it found first, so sharing the
+             name would hand it an element that is display:none at that width.
+             The variant sheet targets the two together where the treatment is
+             the same, and only there. (No backticks in this comment — they
+             would close the template literal it sits inside; build.py checks.) -->
+        <div data-navbar-mobile class="relative flex items-center ${checkout ? "justify-center" : "justify-between"} gap-2 bg-primary px-4 py-2 text-white">
           ${
             checkout
               ? ""
@@ -3153,9 +3162,20 @@
      chips deliberately have none: the catalogue has no sub-category field, so
      filtering by them would empty the grid (see DESIGN-NOTES).
      --------------------------------------------------------------- */
-  const CHIP_ON = ["bg-cta", "text-white", "border-cta"];
-  const CHIP_OFF = ["chip-filter", "bg-white", "text-ink",
-                    "border-divider", "hover:border-cta"];
+  /* THESE MUST MATCH chip() IN build/components.py, CLASS FOR CLASS.
+
+     setActiveChip() below swaps one list for the other on every filter click,
+     and it runs on init too — so whatever is here overwrites what the build
+     rendered, on the first frame, before anyone sees the page. That makes this
+     the second source of truth for chip styling and the one that actually
+     wins; changing the component alone changes nothing on screen.
+
+     Borders dropped from both lists (Ahmed, 2026-08-25: "the filter chips ...
+     needs no borders around them in any version"), and the inactive fill is
+     cream rather than white for the reason given in components.py: with the
+     outline gone, a white chip on the white listing page is invisible. */
+  const CHIP_ON = ["bg-cta", "text-white"];
+  const CHIP_OFF = ["chip-filter", "bg-cream", "text-ink"];
 
   /* ---------------------------------------------------------------
      Cart store

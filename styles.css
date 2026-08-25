@@ -667,18 +667,24 @@ select {
 }
 
 /* Filter chips, inactive state.
-   The mobile Collection frame (350:17805) fills these with interaction-base
-   and drops the outline; desktop keeps white-on-outline. Expressed here rather
-   than as `bg-cream xl:bg-white` because the Play CDN did not apply
-   the xl: variant to these anchors at all — verified against computed styles,
-   where an identical probe element resolved to white at 1440 while the chips
-   stayed filled. `a.chip-filter` (0,1,1) outranks Tailwind's `.bg-white`
-   (0,1,0), so this wins regardless of the CDN's emit order. */
-@media (max-width: 1279.98px) {
-  a.chip-filter {
-    background-color: #FDF8F1;
-    border-color: transparent;
-  }
+
+   The width-split is gone (Ahmed, 2026-08-25). This used to force cream below
+   1280 while the markup asked for white above it, carrying the mobile and
+   desktop Figma frames at once; with the outline removed from chip() the white
+   half stopped being a treatment and became an invisible chip on a white page,
+   so the fill is cream everywhere and the component says so itself.
+
+   What is left is the hover. It was `hover:border-cta` — feedback expressed
+   entirely through the border that is now gone, so it moves to the fill. One
+   step deeper than the chip's own cream, which is enough to read as "this
+   responds" without competing with the active chip's solid fill beside it.
+   #F3EDE4 is the value the contact hero already uses for warm-cream-one-step-
+   down, not a new one.
+
+   `a.chip-filter` (0,1,1) outranks Tailwind's own utilities (0,1,0), which is
+   why this can win without !important. */
+a.chip-filter:hover {
+  background-color: #F3EDE4;
 }
 
 /* Bottom sheet (mobile location) */
@@ -4309,6 +4315,30 @@ body[data-page="contact-us"] {
   --hero-h: clamp(360px, 64vh, 560px);
   /* How far below the hero's TOP the body starts. See .contact-body. */
   --hero-lift: 220px;
+  /* THE GROUND IS CREAM (Ahmed, 2026-08-25: "there is a weird jump in the
+     contact us page mobile version").
+
+     .contact-hero__veil fades the photograph out to #FDF8F1 and its comment
+     says it does so to reach "the page's own cream ... so the overlapping body
+     has no seam to cross". The page was never cream: <body> carries Tailwind's
+     `bg-white`, so the gradient ran a soft 45%-tall fade down to cream and then
+     stepped to #FFFFFF in one pixel. A hard edge at the end of a fade is the
+     one place the eye cannot miss it — and on a phone it lands in open
+     background, straight across the second channel card, where the desktop
+     hides most of it behind the form panel and the wide grid.
+
+     Fixed by making the assumption true rather than by re-tinting the veil to
+     white: cream is the site's section ground (--jaad cream, the same #FDF8F1
+     as the footer and the masthead in V2/V3), and fading a photograph into
+     white on a page whose every other surface is cream just moves the seam to
+     the footer instead.
+
+     This is the BODY, not .contact-body. Painting the section would have put an
+     opaque ground over the hero's lower 108px — exactly the strip the glass
+     cards are lifted onto — and the backdrop-filter would then be refracting
+     flat cream instead of the photograph, which is the whole reason for the
+     overlap. (0,1,1) against `.bg-white`'s (0,1,0), so no !important. */
+  background-color: #FDF8F1;
 }
 .contact-hero {
   position: relative; overflow: hidden;
@@ -4323,6 +4353,34 @@ body[data-page="contact-us"] {
   width: 100%; height: 140%; object-fit: cover;
   will-change: transform;
 }
+/* THE PHOTOGRAPH MIRRORS IN RTL (Ahmed, 2026-08-25, found while fixing the
+   phone crop).
+
+   Both crops of this scene put the cup, the beans and the almonds on the RIGHT
+   and the soft curtain on the left, and the veil below is built on that: it
+   reads from the start edge "where the photograph is softest". In LTR that
+   lines up — heavy cream on the left under the type, clear on the right over
+   the subject.
+
+   In Arabic both halves swap and the veil does not follow the picture, it
+   follows the text. --veil-dir flips to `left`, so the 0.92-alpha end of the
+   gradient lands on the right — directly on the cup. The coffee washed out to
+   near-white on both breakpoints, which is the same complaint as the phone
+   crop arriving by a different route: the subject was there and unreadable
+   rather than cropped away.
+
+   Mirroring the image puts the subject back on the veil's clear side and the
+   empty linen back under the type, restoring the LTR relationship exactly
+   rather than tuning a second set of gradient stops for RTL. Safe on this
+   frame: a still life with no text, faces or handedness in it — only the cup's
+   handle changes side.
+
+   `scale`, not a transform: initContactParallax writes `transform` on this
+   element every frame and would overwrite a scaleX() the moment you scrolled.
+   The individual `scale` property composes with `transform` instead of
+   competing for it. It also survives the reduced-motion rule below, which
+   clears `transform` and leaves this alone. */
+html[dir="rtl"] .contact-hero__img { scale: -1 1; }
 /* Reads from the START edge, where the photograph is softest, and fades to the
    page's own cream at the bottom so the overlapping body has no seam to cross. */
 .contact-hero__veil {
@@ -4381,6 +4439,28 @@ html[dir="rtl"] .contact-hero__veil { --veil-dir: left; }
 .contact-body__grid {
   display: grid; gap: 1.25rem;
   max-width: 1100px; margin-inline: auto; padding-inline: 1rem;
+}
+/* FORM FIRST ON ONE COLUMN (Ahmed, 2026-08-25: "the form in the mobile
+   version should be before the contact information cards").
+
+   Below 900px the grid is a single column and the source order put three
+   channel cards between the hero and the form — so the thing the page exists
+   for started a full screen down, behind a hotline and an email that are also
+   both in the footer of every page.
+
+   `order` rather than a reordered DOM, because the source order is load-
+   bearing at 900px and up: the comment below is right that cards-then-form is
+   what puts the form on the END side in LTR and mirrors itself in RTL. Moving
+   the <form> up in the markup would have meant a second rule to put it back,
+   and RTL would then need a third.
+
+   The cost is that DOM order and visual order disagree on phones, so tab and
+   screen-reader order still reach the two card links before the form. That is
+   the smaller harm — they are two links, they are announced by their own
+   labels, and they repeat what the footer already carries. */
+@media (max-width: 899px) {
+  .contact-form  { order: 1; }
+  .contact-cards { order: 2; }
 }
 @media (min-width: 900px) {
   /* Cards first, form second — in LTR that puts the form on the right, and in
@@ -5300,6 +5380,53 @@ html[data-btn="v3"] [data-navbar] a:hover { color: var(--chrome-accent) !importa
    0.62 — 7.6:1 against the cream bar. */
 html[data-btn="v3"] [data-navbar] a:not(.masthead-logo):hover { opacity: 0.62; }
 
+/* --- the PHONE masthead ------------------------------------------------- *
+   Same treatment, V3 only (Ahmed, 2026-08-25: "the moss navigation bar is dark
+   in the mobile").
+
+   The desktop bar is `[data-navbar]` and every rule above hangs off it. The
+   phone bar is a different element in a `md:hidden` block carrying `bg-primary`
+   and `text-white`, so none of them reached it — and `.bg-primary` maps to
+   --moss-ink in the fills block, which is the ONE dark in this palette. The
+   result was the variant's darkest slab sitting where the desktop shows its
+   lightest: one palette, two mastheads, opposite grounds.
+
+   Repainting it cream is the whole fix; the ink, the glyph inversion and the
+   cart button then follow the rules that were already written for the desktop
+   bar, listed below in the order a reader will look for them.
+
+   The hairline is not decoration here. The delivery row directly beneath is
+   `bg-cream`, i.e. the SAME #FDF8F1 — without the inset edge the masthead and
+   that row become one 100px cream block with no seam.
+
+   V2 is deliberately left out. Its phone bar is the deep green its `bg-primary`
+   has always been, and the question of whether that variant wants the same
+   alignment has not been asked. */
+html[data-btn="v3"] [data-navbar-mobile] {
+  background-color: #FDF8F1 !important;
+  box-shadow: inset 0 -1px 0 var(--chrome-edge);
+}
+/* Type and glyphs. `.text-white` sits on the bar itself, so the container is in
+   the list and not only its children — the hamburger is an inline SVG painting
+   from `currentColor`, which it inherits from exactly there. */
+html[data-btn="v3"] [data-navbar-mobile],
+html[data-btn="v3"] [data-navbar-mobile] .text-white,
+html[data-btn="v3"] [data-navbar-mobile] a,
+html[data-btn="v3"] [data-navbar-mobile] button { color: var(--chrome-ink) !important; }
+html[data-btn="v3"] [data-navbar-mobile] svg { color: var(--chrome-ink); }
+/* ...except inside the cart button, whose fill is the lime. The generic
+   `[data-open="cart"]` pair further down already sets moss-ink on it, but the
+   button rule above is (0,3,1) and out-specified it, which put the glyph at the
+   ink's own colour on a lime chip — legible by luck, not by rule. Pinned here
+   at matching specificity so the two agree. */
+html[data-btn="v3"] [data-navbar-mobile] [data-open="cart"],
+html[data-btn="v3"] [data-navbar-mobile] [data-open="cart"] svg,
+html[data-btn="v3"] [data-navbar-mobile] [data-open="cart"] [data-cart-glyph] { color: var(--moss-ink) !important; }
+/* The logo is an <a> and was collected by the type rule above; its colour lives
+   inside the SVG, so it has no use for one. Same carve-out the desktop mark
+   gets, for the same reason. */
+html[data-btn="v3"] [data-navbar-mobile] a:has(img[src*="logo-jaad"]) { color: inherit !important; }
+
 /* THE LOGO DOES NOT RESPOND TO HOVER (Ahmed, 2026-08-25: "the logo should not
    have hover effect"). It is an <a> sitting inside [data-navbar], so it was
    collected by the nav-link rules above — the opacity one dimmed the whole mark
@@ -5433,8 +5560,12 @@ html[data-btn="v3"] [data-sticky-actions][data-stuck="true"] [data-cart-count] {
    single-stroke marks, so nothing else in them moves. (hdr-cart.svg is already
    stroke="#29612F" and is left alone; the cart button keeps its green fill and
    uses the inline SVG, not this file.) */
+/* The phone masthead carries the same hdr-search.svg and is cream now too, so
+   it joins the list rather than growing a second copy of this rule. */
 html[data-btn="v3"] [data-navbar] img[src*="hdr-user"],
-html[data-btn="v3"] [data-navbar] img[src*="hdr-search"] { filter: invert(1) brightness(0.28); }
+html[data-btn="v3"] [data-navbar] img[src*="hdr-search"],
+html[data-btn="v3"] [data-navbar-mobile] img[src*="hdr-user"],
+html[data-btn="v3"] [data-navbar-mobile] img[src*="hdr-search"] { filter: invert(1) brightness(0.28); }
 
 /* --- flash strip: the faded white type ---------------------------------- *
    The timer's unit labels and its ":" separators are text-white/55 and
