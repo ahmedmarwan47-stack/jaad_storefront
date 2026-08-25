@@ -4062,6 +4062,85 @@ html[dir="rtl"] .about-time__row.is-reached .about-time__dot { transform: transl
 
 
 /* ---- stats + CTA ---- */
+/* ---- hero trust badge ---------------------------------------------------
+   A ring of type around a clay mark, turning as the page scrolls.
+
+   Sized in vw between two clamps so it stays proportionate to a hero that is
+   itself a percentage of the viewport, and never shrinks past the point where
+   the ring type stops being legible.
+
+   Only the RING turns. The mark in the middle is deliberately left upright —
+   turning the shield with it made the whole thing read as a spinning sticker
+   rather than a seal with a rotating legend. */
+.hero-badge {
+  position: absolute; z-index: 3;
+  inset-inline-end: 6%; bottom: 11%;
+  width: clamp(94px, 10.5vw, 150px); aspect-ratio: 1 / 1;
+  display: grid; place-items: center;
+  pointer-events: none;
+}
+.hero-badge__disc {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: rgba(253, 248, 241, 0.86);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+.hero-badge__ring {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  transform: rotate(var(--badge-spin, 0deg));
+  will-change: transform;
+}
+.hero-badge__ring text {
+  font-size: 15px; font-weight: 700; letter-spacing: 0.8px;
+  fill: var(--badge-ink, #1F4A24);
+}
+.hero-badge__icon {
+  position: relative; width: 46%; height: 46%; object-fit: contain;
+}
+@media (max-width: 639px) {
+  /* The phone hero is a tall portrait and the badge would sit on top of the
+     product cluster; it moves up out of the way and shrinks. */
+  .hero-badge { bottom: auto; top: 46%; inset-inline-end: 4%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-badge__ring { transform: none; }
+}
+
+/* ---- category blobs -----------------------------------------------------
+   An organic shape behind each category's pair of bags. Built from a lopsided
+   border-radius rather than an SVG so the shape itself can be animated — the
+   hover state morphs the radii as well as turning the blob, which is what
+   stops it reading as a circle being scaled.
+
+   Motion is slower (0.7s vs the bags' 0.5s) and much smaller, so the blob
+   trails the bags rather than competing with them. .in-view mirrors hover for
+   touch, exactly as the bags already do. */
+.cat-blob {
+  position: absolute; left: 50%; top: 54%;
+  /* Sized off HEIGHT, not width. The tile is 356x260, so a square at 76% of
+     the width came out 270px tall in a 260px box — and once rotated 8deg its
+     bounding box grew another 13%, pushing the blob out under the heading.
+     88% of the height leaves room for the rotation and the hover scale. */
+  height: 80%; aspect-ratio: 1 / 1;
+  background: var(--cat-blob, rgba(152, 202, 85, 0.24));
+  border-radius: 58% 42% 47% 53% / 47% 53% 47% 53%;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  transition: transform 0.7s cubic-bezier(0.22, 0.68, 0.32, 1),
+              border-radius 0.7s cubic-bezier(0.22, 0.68, 0.32, 1),
+              background-color 0.45s ease-out;
+  will-change: transform, border-radius;
+  pointer-events: none;
+}
+.group:hover .cat-blob,
+.group.in-view .cat-blob {
+  background: var(--cat-blob-hover, rgba(152, 202, 85, 0.34));
+  border-radius: 44% 56% 62% 38% / 56% 41% 59% 44%;
+  transform: translate(-50%, -50%) rotate(7deg) scale(1.075);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cat-blob, .group:hover .cat-blob, .group.in-view .cat-blob { transition: none; transform: translate(-50%, -50%); }
+}
+
 /* The run-out below the last milestone. Height is the whole point: it grows
    .about-time__body, the vector's viewBox is measured from that box, so the
    path gains a stretch below the final node with nothing needed in the SVG. */
@@ -4353,7 +4432,9 @@ html[data-btn="v1"] { --chrome-ink: #1F4A24; --chrome-muted: #4B5A4D; --chrome-a
                       --chrome-edge: rgba(41,97,47,0.18);  --chrome-fill: rgba(41,97,47,0.08); }
 html[data-btn="v2"] { --chrome-ink: #2A1C0B; --chrome-muted: #5A4426; --chrome-accent: #A65A12;
                       --chrome-edge: rgba(42,28,11,0.16);  --chrome-fill: rgba(42,28,11,0.07); }
-html[data-btn="v3"] { --stat-pop: #7BB234; --stat-pop-ring: rgba(123,178,52,0.32); }
+html[data-btn="v3"] { --stat-pop: #7BB234; --stat-pop-ring: rgba(123,178,52,0.32);
+                      --cat-blob: rgba(123,178,52,0.24); --cat-blob-hover: rgba(123,178,52,0.36);
+                      --badge-ink: #293D0F; }
 html[data-btn="v3"] { --chrome-ink: #293D0F; --chrome-muted: #525F3C; --chrome-accent: #4A790C;
                       --chrome-edge: rgba(74,121,12,0.20); --chrome-fill: rgba(74,121,12,0.09); }
 

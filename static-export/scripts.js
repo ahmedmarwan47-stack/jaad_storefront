@@ -584,7 +584,12 @@
 
   const inSkipped = (el) => {
     for (let n = el; n; n = n.parentElement) {
-      if (I18N_SKIP[n.tagName]) return true;
+      // SVG is skipped wholesale: the icon sprites carry <title>s and stray
+      // labels that must not be rewritten, and there are hundreds of them.
+      // An <svg data-i18n> is the deliberate exception — the hero badge's ring
+      // is real copy on a path, and without this it stayed Arabic on the
+      // English build (Ahmed, 2026-08-25).
+      if (I18N_SKIP[n.tagName] && !(n.tagName === "svg" && n.hasAttribute("data-i18n"))) return true;
       // Opt-out hook: an element (or any ancestor) tagged data-no-i18n is left
       // exactly as rendered. Used by the header language toggle, which must keep
       // showing the native script "العربية" even while the page reads English.
@@ -8353,6 +8358,28 @@
     paint(shown);
   }
 
+  /* The hero badge's ring turns with the scroll (Ahmed, 2026-08-25).
+
+     Driven off scrollY rather than the badge's own position, so it keeps
+     turning for the whole first screenful instead of stopping the moment the
+     hero leaves — the badge is still on screen while the hero exits, and a ring
+     that freezes mid-word looks broken. 0.12 deg per pixel is roughly one full
+     turn per three screens: present, not a fidget spinner. */
+  function initHeroBadge() {
+    const badge = document.querySelector("[data-hero-badge]");
+    if (!badge) return;
+    const ring = badge.querySelector(".hero-badge__ring");
+    if (!ring || reduceMotion()) return;
+    let ticking = false;
+    function frame() {
+      ticking = false;
+      ring.style.setProperty("--badge-spin", (window.scrollY * 0.12).toFixed(2) + "deg");
+    }
+    function schedule() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    window.addEventListener("scroll", schedule, { passive: true });
+    frame();
+  }
+
   /* Slow parallax on the About hero art. Same guards as the journey: opt-out
      under reduced motion, no-op when the element is absent. */
   function initAboutParallax() {
@@ -8856,6 +8883,7 @@
     // About page: pinned scroll journey, hero parallax, stat count-up. Each
     // guards off its own markup, so all three are no-ops elsewhere.
     initAboutJourney();
+    initHeroBadge();
     initAboutTimeline();
     initAboutParallax();
     initStatCountUp();
