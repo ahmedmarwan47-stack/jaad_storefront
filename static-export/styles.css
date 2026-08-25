@@ -4351,6 +4351,15 @@ html[data-btn="v3"] [data-flash-sale] .text-limeFigma { color: var(--moss-deep) 
 html[data-btn="v3"] .bg-limeFigma .text-heading,
 html[data-btn="v3"] .bg-limeFigma.text-heading { color: var(--moss-ink) !important; }
 
+/* Testimonial card. bg-greenDeep maps to --moss-deep everywhere else, but
+   --moss-deep is a mid-tone: cream body lands at 5.33:1 (fine) while the role
+   line drops to 4.21:1 and the quote glyph to 2.67:1. --moss-dark is one step
+   down in the same family and carries all three — 7.56:1, 5.98:1, 3.69:1.
+   The glyph also moves off brand lime, which reads as a foreign hue against
+   moss, onto --moss-tint (4.63:1). */
+html[data-btn="v3"] [data-review-card] { background-color: var(--moss-dark) !important; }
+html[data-btn="v3"] [data-review-card] .text-limeFigma { color: var(--moss-tint) !important; }
+
 /* --- raw hexes the component CSS hardcodes ------------------------------ */
 /* The cart control keeps a GREEN container (Ahmed, 2026-08-24): on cream
    chrome the white circular button lost its edge entirely and the cart stopped

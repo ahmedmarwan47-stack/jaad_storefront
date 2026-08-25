@@ -34,7 +34,7 @@
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
     <link rel="stylesheet" href="tailwind.css?v=4fbb0733" />
-    <link rel="stylesheet" href="styles.css?v=363c85dd" />
+    <link rel="stylesheet" href="styles.css?v=b09586f6" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -1013,7 +1013,17 @@
           <h2 class="z-10 relative font-medium text-greenTint text-[32px] md:text-[40px] text-center tracking-[-0.2px]">Customer Reviews</h2>
           <div class="z-10 relative w-full carousel" style="--carousel-gap:20px">
             <div class="carousel-track">
-              <article class="flex flex-col gap-6 bg-[#008536] shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
+              <!-- bg-greenDeep, NOT the one-off #008536 it used to carry
+                   (Ahmed, 2026-08-25). Two things were wrong with the arbitrary
+                   hex. It failed contrast: the role line was 3.56:1 and the
+                   quote glyph 2.27:1, and the body text "passed" at 4.51:1,
+                   which is not passing, it is sitting exactly on the 4.5 line.
+                   And being an arbitrary Tailwind value it matched none of the
+                   variant overrides, so the card stayed the same bright green
+                   in Moss while everything around it changed. The token fixes
+                   both at once — 7.06:1 body, 5.58:1 role, 3.44:1 glyph on
+                   #006328, and it follows the switcher. -->
+              <article data-review-card class="flex flex-col gap-6 bg-greenDeep shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
                 <span class="font-bold text-limeFigma text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
                 <p class="flex-1 text-cream text-base leading-[1.5] overflow-hidden">The coffee and nuts are always fresh and consistently good, and every order arrives quickly.</p>
                 <div class="flex flex-col gap-1">
@@ -1021,7 +1031,17 @@
                   <p class="text-[#BDEAC1] text-sm">Loyal Customer</p>
                 </div>
               </article>
-              <article class="flex flex-col gap-6 bg-[#008536] shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
+              <!-- bg-greenDeep, NOT the one-off #008536 it used to carry
+                   (Ahmed, 2026-08-25). Two things were wrong with the arbitrary
+                   hex. It failed contrast: the role line was 3.56:1 and the
+                   quote glyph 2.27:1, and the body text "passed" at 4.51:1,
+                   which is not passing, it is sitting exactly on the 4.5 line.
+                   And being an arbitrary Tailwind value it matched none of the
+                   variant overrides, so the card stayed the same bright green
+                   in Moss while everything around it changed. The token fixes
+                   both at once — 7.06:1 body, 5.58:1 role, 3.44:1 glyph on
+                   #006328, and it follows the switcher. -->
+              <article data-review-card class="flex flex-col gap-6 bg-greenDeep shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
                 <span class="font-bold text-limeFigma text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
                 <p class="flex-1 text-cream text-base leading-[1.5] overflow-hidden">Their Turkish coffee is one of the best I&#x27;ve tried, and the packaging keeps the aroma locked in.</p>
                 <div class="flex flex-col gap-1">
@@ -1029,7 +1049,17 @@
                   <p class="text-[#BDEAC1] text-sm">Coffee Lover</p>
                 </div>
               </article>
-              <article class="flex flex-col gap-6 bg-[#008536] shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
+              <!-- bg-greenDeep, NOT the one-off #008536 it used to carry
+                   (Ahmed, 2026-08-25). Two things were wrong with the arbitrary
+                   hex. It failed contrast: the role line was 3.56:1 and the
+                   quote glyph 2.27:1, and the body text "passed" at 4.51:1,
+                   which is not passing, it is sitting exactly on the 4.5 line.
+                   And being an arbitrary Tailwind value it matched none of the
+                   variant overrides, so the card stayed the same bright green
+                   in Moss while everything around it changed. The token fixes
+                   both at once — 7.06:1 body, 5.58:1 role, 3.44:1 glyph on
+                   #006328, and it follows the switcher. -->
+              <article data-review-card class="flex flex-col gap-6 bg-greenDeep shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
                 <span class="font-bold text-limeFigma text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
                 <p class="flex-1 text-cream text-base leading-[1.5] overflow-hidden">The spices have a strong, authentic aroma that genuinely changed my cooking — I&#x27;ll order again.</p>
                 <div class="flex flex-col gap-1">
@@ -1037,7 +1067,17 @@
                   <p class="text-[#BDEAC1] text-sm">Home Cook</p>
                 </div>
               </article>
-              <article class="flex flex-col gap-6 bg-[#008536] shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
+              <!-- bg-greenDeep, NOT the one-off #008536 it used to carry
+                   (Ahmed, 2026-08-25). Two things were wrong with the arbitrary
+                   hex. It failed contrast: the role line was 3.56:1 and the
+                   quote glyph 2.27:1, and the body text "passed" at 4.51:1,
+                   which is not passing, it is sitting exactly on the 4.5 line.
+                   And being an arbitrary Tailwind value it matched none of the
+                   variant overrides, so the card stayed the same bright green
+                   in Moss while everything around it changed. The token fixes
+                   both at once — 7.06:1 body, 5.58:1 role, 3.44:1 glyph on
+                   #006328, and it follows the switcher. -->
+              <article data-review-card class="flex flex-col gap-6 bg-greenDeep shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
                 <span class="font-bold text-limeFigma text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
                 <p class="flex-1 text-cream text-base leading-[1.5] overflow-hidden">Excellent nut selection and fair prices for the quality you get. Highly recommended.</p>
                 <div class="flex flex-col gap-1">
@@ -1045,7 +1085,17 @@
                   <p class="text-[#BDEAC1] text-sm">Regular Customer</p>
                 </div>
               </article>
-              <article class="flex flex-col gap-6 bg-[#008536] shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
+              <!-- bg-greenDeep, NOT the one-off #008536 it used to carry
+                   (Ahmed, 2026-08-25). Two things were wrong with the arbitrary
+                   hex. It failed contrast: the role line was 3.56:1 and the
+                   quote glyph 2.27:1, and the body text "passed" at 4.51:1,
+                   which is not passing, it is sitting exactly on the 4.5 line.
+                   And being an arbitrary Tailwind value it matched none of the
+                   variant overrides, so the card stayed the same bright green
+                   in Moss while everything around it changed. The token fixes
+                   both at once — 7.06:1 body, 5.58:1 role, 3.44:1 glyph on
+                   #006328, and it follows the switcher. -->
+              <article data-review-card class="flex flex-col gap-6 bg-greenDeep shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
                 <span class="font-bold text-limeFigma text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
                 <p class="flex-1 text-cream text-base leading-[1.5] overflow-hidden">From the very first cup I could taste the care — rich flavor, beautiful packaging, fast delivery.</p>
                 <div class="flex flex-col gap-1">

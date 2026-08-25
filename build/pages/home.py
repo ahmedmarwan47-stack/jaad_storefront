@@ -270,7 +270,17 @@ def build():
 
     review_cards = "".join(
         f"""
-              <article class="flex flex-col gap-6 bg-[#008536] shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
+              <!-- bg-greenDeep, NOT the one-off #008536 it used to carry
+                   (Ahmed, 2026-08-25). Two things were wrong with the arbitrary
+                   hex. It failed contrast: the role line was 3.56:1 and the
+                   quote glyph 2.27:1, and the body text "passed" at 4.51:1,
+                   which is not passing, it is sitting exactly on the 4.5 line.
+                   And being an arbitrary Tailwind value it matched none of the
+                   variant overrides, so the card stayed the same bright green
+                   in Moss while everything around it changed. The token fixes
+                   both at once — 7.06:1 body, 5.58:1 role, 3.44:1 glyph on
+                   #006328, and it follows the switcher. -->
+              <article data-review-card class="flex flex-col gap-6 bg-greenDeep shrink-0 snap-start p-8 rounded-2xl w-[86%] sm:w-[47%] lg:w-[calc((100%-40px)/3)] h-[320px] carousel-slide">
                 <span class="font-bold text-limeFigma text-[72px] leading-none opacity-90" aria-hidden="true">&ldquo;</span>
                 <p class="flex-1 text-cream text-base leading-[1.5] overflow-hidden">{e(text)}</p>
                 <div class="flex flex-col gap-1">
