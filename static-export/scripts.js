@@ -8358,6 +8358,37 @@
     paint(shown);
   }
 
+  /* Contact hero parallax (Ahmed, 2026-08-25).
+
+     The PHOTOGRAPH moves, the body does not — the body is ordinary document
+     flow travelling at scroll speed, and the separation between the two is the
+     whole effect. Rate is 0.28, i.e. the image drifts down at just over a
+     quarter of the page's speed.
+
+     Travel is bounded by the image's own overhang: it is 128% of the frame and
+     starts 14% above it, so 14% of the frame height is available in either
+     direction. Clamping to that is what guarantees no gap ever opens at an
+     edge, whatever the viewport does. */
+  function initContactParallax() {
+    const img = document.querySelector("[data-contact-parallax]");
+    if (!img) return;
+    const hero = img.closest("[data-contact-hero]");
+    if (!hero || reduceMotion()) return;
+    let ticking = false;
+    function frame() {
+      ticking = false;
+      const rect = hero.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) return;   // off screen: nothing to do
+      const limit = rect.height * 0.14;
+      const shift = Math.max(-limit, Math.min(limit, -rect.top * 0.28));
+      img.style.transform = "translate3d(0," + shift.toFixed(1) + "px,0)";
+    }
+    function schedule() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
+    frame();
+  }
+
   /* The hero badge's ring turns with the scroll (Ahmed, 2026-08-25).
 
      Driven off scrollY rather than the badge's own position, so it keeps
@@ -8884,6 +8915,7 @@
     // guards off its own markup, so all three are no-ops elsewhere.
     initAboutJourney();
     initHeroBadge();
+    initContactParallax();
     initAboutTimeline();
     initAboutParallax();
     initStatCountUp();
