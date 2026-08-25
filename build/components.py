@@ -318,12 +318,23 @@ def carousel(slides_html, gap=24, arrows_top="130px", autoplay=False, dots=False
 def chip(label, href="#", active=False, filter_slug=None):
     """Filter pill — Figma 'Chip Button'.
 
-    The mobile Collection frame (350:17805) fills inactive chips with
-    interaction-base and drops the outline; the desktop Web frame keeps the
-    white-on-outline treatment. Carry both rather than pick one.
+    NO OUTLINE, ANY STATE, ANY PALETTE (Ahmed, 2026-08-25: "the filter chips in
+    the all products page needs no borders around them in any version").
+
+    Both Figma frames were being carried at once — the mobile Collection frame
+    (350:17805) fills inactive chips with interaction-base and drops the
+    outline, the desktop Web frame kept a white-on-outline treatment — and the
+    active chip carried `border-cta` at every width on top of its own fill,
+    which is the dark ring the request is about. All of it is gone.
+
+    The fill is what makes a chip a chip now, so the inactive one takes cream at
+    EVERY width rather than white above 1280. That is not tidying: the shop page
+    is `bg-white`, so a white chip with the outline removed is an invisible
+    chip. Cream is also palette-neutral — no variant repaints .bg-cream — so
+    "any version" holds without three overrides.
     """
-    style = ("bg-cta text-white border-cta" if active
-             else "chip-filter bg-white text-ink border-divider hover:border-cta")
+    style = ("bg-cta text-white" if active
+             else "chip-filter bg-cream text-ink")
     # `filter_slug` turns the chip into a live client-side filter; without it
     # the chip stays a plain link. The href is kept either way so the control
     # still means something with JS off.
@@ -334,7 +345,7 @@ def chip(label, href="#", active=False, filter_slug=None):
     # 2026-08-04) so the whole row fits BESIDE the sort pill without crowding
     # it — a mouse does not need 44px, and 36px clears the 24px WCAG 2.5.8 AA
     # floor comfortably.
-    return (f'<a href="{href}"{attr} class="inline-flex items-center min-h-11 xl:min-h-9 px-5 xl:px-4 py-2 xl:py-1.5 border rounded-full '
+    return (f'<a href="{href}"{attr} class="inline-flex items-center min-h-11 xl:min-h-9 px-5 xl:px-4 py-2 xl:py-1.5 rounded-full '
             f'font-semibold text-sm xl:text-[13px] whitespace-nowrap transition-colors {style}">{e(label)}</a>')
 
 

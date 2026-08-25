@@ -67,16 +67,57 @@ def build():
 
     body = f"""
       <section class="contact-hero" data-contact-hero>
-        <!-- data-contact-parallax: moved by initContactParallax, which is why
+        <!-- TWO CROPS OF THE SAME SCENE (Ahmed, 2026-08-25: "the coffee
+             disappears in mobile").
+
+             The landscape original is 1376x768 and its subject — cup, beans,
+             almonds — sits in the right third, from 0.647 to 0.883 of the
+             width. The phone frame is 375x728, so `object-fit: cover` scales
+             by height and shows only the middle 28.8% of the source: 0.356 to
+             0.644. The cup starts three thousandths past the right edge of
+             that window, so it was cropped out entirely, not merely tightened.
+
+             Re-aiming `object-position` cannot fix it. A window that narrow
+             either misses the cup or, once shifted far enough to hold it,
+             renders it at the full height of the frame with the headline
+             sitting on black coffee. The frame is portrait and the photograph
+             is not; no crop of a 1.79 image is a 0.52 hero.
+
+             So the phone gets its own frame: the same photograph outpainted to
+             9:16, which keeps every original element and extends the table,
+             the curtain behind it and the floor below. 1152x2064 at q80 —
+             ~380KB, and 3x for a 375pt frame. Its aspect is 0.558 against the
+             frame's 0.515, so cover crops ~8% off the height and nothing off
+             the width: the cup lands at 0.72 across, 0.34 down, inside the
+             visible band at every point in the parallax travel, and the top
+             left where the type goes is soft curtain.
+
+             <picture> rather than two <img>: the parallax does
+             querySelector("[data-contact-parallax]") and the veil stacks over
+             one element, so there has to stay exactly one <img> in the hero —
+             only its source changes. 767px is the header's own md breakpoint,
+             so the masthead and the hero switch on the same line.
+
+             data-contact-parallax: moved by initContactParallax, which is why
              the image is taller than its frame and inset past both edges — it
              needs somewhere to travel without ever showing a gap. -->
-        <img src="images/jaad/site/contact-hero.jpg" alt="" aria-hidden="true"
-             class="contact-hero__img" data-contact-parallax />
+        <picture>
+          <source media="(max-width: 767px)" srcset="images/jaad/site/contact-hero-mobile.jpg" />
+          <img src="images/jaad/site/contact-hero.jpg" alt="" aria-hidden="true"
+               class="contact-hero__img" data-contact-parallax />
+        </picture>
         <span class="contact-hero__veil" aria-hidden="true"></span>
         <div class="contact-hero__inner">
           <h1 class="contact-hero__title">أتصل بنا</h1>
+          <!-- SHORTER, both breakpoints (Ahmed, 2026-08-25). The old line ran
+               three sentences and 108 characters: it wrapped to seven lines on
+               a phone, where .contact-hero__sub is capped to 48% of the width,
+               and pushed the cards down the photograph. A hero subtitle is
+               read at a glance or not at all — the "choose whichever way suits
+               you" clause was describing the cards that are already visible
+               directly beneath it. -->
           <p class="contact-hero__sub">
-            لو عندك أي استفسار أو اقتراح، إحنا هنا. اختار الطريقة اللي تناسبك أو ابعتلنا رسالة وهنرد عليك في أقرب وقت.
+            عندك استفسار أو اقتراح؟ ابعتلنا وهنرد عليك في أقرب وقت.
           </p>
         </div>
       </section>

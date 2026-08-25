@@ -473,8 +473,13 @@ UI = {
     # PLACEHOLDER: Abu Auf's real head-office address was here before the
     # fork — removed, not reused (per the "generate placeholders" call on
     # contact info; see the CONTACT object in scripts.js).
-    "لو عندك أي استفسار أو اقتراح، إحنا هنا. اختار الطريقة اللي تناسبك أو ابعتلنا رسالة وهنرد عليك في أقرب وقت.":
-        "If you have a question or a suggestion, we are here. Choose whichever way suits you, or send us a message and we will reply as soon as we can.",
+    # Shortened on both breakpoints (Ahmed, 2026-08-25) — see the comment on
+    # .contact-hero__sub in build/pages/contact_us.py. The English is held to
+    # the same length as the Arabic rather than translated literally: it sets
+    # the line count in the same 48%-wide column, and a faithful rendering of
+    # the old sentence would have undone the change for every English reader.
+    "عندك استفسار أو اقتراح؟ ابعتلنا وهنرد عليك في أقرب وقت.":
+        "A question or a suggestion? Write to us and we will reply soon.",
     "الخط الساخن": "Hotline",
     "واتساب": "WhatsApp",
     "ابعتلنا رسالة": "Send us a message",
