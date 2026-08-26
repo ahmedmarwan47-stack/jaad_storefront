@@ -1037,17 +1037,83 @@ html[data-btn="v3"] .delivery-note {
      anything, so the control read as a white chip parked on a green bar rather
      than as one object with one part lit.
      
-     #8ACC3E is the brand lime and it measures h=88°, the track's #E3F2D1 is
-     h=87°: the same hue, 36 points of lightness apart. The label goes to the
-     bottom of that same ramp rather than to black — 6.98:1 on the pill, so the
-     active chip is still the highest-contrast thing in the control. */
-  --sw-pill: #8ACC3E;
-  --sw-pill-ink: #003616;
+     Both halves were lifted ~3 points of lightness on 2026-08-26 (Ahmed:
+     "make the track background lighter and hence the selected tab lighter"),
+     then ROTATED ONTO THE CREAM HUE the same day (Ahmed: "can we use the same
+     hue of the cream for the segmented button?"). Both moves preserved the
+     rule above — track and pill are one hue, 36 points of lightness apart.
+
+     The rotation is worth spelling out, because "the cream hue" is not a
+     neutral: #FDF8F1 measures h=35°, and the brand orange #EA983E measures
+     h=33°. Cream IS the brand orange taken to 97% lightness. So building the
+     control on cream's hue does not make it beige-and-neutral — it puts it in
+     the ORANGE family, two degrees off the CTA.
+
+     The values started as a straight hue-rotation of the green pair, same S
+     and L:
+       track  #EBF6DC (h=87°) -> #F6EBDC (h=35°, S=59%, L=91.4%)
+       pill   #92CF4C (h=88°) -> #CF984C (h=35°, S=58%, L=55.5%)
+
+     THE PILL WAS THEN LIGHTENED TWICE MORE (Ahmed, 2026-08-26: "let's try
+     lighter color than #CF984C", then picking the L 68% step off a ladder):
+     55.5% -> 63% -> 68%, landing on #DDB57E. Same hue, same saturation, just
+     further up the ramp.
+
+     That is a deliberate departure from the 36-point rule stated above, and
+     the rule should be read as retired rather than quietly broken: track and
+     pill are now 23 points apart. The rule was always a means to an end — one
+     hue, one part lit — and the hue relationship is what actually carries
+     that. What the 36 points were buying was the pill's EDGE.
+
+     The label leaves the green ramp with them. #003616 on a warm chip is the
+     kind of leftover this file has had to clean up twice already, so the ink
+     is #2A1C0B — the warm dark the orange masthead already uses. Lightening
+     the pill only helps the label: 6.50:1 on #CF984C, 8.65:1 on #DDB57E.
+     (Deep green would still have passed at 5.36:1; it just read muddy.)
+
+     UNEXPECTED WIN from the rotation, and the reason it is worth keeping:
+     warm hues carry less luminance than greens at equal HSL lightness, because
+     the sRGB luminance formula weights G at 0.7152 and R at 0.2126. So the
+     warm track lands at rel-luminance 0.842 where the green sat at 0.887 — and
+     its separation from the cream page goes 1.06:1 -> 1.11:1. The trade-off
+     flagged when lightening the green track is gone; this recovers the original
+     separation while STILL being the lighter design.
+     The cost is the other side of that same coin: at equal HSL lightness the
+     warm track reads ~2 points darker in L* (93.6 vs 95.5). Matching the
+     green's perceived lightness would mean #F8F0E5, which drops separation
+     back to 1.07:1 — the two goals pull against each other and this picks
+     separation.
+
+     WHAT LIGHTENING THE PILL COSTS, and it is the one number to watch on this
+     control: the pill separates from the track at 1.62:1, down from 2.16:1.
+     The pill IS the selected-state indicator, so WCAG 1.4.11 wants 3:1 on that
+     boundary — a bar this control MISSED BEFORE ANY OF THIS (2.16:1), so the
+     lightening widened an existing gap rather than opening a new one. What now
+     carries the selected state is REDUNDANCY, not the fill: the label ink goes
+     #333 -> #2A1C0B, and the shadow seats the chip. That is thinner cover than
+     it was, and it is a deliberate accepted cost, not an oversight.
+
+     THE NEXT PERSON TO LIGHTEN THIS PILL SHOULD ADD AN EDGE FIRST. A 1px
+     darker-warm border (#B98442 was the value tested) restores the boundary
+     geometrically instead of tonally, and would let the fill go a long way
+     lighter without the chip dissolving into the track. Below roughly L 70%
+     the fill alone stops holding its own shape. */
+  --sw-track: #F6EBDC;
+  --sw-pill: #DDB57E;
+  --sw-pill-ink: #2A1C0B;
+  /* Beats the `bg-greenTintSoft` utility in the markup rather than editing it:
+     that class is written by the page modules in build/pages/ and a hand-edit to
+     static-export/*.html is erased on the next `python3 build/build.py`.
+     styles.css loads after tailwind.css precisely so it can win this. The
+     token also keeps its honest name — a token called greenTintSoft has no
+     business holding a warm hex. */
+  background-color: var(--sw-track) !important;
 }
 /* Moss keeps the rule, not the hex. Its ramp is now one lime and one dark, so
-   --moss-mid resolves to the lime itself and the pill is the same #98CA55 the
-   base theme uses — the two variants agree on this control rather than each
-   picking a step. Label: the variant's ink, 6.8:1 on it. */
+   --moss-mid resolves to the lime itself: #98CA55, which lands within a point
+   of the base pill's new 55.5% lightness — the two variants still agree on
+   this control rather than each picking a step, so the lightening did not need
+   to touch Moss. Label: the variant's ink, 6.8:1 on it. */
 html[data-btn="v3"] .pp-tabs {
   --sw-pill: var(--moss-mid);
   --sw-pill-ink: var(--moss-ink);
@@ -1075,10 +1141,13 @@ html[data-btn="v3"] .pp-tabs {
      which is the radius that keeps the two curves concentric — the same
      relationship the fully-round version was reaching for. */
   border-radius: 14px;
-  background: var(--sw-pill, #8ACC3E);
+  background: var(--sw-pill, #DDB57E);
   /* Softer than the white pill's shadow: a mid-tone chip on a light track is
-     already legible by colour, so the shadow only has to seat it. */
-  box-shadow: 0 1px 2px rgba(31, 45, 20, 0.14);
+     already legible by colour, so the shadow only has to seat it. Tinted with
+     the control's own hue, not neutral grey — and it followed the hue rotation
+     (was rgba(31,45,20) — a GREEN-black — which on a warm chip is a leftover
+     the same way the green label was). */
+  box-shadow: 0 1px 2px rgba(58, 38, 14, 0.16);
   transform: translateX(0);
   transition:
     transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),
@@ -1111,7 +1180,7 @@ html[data-btn="v3"] .pp-tabs {
   color: #212121;
 }
 .pp-tabs .tab-btn.is-active {
-  color: var(--sw-pill-ink, #003616);
+  color: var(--sw-pill-ink, #2A1C0B);
 }
 
 /* The `hidden` attribute only sets display:none via the UA stylesheet, so any
@@ -5289,7 +5358,16 @@ html[data-btn="v3"] .bg-greenDeepest  { background-color: var(--moss-ink) !impor
    while Moss was the only palette whose badge colour moved. */
 html[data-btn="v3"] .bg-mint          { background-color: var(--moss-mint) !important; }
 html[data-btn="v3"] .bg-primary-50    { background-color: var(--moss-mint) !important; }
-html[data-btn="v3"] .bg-greenTintSoft { background-color: var(--moss-soft) !important; }
+/* .bg-greenTintSoft is worn by exactly one thing on the site — the .pp-tabs
+   segmented track — so this remap is that control's Moss track and nothing
+   else. It is NOT var(--moss-soft) any more: when the base track was lightened
+   on 2026-08-26 this line held Moss at #DCEDC6 and the variants stopped
+   agreeing on the control, which is the one thing the .pp-tabs block says they
+   must do. #E3F1D2 is --moss-soft lifted by the same ~3 points of lightness
+   (85.3% -> 88.4%) on its own hue, so Moss moved WITH the base rather than
+   being pinned to a step of a ramp it shares with unrelated fills. Lifting
+   --moss-soft itself would have dragged every other soft Moss fill along. */
+html[data-btn="v3"] .bg-greenTintSoft { background-color: #E3F1D2 !important; }
 html[data-btn="v3"] .bg-greenTint     { background-color: var(--moss-tint) !important; }
 
 /* --- type -------------------------------------------------------------- */
@@ -5451,10 +5529,29 @@ html[data-btn] [data-navbar] .masthead-logo:hover {
 html[data-btn="v2"] [data-navbar] img[src*="hdr-user"],
 html[data-btn="v2"] [data-navbar] img[src*="hdr-search"] { filter: invert(1) brightness(0.18); }
 
-/* V2's cart control keeps its orange fill — it is the brand accent and the one
+/* V2's cart control takes the orange fill — it is the brand accent and the one
    thing in the header you act on — but white on #EA983E is 2.32:1, under even
    the 3:1 graphic bar, so the glyph flips dark instead. The count badge was
-   already moved to #7A3E06 (white digits 8.34:1, 3.60:1 against the orange). */
+   already moved to #7A3E06 (white digits 8.34:1, 3.60:1 against the orange).
+
+   THE FILL RULE BELOW WAS MISSING (Ahmed, 2026-08-26: "in the orange toggle
+   make this cart container orange"). This comment already asserted the orange
+   fill and the two rules that DEPEND on it had both shipped — the dark glyph
+   and the brown badge — but nothing ever repainted the container, so it kept
+   the base `bg-white` utility. The result was the one combination none of this
+   was designed for: a dark glyph and a deep-brown badge sitting on plain white,
+   in the one variant whose whole point is the orange accent.
+
+   Note this is a CONSISTENCY fix as much as a colour one. The site has two cart
+   controls and the other one — the parked/mobile pill — carries `.bg-cta`, so
+   it has been correctly orange in V2 all along; only the masthead disagreed.
+
+   Contrast: the dark glyph is 7.13:1 on the orange, well past AA. The button
+   against the cream #FDF8F1 masthead is 2.19:1, which is under the 3:1 graphic
+   bar on its own — but it was 1.05:1 as white-on-cream, so the edge is far
+   better defined than before, `shadow-custom4` seats it, and the parked pill
+   already sets this exact orange on this exact cream. */
+html[data-btn="v2"] [data-navbar] [data-open="cart"] { background-color: #EA983E !important; }
 html[data-btn="v2"] [data-navbar] [data-open="cart"] svg,
 html[data-btn="v2"] [data-navbar] [data-open="cart"] [data-cart-glyph] { color: #2A1C0B !important; }
 

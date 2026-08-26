@@ -173,7 +173,7 @@ module.exports = {
         bodyMuted: "#4b5563", // secondary body copy — intros, deck text
         metaGray: "#636959", // small meta text — timestamps, stat labels
         greenTint: "#D5EBB8", // Figma Green 20 — soft green fills
-        greenTintSoft: "#E3F2D1", // lighter green fill
+        greenTintSoft: "#EBF6DC", // lighter green fill — the .pp-tabs segmented track
         outline: "#868685", // input/control outlines (was neutral.outline)
         error: "#A8200D", // destructive text + fills (was accent.error)
 
