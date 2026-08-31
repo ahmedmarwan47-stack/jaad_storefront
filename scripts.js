@@ -7815,69 +7815,47 @@
     const PIN_TOP = 132;
     const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
 
-    /* ---- Story flight paths (Ahmed, 2026-08-31) -------------------------
-       The flight read as robotic for two concrete reasons, both visible in
-       the old three lines of maths: x, y and scale all ran off ONE easing —
-       and identical timing on two axes IS a straight line — and the packshot
-       itself never moved, only its position did. A real object leans into a
-       turn; this one arrived at centre in the same attitude it left in.
+    /* ---- Story flight: TOSS & SETTLE (Ahmed, 2026-08-31) ---------------
+       The travel to centre used to read as robotic, for two reasons both
+       visible in the old three lines of maths: x, y and scale all ran off ONE
+       easing — and identical timing on two axes IS a straight line — and
+       nothing ever touched rotation, so the packshot arrived at centre in the
+       same attitude it left in.
 
-       So each mode returns per-axis progress (ex/ey/es), an extra px offset
-       (ax/ay) that bends the path off the straight line, and a rotation about
-       the packshot's own centre. Every mode is pinned to the same two
-       endpoints — all of ex/ey/es reach 0 at t=0 and 1 at t=1, and ax/ay/rot
-       vanish at both — so the hand-off from the real gallery stays
-       pixel-identical and the arrival still lands exactly on E. The modes
-       differ in the MIDDLE, which is the only place the eye reads character.
+       This is the chosen replacement, and it reads as HANDLED: it lofts above
+       the straight line, tumbles a little on the way over, and lands with a
+       scale overshoot so it has weight when it arrives. Two alternatives (a
+       banked arc and a much more restrained drift) were built alongside it and
+       dropped once this one was picked; they are in the history if the
+       decision is ever reopened.
 
-       "v0" reproduces the old motion exactly; it is what the Original toggle
-       selects, so none of this is a one-way door. */
-    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+       Three things to know before tuning the numbers.
+
+       The lift MUST be an explicit offset — decoupled per-axis easing alone
+       is not enough. transform-origin is top-left for the FLIP, so as the
+       packshot scales up its VISUAL centre is dragged down-right by the scale
+       term, and that term rides the x progress. Bending the axes against each
+       other curves the top-left corner's path while leaving the centre — the
+       path the eye actually follows — travelling very nearly straight. The
+       banked-arc version measured 0px of visible bow until a fixed lift was
+       added on top.
+
+       easeOutBack's k is overshoot of the PROGRESS, not of the scale. The
+       packshot grows from about 0.76 to 1, so sc = lerp(0.76, 1, es) and an es
+       peak of 1.12 is only a ~2.9% scale overshoot. A k tuned to look modest
+       as an easing curve lands somewhere invisible on screen.
+
+       And the endpoints are load-bearing: ex/ey/es all reach exactly 0 at t=0
+       and exactly 1 at t=1, and ay/rot vanish at both. That is what keeps the
+       hand-off from the live gallery pixel-identical and the arrival exactly
+       on E. Any new term added here has to vanish at both ends too. */
     const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
     const easeOutBack = (t) => { const k = 1.9; return 1 + (k + 1) * Math.pow(t - 1, 3) + k * Math.pow(t - 1, 2); };
-    const flightMode = () => document.documentElement.getAttribute("data-flight") || "arc";
 
-    function flightPath(mode, t, dirX) {
-      if (mode === "arc") {
-        // A — ARC & BANK. Height resolves early, lateral lags, so the path
-        // bows instead of running the diagonal. The lean is the GAP between
-        // the two axes, which is 0 at both ends and peaks mid-flight: the
-        // packshot banks into its turn and levels off as it lands.
-        // LATERAL leads and height settles last, not the other way round: the
-        // packshot crosses most of the gap first and then comes down into
-        // place, which reads as a pendulum coming to rest. Leading with the
-        // vertical instead reads as a drop followed by a slide.
-        const ex = easeInOutCubic(t) * 0.45 + easeOutCubic(t) * 0.55;
-        const ey = easeInOutCubic(t);
-        // The explicit bow is doing the visible work here, and it has to.
-        // transform-origin is top-left, so as the packshot scales up its
-        // VISUAL centre is dragged down-right by the scale term — and that
-        // term rides ex. Decoupling ey alone therefore bends the top-left
-        // corner's path but leaves the centre travelling very nearly
-        // straight, which is what the eye actually follows. A geometry-
-        // independent lift is what makes the arc read as an arc, on any
-        // viewport and whatever the gallery/centre offset happens to be.
-        return { ex: ex, ey: ey, es: ex, ax: 0, ay: -46 * Math.sin(t * Math.PI),
-                 rot: dirX * -28 * (ex - ey) };
-      }
-      if (mode === "toss") {
-        // B — TOSS & SETTLE. Reads as handled: it lofts above the straight
-        // line, tumbles a little on the way, and lands with a scale overshoot
-        // (easeOutBack) so it has weight when it arrives.
-        const e = easeInOutCubic(t), hop = Math.sin(t * Math.PI);
-        return { ex: e, ey: e, es: easeOutBack(t), ax: 0, ay: -112 * hop,
-                 rot: dirX * -15 * hop + dirX * 4 * Math.sin(t * Math.PI * 2) };
-      }
-      if (mode === "drift") {
-        // C — DRIFT & BREATHE. The restrained one. A soft S-curve rather than
-        // a bow, the vertical leading only slightly, and a sway small enough
-        // that you feel it rather than see it. Closest to the current motion.
-        const e = easeInOutCubic(t), bow = Math.sin(t * Math.PI);
-        return { ex: e, ey: easeInOutCubic(Math.min(1, t * 1.12)), es: e,
-                 ax: dirX * 10 * bow, ay: -30 * bow, rot: dirX * -4.5 * bow };
-      }
-      const e = easeInOut(t);                        // v0 — the original, unchanged
-      return { ex: e, ey: e, es: e, ax: 0, ay: 0, rot: 0 };
+    function flightPath(t, dirX) {
+      const e = easeInOutCubic(t), hop = Math.sin(t * Math.PI);   // hop: 0 -> 1 -> 0
+      return { ex: e, ey: e, es: easeOutBack(t), ay: -112 * hop,
+               rot: dirX * -15 * hop + dirX * 4 * Math.sin(t * Math.PI * 2) };
     }
 
     let ticking = false;
@@ -8045,19 +8023,18 @@
       // so detach continues from the exact same spot (no jump). Per-axis
       // progress comes from flightPath, so the path can bow between the two.
       const dirX = (S.left - E.left) >= 0 ? 1 : -1;   // which way it travels
-      const f = flightPath(flightMode(), t, dirX);
+      const f = flightPath(t, dirX);
       const dx = lerp(S.left - E.left, 0, f.ex);
       const dy = lerp(PIN_TOP + fitOff - E.top, 0, f.ey);
       const sc = lerp(S.width / E.width, 1, f.es);
 
-      // Settled state. v0 kept a flat horizontal sine; the new modes breathe on
-      // both axes with a slow counter-rotation, so the packshot never sits
-      // perfectly dead while the panels reveal.
+      // Settled state: once arrived it breathes on both axes with a slow
+      // counter-rotation, so the packshot is never perfectly dead while the
+      // benefit panels reveal beside it.
       let sx = 0, sy = 0, srot = 0;
       if (t >= 1) {
         const b = g * Math.PI * 2;
-        if (flightMode() === "v0") { sx = 6 * Math.sin(b); }
-        else { sx = 7 * Math.sin(b); sy = 5 * Math.sin(b * 1.6 + 0.9); srot = 1.4 * Math.sin(b * 0.8 + 0.4); }
+        sx = 7 * Math.sin(b); sy = 5 * Math.sin(b * 1.6 + 0.9); srot = 1.4 * Math.sin(b * 0.8 + 0.4);
       }
 
       const rot = f.rot + srot;
@@ -8067,7 +8044,7 @@
       const pcx = E.width / 2, pcy = E.height / 2;
       img.style.opacity = (1 - outro).toFixed(3);
       img.style.transform =
-        "translate(" + (dx + f.ax + sx).toFixed(1) + "px," + (dy + f.ay + sy).toFixed(1) + "px)" +
+        "translate(" + (dx + sx).toFixed(1) + "px," + (dy + f.ay + sy).toFixed(1) + "px)" +
         " scale(" + sc.toFixed(3) + ")" +
         (rot ? " translate(" + pcx.toFixed(1) + "px," + pcy.toFixed(1) + "px) rotate(" + rot.toFixed(2) +
                "deg) translate(" + (-pcx).toFixed(1) + "px," + (-pcy).toFixed(1) + "px)" : "");
@@ -8112,7 +8089,6 @@
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", () => { measure(); schedule(); }, { passive: true });
     document.addEventListener("jaad:img", () => { measure(); schedule(); });
-    document.addEventListener("jaad:flight", () => { measure(); schedule(); });
     measure();
     frame();
   }
@@ -9076,15 +9052,9 @@
 
   function initBtnStyleSwitch() {
     const BKEY = "jaad:btnstyle", IKEY = "jaad:imgstyle", FKEY = "jaad:flystyle";
-    // Story-flight path (Ahmed, 2026-08-31). Three alternatives to the old
-    // straight-line travel, plus "v0" which IS the old travel — so the whole
-    // thing is one click away from being undone, and the default can be moved
-    // back to "v0" on this line alone if none of the three are wanted.
-    const SKEY = "jaad:storyflight";
-    let btn = "v1", img = "scene", fly = "arc", flight = "arc";
+    let btn = "v1", img = "scene", fly = "arc";
     try { btn = localStorage.getItem(BKEY) || "v1"; } catch (e) { /* ignore */ }
     try { img = localStorage.getItem(IKEY) || "scene"; } catch (e) { /* ignore */ }
-    try { flight = localStorage.getItem(SKEY) || "arc"; } catch (e) { /* ignore */ }
     // Fly-to-cart is fixed to "drop" (Ahmed, 2026-08-19): its toggle row is
     // removed from the panel below, but the arc/comet code stays in place so the
     // toggle can be restored by re-adding the row. FKEY is left defined for that.
@@ -9092,7 +9062,6 @@
     document.documentElement.setAttribute("data-btn", btn);
     document.documentElement.setAttribute("data-img", img);
     document.documentElement.setAttribute("data-fly", fly);
-    document.documentElement.setAttribute("data-flight", flight);
     applyImgStyle(img);
     if (document.querySelector("[data-btn-switch]")) return;
     const CKEY = "jaad:uiswitch-collapsed";
@@ -9124,17 +9093,6 @@
             '<button type="button" data-img-v="plain"><span class="btnswitch__dot" style="background:#fff;box-shadow:inset 0 0 0 1px #C1C3C6"></span>White</button>' +
           '</div>' +
         '</div>' +
-        // Only bites on the product page in white mode, which is the only
-        // place the flight exists. Harmless everywhere else.
-        '<div class="btnswitch__row">' +
-          '<span class="btnswitch__lbl">Story flight</span>' +
-          '<div class="btnswitch__seg">' +
-            '<button type="button" data-story-v="arc">Arc</button>' +
-            '<button type="button" data-story-v="toss">Toss</button>' +
-            '<button type="button" data-story-v="drift">Drift</button>' +
-            '<button type="button" data-story-v="v0">Original</button>' +
-          '</div>' +
-        '</div>' +
       '</div>';
     document.body.appendChild(el);
     const paint = () => {
@@ -9144,8 +9102,6 @@
         b.setAttribute("aria-pressed", b.getAttribute("data-img-v") === img ? "true" : "false"));
       el.querySelectorAll("[data-fly-v]").forEach((b) =>
         b.setAttribute("aria-pressed", b.getAttribute("data-fly-v") === fly ? "true" : "false"));
-      el.querySelectorAll("[data-story-v]").forEach((b) =>
-        b.setAttribute("aria-pressed", b.getAttribute("data-story-v") === flight ? "true" : "false"));
     };
     paint();
     el.addEventListener("click", (e) => {
@@ -9171,15 +9127,6 @@
         document.documentElement.setAttribute("data-img", img);
         try { localStorage.setItem(IKEY, img); } catch (err) { /* ignore */ }
         applyImgStyle(img);
-        paint();
-        return;
-      }
-      const sb = e.target.closest("[data-story-v]");
-      if (sb) {
-        flight = sb.getAttribute("data-story-v");
-        document.documentElement.setAttribute("data-flight", flight);
-        try { localStorage.setItem(SKEY, flight); } catch (err) { /* ignore */ }
-        document.dispatchEvent(new CustomEvent("jaad:flight", { detail: flight }));
         paint();
         return;
       }
