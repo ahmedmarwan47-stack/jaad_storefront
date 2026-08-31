@@ -3209,14 +3209,33 @@ input:checked + .radio-card-accent {
   background: linear-gradient(135deg, #F6E6A6 0%, #E3B44A 45%, #D0A339 100%);
   color: #4a3708;
 }
+/* Silver and platinum used to be the same badge (Ahmed, 2026-08-31). Both
+   were light cool greys and their mid stops measured 1.21:1 against each
+   other — under the gloss sweep they were genuinely indistinguishable, which
+   is a problem when they are the BOTTOM and TOP rungs of the same ladder.
+
+   Splitting them by lightness rather than by hue is what actually works
+   here. Two light greys can only differ by tint, and tint is the first thing
+   the white gloss sweep washes out. So silver stays the light metal and
+   platinum becomes a dark blue-steel: the two now measure 5.37:1 apart, they
+   read apart at badge size, in a row, and at a glance, and the top tier is
+   the one that looks like the top tier. It also gives the ladder three
+   distinct values — light grey, gold, dark steel — instead of two washes and
+   a gold.
+
+   Both still clear AA across their whole ramp (worst stop: silver 4.77,
+   platinum 4.63), which is the constraint the gold ramp above is tuned to. */
 .tier-badge--silver {
-  background: linear-gradient(135deg, #eef1f5 0%, #cbd2db 48%, #a7b0bd 100%);
-  color: #343a44;
+  background: linear-gradient(135deg, #F2F4F7 0%, #C3CBD5 45%, #9AA4B2 100%);
+  color: #2F3742;
 }
+/* The one dark badge in the set, so it carries a brighter inner bevel than
+   the base rule gives — on a dark ground the white ring reads as polished
+   edge rather than as the faint sheen it is on the two light metals. */
 .tier-badge--platinum {
-  background: linear-gradient(135deg, #f7f9fc 0%, #dfe6ef 45%, #c3cdda 100%);
-  color: #2b3442;
-  box-shadow: inset 0 0 0 1px rgba(120, 140, 170, 0.4), 0 1px 3px rgba(0, 0, 0, 0.12);
+  background: linear-gradient(135deg, #60708A 0%, #404B5E 45%, #2C3543 100%);
+  color: #F2F6FB;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28), 0 1px 3px rgba(0, 0, 0, 0.22);
 }
 
 /* Wallet balance "pop" — a soft bounce while the number counts up after a
@@ -5350,6 +5369,27 @@ html[data-btn="v3"] .bg-heading       { background-color: var(--moss-ink) !impor
 /* Hover opens UP, not down — see the note on --moss-hi. */
 html[data-btn="v3"] .hover\:bg-cta-hover:hover,
 html[data-btn="v3"] .hover\:bg-primary-hover:hover { background-color: var(--moss-hi) !important; }
+/* The OTHER hover fill, and the bug it caused (Ahmed, 2026-08-31).
+   `.bg-cta` above is remapped for the base state, but `hover:bg-cta` is a
+   DIFFERENT class token, so it was never remapped and kept Tailwind's
+   #00451C — the old brand green, which is not in this palette at all.
+   Worse, the type block below pins `.text-cta`/`.text-ink` to --moss-ink
+   with !important, and the `hover:text-white` sitting on the same element
+   is a plain utility that cannot outrank it. So a control like the voucher
+   activate (+) button — `bg-cream hover:bg-cta hover:text-white ... text-cta`
+   — filled dark on hover while its glyph stayed --moss-ink: #253613 on
+   #00451C, 1.2:1, an icon that vanishes into the fill it sits on. That is
+   the "container darkens and the icon disappears" Ahmed reported.
+   Fix both halves: the fill follows `.bg-cta` to the ink, and the hover
+   type utilities are raised so they can win the cascade back. */
+html[data-btn="v3"] .hover\:bg-cta:hover,
+html[data-btn="v3"] .hover\:bg-primary:hover,
+html[data-btn="v3"] .hover\:bg-heading:hover,
+html[data-btn="v3"] .hover\:bg-greenDeep:hover { background-color: var(--moss-ink) !important; }
+/* White on --moss-ink is 13.4:1. The `svg` arm is belt-and-braces: the glyphs
+   are stroke="currentColor", so colouring the button is normally enough. */
+html[data-btn="v3"] .hover\:text-white:hover,
+html[data-btn="v3"] .hover\:text-white:hover svg { color: #fff !important; }
 /* The one dark surface in the variant (the reviews band). It is --moss-ink, so
    it is the lime's own shadow rather than a second green. */
 html[data-btn="v3"] .bg-greenDeepest  { background-color: var(--moss-ink) !important; }

@@ -14,14 +14,20 @@ SLUG = "my-account-point.html"
 # POINT_TIERS order → the shining metallic badge key (styles.css tier-badge--*).
 _TIER_KEYS = ["silver", "gold", "platinum"]
 
-# One earn rule per card. Emoji stand-ins for the 3D renders still to come
-# (prompts handed to Ahmed) — the build validates asset refs, so these stay
-# emoji until the files exist.
+# One earn rule per card. The emoji stand-ins are gone (Ahmed, 2026-08-31) —
+# these are the real 3D renders now, same puffy lime-on-forest-green set as
+# points-3d/voucher-3d, so the grid stops mixing system emoji into an
+# otherwise custom icon set.
+#
+# "قيّم مشترياتك" is a speech bubble carrying a star, not a bare star: the
+# bare star is already points-3d and sits at the top of this very page, so
+# reusing it here would have read as the same thing twice. The bubble says
+# "you wrote something" and the star says "a rating", which is the rule.
 _EARN = [
-    ("🛍️", "اكسب نقطة على كل جنيه", "على كل جنيه تشتريه من الموقع"),
-    ("⭐", "قيّم مشترياتك", "نقاط إضافية عند تقييم المنتجات"),
-    ("🎁", "مكافأة ترحيبية", "نقاط هدية عند إنشاء حساب جديد"),
-    ("🎂", "عروض المناسبات", "نقاط مضاعفة في العروض الموسمية"),
+    ("earn-purchase-3d.png", "اكسب نقطة على كل جنيه", "على كل جنيه تشتريه من الموقع"),
+    ("earn-review-3d.png", "قيّم مشترياتك", "نقاط إضافية عند تقييم المنتجات"),
+    ("earn-welcome-3d.png", "مكافأة ترحيبية", "نقاط هدية عند إنشاء حساب جديد"),
+    ("earn-occasion-3d.png", "عروض المناسبات", "نقاط مضاعفة في العروض الموسمية"),
 ]
 
 
@@ -53,12 +59,15 @@ def build():
     nxt_label = tp["next"][0] if tp["next"] else ""
     tonext = (f'<span class="latin">{tp["to_next"]:,}</span> نقطة للوصول لعضوية {nxt_label}'
               if tp["next"] else "وصلت لأعلى مستوى عضوية 🎉")
+    # Bare <img>, no cream tile behind it: every other 3D icon on the account
+    # pages (the wallet banner, the voucher rows, the points card above) sits
+    # straight on the card, and the renders carry their own soft shadow.
     earn = "".join(f"""
                 <div class="flex flex-col gap-1 bg-white shadow-custom4 p-4 rounded-2xl">
-                  <span class="place-items-center grid bg-cream rounded-xl size-11 text-2xl" aria-hidden="true">{emoji}</span>
+                  <img src="images/jaad/icons/{icon}" alt="" class="w-12 h-12 object-contain shrink-0" />
                   <span class="mt-1 font-bold text-ink text-sm">{title}</span>
                   <span class="text-muted text-xs leading-5">{sub}</span>
-                </div>""" for emoji, title, sub in _EARN)
+                </div>""" for icon, title, sub in _EARN)
 
     content = f"""
             <div class="flex flex-wrap justify-between items-center gap-3">
