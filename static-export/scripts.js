@@ -1299,8 +1299,25 @@
     const copyright = `جميع حقوق النشر تنتمي إلى جاد, <span class="latin">${YEAR}</span>`;
 
     if (isCheckout()) {
-      return `<footer class="bg-black py-6">
-        <div class="mx-auto px-4 max-w-[1392px] text-onBlack text-xs text-center">${copyright}</div>
+      /* CREAM, and the markup now says so (Ahmed's mobile audit, 2026-09-01).
+         This carried `bg-black` + `text-onBlack`, and neither was true on
+         screen: styles.css ends with a blanket
+         `footer, html[data-btn] footer { background-color: #FDF8F1 !important }`
+         written for the MAIN footer, to repaint its old dark slab across every
+         variant — and a bare element selector with !important catches this one
+         too. So the slim checkout footer has been rendering cream while wearing
+         a black class, with #949494 text on it: 2.87:1, where that token is
+         6.92:1 on the black it is named for.
+
+         Matching the markup to what actually renders fixes the contrast —
+         `onBeigeMuted` is 7.06:1 and is the token the config already nominates
+         for muted text on cream — without touching the blanket rule the main
+         footer depends on. A hairline border replaces the edge the black slab
+         used to give the page its footer. If this bar is meant to be black
+         again, that blanket rule needs scoping off it; a colour here cannot do
+         it. */
+      return `<footer class="bg-cream border-divider border-t py-6">
+        <div class="mx-auto px-4 max-w-[1392px] text-onBeigeMuted text-xs text-center">${copyright}</div>
       </footer>`;
     }
 
@@ -1341,7 +1358,7 @@
           ${col.links
             .map(
               (l) =>
-                `<li><a href="${pageHref(l.url)}" class="font-normal text-white hover:text-lime text-base transition-colors whitespace-nowrap">${esc(t(l.title))}</a></li>`,
+                `<li><a href="${pageHref(l.url)}" class="inline-flex items-center min-h-6 font-normal text-white hover:text-lime text-base transition-colors whitespace-nowrap">${esc(t(l.title))}</a></li>`,
             )
             .join("")}
         </ul>
@@ -1378,7 +1395,7 @@
               ${col.links
                 .map(
                   (l) =>
-                    `<li><a href="${pageHref(l.url)}" class="font-normal text-white hover:text-lime text-base leading-6 transition-colors">${esc(t(l.title))}</a></li>`,
+                    `<li><a href="${pageHref(l.url)}" class="inline-flex items-center min-h-6 font-normal text-white hover:text-lime text-base leading-6 transition-colors">${esc(t(l.title))}</a></li>`,
                 )
                 .join("")}
             </ul>
@@ -1419,7 +1436,7 @@
         </div>
         <form data-newsletter class="flex items-center gap-2 bg-white ps-4 pe-2 py-2 rounded-full w-full md:w-auto md:min-w-[380px] shrink-0">
           <input type="email" required aria-label="${esc(t("البريد الالكتروني"))}" placeholder="${esc(t("أدخل عنوان البريد الالكتروني"))}"
-                 class="flex-1 bg-transparent outline-none min-w-0 text-ink text-sm placeholder:text-muted" />
+                 class="flex-1 bg-transparent outline-none min-h-10 min-w-0 text-ink text-sm placeholder:text-muted" />
           <button type="submit" class="bg-heading hover:bg-[#1f4a24] px-6 min-h-10 rounded-full font-semibold text-white text-sm whitespace-nowrap transition-colors">${esc(t("اشتراك"))}</button>
         </form>
       </div>`;
@@ -1644,7 +1661,7 @@
               class="drawer-close place-items-center grid bg-white shadow-custom3 rounded-full size-8 text-ink"><span class="w-3.5 h-3.5">${ICON.close}</span></button>
       <div class="flex justify-between items-center px-5 py-4 border-divider border-b">
         <h2 class="font-bold text-ink text-lg">${esc(t("سلة التسوق"))}</h2>
-        <a href="cart.html" class="link-sweep font-semibold text-cta text-sm underline">${esc(t("عرض السلة"))}</a>
+        <a href="cart.html" class="link-sweep inline-flex items-center min-h-6 font-semibold text-cta text-sm underline">${esc(t("عرض السلة"))}</a>
       </div>
       <div class="flex-1 px-5 overflow-y-auto">
         <div data-cart-lines></div>
@@ -1850,7 +1867,7 @@
                    class="mt-1 px-3 border border-divider focus:border-cta rounded-lg outline-none w-full h-12 text-ink text-sm transition-colors" />
           </label>
           <label class="flex items-center gap-2 py-1 cursor-pointer">
-            <input type="checkbox" name="main" class="accent-ink-800 size-4" />
+            <input type="checkbox" name="main" class="accent-ink-800 size-6" />
             <span class="text-ink text-sm">${esc(t("اجعله العنوان الافتراضي"))}</span>
           </label>
           <button type="submit" class="bg-cta hover:bg-cta-hover mt-1 py-3 rounded-full font-semibold text-white text-sm transition-colors">${esc(t("حفظ العنوان"))}</button>

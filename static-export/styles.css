@@ -4148,10 +4148,15 @@ html[dir="rtl"] .about-hero__scrim { --hero-scrim-to: left; }
 .about-journey__side { display: flex; flex-direction: column; gap: 1.75rem; min-width: 0; }
 
 .about-journey__rail { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+/* The RESTING chapter label. #9aa08f read 2.55:1 on the cream page — muted was
+   the intent, illegible was not, and these are the control that tells a reader
+   which chapter they are on. #6B7263 is the same grey-green at 4.72:1. The
+   contrast WITH the current chapter is what carries the state and it survives:
+   #29612F is 6.98:1, still visibly the stronger of the two. */
 .about-journey__node {
   display: flex; align-items: center; gap: .5rem;
   font-size: 13px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
-  color: #9aa08f; transition: color .4s ease;
+  color: #6B7263; transition: color .4s ease;
 }
 .about-journey__node.is-current { color: #29612F; }
 .about-journey__node-dot {
@@ -4376,9 +4381,17 @@ html[dir="rtl"] .about-time__row.is-reached .about-time__dot { transform: transl
 }
 .about-time__row.is-reached .about-time__card { opacity: 1; transform: none; }
 
+/* The year is the brand lime DARKENED, not the lime itself (Ahmed's mobile
+   audit, 2026-09-01). #98CA55 on the cream page measures 1.82:1, and at 13px
+   this is not large text however bold it is, so AA asks 4.5:1 — the years were
+   effectively unreadable. #4F7A18 is the same yellow-green (h 86 against the
+   lime's 88) taken down to 4.81:1, so the timeline keeps an ACCENT colour that
+   is still distinct from the heading green (#29612F) beside it. Going all the
+   way to a palette green would have passed too, and made every year look like
+   a heading. */
 .about-time__year {
   display: block; font-size: 13px; font-weight: 700; letter-spacing: 1px;
-  color: #98CA55; margin-bottom: 0.25rem;
+  color: #4F7A18; margin-bottom: 0.25rem;
 }
 .about-time__heading { font-size: 20px; font-weight: 600; color: #29612F; line-height: 1.3; }
 @media (min-width: 768px) { .about-time__heading { font-size: 24px; } }

@@ -83,7 +83,7 @@ def build():
                     <!-- ?next=checkout.html so a shopper who signs in mid-flow
                          lands back HERE after the OTP, not on the dashboard
                          (Ahmed, 2026-08-04). -->
-                    <a href="login.html?next=checkout.html" class="font-semibold text-cta underline">تسجيل الدخول</a>
+                    <a href="login.html?next=checkout.html" class="inline-flex items-center min-h-6 font-semibold text-cta underline">تسجيل الدخول</a>
                   </p>
                 </div>
                 <div class="gap-4 grid sm:grid-cols-2">

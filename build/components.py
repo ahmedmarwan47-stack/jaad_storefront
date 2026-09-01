@@ -1965,7 +1965,9 @@ def bundle_item(p, checked=True):
                        data-id="{e(p.get('id', 0))}" data-name="{e(_title(p))}"
                        data-price="{e(p['price'])}" data-image="{e(p['image'])}"
                        class="flex items-center gap-3 py-2 cursor-pointer">
-                  <input type="checkbox" data-bundle-check{' checked' if checked else ''} class="accent-ink-800 shrink-0 rounded w-5 h-5" />
+                  <!-- 24px, not 20: WCAG 2.5.8 asks 24 of any pointer target, and this one is
+                       tapped directly rather than through a wrapping label. -->
+                  <input type="checkbox" data-bundle-check{' checked' if checked else ''} class="accent-ink-800 shrink-0 rounded w-6 h-6" />
                   <img src="{e(scene_image(p))}" alt="" class="cart-thumb bg-cream shrink-0 rounded-lg w-12 h-12" loading="lazy" />
                   <span class="flex-1 min-w-0 text-ink text-sm leading-5 line-clamp-2">{e(_title(p))}</span>
                   {price_sticker(p['price'], "sm")}
