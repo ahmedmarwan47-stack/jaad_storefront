@@ -776,14 +776,9 @@ def product_gallery(images, alt, p=None):
         # the whole product header down with them — the richest galleries, which
         # are the ones worth having, broke the layout worst.
         #
-        # The cap USED to be the plate's own fixed height, exactly. The plate is
-        # `aspect-square` now (see its note), so its height follows the column
-        # width and these two numbers can no longer be equal at every viewport;
-        # they are kept as the plate's height at the width each breakpoint was
-        # drawn for. Being a few px short of the plate costs nothing — the strip
-        # simply stops above its bottom edge — and the alternative, a JS-driven
-        # cap, would make a layout depend on a script for something a static
-        # ceiling already handles.
+        # The cap IS the plate's own fixed height, exactly — keep the two in
+        # step. They briefly disagreed while the plate was `aspect-square` (see
+        # its note); it is back on h-[348px] xl:h-[520px], so these match again.
         strip = f"""
             <div data-gallery-strip class="flex md:flex-col gap-3 md:max-h-[348px] xl:max-h-[520px]
                         overflow-x-auto md:overflow-x-hidden md:overflow-y-auto no-scrollbar shrink-0">{thumb_html}
@@ -808,31 +803,41 @@ def product_gallery(images, alt, p=None):
                  which drops the padding and lets them bleed to the rounded
                  corners. Both states are the same box, so switching between
                  them never resizes the column. -->
-            <!-- SQUARE, because every photograph in it is square (Ahmed,
-                 2026-09-01: "I can see some product photos so enlarged").
+            <!-- FULL COLUMN WIDTH, 520 TALL — the Figma proportions, arrived at
+                 the long way round (Ahmed, 2026-09-01: "I can see some product
+                 photos so enlarged", then "I like the height now but fix the
+                 width too to be inline with the container below it").
 
-                 It was h-[348px] xl:h-[520px] against a `flex-1` width, which
-                 at 1440 measured 577x520 — a 1.11:1 frame. Every styled shot is
-                 640x640 or 720x720, and photographs fill the plate with
-                 object-cover, so cover scaled each one to the plate's WIDTH and
-                 then cut 57px off it vertically: a ~10% top-and-bottom crop on
-                 every product on the site. On a shot already framed tight to
-                 the bag that reads as the photograph being blown up, which is
-                 exactly what it was.
+                 This box briefly became `aspect-square`, and the reasoning is
+                 worth keeping because it explains why square was BOTH right and
+                 wrong. The complaint was that product shots looked blown up,
+                 and there were two causes: this frame is 1.11:1 (577x520 at
+                 1440) while every styled asset is square, so object-cover cut
+                 ~10% off the top and bottom of every photograph on the site —
+                 AND four of the nut shots were framed so tight to the bag that
+                 any crop at all bit into it.
 
-                 `aspect-square` is a fix at the frame rather than at 78 assets,
-                 and it holds at every width instead of at the one the fixed
-                 height happened to suit.
+                 Square removed the crop but made the plate as tall as the
+                 column is wide (577), which pushed "You may also like" down the
+                 page; capping the WIDTH instead kept it square at 520 but left
+                 it narrower than the card below, breaking the column's edge.
+                 There is no geometry that is square, 520 tall, and as wide as
+                 the column — those three are contradictory.
 
-                 The invariant the fixed height existed for SURVIVES: the two
-                 fill modes swap `p-6`/`p-10` on this box, and aspect-ratio
-                 sizes the border box, so a cut-out's padding still comes out of
-                 the inside and the outer box does not move a pixel when a
-                 thumbnail is clicked. What is lost is the strip's static cap
-                 tracking the plate exactly — see the note on the strip. -->
+                 So the frame goes back to the design and the OTHER cause is
+                 what stays fixed: 8/9/10/11 and 8-b were re-framed by
+                 outpainting, so the bag now sits with real margin and the ~5%
+                 trimmed off each edge no longer touches it. The crop is a
+                 deliberate accepted cost again, not an oversight — if a future
+                 shot looks enlarged here, re-frame the SHOT; the frame is the
+                 Figma's and the column depends on it.
+
+                 The height is also what the thumbnail strip is capped to, and
+                 the two fill modes swap `p-6`/`p-10` inside this fixed box, so
+                 the column never resizes when a thumbnail is clicked. -->
             <div data-gallery-plate data-fill="{'cover' if _is_photo(main_img) else 'contain'}"
                  class="gallery-plate relative flex-1 bg-cream rounded-[20px] min-w-0 overflow-hidden
-                        aspect-square">
+                        h-[348px] xl:h-[520px]">
               <img data-gallery-main src="{e(main_img)}" alt="{e(alt)}"
                    data-img-scene="{e(main_img)}" data-img-plain="{e(p['image']) if p else e(main_img)}"
                    class="mx-auto w-full h-full" />

@@ -458,7 +458,29 @@ def build():
                class="hero-pic hero-pic--en-mobile w-full aspect-[3/4] object-cover" />
           <img src="images/jaad/site/hero-ar-mob.jpg" alt="" aria-hidden="true" loading="lazy"
                class="hero-pic hero-pic--ar-mobile w-full aspect-[3/4] object-cover" />
-          <div class="absolute inset-x-0 top-0 sm:inset-y-0 flex flex-col justify-start sm:justify-center items-start gap-3 sm:gap-4 md:gap-5 pt-[16%] sm:pt-0 ps-6 md:ps-10 xl:ps-[60px] pe-4 max-w-[80%] sm:max-w-[62%]">
+          <!-- ON THE PAGE GRID (Ahmed, 2026-09-01: "everything in the website
+               follows a straight line in the borders except for the hero title
+               and button").
+
+               It used to hang its own `ps-6 md:ps-10 xl:ps-[60px]` off the
+               FULL-BLEED section, while every other section on the site centres
+               `max-w-[1512px]` and pads `px-4 xl:px-[60px]` inside it. Those two
+               agree only up to 1512: past that the container starts gaining a
+               margin and the hero does not, so at 1594 the nav sat at 101px and
+               the headline at 60 — the 41px step visible in the screenshot, and
+               it widens with the viewport.
+
+               So the overlay IS the container now: same max-width, same
+               padding, `mx-auto` (which centres an absolutely positioned box
+               that has both inset-x edges pinned). The 62% text cap moves to an
+               inner wrapper — left on this element it would fight the
+               max-w-[1512px] that does the aligning.
+
+               The phone gutter goes 24px -> 16px as a consequence, which is the
+               same px-4 every other section uses there. That is the ask taken
+               literally: one line down both edges at every width. -->
+          <div class="absolute inset-x-0 top-0 sm:inset-y-0 mx-auto w-full max-w-[1512px] px-4 xl:px-[60px] flex flex-col justify-start sm:justify-center items-start pt-[16%] sm:pt-0">
+           <div class="flex flex-col items-start gap-3 sm:gap-4 md:gap-5 max-w-[80%] sm:max-w-[62%]">
             <div class="flex flex-col items-start isolate">
               <span data-hero-kicker class="z-[2] -mb-2 -rotate-2 inline-flex items-center bg-limeFigma px-2.5 pb-1 sm:pb-0 rounded-tl-[20px] rounded-br-[20px] font-normal text-heading text-[28px] md:text-[36px] xl:text-[42px] leading-none tracking-[-0.21px]">Natural Snacks</span>
               <span data-hero-title class="z-[1] inline-flex items-center whitespace-nowrap bg-white px-2.5 pt-1.5 sm:pt-0 pb-1 rounded-[12px] font-bold text-[#333] text-[34px] md:text-[50px] xl:text-[62px] leading-[1.15] sm:leading-[1.2]">For Every Event</span>
@@ -474,6 +496,7 @@ def build():
               Shop Now
               <svg viewBox="0 0 24 24" fill="none" class="w-5 sm:w-6 h-5 sm:h-6"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
+           </div>
           </div>
           <!-- Trust seal (Ahmed, 2026-08-25). The supplied BADGE.svg — a lime
                disc reading 100% NATURAL, ringed by a repeating NATURAL PRODUCTS
