@@ -4,12 +4,14 @@ from pathlib import Path
 
 from catalog import PRODUCTS, e, home_categories, rail_products, category
 from components import (
-    # `carousel` and `review_card` went with the reviews rebuild (2026-08-25) —
-    # that section no longer uses the generic carousel, and the card is authored
-    # here. NOTE for whoever is next: category_tile, product_card and
-    # section_heading were already unused before that change and are left alone
-    # rather than swept up in an unrelated edit.
-    ICON, article_card, button, category_tile, page,
+    # `review_card` went with the reviews rebuild (2026-08-25) — that section
+    # authors its card here rather than using the generic one. `carousel` went
+    # with it and came BACK on 2026-09-01, when Perfect Picks and Recently
+    # Viewed stopped being bare scrollers (see those sections below). NOTE for
+    # whoever is next: category_tile, product_card and section_heading were
+    # already unused before that change and are left alone rather than swept up
+    # in an unrelated edit.
+    ICON, article_card, button, carousel, category_tile, hero_wave, page,
     product_card, product_widget, section_heading,
 )
 
@@ -258,8 +260,25 @@ def build():
     cards = "".join(category_card(*c) for c in CATEGORY_CARDS)
 
     def pp_widgets(ids, discount):
+        """Ten cards per tab, from a curated head of five.
+
+        The tabs held exactly five (Ahmed, 2026-09-01: Perfect Picks "should be
+        carousels too so leave the arrows there"). Five is precisely one desktop
+        screen now that initCarousel sizes cards to fill the container, so a
+        five-card tab would have shown a pair of arrows with nowhere to go —
+        and the arrows only appear from xl up, which is exactly where the rail
+        would have had no travel. The curated order is kept as the head and the
+        tail is padded from the catalogue, so the first five cards of each tab
+        are still the ones that were chosen.
+        """
+        picked = list(ids)
+        for p in PRODUCTS:
+            if len(picked) >= 10:
+                break
+            if p["id"] not in picked:
+                picked.append(p["id"])
         out = []
-        for pid in ids:
+        for pid in picked:
             p = PRODUCTS_BY_ID.get(pid)
             if not p:
                 continue
@@ -272,17 +291,29 @@ def build():
         f'data-tab="{key}">{label}</button>'
         for i, (key, label, _ids, _d) in enumerate(PERFECT_PICKS)
     )
+    # A real carousel, not a bare scroller (Ahmed, 2026-09-01). It is the same
+    # `carousel()` the product, cart and thank-you rails use, so this row now
+    # gets their arrows, their fill-the-container card sizing and their endless
+    # wrap for free, and there is one product-rail behaviour on the site instead
+    # of two.
+    #
+    # What the hand-rolled version was carrying, and why none of it is missed:
+    #   - a 2xl breakpoint where the row stopped scrolling and laid its five
+    #     258px cards out side by side. That existed because the cards were a
+    #     FIXED 258px: five of them plus the 60px gutters need 1410px, and
+    #     between xl (1280) and 1410 the fifth was clipped by <main>'s
+    #     overflow-x-clip with no scrollbar to reach it — invisible, unreachable
+    #     stock. initCarousel now sizes cards to the container at every width,
+    #     so there is no width at which a card is half-shown and nothing to
+    #     special-case.
+    #   - `-mx-4 px-4` edge bleed on phones, so the fixed-width slides ran to
+    #     the screen edge instead of stopping at the gutter. Same story: the
+    #     bleed was making fixed cards look deliberate at the edge, and fitted
+    #     cards already land on the gutter by construction.
     pp_panels = "".join(
         f'<div class="tab-panel" data-panel="{key}"{"" if i == 0 else " hidden"}>'
-        # 2xl, not xl (Ahmed's audit, 2026-08-25): the rail stops scrolling and lays
-        # its five cards out side by side — but five 258px cards plus the page's
-        # 60px gutters need 1410px, and xl is 1280. Between 1280 and 1410 the
-        # fifth card was clipped by <main>'s overflow-x-clip with NO scrollbar to
-        # reach it — invisible, unreachable stock. 2xl (1536) is the first stop
-        # in the scale where the row genuinely fits (1536-120=1416 >= 1410).
-        f'<div class="flex 2xl:justify-between gap-4 2xl:gap-0 -mx-4 2xl:mx-0 px-4 2xl:px-0 scroll-pl-4 2xl:scroll-pl-0 '
-        f'overflow-x-auto 2xl:overflow-visible no-scrollbar snap-x">{pp_widgets(ids, disc)}'
-        f'</div></div>'
+        f'{carousel(pp_widgets(ids, disc), loop=True)}'
+        f'</div>'
         for i, (key, _label, ids, disc) in enumerate(PERFECT_PICKS)
     )
 
@@ -470,11 +501,16 @@ def build():
             <img src="images/jaad/brand/badge-jaad-ring.svg" alt="" class="hero-badge__ring" />
           </div>
 
-          <!-- Scalloped white bottom edge (Figma 'Union', fill #fff). Made wider
-               than the hero and centred so the flat end-caps sit off-screen —
-               only the seamless scallops show, with no cut at either edge. -->
-          <img src="images/jaad/site/hero-wave.svg" alt="" aria-hidden="true"
-               class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[112%] max-w-none h-[28px] md:h-[45px]" />
+          <!-- Scalloped white bottom edge (Figma 'Union', fill #fff), handing
+               the hero over to the white categories section below.
+
+               INLINE via hero_wave() now, where it used to be an <img> of
+               hero-wave.svg. The component draws a TILED, end-cap-free path so
+               the scroll drift can wrap instead of running out of cover (see
+               its note) — an external SVG cannot be given that treatment
+               without editing the asset, and then the two pages would be
+               drawing two different waves again. -->
+          {hero_wave(fill="#fff")}
         </div>
       </section>
 
@@ -537,21 +573,36 @@ def build():
       </section>
 
       <!-- ============================== OUR STORY ============================== -->
-      <!-- Figma node 9943:16606. Cap (logo, heading, copy, link) + a rounded
-           three-column image banner with gradient captions; scattered leaves. -->
+      <!-- Figma node 9943:16606. Cap (heading + copy left, link right) + a
+           rounded three-column image banner with gradient captions; leaves. -->
       <section id="our-story" class="relative bg-cream py-14 xl:py-[60px] overflow-hidden">
         <div class="relative flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="relative">{story_leaves}
             <!-- data-reveal is the site's own scroll-reveal contract (initReveal
                  + the .js-reveal gate in styles.css), not a new mechanism; the
                  only thing this section adds is the stagger, in .story__cap. -->
-            <div class="story__cap relative z-10 flex flex-col gap-6 max-w-[502px]">
-              <div class="flex flex-col gap-2" data-reveal>
-                <img src="images/jaad/brand/logo-jaad-mark.svg" alt="JAAD" class="w-[84px] xl:w-[112px] h-auto" />
-                <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">Our Story</h2>
+            <!-- The cap reads as one ROW from sm up: heading + copy hold the
+                 left, the link is pushed to the right rail (Ahmed, 2026-09-01).
+                 The JAAD mark that used to sit above the heading is gone with
+                 it — the masthead carries the logo six times over on this page
+                 and a second one at the top of a section titled "Our Story" was
+                 saying the brand name twice.
+                 `items-end` seats the link on the copy's last baseline rather
+                 than centring it against a two-line block, which is what stops
+                 it floating in the gap. The 502px cap moves off the flex parent
+                 and onto the text column, where it still governs the measure;
+                 leaving it on the parent would have pinned the link 502px in
+                 instead of out at the rail. Under sm it stacks back to a
+                 column, so the link stays under the copy on a phone. -->
+            <div class="story__cap relative z-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+              <!-- gap-2, down from the gap-6 these two had as siblings of the
+                   cap (Ahmed: "make the title and sub title together less
+                   space") — they now read as one block, not two stacked ones. -->
+              <div class="flex flex-col gap-2 max-w-[502px]">
+                <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]" data-reveal>Our Story</h2>
+                <p class="text-black text-base leading-[1.4]" data-reveal>At JAAD, we carefully select the finest natural products from their original sources to deliver a pure and authentic experience.</p>
               </div>
-              <p class="text-black text-base leading-[1.4]" data-reveal>At JAAD, we carefully select the finest natural products from their original sources to deliver a pure and authentic experience.</p>
-              <a href="about.html" data-reveal class="group/link inline-flex items-center gap-2 w-fit font-normal text-greenDeep text-base">
+              <a href="about.html" data-reveal class="group/link inline-flex items-center gap-2 shrink-0 w-fit font-normal text-greenDeep text-base">
                 Read More
                 <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 transition-transform group-hover/link:translate-x-1"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
@@ -572,12 +623,18 @@ def build():
       <!-- Figma node 9946:16842. Filled client-side from localStorage
            (scripts.js initRecentlyViewed), padded from real products to five so
            it is never sparse. -->
-      <section id="recently-viewed" class="bg-white py-14 xl:py-[60px]" data-recently-viewed data-recent-min="5">
+      <!-- A carousel, matching Perfect Picks above and the product page's own
+           Recently Viewed (Ahmed, 2026-09-01) — see the pp_panels note for what
+           the hand-rolled scroller was carrying and why none of it survives the
+           switch. data-recent-min is 10, not 5: the rail is padded from the
+           catalogue when a shopper has not viewed that many, and five would
+           have filled a desktop row exactly, leaving the arrows inert.
+           initRecentlyViewed fires `carousel:refresh` once it has filled the
+           track, because at boot this rail has no cards to measure. -->
+      <section id="recently-viewed" class="bg-white py-14 xl:py-[60px]" data-recently-viewed data-recent-min="10">
         <div class="flex flex-col gap-8 xl:gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">Recently Viewed</h2>
-          <!-- 2xl mirrors the Perfect Picks rail above: five 258px cards need 1410px
-               and only fit past 1536; below that the strip stays a scroller. -->
-          <div data-recent-track class="flex 2xl:justify-between gap-4 2xl:gap-0 -mx-4 2xl:mx-0 px-4 2xl:px-0 scroll-pl-4 2xl:scroll-pl-0 overflow-x-auto 2xl:overflow-visible no-scrollbar snap-x"></div>
+          {carousel("", track_attr=" data-recent-track", loop=True)}
         </div>
       </section>
 

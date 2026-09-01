@@ -431,12 +431,58 @@ def sort_select(options, label="ترتيب حسب"):
 #
 # Wider than its container and centred, so the flat end-caps sit off-screen and
 # only the seamless scallops show, with no cut at either edge.
+# TILED, not the Figma path verbatim (Ahmed, 2026-09-01: "the wave drift is so
+# subtle that it doesn't appear so make it more appearing as animation").
+#
+# The drift used to be a bounded slide inside the 6% of overhang each side, so
+# it could travel a little over half a scallop before running out of cover and
+# exposing the Figma path's flat END-CAP. Half a scallop over a whole hero exit
+# is the "so subtle it doesn't appear".
+#
+# The way out is to stop bounding it, and the way to do THAT is a path with no
+# end-caps to expose. The Figma path is one 1589.19-wide shape: a left cap, nine
+# scallops, a right cap. Its middle is exactly periodic — the peaks sit at
+# 80.09, 238.87, 397.65 … a constant 158.78 apart, and each gap is the same
+# three cubic segments. So the periodic part is lifted out, expressed once in
+# RELATIVE form (dx sums to 158.78, dy sums to 0 — it starts and ends on a
+# peak), and repeated. The caps are simply not drawn.
+#
+# What that buys: the scallop can now be translated by exactly one period and
+# land on itself, so initWaveDrift wraps instead of stopping, and the wave
+# drifts as far as the reader scrolls with nothing to run out of.
+#
+# The SCALLOP SIZE IS UNCHANGED, which is the point of tiling 20 across 224%
+# rather than 10 across 112%: 224/20 is the same 11.2% of the container per
+# scallop that 112/10 was. The alternative — keeping 10 scallops and widening
+# the element to buy overhang — would have stretched every scallop on two pages
+# to pay for the motion. This changes nothing about how the edge looks.
+WAVE_PERIOD = 158.78
+WAVE_TILES = 20
+# One scallop, from peak to peak. Three cubics: down off the peak, across the
+# trough, back up to the next peak.
+_WAVE_UNIT = (
+    "c20.458 0 39.226 4.164 53.895 11.1015"
+    "c14.191 6.7113 36.8 6.7112 50.991 -0.0001"
+    "c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014"
+)
+
+
 def hero_wave(fill="#FDF8F1", extra=""):
+    w = WAVE_PERIOD * WAVE_TILES
+    # Start on a peak, walk the scallops, then close down the right edge, back
+    # along the bottom and up — the fill is everything BELOW the wavy top edge.
+    path = f'M0 0{_WAVE_UNIT * WAVE_TILES}V49H0Z'
     return (
-        f'<svg viewBox="0 0 1589.19 49" preserveAspectRatio="none" fill="none" '
+        f'<svg viewBox="0 0 {w:.2f} 49" preserveAspectRatio="none" fill="none" '
         f'aria-hidden="true" focusable="false" '
-        f'class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[112%] max-w-none h-[28px] md:h-[45px] {extra}">'
-        f'<path d="M1509.1 0C1543.55 0 1573.21 11.8068 1586.57 28.7817C1594.09 38.3298 1584.27 49 1572.12 49H17.0716C4.92138 49 -4.8905 38.3298 2.62364 28.7817C15.9824 11.8068 45.6444 0.000110416 80.0911 0C100.548 0 119.316 4.164 133.985 11.1015C148.176 17.8128 170.785 17.8127 184.976 11.1014C199.645 4.16398 218.414 3.4347e-05 238.87 0C259.327 0 278.096 4.16402 292.766 11.1016C306.956 17.8127 329.564 17.8127 343.754 11.1015C358.424 4.164 377.193 3.1225e-06 397.65 0C418.106 0 436.876 4.16399 451.545 11.1015C465.736 17.8127 488.343 17.8127 502.534 11.1016C517.203 4.16401 535.972 0 556.429 0C576.885 2.80983e-05 595.654 4.16401 610.322 11.1014C624.513 17.8127 647.122 17.8127 661.313 11.1015C675.982 4.16397 694.752 0 715.208 0C735.664 5.93185e-05 754.433 4.16403 769.102 11.1014C783.293 17.8127 805.901 17.8127 820.092 11.1014C834.761 4.16399 853.53 4.19832e-05 873.987 0C894.443 0 913.212 4.16399 927.881 11.1014C942.072 17.8127 964.681 17.8127 978.872 11.1014C993.541 4.16397 1012.31 1.07587e-05 1032.77 0C1053.22 0 1071.99 4.164 1086.66 11.1015C1100.85 17.8127 1123.46 17.8127 1137.65 11.1016C1152.32 4.16401 1171.09 0 1191.55 0C1212 2.04631e-05 1230.77 4.164 1245.44 11.1014C1259.63 17.8127 1282.24 17.8127 1296.43 11.1015C1311.1 4.16396 1329.87 0 1350.32 0C1370.78 5.16833e-05 1389.55 4.16402 1404.22 11.1014C1418.41 17.8127 1441.02 17.8127 1455.21 11.1014C1469.88 4.16399 1488.65 4.96194e-05 1509.1 0Z" fill="{fill}"/></svg>'
+        # `hero-wave` + `data-wave` are the scroll-drift hooks (initWaveDrift).
+        # The `-translate-x-1/2` utility is GONE on purpose: the centring is now
+        # part of a single transform owned by .hero-wave in styles.css, because
+        # two rules writing `transform` on one element means the later one wins
+        # outright and the earlier one silently does nothing.
+        f'data-wave data-wave-tiles="{WAVE_TILES}" '
+        f'class="hero-wave absolute bottom-0 left-1/2 w-[224%] max-w-none h-[28px] md:h-[45px] {extra}">'
+        f'<path d="{path}" fill="{fill}"/></svg>'
     )
 
 
@@ -725,12 +771,19 @@ def product_gallery(images, alt, p=None):
                   <img src="{e(t)}" alt=""
                        class="w-full h-full {'object-cover' if _is_photo(t) else 'object-contain'}" loading="lazy" />
                 </button>""" for i, t in enumerate(images))
-        # The vertical strip is capped to the height of the plate beside it and
-        # scrolls past that. Without the cap, nine 80px thumbnails stack 720px
-        # tall, make themselves the tallest thing in the row and drag the whole
-        # product header down with them — the richest galleries, which are the
-        # ones worth having, broke the layout worst. The cap is the plate's own
-        # box: p-6 + 300 at md, p-10 + 440 at xl.
+        # The vertical strip is capped so it cannot become the tallest thing in
+        # the row: without a cap, nine 80px thumbnails stack 720px tall and drag
+        # the whole product header down with them — the richest galleries, which
+        # are the ones worth having, broke the layout worst.
+        #
+        # The cap USED to be the plate's own fixed height, exactly. The plate is
+        # `aspect-square` now (see its note), so its height follows the column
+        # width and these two numbers can no longer be equal at every viewport;
+        # they are kept as the plate's height at the width each breakpoint was
+        # drawn for. Being a few px short of the plate costs nothing — the strip
+        # simply stops above its bottom edge — and the alternative, a JS-driven
+        # cap, would make a layout depend on a script for something a static
+        # ceiling already handles.
         strip = f"""
             <div data-gallery-strip class="flex md:flex-col gap-3 md:max-h-[348px] xl:max-h-[520px]
                         overflow-x-auto md:overflow-x-hidden md:overflow-y-auto no-scrollbar shrink-0">{thumb_html}
@@ -755,15 +808,31 @@ def product_gallery(images, alt, p=None):
                  which drops the padding and lets them bleed to the rounded
                  corners. Both states are the same box, so switching between
                  them never resizes the column. -->
-            <!-- Fixed height on the PLATE, not the image, with border-box
-                 padding. The two fill modes then swap the padding without the
-                 outer box moving a pixel — otherwise switching to a photograph
-                 would shrink the column by the padding it just dropped, and
-                 the whole page would jump on every thumbnail click. The height
-                 is also what the thumbnail strip is capped to. -->
+            <!-- SQUARE, because every photograph in it is square (Ahmed,
+                 2026-09-01: "I can see some product photos so enlarged").
+
+                 It was h-[348px] xl:h-[520px] against a `flex-1` width, which
+                 at 1440 measured 577x520 — a 1.11:1 frame. Every styled shot is
+                 640x640 or 720x720, and photographs fill the plate with
+                 object-cover, so cover scaled each one to the plate's WIDTH and
+                 then cut 57px off it vertically: a ~10% top-and-bottom crop on
+                 every product on the site. On a shot already framed tight to
+                 the bag that reads as the photograph being blown up, which is
+                 exactly what it was.
+
+                 `aspect-square` is a fix at the frame rather than at 78 assets,
+                 and it holds at every width instead of at the one the fixed
+                 height happened to suit.
+
+                 The invariant the fixed height existed for SURVIVES: the two
+                 fill modes swap `p-6`/`p-10` on this box, and aspect-ratio
+                 sizes the border box, so a cut-out's padding still comes out of
+                 the inside and the outer box does not move a pixel when a
+                 thumbnail is clicked. What is lost is the strip's static cap
+                 tracking the plate exactly — see the note on the strip. -->
             <div data-gallery-plate data-fill="{'cover' if _is_photo(main_img) else 'contain'}"
                  class="gallery-plate relative flex-1 bg-cream rounded-[20px] min-w-0 overflow-hidden
-                        h-[348px] xl:h-[520px]">
+                        aspect-square">
               <img data-gallery-main src="{e(main_img)}" alt="{e(alt)}"
                    data-img-scene="{e(main_img)}" data-img-plain="{e(p['image']) if p else e(main_img)}"
                    class="mx-auto w-full h-full" />

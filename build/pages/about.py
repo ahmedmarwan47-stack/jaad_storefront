@@ -34,9 +34,37 @@ SLUG = "about.html"
 STATS = [("26", "منتج"), ("3", "فئات منتجات"), ("100%", "طبيعي")]
 
 # The journey. Each chapter: (image, kicker, heading, copy).
-# The headings and copy are the page's original three story beats; the images
-# are the homepage's Our Story photography, so both pages tell one story with
-# one set of pictures.
+# The headings and copy are the page's original three story beats.
+#
+# THE PHOTOGRAPHY IS ORIGIN PHOTOGRAPHY (regenerated 2026-09-01, Higgsfield /
+# Recraft V4.1 — the same model the homepage story set came from). Coffee
+# cherries on the branch, an almond harvest, a spice stall: the source each
+# category comes from, which is the literal reading of this page's own title.
+#
+# It replaces three generated PACKSHOTS, and all three reasons are worth
+# keeping, because each is a trap the next set could fall into as well:
+#
+#   1. They invented product photography. A generated JAAD bag is a picture of
+#      a product that does not exist as photographed — home.py's own story-set
+#      note makes exactly this argument, and these three predated it. The
+#      Arabic on the spice bags was visibly malformed, which is what that risk
+#      looks like when it lands.
+#   2. They were three different worlds — candlelit dark, sunlit farm, black
+#      slate flat-lay. The chapters CROSS-FADE for 0.7s with both images
+#      visible, so black dissolving into gold passed through mud. The new set
+#      shares one lighting setup for that reason, not for tidiness.
+#   3. One of them was 900x430 in a frame that is a CIRCLE. `.about-journey__
+#      window` is border-radius 50%, aspect-ratio 1, object-fit cover — a 2.1:1
+#      flat-lay of four bags kept the middle two and cropped the rest away.
+#
+# So the format is a hard requirement, not a preference: 1:1, subject centred,
+# and clear at the edges. The incoming image also starts at scale(1.14) and
+# settles to 1, so roughly the outer eighth is cropped away mid-transition on
+# top of the circle. Anything near an edge is lost twice.
+#
+# The replaced files are not in git history as anything but a deletion; they
+# were generated, not authored, and the prompts that made these live in the
+# session notes rather than here.
 CHAPTERS = [
     ("story-coffee.jpg", "قهوة", "قصتنا",
      "من الطبيعة إليك — جاد تقدم قهوة ومكسرات وبهارات طبيعية عالية الجودة، "

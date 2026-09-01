@@ -799,6 +799,21 @@
     { code: "ar", label: "العربية", dir: "rtl" },
   ];
 
+  /* The top-strip language switcher is INERT (Ahmed, 2026-09-01: "please
+     unlink the language switcher for now, make it go no where").
+
+     "For now", so this is a pause and not a removal: the button still renders
+     in the utility bar and keeps its look, and flipping this one constant back
+     to true restores it. It is read in BOTH places that matter — the button's
+     aria-disabled at render time and the click handler — precisely so it
+     cannot end up half-on, promising an action it will not perform.
+
+     SCOPE: this is the direct العربية / English toggle only. The locale
+     preferences modal still switches language, and every other piece of the
+     i18n system (applyLang, the dictionary pass, the stored preference) is
+     untouched — a page loaded in Arabic still renders in Arabic. */
+  const LANG_TOGGLE_ENABLED = false;
+
   /*
    * Country + currency, mirroring the live site's switcher. Selecting a
    * country is DEMO state beyond the header label: every price in this build
@@ -1094,7 +1109,15 @@
     // bold, straight to each category — no mega panel.
     const navTabs = MAIN_MENU.map(
       (i) =>
-        `<a href="${pageHref(i.url)}" class="nav-tab relative font-bold text-white hover:text-[#ACD574] text-lg uppercase whitespace-nowrap transition-colors">${esc(t(i.name))}</a>`,
+        /* NO hover colour (Ahmed, 2026-09-01: "the hover state here should be
+           the underline only, don't change the color"). The `hover:text-…` and
+           `transition-colors` utilities are gone rather than overridden — the
+           underline in .nav-tab::after is the whole hover state, and it draws
+           in currentColor, so leaving a colour change in place would have
+           recoloured the line it was meant to accompany. Three per-variant
+           overrides in styles.css are scoped off .nav-tab for the same reason;
+           the other navbar links keep theirs. */
+        `<a href="${pageHref(i.url)}" class="nav-tab relative font-bold text-white text-lg uppercase whitespace-nowrap">${esc(t(i.name))}</a>`,
     ).join("");
 
     const desktop = `
@@ -1107,7 +1130,7 @@
                    ${promo}
                    <nav class="flex items-center gap-4 xl:gap-6 min-w-0 overflow-hidden">
                      ${support}
-                     <button type="button" data-lang-toggle data-no-i18n class="shrink-0 font-medium text-heading text-sm underline whitespace-nowrap">${currentLang() === "ar" ? "English" : "العربية"}</button>
+                     <button type="button" data-lang-toggle data-no-i18n${LANG_TOGGLE_ENABLED ? "" : ' aria-disabled="true"'} class="shrink-0 font-medium text-heading text-sm underline whitespace-nowrap">${currentLang() === "ar" ? "English" : "العربية"}</button>
                    </nav>
                  </div>
                </div>`
@@ -2109,18 +2132,42 @@
     return scored.slice(0, 24).map((x) => x.p);
   }
 
+  /* A search row is the same three things a product card is — shot, name,
+     price — so it is built from the same parts (Ahmed, 2026-09-01). All three
+     had drifted:
+
+     THE THUMBNAIL was `p-1` + `object-contain` on a `bg-cream` tile. Those two
+     fight: `images[0]` is the styled SQUARE photograph, so `contain` fitted it
+     inside the 40px content box the padding left behind and the tile's cream
+     showed as a ring all the way round — the "weird beige border as if the
+     photos is not filling the container". `cover` with no padding, and the
+     photograph is the tile. The cream stays as the colour behind a lazy image
+     that has not landed yet; once it does, nothing of it is visible.
+
+     THE PRICE was a flat lime pill printing `EGP 45` — a shape that exists
+     nowhere else on this site, and a number in a different format from every
+     other price on it. It is now priceStickerHTML(), the same green sticker
+     with the lime offset stamp that the cart rows and the compact card draw,
+     so it also follows the palette variants through --badge-fill.
+
+     THE WEIGHT was missing. It is the second thing that separates two rows
+     reading "Turmeric", so a result list is exactly where it earns its place.
+     Taken from the fetched catalogue's own `weight` rather than the WEIGHT_BY_ID
+     copy — see weightOf(). */
   function searchResultHTML(p) {
     const name = currentLang() === "en" ? p.name || p.nameAr : p.nameAr || p.name;
     const img = (p.images && p.images[0]) || p.image || "";
+    const w = weightOf(p.id, p.weight);
     return `
       <a href="product-${esc(String(p.id))}.html"
          class="flex items-center gap-3 hover:bg-cream px-5 py-3 border-divider border-b last:border-b-0 transition-colors">
         <img src="${esc(img)}" alt="" loading="lazy"
-             class="bg-cream shrink-0 p-1 rounded-lg w-12 h-12 object-contain" />
-        <span class="flex-1 min-w-0 font-semibold text-ink text-sm line-clamp-2">${esc(name)}</span>
-        <span class="bg-lime shrink-0 px-2 py-0.5 rounded font-bold text-ink text-xs latin">EGP ${esc(
-          String(p.price),
-        )}</span>
+             class="bg-cream shrink-0 rounded-lg w-12 h-12 object-cover" />
+        <span class="flex flex-col flex-1 gap-0.5 min-w-0">
+          <span class="font-semibold text-ink text-sm line-clamp-2">${esc(name)}</span>
+          ${w ? `<span class="text-muted text-xs latin">${esc(w)}</span>` : ""}
+        </span>
+        ${priceStickerHTML(p.price)}
       </a>`;
   }
 
@@ -2289,12 +2336,30 @@
     const next = root.querySelector(".carousel-next");
     const dotsWrap = root.querySelector(".carousel-dots");
 
-    /* `data-carousel-loop` — wrap around instead of stopping at the ends.
-       Wrap-around, NOT cloned slides. Cloning would put a second element
-       carrying the same `data-id` in the DOM, and both the cart store and
-       syncCardSteppers key off that id; a rail of two products would end up
-       with duplicate hosts for one line. Jumping the scroll position is the
-       same affordance with none of that. */
+    /* `data-carousel-loop` — the rail has no dead stop at either end.
+       There are now TWO ways this is delivered, and which one a rail gets is
+       decided by `cycle` below:
+
+         wrap-around  the arrows jump the scroll POSITION from one end to the
+                      other. Dragging still stops dead at the ends.
+         cycle        the slide set is CLONED either side of itself and the
+                      scroll position wraps between the copies, so dragging is
+                      endless too (Ahmed, 2026-09-01: "I want the carousel in
+                      the single product to be infinite, meaning there is no
+                      stop to the products that come out when I scroll
+                      horizontally").
+
+       Cloning was ruled out when the wrap was written, on the grounds that a
+       second element carrying the same `data-id` would give the cart store and
+       syncCardSteppers duplicate hosts for one basket line. That reading was
+       too cautious, and it is worth saying why it is safe now rather than
+       leaving the next person to re-derive it: syncCardSteppers walks EVERY
+       `[data-card-stepper]` in the document and paints each one from `Cart`,
+       and the add/step handlers are delegated off `document`. Neither holds a
+       per-id element reference, so N hosts for one line all render the same
+       state and all write to the same store. The one place a `data-id` lookup
+       does expect a single node is the cart LINE (`[data-cart-line]`), which
+       is never cloned by this. */
     const loop = root.hasAttribute("data-carousel-loop");
 
     /* Direction is read off <html>, not off the track's computed style.
@@ -2316,20 +2381,43 @@
     measureGap();
 
     /* Fit whole cards — the rail never rests showing a half "cropped" card at
-       the trailing edge (Ahmed, 2026-08-02). Product rails size each slide to
-       fill an integer number of columns for the current width, so only whole
-       cards are ever in view. Skipped for the hero (full-width slides) and the
-       looping drawer rail; the target is a paged rail of fixed-width product
-       cards. If the script never runs, the slides keep their Tailwind widths —
-       the current no-JS behaviour. */
-    const firstSlide0 = track.querySelector(".carousel-slide");
-    const fitCols = !loop && !!firstSlide0 && firstSlide0.hasAttribute("data-product");
+       the trailing edge (Ahmed, 2026-08-02, and again 2026-09-01: "I don't
+       wanna see that cutoff at the end... make them 5 products and they are
+       filling the container in width"). Product rails size each slide to fill
+       an integer number of columns for the current width, so only whole cards
+       are ever in view. If the script never runs the slides keep their
+       Tailwind widths — the current no-JS behaviour.
+
+       TWO REASONS THIS SILENTLY NEVER RAN, both fixed here:
+
+       1. It queried `.carousel-slide`. Product rails render product_widget()
+          cards, which carry `snap-start` but NOT that class — the same trap
+          slideStep() below already documents hitting. So `firstSlide0` was
+          null on every product rail and `fitCols` was false everywhere. The
+          slides are simply the track's own element children; nothing else is
+          in there.
+       2. It excluded looping rails (`!loop`), and every product rail that uses
+          this component — product page, cart, thank-you — is a looping rail.
+          The exclusion was aimed at the cart DRAWER's upsell, whose cards are
+          deliberately compact (w-[152px]) for a 420px panel; that is what the
+          check now names directly instead of catching every loop with it.
+
+       The hero needs no exclusion: its slides carry no `data-product`. */
+    /* Asked, not cached. Recently Viewed renders its cards from localStorage
+       after boot, so at init its track is empty and a value computed here
+       would pin that rail to "not a product rail" for the life of the page. */
+    const inDrawer = !!root.closest("[data-drawer]");
+    function fitCols() {
+      const first = track.firstElementChild;
+      return !!first && first.hasAttribute("data-product") && !inDrawer;
+    }
     function applyFit() {
-      if (!fitCols) return;
+      if (!fitCols()) return;
       const w = track.clientWidth;
+      if (!w) return; // a hidden rail measures 0; carousel:refresh re-runs this
       const cols = w >= 1280 ? 5 : w >= 1024 ? 4 : w >= 640 ? 3 : 2;
       const cardW = Math.max(1, Math.floor((w - (cols - 1) * gap) / cols));
-      track.querySelectorAll(".carousel-slide").forEach((s) => {
+      Array.from(track.children).forEach((s) => {
         s.style.flex = "0 0 " + cardW + "px";
         s.style.width = cardW + "px";
       });
@@ -2404,12 +2492,143 @@
       return first.getBoundingClientRect().width + gap;
     }
 
+    /* ---------------------------------------------------------------
+       CYCLE — the endless product rail.
+
+       The set of real slides is cloned once BEFORE and once AFTER itself, so
+       the track holds three identical copies and the reader is always parked
+       in the middle one. Whenever the position drifts more than half a set
+       either way it is jumped a whole set back toward the centre. A set is an
+       exact multiple of the slide pitch and the copies are identical, so the
+       jump lands on the same pixels the reader was already looking at: there
+       is no seam to see and no end to hit, by drag, wheel, touch or arrow.
+
+       Why three copies and not two: with two you can only wrap in one
+       direction before running out of runway. Three gives a full set of slack
+       on each side of the resting position, which is what makes scrolling
+       BACKWARDS past the first product endless as well.
+
+       Clones are inert to assistive tech and to the keyboard (aria-hidden +
+       tabindex -1) — a screen reader or a Tab sweep gets the catalogue once,
+       not three times. They stay live to the MOUSE, which is the whole point:
+       the card you scrolled to is a real, working card. That is safe because
+       the cart is a store, not a DOM state — see the `loop` note above.
+       --------------------------------------------------------------- */
+    const canCycle = () => loop && fitCols();
+    let setW = 0; // px width of one full set, gap included; 0 = not cycling
+
+    function cloneSlide(el) {
+      const c = el.cloneNode(true);
+      c.setAttribute("data-carousel-clone", "");
+      c.setAttribute("aria-hidden", "true");
+      /* A clone must not be a second reveal target: [data-reveal] starts at
+         opacity 0 and only the observer clears it, and the observer has
+         already run by the time these exist. Without this the copies would
+         stay invisible and the rail would look like it scrolled into a void. */
+      c.removeAttribute("data-reveal");
+      c.querySelectorAll("[data-reveal]").forEach((n) => n.removeAttribute("data-reveal"));
+      c.querySelectorAll("a,button,input,select,textarea,[tabindex]").forEach((n) =>
+        n.setAttribute("tabindex", "-1"),
+      );
+      return c;
+    }
+
+    function buildCycle() {
+      if (!canCycle()) return;
+      track.querySelectorAll("[data-carousel-clone]").forEach((n) => n.remove());
+      setW = 0;
+      const reals = Array.from(track.children);
+      if (!reals.length) return;
+      // Pitch * count. Measuring the pitch off one card rather than summing
+      // every card is deliberate: applyFit has just made them all one width,
+      // and a sum would accumulate sub-pixel rounding across ten cards into a
+      // seam you can see.
+      const pitch = reals[0].getBoundingClientRect().width + gap;
+      const contentW = pitch * reals.length - gap;
+      // A rail that already fits has nothing to scroll, so cloning it would
+      // only put nine unreachable copies of the catalogue in the DOM.
+      if (contentW <= track.clientWidth + 1) return;
+      const before = document.createDocumentFragment();
+      const after = document.createDocumentFragment();
+      reals.forEach((el) => {
+        before.appendChild(cloneSlide(el));
+        after.appendChild(cloneSlide(el));
+      });
+      track.insertBefore(before, reals[0]);
+      track.appendChild(after);
+      setW = pitch * reals.length;
+      jumpInstant(setW);
+      // The clones were born after the last cart:change, so they would show a
+      // stale add button for anything already in the basket until the next one.
+      if (typeof syncCardSteppers === "function") syncCardSteppers(track);
+    }
+
+    /* The logical target of an arrow's in-flight smooth scroll, or null.
+       wrapCycle() has to know about it: jumping the scroll position cancels
+       the browser's smooth animation, so after a jump the target is re-issued
+       shifted by the same set width and the glide continues uninterrupted. */
+    let pendingTarget = null;
+    function goTo(pos) {
+      pendingTarget = pos;
+      setPos(pos);
+    }
+
+    function wrapCycle() {
+      if (!setW) return;
+      const pos = getPos();
+      let delta = 0;
+      if (pos < setW * 0.5) delta = setW;
+      else if (pos > setW * 1.5) delta = -setW;
+      if (!delta) return;
+      jumpInstant(pos + delta);
+      if (pendingTarget != null) {
+        pendingTarget += delta;
+        setPos(pendingTarget);
+      }
+    }
+
+    /* WHEN to wrap, which matters more than the wrap itself on a touch screen.
+
+       Writing `scrollLeft` while a touch scroll or its momentum is running
+       ABORTS the gesture — the rail stops dead under the finger. The first
+       version wrapped straight from the scroll handler, and with a set half as
+       wide as a phone fling that is a wall you hit almost immediately.
+
+       So the wrap waits for the rail to come to rest. It can afford to: there
+       is a whole set of slack either side of the resting position, so nothing
+       is visible while the position sits off-centre — the copies are identical.
+       Two cases still wrap on the spot:
+
+         danger    within one viewport of a real end of the track, where NOT
+                   jumping means hitting a hard stop. A stutter beats a wall.
+         gliding   an arrow's smooth scroll is ours; interrupting it is free,
+                   and wrapCycle re-issues the target so the glide continues. */
+    let wrapTimer = 0;
+    function scheduleWrap() {
+      if (!setW) return;
+      const pos = getPos();
+      const vw = track.clientWidth;
+      if (pendingTarget != null || pos < vw || pos > maxPos() - vw) {
+        clearTimeout(wrapTimer);
+        return wrapCycle();
+      }
+      clearTimeout(wrapTimer);
+      wrapTimer = setTimeout(wrapCycle, 140);
+    }
+
     /* Every geometry read happens before the first class write. Interleaving
        them — read scrollLeft, toggle a class, read scrollWidth, toggle
        another — invalidates layout between reads, so each later read forces a
        synchronous re-layout. On the home page that was four rails paying it
        on every scroll frame. */
+    buildCycle();
+
     function update() {
+      // Re-centre first: everything below reads a position, and on a cycling
+      // rail the position it should read is the post-wrap one.
+      scheduleWrap();
+      if (pendingTarget != null && Math.abs(getPos() - pendingTarget) < 2)
+        pendingTarget = null;
       const pos = getPos();
       const max = maxPos();
       const idx = Math.round(pos / slideStep());
@@ -2452,9 +2671,23 @@
         resizing = false;
         measureGap();
         applyFit();
+        // The column count changes at 640/1024/1280, so the set width does
+        // too — the clones have to be rebuilt around the new pitch or the
+        // wrap would land off by the difference and show the seam.
+        buildCycle();
         update();
       });
     }
+
+    /* Rails whose slides arrive after init — Recently Viewed renders from
+       localStorage and starts `hidden`, so at init it has no children and no
+       measurable width. It fires this once it has both. */
+    root.addEventListener("carousel:refresh", () => {
+      measureGap();
+      applyFit();
+      buildCycle();
+      update();
+    });
 
     /* "Within half a slide of the end" — not an exact comparison, and not a
        fixed pixel slop either. A snap-settled rail does not park on its own
@@ -2471,6 +2704,9 @@
     if (prev)
       prev.addEventListener("click", () => {
         if (seamless) return seamlessPrev();
+        // A cycling rail has no ends to test for — it just keeps going, and
+        // wrapCycle() re-centres underneath the glide.
+        if (setW) return goTo(getPos() - slideStep());
         const pos = getPos();
         if (loop && atStart(pos)) setPos(maxPos());
         else setPos(pos - slideStep());
@@ -2478,6 +2714,7 @@
     if (next)
       next.addEventListener("click", () => {
         if (seamless) return seamlessNext();
+        if (setW) return goTo(getPos() + slideStep());
         const pos = getPos();
         if (loop && atEnd(pos)) setPos(0);
         else setPos(pos + slideStep());
@@ -2536,6 +2773,9 @@
     track.addEventListener("pointerdown", (e) => {
       if (e.pointerType !== "mouse") return; // touch/pen scroll natively
       if (e.button !== 0) return;
+      // The hand takes over from any arrow glide still in flight, so there is
+      // no target left for wrapCycle() to re-issue.
+      pendingTarget = null;
       dragActive = true;
       dragScroll = false;
       dragMoved = 0;
@@ -3363,9 +3603,15 @@
      changes there and not here will show the old figure in the cart while the
      card shows the new one. */
   const WEIGHT_BY_ID = {"1":250,"2":250,"3":250,"4":250,"5":250,"6":250,"7":250,"8":250,"9":200,"10":200,"11":250,"12":200,"13":75,"14":100,"15":75,"16":100,"17":50,"18":75,"19":100,"20":100,"21":50,"22":50,"23":100,"24":75,"25":75,"26":75};
-  function weightOf(id) {
-    const w = WEIGHT_BY_ID[String(id)];
-    return w ? w + " " + t("جم") : "";
+  /* `w` overrides the table for a caller that already holds the real figure.
+     Search is the one that does: its rows come from a fetched catalog.json
+     object carrying its own `weight`, so it can read the source instead of
+     this copy — and the copy is the thing the comment above warns can drift.
+     Every other caller works from a cart line or a localStorage record, which
+     carry no weight, and keeps passing the id alone. */
+  function weightOf(id, w) {
+    const g = w != null ? w : WEIGHT_BY_ID[String(id)];
+    return g ? g + " " + t("جم") : "";
   }
 
   const PLAIN_BY_ID = {"1":"images/jaad/products/coffee-light-plain.png","2":"images/jaad/products/coffee-medium-plain.png","3":"images/jaad/products/coffee-dark-plain.png","4":"images/jaad/products/coffee-light-cardamom.png","5":"images/jaad/products/coffee-medium-cardamom.png","6":"images/jaad/products/coffee-dark-cardamom.png","7":"images/jaad/products/coffee-espresso.png","8":"images/jaad/products/nuts-cashew.png","9":"images/jaad/products/nuts-hazelnut.png","10":"images/jaad/products/nuts-pistachio.png","11":"images/jaad/products/nuts-almond.png","12":"images/jaad/products/nuts-walnut.png","13":"images/jaad/products/spices-chili.png","14":"images/jaad/products/spices-turmeric.png","15":"images/jaad/products/spices-ginger.png","16":"images/jaad/products/spices-coriander.png","17":"images/jaad/products/spices-nutmeg.png","18":"images/jaad/products/spices-cinnamon.png","19":"images/jaad/products/spices-paprika.png","20":"images/jaad/products/spices-black-pepper.png","21":"images/jaad/products/spices-cardamom.png","22":"images/jaad/products/spices-cloves.png","23":"images/jaad/products/spices-cumin.png","24":"images/jaad/products/spices-meat.png","25":"images/jaad/products/spices-chicken.png","26":"images/jaad/products/spices-fish.png"};
@@ -3819,7 +4065,10 @@
 
     // Direct language toggle in the top strip (Ahmed, 2026-08-18): clicking
     // "العربية" / "English" flips the language immediately — no locale popup.
+    // Switched off behind LANG_TOGGLE_ENABLED; see that constant for why the
+    // handler is gated rather than deleted.
     document.addEventListener("click", (e) => {
+      if (!LANG_TOGGLE_ENABLED) return;
       const tog = e.target.closest("[data-lang-toggle]");
       if (!tog) return;
       applyLang(currentLang() === "ar" ? "en" : "ar");
@@ -6123,7 +6372,24 @@
   // the padding is NOT written back into the Recent store, so it never
   // masquerades as something the shopper actually viewed once they browse.
   const RECENT_MIN = 4;
-  const RECENT_FALLBACK = FAVS_SEED; // real catalogue products, {id,name,price,image}
+  /* Real catalogue products, {id,name,price,image} — the padding that keeps a
+     Recently Viewed rail from looking sparse before a shopper has viewed
+     anything.
+
+     It was an alias for FAVS_SEED, which is five SKUs. Five is exactly one
+     desktop row now that the rail is a carousel with arrows (Ahmed,
+     2026-09-01), so a first-time visitor got a rail that could not move. This
+     is FAVS_SEED plus five more so the rail has somewhere to go — and it is its
+     OWN list rather than a longer FAVS_SEED, because that constant seeds the
+     favourites page on a first visit and padding a rail is no reason to hand
+     someone five more hearts they never clicked. */
+  const RECENT_FALLBACK = FAVS_SEED.concat([
+    { id: "10", name: "Pistachio", price: 90, image: "images/jaad/products-styled/10.jpg" },
+    { id: "8", name: "Cashew", price: 85, image: "images/jaad/products-styled/8.jpg" },
+    { id: "9", name: "Hazelnut", price: 80, image: "images/jaad/products-styled/9.jpg" },
+    { id: "7", name: "Espresso", price: 65, image: "images/jaad/products-styled/7.jpg" },
+    { id: "4", name: "Light Roasted with Cardamom", price: 50, image: "images/jaad/products-styled/4.jpg" },
+  ]);
 
   function initRecentlyViewed() {
     Recent.init();
@@ -6152,6 +6418,12 @@
       track.innerHTML = items.map((x) => recentCardHTML(x)).join("");
       section.hidden = false;
       syncCardSteppers(section);
+      /* initCarousel ran at boot, when this section was still `hidden` — no
+         children to size and a clientWidth of 0, so neither the column fit nor
+         the infinite-cycle clones could be measured. Now that both exist, ask
+         the rail to work itself out. */
+      const rail = section.querySelector(".carousel");
+      if (rail) rail.dispatchEvent(new CustomEvent("carousel:refresh"));
     });
 
     // Record the CURRENT product as viewed AFTER rendering the rail above,
@@ -8458,11 +8730,124 @@
      nearly two seconds after the shopper arrived. Capped at 6 steps, a row
      entering the viewport finishes inside ~420ms wherever it sits in the
      grid. */
+  /* Is this card inside something that scrolls SIDEWAYS right now?
+
+     Measured, not matched. The obvious version of this test is a class or
+     selector list — `.carousel-track`, `.overflow-x-auto` — and it is wrong in
+     both directions here. The rails are responsive: the homepage's Perfect
+     Picks and article rows carry `overflow-x-auto` with a `2xl:` / `md:`
+     override back to visible, so a class test would strip the cascade from a
+     desktop GRID that never scrolls a pixel. Reading the computed value asks
+     the question the reader actually experiences at this width — and it also
+     catches `.carousel-track`, whose scrolling is declared in CSS and appears
+     in no class list.
+
+     The scrollWidth comparison is the second half of the test and is not
+     optional: per spec an `overflow-y: auto` box computes its VISIBLE
+     overflow-x to `auto` as well (the same rule styles.css documents on the
+     carousel track, in the other direction). Without it every card inside any
+     vertically scrolling panel would read as a rail. Requiring real horizontal
+     overflow keeps the answer to "does this actually scroll sideways".
+
+     Read once per card at boot, on a page that has not been touched since
+     layout — no writes are interleaved, so this does not thrash. */
+  function inHorizontalRail(el) {
+    for (let n = el.parentElement; n && n !== document.body; n = n.parentElement) {
+      const ox = getComputedStyle(n).overflowX;
+      if ((ox === "auto" || ox === "scroll") && n.scrollWidth > n.clientWidth + 1)
+        return true;
+    }
+    return false;
+  }
+
+  /* The scalloped hero edge drifts sideways as the page scrolls (Ahmed,
+     2026-09-01). The wave is a repeating scallop, so sliding it along its own
+     axis is the one movement that reads as the pattern FLOWING rather than as
+     a decoration sliding about.
+
+     ENDLESS, by wrapping. The first version bounded the slide inside the 6% of
+     overhang each side, which allowed a little over half a scallop of travel
+     across a whole hero exit — "so subtle that it doesn't appear" (Ahmed,
+     2026-09-01). components.hero_wave now draws a TILED path with no end-caps,
+     so the wave can be translated by exactly one scallop and land on itself:
+     the offset is taken modulo the period, the jump is invisible because the
+     pattern repeats, and there is no cover left to run out of.
+
+     Driven by POSITION, not by a timer: the offset is a function of scrollY, so
+     it tracks the scrollbar exactly, reverses when the reader scrolls back up,
+     and holds still when they stop. Its smoothness is the scroll's own.
+
+     One rAF per frame regardless of how many scroll events arrive, and reads
+     are batched ahead of writes — the same discipline the carousels use. */
+  function initWaveDrift() {
+    const waves = [].slice.call(document.querySelectorAll("[data-wave]"));
+    if (!waves.length || reduceMotion()) return;
+    /* Pixels of drift per pixel of scroll. At 0.42 a scallop (~11% of the
+       container, so ~160px at 1440) passes in a little under 400px of scroll —
+       roughly two scallops across a hero exit, which is a wave that visibly
+       moves rather than one you have to look for. */
+    const SPEED = 0.42;
+    let ticking = false;
+
+    function paint() {
+      const y = window.scrollY || window.pageYOffset || 0;
+      // Every measurement first, then every write: interleaving them makes
+      // each write invalidate the layout the next read needs.
+      const next = waves.map((w) => {
+        const tiles = parseFloat(w.getAttribute("data-wave-tiles")) || 0;
+        const width = w.getBoundingClientRect().width;
+        if (!tiles || !width) return null;
+        const period = width / tiles;
+        // Negative, so the scallops travel with the page rather than against it.
+        return -(((y * SPEED) % period) + period) % period;
+      });
+      waves.forEach((w, i) => {
+        if (next[i] === null) return;
+        w.style.setProperty("--wave-x", next[i].toFixed(2) + "px");
+      });
+    }
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        ticking = false;
+        paint();
+      });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    paint();
+  }
+
   function initAutoReveal() {
     if (!("IntersectionObserver" in window)) return;   // initReveal will show all
     const CARDS = ".product-widget, [data-cat-card], .faq-card, #latest a.group";
     document.querySelectorAll(CARDS).forEach((el) => {
       if (el.hasAttribute("data-reveal")) return;
+      /* NOT INSIDE A HORIZONTAL RAIL (Ahmed, 2026-09-01: "I don't want an
+         appearing animation in the product carousels when I hit the arrows, it
+         should appear normally as it is a simple horizontal scroll" — then, of
+         the drag-only rails that have no arrows: "exempt the horizontal
+         scrollers too").
+
+         The cascade is written for cards that arrive by scrolling the PAGE:
+         they are below the fold, the observer reveals them once as the reader
+         comes down to them, and the 70ms-per-card stagger reads as the section
+         assembling itself. In a horizontal rail the same rule mis-fires,
+         because the observer clips on the rail's own overflow — every card past
+         the visible few sits at ratio 0, so it is still hidden and still
+         stacked with up to 420ms of delay when an arrow press or a thumb-drag
+         brings it in. What should be a scroll becomes a fade-and-rise, which is
+         the wrong gesture: a rail is a thing you move, not a thing that
+         arrives.
+
+         Skipped rather than revealed-on-init so the cards carry no reveal state
+         at all — no opacity to flip, no transition-delay left on the element to
+         leak into some later transition. The rail's SECTION keeps its own
+         [data-reveal] from the markup, so the block still fades in as one when
+         the reader reaches it. */
+      if (inHorizontalRail(el)) return;
       el.setAttribute("data-reveal", "");
       const i = [...el.parentElement.children].indexOf(el);
       if (i > 0) el.style.transitionDelay = Math.min(i, 6) * 70 + "ms";
@@ -9364,6 +9749,9 @@
     // sit after the header/footer injection so chrome images are covered.
     initAutoReveal();
     initImgFade();
+    // After the chrome is in the DOM, so both waves (homepage hero, About hero)
+    // are present to measure.
+    initWaveDrift();
     // Must run after the chrome is in the DOM and after initFavsUI, so the
     // dictionary pass sees every string on the page. Without this call a
     // stored English preference only styled the chrome.
