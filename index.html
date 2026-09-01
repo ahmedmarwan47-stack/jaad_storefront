@@ -33,8 +33,8 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=c2178639" />
-    <link rel="stylesheet" href="styles.css?v=a3422169" />
+    <link rel="stylesheet" href="tailwind.css?v=81da74b0" />
+    <link rel="stylesheet" href="styles.css?v=47e77f74" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
          the favicon is a recognisable brand glyph rather than the white
@@ -46,7 +46,7 @@
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
     <script defer src="i18n-en.js?v=0b44a473"></script>
-    <script defer src="scripts.js?v=32f03f93"></script>
+    <script defer src="scripts.js?v=db4075d5"></script>
   </head>
   <body data-page="home" data-path="/" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -144,11 +144,16 @@
             <img src="images/jaad/brand/badge-jaad-ring.svg" alt="" class="hero-badge__ring" />
           </div>
 
-          <!-- Scalloped white bottom edge (Figma 'Union', fill #fff). Made wider
-               than the hero and centred so the flat end-caps sit off-screen —
-               only the seamless scallops show, with no cut at either edge. -->
-          <img src="images/jaad/site/hero-wave.svg" alt="" aria-hidden="true"
-               class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[112%] max-w-none h-[28px] md:h-[45px]" />
+          <!-- Scalloped white bottom edge (Figma 'Union', fill #fff), handing
+               the hero over to the white categories section below.
+
+               INLINE via hero_wave() now, where it used to be an <img> of
+               hero-wave.svg. The component draws a TILED, end-cap-free path so
+               the scroll drift can wrap instead of running out of cover (see
+               its note) — an external SVG cannot be given that treatment
+               without editing the asset, and then the two pages would be
+               drawing two different waves again. -->
+          <svg viewBox="0 0 3175.60 49" preserveAspectRatio="none" fill="none" aria-hidden="true" focusable="false" data-wave data-wave-tiles="20" class="hero-wave absolute bottom-0 left-1/2 w-[224%] max-w-none h-[28px] md:h-[45px] "><path d="M0 0c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014c20.458 0 39.226 4.164 53.895 11.1015c14.191 6.7113 36.8 6.7112 50.991 -0.0001c14.669 -6.93742 33.438 -11.1014 53.894 -11.1014V49H0Z" fill="#fff"/></svg>
         </div>
       </section>
 
@@ -252,7 +257,9 @@
             <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">Perfect Picks</h2>
             <div class="pp-tabs relative inline-flex items-center gap-1 bg-greenTintSoft p-1 rounded-full"><span data-tab-indicator aria-hidden="true"></span><button type="button" class="tab-btn is-active" data-tab="best">Best Selling</button><button type="button" class="tab-btn" data-tab="new">New</button><button type="button" class="tab-btn" data-tab="offers">Offers</button></div>
           </div>
-<div class="tab-panel" data-panel="best"><div class="flex 2xl:justify-between gap-4 2xl:gap-0 -mx-4 2xl:mx-0 px-4 2xl:px-0 scroll-pl-4 2xl:scroll-pl-0 overflow-x-auto 2xl:overflow-visible no-scrollbar snap-x">
+<div class="tab-panel" data-panel="best">
+          <div class="relative carousel " data-carousel-loop style="--carousel-gap:24px">
+            <div class="carousel-track">
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
                    data-price="45.0" data-id="1" data-name="بن فاتح سادة"
                    data-name-en="Light Roasted Coffee" data-image="images/jaad/products-styled/1.jpg">
@@ -637,7 +644,407 @@
                 <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
               </div>
             </div>
-          </article></div></div><div class="tab-panel" data-panel="new" hidden><div class="flex 2xl:justify-between gap-4 2xl:gap-0 -mx-4 2xl:mx-0 px-4 2xl:px-0 scroll-pl-4 2xl:scroll-pl-0 overflow-x-auto 2xl:overflow-visible no-scrollbar snap-x">
+          </article>
+          <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
+                   data-price="50.0" data-id="4" data-name="بن فاتح محوج بالحبهان"
+                   data-name-en="Light Roasted with Cardamom" data-image="images/jaad/products-styled/4.jpg">
+            <div class="relative">
+              <a href="product-4.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
+                <img src="images/jaad/products-styled/4.jpg" data-img-scene="images/jaad/products-styled/4.jpg" data-img-plain="images/jaad/products/coffee-light-cardamom.png" alt="Light Roasted with Cardamom" class="w-full h-full object-cover" loading="lazy" />
+              </a>
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
+                   that edits the cart line (syncCardSteppers drives the swap). -->
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
+                <button type="button" data-add-to-cart aria-label="Add to cart"
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                <span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] font-bold text-white latin"><span class="text-[15px] leading-[1.4]">EGP</span><span class="text-[24px] leading-none">50</span><span class="text-[15px] leading-[1.4]">.00</span></span>
+                
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-4.html" data-product-title class="hover:text-heading transition-colors">Light Roasted with Cardamom</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
+                   data-price="50.0" data-id="5" data-name="بن وسط محوج بالحبهان"
+                   data-name-en="Medium Roasted with Cardamom" data-image="images/jaad/products-styled/5.jpg">
+            <div class="relative">
+              <a href="product-5.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
+                <img src="images/jaad/products-styled/5.jpg" data-img-scene="images/jaad/products-styled/5.jpg" data-img-plain="images/jaad/products/coffee-medium-cardamom.png" alt="Medium Roasted with Cardamom" class="w-full h-full object-cover" loading="lazy" />
+              </a>
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
+                   that edits the cart line (syncCardSteppers drives the swap). -->
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
+                <button type="button" data-add-to-cart aria-label="Add to cart"
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                <span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] font-bold text-white latin"><span class="text-[15px] leading-[1.4]">EGP</span><span class="text-[24px] leading-none">50</span><span class="text-[15px] leading-[1.4]">.00</span></span>
+                
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-5.html" data-product-title class="hover:text-heading transition-colors">Medium Roasted with Cardamom</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
+                   data-price="50.0" data-id="6" data-name="بن غامق محوج بالحبهان"
+                   data-name-en="Dark Roasted with Cardamom" data-image="images/jaad/products-styled/6.jpg">
+            <div class="relative">
+              <a href="product-6.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
+                <img src="images/jaad/products-styled/6.jpg" data-img-scene="images/jaad/products-styled/6.jpg" data-img-plain="images/jaad/products/coffee-dark-cardamom.png" alt="Dark Roasted with Cardamom" class="w-full h-full object-cover" loading="lazy" />
+              </a>
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
+                   that edits the cart line (syncCardSteppers drives the swap). -->
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
+                <button type="button" data-add-to-cart aria-label="Add to cart"
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                <span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] font-bold text-white latin"><span class="text-[15px] leading-[1.4]">EGP</span><span class="text-[24px] leading-none">50</span><span class="text-[15px] leading-[1.4]">.00</span></span>
+                
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-6.html" data-product-title class="hover:text-heading transition-colors">Dark Roasted with Cardamom</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
+                   data-price="65.0" data-id="7" data-name="اسبرسو"
+                   data-name-en="Espresso" data-image="images/jaad/products-styled/7.jpg">
+            <div class="relative">
+              <a href="product-7.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
+                <img src="images/jaad/products-styled/7.jpg" data-img-scene="images/jaad/products-styled/7.jpg" data-img-plain="images/jaad/products/coffee-espresso.png" alt="Espresso" class="w-full h-full object-cover" loading="lazy" />
+              </a>
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
+                   that edits the cart line (syncCardSteppers drives the swap). -->
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
+                <button type="button" data-add-to-cart aria-label="Add to cart"
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                <span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] font-bold text-white latin"><span class="text-[15px] leading-[1.4]">EGP</span><span class="text-[24px] leading-none">65</span><span class="text-[15px] leading-[1.4]">.00</span></span>
+                
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-7.html" data-product-title class="hover:text-heading transition-colors">Espresso</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="nuts"
+                   data-price="85.0" data-id="8" data-name="كاجو"
+                   data-name-en="Cashew" data-image="images/jaad/products-styled/8.jpg">
+            <div class="relative">
+              <a href="product-8.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
+                <img src="images/jaad/products-styled/8.jpg" data-img-scene="images/jaad/products-styled/8.jpg" data-img-plain="images/jaad/products/nuts-cashew.png" alt="Cashew" class="w-full h-full object-cover" loading="lazy" />
+              </a>
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
+                   that edits the cart line (syncCardSteppers drives the swap). -->
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
+                <button type="button" data-add-to-cart aria-label="Add to cart"
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                <span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] font-bold text-white latin"><span class="text-[15px] leading-[1.4]">EGP</span><span class="text-[24px] leading-none">85</span><span class="text-[15px] leading-[1.4]">.00</span></span>
+                
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-8.html" data-product-title class="hover:text-heading transition-colors">Cashew</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
+            </div>
+          </article>
+            </div>
+            <!-- The side offset is set in styles.css on .carousel-prev/.next
+                 (centre ON the track border, -22px = half the 44px circle):
+                 a -start/-end utility here ties with that rule and loses on
+                 source order, same as the hero arrows. -->
+            <button type="button" class="hidden xl:grid top-[130px] absolute place-items-center bg-white shadow-custom3 rounded-full text-cta transition size-11 carousel-prev" aria-label="السابق">
+              <span class="rtl:scale-flip"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5"><path d="M15 6 9 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </button>
+            <button type="button" class="hidden xl:grid top-[130px] absolute place-items-center bg-white shadow-custom3 rounded-full text-cta transition size-11 carousel-next" aria-label="التالي">
+              <span class="ltr:scale-flip"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5"><path d="M15 6 9 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </button>
+            
+          </div></div><div class="tab-panel" data-panel="new" hidden>
+          <div class="relative carousel " data-carousel-loop style="--carousel-gap:24px">
+            <div class="carousel-track">
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
                    data-price="50.0" data-id="4" data-name="بن فاتح محوج بالحبهان"
                    data-name-en="Light Roasted with Cardamom" data-image="images/jaad/products-styled/4.jpg">
@@ -1022,7 +1429,407 @@
                 <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
               </div>
             </div>
-          </article></div></div><div class="tab-panel" data-panel="offers" hidden><div class="flex 2xl:justify-between gap-4 2xl:gap-0 -mx-4 2xl:mx-0 px-4 2xl:px-0 scroll-pl-4 2xl:scroll-pl-0 overflow-x-auto 2xl:overflow-visible no-scrollbar snap-x">
+          </article>
+          <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
+                   data-price="45.0" data-id="1" data-name="بن فاتح سادة"
+                   data-name-en="Light Roasted Coffee" data-image="images/jaad/products-styled/1.jpg">
+            <div class="relative">
+              <a href="product-1.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
+                <img src="images/jaad/products-styled/1.jpg" data-img-scene="images/jaad/products-styled/1.jpg" data-img-plain="images/jaad/products/coffee-light-plain.png" alt="Light Roasted Coffee" class="w-full h-full object-cover" loading="lazy" />
+              </a>
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
+                   that edits the cart line (syncCardSteppers drives the swap). -->
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
+                <button type="button" data-add-to-cart aria-label="Add to cart"
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                <span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] font-bold text-white latin"><span class="text-[15px] leading-[1.4]">EGP</span><span class="text-[24px] leading-none">45</span><span class="text-[15px] leading-[1.4]">.00</span></span>
+                
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-1.html" data-product-title class="hover:text-heading transition-colors">Light Roasted Coffee</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
+                   data-price="45.0" data-id="2" data-name="بن وسط سادة"
+                   data-name-en="Medium Roasted Coffee" data-image="images/jaad/products-styled/2.jpg">
+            <div class="relative">
+              <a href="product-2.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
+                <img src="images/jaad/products-styled/2.jpg" data-img-scene="images/jaad/products-styled/2.jpg" data-img-plain="images/jaad/products/coffee-medium-plain.png" alt="Medium Roasted Coffee" class="w-full h-full object-cover" loading="lazy" />
+              </a>
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
+                   that edits the cart line (syncCardSteppers drives the swap). -->
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
+                <button type="button" data-add-to-cart aria-label="Add to cart"
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                <span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] font-bold text-white latin"><span class="text-[15px] leading-[1.4]">EGP</span><span class="text-[24px] leading-none">45</span><span class="text-[15px] leading-[1.4]">.00</span></span>
+                
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-2.html" data-product-title class="hover:text-heading transition-colors">Medium Roasted Coffee</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
+                   data-price="45.0" data-id="3" data-name="بن غامق سادة"
+                   data-name-en="Dark Roasted Coffee" data-image="images/jaad/products-styled/3.jpg">
+            <div class="relative">
+              <a href="product-3.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
+                <img src="images/jaad/products-styled/3.jpg" data-img-scene="images/jaad/products-styled/3.jpg" data-img-plain="images/jaad/products/coffee-dark-plain.png" alt="Dark Roasted Coffee" class="w-full h-full object-cover" loading="lazy" />
+              </a>
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
+                   that edits the cart line (syncCardSteppers drives the swap). -->
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
+                <button type="button" data-add-to-cart aria-label="Add to cart"
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                <span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] font-bold text-white latin"><span class="text-[15px] leading-[1.4]">EGP</span><span class="text-[24px] leading-none">45</span><span class="text-[15px] leading-[1.4]">.00</span></span>
+                
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-3.html" data-product-title class="hover:text-heading transition-colors">Dark Roasted Coffee</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
+                   data-price="50.0" data-id="6" data-name="بن غامق محوج بالحبهان"
+                   data-name-en="Dark Roasted with Cardamom" data-image="images/jaad/products-styled/6.jpg">
+            <div class="relative">
+              <a href="product-6.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
+                <img src="images/jaad/products-styled/6.jpg" data-img-scene="images/jaad/products-styled/6.jpg" data-img-plain="images/jaad/products/coffee-dark-cardamom.png" alt="Dark Roasted with Cardamom" class="w-full h-full object-cover" loading="lazy" />
+              </a>
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
+                   that edits the cart line (syncCardSteppers drives the swap). -->
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
+                <button type="button" data-add-to-cart aria-label="Add to cart"
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                <span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] font-bold text-white latin"><span class="text-[15px] leading-[1.4]">EGP</span><span class="text-[24px] leading-none">50</span><span class="text-[15px] leading-[1.4]">.00</span></span>
+                
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-6.html" data-product-title class="hover:text-heading transition-colors">Dark Roasted with Cardamom</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
+                   data-price="65.0" data-id="7" data-name="اسبرسو"
+                   data-name-en="Espresso" data-image="images/jaad/products-styled/7.jpg">
+            <div class="relative">
+              <a href="product-7.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
+                <img src="images/jaad/products-styled/7.jpg" data-img-scene="images/jaad/products-styled/7.jpg" data-img-plain="images/jaad/products/coffee-espresso.png" alt="Espresso" class="w-full h-full object-cover" loading="lazy" />
+              </a>
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
+                   that edits the cart line (syncCardSteppers drives the swap). -->
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
+                <button type="button" data-add-to-cart aria-label="Add to cart"
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                <span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] font-bold text-white latin"><span class="text-[15px] leading-[1.4]">EGP</span><span class="text-[24px] leading-none">65</span><span class="text-[15px] leading-[1.4]">.00</span></span>
+                
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-7.html" data-product-title class="hover:text-heading transition-colors">Espresso</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
+            </div>
+          </article>
+            </div>
+            <!-- The side offset is set in styles.css on .carousel-prev/.next
+                 (centre ON the track border, -22px = half the 44px circle):
+                 a -start/-end utility here ties with that rule and loses on
+                 source order, same as the hero arrows. -->
+            <button type="button" class="hidden xl:grid top-[130px] absolute place-items-center bg-white shadow-custom3 rounded-full text-cta transition size-11 carousel-prev" aria-label="السابق">
+              <span class="rtl:scale-flip"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5"><path d="M15 6 9 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </button>
+            <button type="button" class="hidden xl:grid top-[130px] absolute place-items-center bg-white shadow-custom3 rounded-full text-cta transition size-11 carousel-next" aria-label="التالي">
+              <span class="ltr:scale-flip"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5"><path d="M15 6 9 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </button>
+            
+          </div></div><div class="tab-panel" data-panel="offers" hidden>
+          <div class="relative carousel " data-carousel-loop style="--carousel-gap:24px">
+            <div class="carousel-track">
           <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="nuts"
                    data-price="64" data-id="9" data-name="بندق"
                    data-name-en="Hazelnut" data-image="images/jaad/products-styled/9.jpg">
@@ -1407,7 +2214,405 @@
                 <span class="text-muted text-sm latin" data-product-weight>50 جم</span>
               </div>
             </div>
-          </article></div></div>
+          </article>
+          <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
+                   data-price="36" data-id="1" data-name="بن فاتح سادة"
+                   data-name-en="Light Roasted Coffee" data-image="images/jaad/products-styled/1.jpg">
+            <div class="relative">
+              <a href="product-1.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
+                <img src="images/jaad/products-styled/1.jpg" data-img-scene="images/jaad/products-styled/1.jpg" data-img-plain="images/jaad/products/coffee-light-plain.png" alt="Light Roasted Coffee" class="w-full h-full object-cover" loading="lazy" />
+              </a>
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
+                   that edits the cart line (syncCardSteppers drives the swap). -->
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
+                <button type="button" data-add-to-cart aria-label="Add to cart"
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                <span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] font-bold text-white latin"><span class="text-[15px] leading-[1.4]">EGP</span><span class="text-[24px] leading-none">36</span><span class="text-[15px] leading-[1.4]">.00</span></span>
+                <span class="text-muted text-sm line-through latin">EGP 45</span>
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-1.html" data-product-title class="hover:text-heading transition-colors">Light Roasted Coffee</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
+                   data-price="36" data-id="2" data-name="بن وسط سادة"
+                   data-name-en="Medium Roasted Coffee" data-image="images/jaad/products-styled/2.jpg">
+            <div class="relative">
+              <a href="product-2.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
+                <img src="images/jaad/products-styled/2.jpg" data-img-scene="images/jaad/products-styled/2.jpg" data-img-plain="images/jaad/products/coffee-medium-plain.png" alt="Medium Roasted Coffee" class="w-full h-full object-cover" loading="lazy" />
+              </a>
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
+                   that edits the cart line (syncCardSteppers drives the swap). -->
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
+                <button type="button" data-add-to-cart aria-label="Add to cart"
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                <span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] font-bold text-white latin"><span class="text-[15px] leading-[1.4]">EGP</span><span class="text-[24px] leading-none">36</span><span class="text-[15px] leading-[1.4]">.00</span></span>
+                <span class="text-muted text-sm line-through latin">EGP 45</span>
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-2.html" data-product-title class="hover:text-heading transition-colors">Medium Roasted Coffee</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
+                   data-price="36" data-id="3" data-name="بن غامق سادة"
+                   data-name-en="Dark Roasted Coffee" data-image="images/jaad/products-styled/3.jpg">
+            <div class="relative">
+              <a href="product-3.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
+                <img src="images/jaad/products-styled/3.jpg" data-img-scene="images/jaad/products-styled/3.jpg" data-img-plain="images/jaad/products/coffee-dark-plain.png" alt="Dark Roasted Coffee" class="w-full h-full object-cover" loading="lazy" />
+              </a>
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
+                   that edits the cart line (syncCardSteppers drives the swap). -->
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
+                <button type="button" data-add-to-cart aria-label="Add to cart"
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                <span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] font-bold text-white latin"><span class="text-[15px] leading-[1.4]">EGP</span><span class="text-[24px] leading-none">36</span><span class="text-[15px] leading-[1.4]">.00</span></span>
+                <span class="text-muted text-sm line-through latin">EGP 45</span>
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-3.html" data-product-title class="hover:text-heading transition-colors">Dark Roasted Coffee</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
+                   data-price="40" data-id="4" data-name="بن فاتح محوج بالحبهان"
+                   data-name-en="Light Roasted with Cardamom" data-image="images/jaad/products-styled/4.jpg">
+            <div class="relative">
+              <a href="product-4.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
+                <img src="images/jaad/products-styled/4.jpg" data-img-scene="images/jaad/products-styled/4.jpg" data-img-plain="images/jaad/products/coffee-light-cardamom.png" alt="Light Roasted with Cardamom" class="w-full h-full object-cover" loading="lazy" />
+              </a>
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
+                   that edits the cart line (syncCardSteppers drives the swap). -->
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
+                <button type="button" data-add-to-cart aria-label="Add to cart"
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                <span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] font-bold text-white latin"><span class="text-[15px] leading-[1.4]">EGP</span><span class="text-[24px] leading-none">40</span><span class="text-[15px] leading-[1.4]">.00</span></span>
+                <span class="text-muted text-sm line-through latin">EGP 50</span>
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-4.html" data-product-title class="hover:text-heading transition-colors">Light Roasted with Cardamom</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-widget w-[258px] shrink-0 snap-start" data-product data-cat="coffee"
+                   data-price="40" data-id="5" data-name="بن وسط محوج بالحبهان"
+                   data-name-en="Medium Roasted with Cardamom" data-image="images/jaad/products-styled/5.jpg">
+            <div class="relative">
+              <a href="product-5.html" class="block relative bg-white border border-[#C1C3C6] rounded-2xl aspect-square overflow-hidden">
+                <img src="images/jaad/products-styled/5.jpg" data-img-scene="images/jaad/products-styled/5.jpg" data-img-plain="images/jaad/products/coffee-medium-cardamom.png" alt="Medium Roasted with Cardamom" class="w-full h-full object-cover" loading="lazy" />
+              </a>
+              <!-- Add-to-cart uses the site CTA fill (.bg-cta) so it TRACKS the
+                   runtime Green/Orange toggle (Ahmed, 2026-08-19): green in V1,
+                   and html[data-btn="v2"] repaints every .bg-cta to orange — so
+                   the card button and the primary CTAs never disagree. Once the
+                   product is in the cart it swaps for a compact − N + counter
+                   that edits the cart line (syncCardSteppers drives the swap). -->
+              <!-- 48px, up from 40, with a 26px glyph inside it (Ahmed,
+                   2026-08-25: "the cart container and the icon inside it to be
+                   bigger"). The wrapper's offset moves 20 -> 24px with it, so
+                   the button still straddles the image's bottom edge exactly
+                   half in / half out — the offset is half the button, and it
+                   stops being half the button the moment one of the two
+                   changes alone. Mirrored in productCard() in scripts.js; the
+                   two renderers draw the same card and have to stay in step. -->
+              <div class="right-4 -bottom-6 z-10 absolute">
+                <button type="button" data-add-to-cart aria-label="Add to cart"
+                        class="btn-elevate place-items-center grid bg-cta hover:bg-cta-hover shadow-custom4 rounded-full size-12 text-white transition-colors">
+                  <span class="w-[26px] h-[26px]"><svg viewBox="0 0 20 19" fill="none" class="w-full h-full"><path d="M3.75 3.75V9.43333C3.75 10.9735 3.75 11.7436 4.04973 12.3318C4.31338 12.8493 4.73408 13.27 5.25153 13.5336C5.83978 13.8333 6.60986 13.8333 8.15 13.8333H12.7308C13.745 13.8333 14.2521 13.8333 14.697 13.676C15.0903 13.5369 15.4468 13.3102 15.7396 13.0129C16.0707 12.6767 16.2857 12.2175 16.7157 11.299L17.3165 10.0157C18.2915 7.93326 18.7789 6.89207 18.6388 6.04904C18.5164 5.31257 18.0998 4.65752 17.4847 4.23437C16.7806 3.75 15.631 3.75 13.3316 3.75H3.75ZM3.75 3.75V3.6757C3.75 2.89117 3.75 2.4989 3.63192 2.18601C3.44591 1.69313 3.05687 1.30409 2.56399 1.11809C2.2511 1 1.85883 1 1.0743 1H1M5.58333 17.5H6.5M12 17.5H12.9167" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <!-- The card counter is the SAME control as the product page's
+                     qty_stepper (Ahmed, 2026-08-18): a white pill with a hairline
+                     − and the green-filled +. shadow-custom4 lifts it off the
+                     photo the way the round add button was lifted.
+                     
+                     It is the ADD BUTTON'S SIZE, and that is the whole rule
+                     (Ahmed, 2026-08-25: "we up-sized the cart icon, the counter
+                     should follow"). The two swap places in the same slot, so
+                     the pill's height has to equal the button's diameter or the
+                     card twitches the moment a product goes into the basket:
+                     the pill's 3px of vertical padding plus its 1px border top
+                     and bottom make 40px buttons into a 48px pill against a
+                     48px add button — p-1 was 2px out, because the border is
+                     part of the height and the button has none. It also keeps the wrapper's
+                     -bottom-6 correct for both, since that offset is half of 48.
+                     
+                     The `sm:size-8` shrink is gone with it — it existed to fit
+                     the old 40px footprint and would now break the match at
+                     exactly the widths most people shop at. -->
+                <div data-card-stepper hidden class="items-center gap-1 bg-white shadow-custom4 px-1 py-[3px] border border-divider rounded-full flex">
+                  <button type="button" data-card-step="-1" aria-label="Decrease" class="place-items-center grid border border-divider hover:bg-cream rounded-full size-10 text-ink shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                  <span data-card-qty class="min-w-[1.5ch] font-bold text-ink text-center latin">1</span>
+                  <button type="button" data-card-step="1" aria-label="Increase" class="place-items-center grid bg-cta hover:bg-cta-hover rounded-full size-10 text-white shrink-0 transition-colors"><span class="w-5 h-5"><svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="product-widget__body flex flex-col gap-3 p-3 pt-9 sm:pt-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- The MD sticker from the component, not a hand-rolled copy
+                     (Ahmed, 2026-08-24). This card used to draw its own badge —
+                     the same deep-green box and lime offset shadow, but with an
+                     18px "EGP" where the component's md says 15px. So the site
+                     had a price tag component and a card that quietly disagreed
+                     with it by 3px, and md existed while nothing used it. -->
+                <span class="price-sticker inline-flex items-end gap-0.5 shrink-0 bg-greenDeep shadow-[3px_5px_0px_#98CA55] px-2 rounded-tl-[20px] rounded-br-[20px] font-bold text-white latin"><span class="text-[15px] leading-[1.4]">EGP</span><span class="text-[24px] leading-none">40</span><span class="text-[15px] leading-[1.4]">.00</span></span>
+                <span class="text-muted text-sm line-through latin">EGP 50</span>
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <h3 class="font-semibold text-black text-lg leading-snug">
+                  <a href="product-5.html" data-product-title class="hover:text-heading transition-colors">Medium Roasted with Cardamom</a>
+                </h3>
+                <!-- Pack weight. PLACEHOLDER figures — see catalog.weight().
+                     Sits UNDER the name rather than beside the price: it
+                     qualifies the product, not the money, and a shopper
+                     comparing two bags reads name-then-size. Rendered only when
+                     the product actually carries one, so a SKU with no weight
+                     degrades to the name alone instead of an empty line. -->
+                <span class="text-muted text-sm latin" data-product-weight>250 جم</span>
+              </div>
+            </div>
+          </article>
+            </div>
+            <!-- The side offset is set in styles.css on .carousel-prev/.next
+                 (centre ON the track border, -22px = half the 44px circle):
+                 a -start/-end utility here ties with that rule and loses on
+                 source order, same as the hero arrows. -->
+            <button type="button" class="hidden xl:grid top-[130px] absolute place-items-center bg-white shadow-custom3 rounded-full text-cta transition size-11 carousel-prev" aria-label="السابق">
+              <span class="rtl:scale-flip"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5"><path d="M15 6 9 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </button>
+            <button type="button" class="hidden xl:grid top-[130px] absolute place-items-center bg-white shadow-custom3 rounded-full text-cta transition size-11 carousel-next" aria-label="التالي">
+              <span class="ltr:scale-flip"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5"><path d="M15 6 9 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </button>
+            
+          </div></div>
         </div>
       </section>
 
@@ -1499,21 +2704,36 @@
       </section>
 
       <!-- ============================== OUR STORY ============================== -->
-      <!-- Figma node 9943:16606. Cap (logo, heading, copy, link) + a rounded
-           three-column image banner with gradient captions; scattered leaves. -->
+      <!-- Figma node 9943:16606. Cap (heading + copy left, link right) + a
+           rounded three-column image banner with gradient captions; leaves. -->
       <section data-reveal id="our-story" class="relative bg-cream py-14 xl:py-[60px] overflow-hidden">
         <div class="relative flex flex-col gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <div class="relative"><img src="images/jaad/decor/leaf-1.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-5 md:w-9 h-auto opacity-80 pointer-events-none z-0" style="top:6%;left:91%;--lr:-50deg" /><img src="images/jaad/decor/leaf-2.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-8 md:w-14 h-auto opacity-80 pointer-events-none z-0" style="top:14%;left:46%;--lr:20deg" /><img src="images/jaad/decor/leaf-3.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-11 md:w-20 h-auto opacity-80 pointer-events-none z-0" style="top:72%;left:37%;--lr:-140deg" /><img src="images/jaad/decor/leaf-4.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-5 md:w-9 h-auto opacity-80 pointer-events-none z-0" style="top:30%;left:75%;--lr:-30deg" /><img src="images/jaad/decor/leaf-5.svg" alt="" aria-hidden="true" data-leaf class="leaf-wind block absolute w-6 md:w-10 h-auto opacity-80 pointer-events-none z-0" style="top:76%;left:61%;--lr:80deg" />
             <!-- data-reveal is the site's own scroll-reveal contract (initReveal
                  + the .js-reveal gate in styles.css), not a new mechanism; the
                  only thing this section adds is the stagger, in .story__cap. -->
-            <div class="story__cap relative z-10 flex flex-col gap-6 max-w-[502px]">
-              <div class="flex flex-col gap-2" data-reveal>
-                <img src="images/jaad/brand/logo-jaad-mark.svg" alt="JAAD" class="w-[84px] xl:w-[112px] h-auto" />
-                <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">Our Story</h2>
+            <!-- The cap reads as one ROW from sm up: heading + copy hold the
+                 left, the link is pushed to the right rail (Ahmed, 2026-09-01).
+                 The JAAD mark that used to sit above the heading is gone with
+                 it — the masthead carries the logo six times over on this page
+                 and a second one at the top of a section titled "Our Story" was
+                 saying the brand name twice.
+                 `items-end` seats the link on the copy's last baseline rather
+                 than centring it against a two-line block, which is what stops
+                 it floating in the gap. The 502px cap moves off the flex parent
+                 and onto the text column, where it still governs the measure;
+                 leaving it on the parent would have pinned the link 502px in
+                 instead of out at the rail. Under sm it stacks back to a
+                 column, so the link stays under the copy on a phone. -->
+            <div class="story__cap relative z-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+              <!-- gap-2, down from the gap-6 these two had as siblings of the
+                   cap (Ahmed: "make the title and sub title together less
+                   space") — they now read as one block, not two stacked ones. -->
+              <div class="flex flex-col gap-2 max-w-[502px]">
+                <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]" data-reveal>Our Story</h2>
+                <p class="text-black text-base leading-[1.4]" data-reveal>At JAAD, we carefully select the finest natural products from their original sources to deliver a pure and authentic experience.</p>
               </div>
-              <p class="text-black text-base leading-[1.4]" data-reveal>At JAAD, we carefully select the finest natural products from their original sources to deliver a pure and authentic experience.</p>
-              <a href="about.html" data-reveal class="group/link inline-flex items-center gap-2 w-fit font-normal text-greenDeep text-base">
+              <a href="about.html" data-reveal class="group/link inline-flex items-center gap-2 shrink-0 w-fit font-normal text-greenDeep text-base">
                 Read More
                 <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 transition-transform group-hover/link:translate-x-1"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
@@ -1574,12 +2794,33 @@
       <!-- Figma node 9946:16842. Filled client-side from localStorage
            (scripts.js initRecentlyViewed), padded from real products to five so
            it is never sparse. -->
-      <section data-reveal id="recently-viewed" class="bg-white py-14 xl:py-[60px]" data-recently-viewed data-recent-min="5">
+      <!-- A carousel, matching Perfect Picks above and the product page's own
+           Recently Viewed (Ahmed, 2026-09-01) — see the pp_panels note for what
+           the hand-rolled scroller was carrying and why none of it survives the
+           switch. data-recent-min is 10, not 5: the rail is padded from the
+           catalogue when a shopper has not viewed that many, and five would
+           have filled a desktop row exactly, leaving the arrows inert.
+           initRecentlyViewed fires `carousel:refresh` once it has filled the
+           track, because at boot this rail has no cards to measure. -->
+      <section data-reveal id="recently-viewed" class="bg-white py-14 xl:py-[60px]" data-recently-viewed data-recent-min="10">
         <div class="flex flex-col gap-8 xl:gap-10 mx-auto px-4 xl:px-[60px] max-w-[1512px]">
           <h2 class="font-medium text-heading text-[32px] md:text-[40px] leading-[1.2]">Recently Viewed</h2>
-          <!-- 2xl mirrors the Perfect Picks rail above: five 258px cards need 1410px
-               and only fit past 1536; below that the strip stays a scroller. -->
-          <div data-recent-track class="flex 2xl:justify-between gap-4 2xl:gap-0 -mx-4 2xl:mx-0 px-4 2xl:px-0 scroll-pl-4 2xl:scroll-pl-0 overflow-x-auto 2xl:overflow-visible no-scrollbar snap-x"></div>
+          
+          <div class="relative carousel " data-carousel-loop style="--carousel-gap:24px">
+            <div class="carousel-track" data-recent-track>
+            </div>
+            <!-- The side offset is set in styles.css on .carousel-prev/.next
+                 (centre ON the track border, -22px = half the 44px circle):
+                 a -start/-end utility here ties with that rule and loses on
+                 source order, same as the hero arrows. -->
+            <button type="button" class="hidden xl:grid top-[130px] absolute place-items-center bg-white shadow-custom3 rounded-full text-cta transition size-11 carousel-prev" aria-label="السابق">
+              <span class="rtl:scale-flip"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5"><path d="M15 6 9 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </button>
+            <button type="button" class="hidden xl:grid top-[130px] absolute place-items-center bg-white shadow-custom3 rounded-full text-cta transition size-11 carousel-next" aria-label="التالي">
+              <span class="ltr:scale-flip"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5"><path d="M15 6 9 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </button>
+            
+          </div>
         </div>
       </section>
 

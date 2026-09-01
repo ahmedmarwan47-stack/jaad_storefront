@@ -1026,80 +1026,53 @@ html[data-btn="v3"] .delivery-note {
 }
 
 /* Perfect Picks segmented tabs (Figma 9946:16773) — pill buttons on a light
-   green track; the active one is a white pill with a soft shadow and an
+   cream track; the active one is a white pill with a soft shadow and an
    uppercase label. Reuses the .tab-btn / .is-active contract that initTabs
    drives, so no extra JS. */
 .pp-tabs {
   position: relative;
-  /* The active pill is the TRACK'S OWN HUE, several steps down (Ahmed,
-     2026-08-25: "the active one should have the same hue of the container but
-     with a different active shade"). It was white — which is not a shade of
-     anything, so the control read as a white chip parked on a green bar rather
-     than as one object with one part lit.
-     
-     Both halves were lifted ~3 points of lightness on 2026-08-26 (Ahmed:
-     "make the track background lighter and hence the selected tab lighter"),
-     then ROTATED ONTO THE CREAM HUE the same day (Ahmed: "can we use the same
-     hue of the cream for the segmented button?"). Both moves preserved the
-     rule above — track and pill are one hue, 36 points of lightness apart.
+  /* ONE CONTROL IN EVERY THEME (Ahmed, 2026-09-01: "I want the colors of the
+     toggle to be like this in all the color switchers, no variations at all").
+     It used to fork three ways: the base painted a tan pill on a cream track,
+     Moss/V3 swapped the pill for lime, and Moss ALSO repainted the track green
+     through its `.bg-greenTintSoft` override — a rule that outranked this
+     block's own !important on specificity (0,2,1 vs 0,1,0). Both variant rules
+     were DELETED rather than re-pointed at the shared values: a hook left in
+     place is how a fork grows back.
 
-     The rotation is worth spelling out, because "the cream hue" is not a
-     neutral: #FDF8F1 measures h=35°, and the brand orange #EA983E measures
-     h=33°. Cream IS the brand orange taken to 97% lightness. So building the
-     control on cream's hue does not make it beige-and-neutral — it puts it in
-     the ORANGE family, two degrees off the CTA.
+     The track stays #F6EBDC, and "the cream hue" is not a neutral — #FDF8F1
+     measures h=35° and the brand orange #EA983E measures h=33°, so cream IS
+     the brand orange at 97% lightness and this control sits in the ORANGE
+     family, two degrees off the CTA, not in a beige one. It got there by hue-
+     rotation off the original green track (#EBF6DC h=87° -> #F6EBDC h=35°, S
+     and L held), which paid for itself: sRGB weights G at 0.7152 and R at
+     0.2126, so the warm track carries less luminance at equal HSL lightness
+     and its separation from the cream page reads 1.11:1 rather than 1.06:1.
 
-     The values started as a straight hue-rotation of the green pair, same S
-     and L:
-       track  #EBF6DC (h=87°) -> #F6EBDC (h=35°, S=59%, L=91.4%)
-       pill   #92CF4C (h=88°) -> #CF984C (h=35°, S=58%, L=55.5%)
+     THE PILL IS NOW WHITE, which retires the rule this control was rebuilt on
+     — "the active one should have the same hue of the container but with a
+     different active shade" (Ahmed, 2026-08-25). Read that as reversed, not
+     drifted: white is not a shade of anything, which was the exact objection
+     that put the tan pill (#CF984C, lightened twice to #DDB57E) there. What
+     the shared hue was buying — one object with one part lit — is now carried
+     by the track being the only coloured surface in the control.
 
-     THE PILL WAS THEN LIGHTENED TWICE MORE (Ahmed, 2026-08-26: "let's try
-     lighter color than #CF984C", then picking the L 68% step off a ladder):
-     55.5% -> 63% -> 68%, landing on #DDB57E. Same hue, same saturation, just
-     further up the ramp.
+     THE COST, and it is the one number to watch here: the pill separates from
+     the track at 1.18:1, down from 1.62:1 and from 2.16:1 before the tan was
+     lightened. The pill IS the selected-state indicator, so WCAG 1.4.11 asks
+     3:1 of that boundary — a bar this control has missed at every value it has
+     ever held, so this widens an old gap rather than opening a new one. The
+     state therefore rides on REDUNDANCY, which now has to do more work than it
+     did: the label ink #2A1C0B (16.5:1 on white, up from 8.65:1 on the tan)
+     and the pill's edge.
 
-     That is a deliberate departure from the 36-point rule stated above, and
-     the rule should be read as retired rather than quietly broken: track and
-     pill are now 23 points apart. The rule was always a means to an end — one
-     hue, one part lit — and the hue relationship is what actually carries
-     that. What the 36 points were buying was the pill's EDGE.
-
-     The label leaves the green ramp with them. #003616 on a warm chip is the
-     kind of leftover this file has had to clean up twice already, so the ink
-     is #2A1C0B — the warm dark the orange masthead already uses. Lightening
-     the pill only helps the label: 6.50:1 on #CF984C, 8.65:1 on #DDB57E.
-     (Deep green would still have passed at 5.36:1; it just read muddy.)
-
-     UNEXPECTED WIN from the rotation, and the reason it is worth keeping:
-     warm hues carry less luminance than greens at equal HSL lightness, because
-     the sRGB luminance formula weights G at 0.7152 and R at 0.2126. So the
-     warm track lands at rel-luminance 0.842 where the green sat at 0.887 — and
-     its separation from the cream page goes 1.06:1 -> 1.11:1. The trade-off
-     flagged when lightening the green track is gone; this recovers the original
-     separation while STILL being the lighter design.
-     The cost is the other side of that same coin: at equal HSL lightness the
-     warm track reads ~2 points darker in L* (93.6 vs 95.5). Matching the
-     green's perceived lightness would mean #F8F0E5, which drops separation
-     back to 1.07:1 — the two goals pull against each other and this picks
-     separation.
-
-     WHAT LIGHTENING THE PILL COSTS, and it is the one number to watch on this
-     control: the pill separates from the track at 1.62:1, down from 2.16:1.
-     The pill IS the selected-state indicator, so WCAG 1.4.11 wants 3:1 on that
-     boundary — a bar this control MISSED BEFORE ANY OF THIS (2.16:1), so the
-     lightening widened an existing gap rather than opening a new one. What now
-     carries the selected state is REDUNDANCY, not the fill: the label ink goes
-     #333 -> #2A1C0B, and the shadow seats the chip. That is thinner cover than
-     it was, and it is a deliberate accepted cost, not an oversight.
-
-     THE NEXT PERSON TO LIGHTEN THIS PILL SHOULD ADD AN EDGE FIRST. A 1px
-     darker-warm border (#B98442 was the value tested) restores the boundary
-     geometrically instead of tonally, and would let the fill go a long way
-     lighter without the chip dissolving into the track. Below roughly L 70%
-     the fill alone stops holding its own shape. */
+     THE EDGE IS WHY THE SHADOW BELOW GAINED A HAIRLINE RING. The previous
+     revision's parting advice was that below roughly L 70% the fill stops
+     holding its own shape and the next person to lighten it should add an edge
+     first. White is the top of that ramp, so that advice is now spent: the
+     ring IS the boundary. Do not drop it while the pill is white. */
   --sw-track: #F6EBDC;
-  --sw-pill: #DDB57E;
+  --sw-pill: #FFFFFF;
   --sw-pill-ink: #2A1C0B;
   /* Beats the `bg-greenTintSoft` utility in the markup rather than editing it:
      that class is written by the page modules in build/pages/ and a hand-edit to
@@ -1108,15 +1081,6 @@ html[data-btn="v3"] .delivery-note {
      token also keeps its honest name — a token called greenTintSoft has no
      business holding a warm hex. */
   background-color: var(--sw-track) !important;
-}
-/* Moss keeps the rule, not the hex. Its ramp is now one lime and one dark, so
-   --moss-mid resolves to the lime itself: #98CA55, which lands within a point
-   of the base pill's new 55.5% lightness — the two variants still agree on
-   this control rather than each picking a step, so the lightening did not need
-   to touch Moss. Label: the variant's ink, 6.8:1 on it. */
-html[data-btn="v3"] .pp-tabs {
-  --sw-pill: var(--moss-mid);
-  --sw-pill-ink: var(--moss-ink);
 }
 /* The active pill is a single element that SLIDES between chips (initTabs sizes
    and positions it), so the label font/size never changes — no reflow jump. */
@@ -1141,13 +1105,17 @@ html[data-btn="v3"] .pp-tabs {
      which is the radius that keeps the two curves concentric — the same
      relationship the fully-round version was reaching for. */
   border-radius: 14px;
-  background: var(--sw-pill, #DDB57E);
-  /* Softer than the white pill's shadow: a mid-tone chip on a light track is
-     already legible by colour, so the shadow only has to seat it. Tinted with
-     the control's own hue, not neutral grey — and it followed the hue rotation
-     (was rgba(31,45,20) — a GREEN-black — which on a warm chip is a leftover
-     the same way the green label was). */
-  box-shadow: 0 1px 2px rgba(58, 38, 14, 0.16);
+  background: var(--sw-pill, #FFFFFF);
+  /* Two layers doing two jobs. The 1px spread ring is the pill's EDGE — see
+     the block above: at 1.18:1 the white fill cannot hold its own shape on the
+     cream track, so the boundary is drawn geometrically instead of tonally.
+     The blurred layer only seats the chip. Both are tinted with the control's
+     own warm dark rather than neutral grey (the value was once rgba(31,45,20),
+     a GREEN-black, which on a warm chip was a leftover the same way the green
+     label was). */
+  box-shadow:
+    0 0 0 1px rgba(58, 38, 14, 0.09),
+    0 1px 2px rgba(58, 38, 14, 0.16);
   transform: translateX(0);
   transition:
     transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),
@@ -1172,6 +1140,33 @@ html[data-btn="v3"] .pp-tabs {
 }
 @media (min-width: 640px) {
   .pp-tabs .tab-btn { padding: 0.5rem 1rem; }
+}
+/* FULL WIDTH ON A PHONE (Ahmed, 2026-09-01: "in the mobile, this should be
+   full width"). The control is an `inline-flex` sized to its three labels, so
+   it sat as a short bar with dead cream to the right of "Offers" — on a narrow
+   screen that reads as an unfinished element rather than a compact one.
+
+   The chips grow to take the slack (`flex: 1 1 0`) instead of keeping their
+   intrinsic widths, so the space is distributed rather than pooling at one end.
+   Not equal thirds, and deliberately so: a flex item's `min-width: auto` floors
+   each chip at its own content, and .tab-btn is `white-space: nowrap`, so
+   "Best Selling" holds ~122px while "New" and "Offers" split the remainder at
+   ~103px each. Forcing true thirds means `min-width: 0`, which at 375 pushes
+   the longest label out past its chip. Filling the bar is the ask; equal
+   segments were not.
+
+   The sliding pill needs nothing here. initTabs measures the active chip's
+   offsetWidth/offsetLeft and re-measures on resize, on font load and on the
+   next frame, so it follows whatever width flex hands the chip. */
+@media (max-width: 639px) {
+  .pp-tabs {
+    display: flex;
+    width: 100%;
+  }
+  .pp-tabs .tab-btn {
+    flex: 1 1 0;
+    text-align: center;
+  }
 }
 .pp-tabs .tab-btn::after {
   display: none;
@@ -3758,16 +3753,26 @@ html[data-btn="v2"] .border-cta { border-color: #EA983E !important; }
    turns orange, so an orange badge would vanish into it — the badge instead
    goes deep green (#006328, white text = 7.5:1), the complementary pop against
    the orange button and a clear tell that the theme has switched. */
-/* The count badge sits ON the orange cart button, so it belongs to the ORANGE
-   family (Ahmed, 2026-08-24). It was #006328 — deep green — which was the one
-   green left in an otherwise orange theme and read as a leftover.
+/* BLACK (Ahmed, 2026-09-01: "in the orange version, the circle that has the
+   number should be in black"), the same call made on Moss the same day — the
+   count chip is now one colour in every theme rather than a per-variant tint.
 
-   #7A3E06 is the brand orange taken right down in lightness: 8.34:1 for its
-   white digits, and 3.60:1 against the #EA983E button behind it, so the badge
-   still separates from the button as a distinct shape (3:1 is the bar for a
-   non-text graphic boundary). */
+   Its history in one line: #006328 (deep green, the one green left in an
+   otherwise orange theme) -> #7A3E06 (the brand orange taken right down in
+   lightness, so the chip belonged to the orange family, 2026-08-24) -> #000.
+
+   Black is not a departure in this variant the way it would be in V1: V2
+   already prints BLACK ink on its orange CTAs (see the .bg-cta rules above),
+   so the chip is now made of the theme's own ink rather than of a fourth
+   shade of orange. It also buys back the boundary #7A3E06 was scraping past —
+   9.1:1 against the #EA983E button, where the brown managed 3.60:1 against a
+   3:1 bar. White digits: 21:1, up from 8.34:1.
+
+   The white ring stays. It is what holds the chip off the green masthead
+   behind the button; the parked-pill rule at the top of this file drops it on
+   scroll, which is still correct. */
 html[data-btn="v2"] [data-cart-count] {
-  background-color: #7A3E06 !important;
+  background-color: #000 !important;
   color: #fff !important;
   --tw-ring-color: #fff !important;
 }
@@ -4637,6 +4642,30 @@ a.contact-card:hover {
    hero section nor its inner frame carries overflow, and the seal is positioned
    with a z-index while the section below it is not, so it paints over that
    section rather than being covered by it. */
+/* --- The scalloped hero edge, drifting on scroll -------------------------
+   (Ahmed, 2026-09-01: "I would like the wave to move in a smooth animation
+   while scrolling".) initWaveDrift writes --wave-x; everything else is here.
+
+   ONE transform, not two. The markup used to carry Tailwind's
+   `-translate-x-1/2` for the centring, and a second `transform` on the same
+   element does not compose with it — the later declaration replaces it
+   outright. So the centring is folded into this rule and the utility was
+   removed from both call sites (components.hero_wave and the homepage hero).
+
+   HOW FAR IT CAN GO is unbounded, and that is a property of the ARTWORK rather
+   than of this rule. components.hero_wave draws a tiled path with no end-caps,
+   so initWaveDrift wraps the offset at one scallop and the wave drifts as far
+   as the reader scrolls. The element is 224% wide and centred, leaving 62% of
+   overhang each side against a scallop of 11.2% — the wrap has room to spare,
+   which is the whole reason the earlier bounded version could be dropped.
+
+   Reduced motion is handled twice over: the JS never starts, and the fallback
+   in var() holds the wave centred even if a stale --wave-x were left behind. */
+.hero-wave {
+  transform: translate3d(calc(-50% + var(--wave-x, 0px)), 0, 0);
+  will-change: transform;
+}
+
 .hero-badge {
   position: absolute; z-index: 3;
   /* Sat on the BOX's bottom edge at first, which put roughly a third of the
@@ -4826,8 +4855,14 @@ a.contact-card:hover {
    push-in, which is what makes a still photograph feel like it is being
    presented rather than swapped.
    ========================================================================== */
-.story__cap [data-reveal]:nth-child(2) { transition-delay: 0.08s; }
-.story__cap [data-reveal]:nth-child(3) { transition-delay: 0.16s; }
+/* The stagger is stated PER ELEMENT rather than counted off .story__cap's
+   children. It used to be :nth-child(2)/(3), which was correct while the cap
+   was a single column of three siblings; the cap is now a row whose heading and
+   copy sit one level down inside the text column, so nth-child would have given
+   the copy and the link the same 0.08s and skipped 0.16s entirely. Naming the
+   elements survives the next layout change too. */
+.story__cap p[data-reveal] { transition-delay: 0.08s; }
+.story__cap a[data-reveal] { transition-delay: 0.16s; }
 
 .pcar {
   position: relative;
@@ -5407,7 +5442,6 @@ html[data-btn="v3"] .bg-primary-50    { background-color: var(--moss-mint) !impo
    (85.3% -> 88.4%) on its own hue, so Moss moved WITH the base rather than
    being pinned to a step of a ramp it shares with unrelated fills. Lifting
    --moss-soft itself would have dragged every other soft Moss fill along. */
-html[data-btn="v3"] .bg-greenTintSoft { background-color: #E3F1D2 !important; }
 html[data-btn="v3"] .bg-greenTint     { background-color: var(--moss-tint) !important; }
 
 /* --- type -------------------------------------------------------------- */
@@ -5489,14 +5523,22 @@ html[data-btn="v3"] [data-navbar] a,
 html[data-btn="v3"] [data-navbar] button { color: var(--chrome-ink) !important; }
 html[data-btn="v2"] [data-navbar] svg,
 html[data-btn="v3"] [data-navbar] svg { color: var(--chrome-ink); }
-/* The nav tabs hover to #ACD574, a pale lime picked to lift off a deep green
-   slab. On cream it is nearly invisible, so hover moves to the variant accent. */
-html[data-btn="v2"] [data-navbar] a:hover,
-html[data-btn="v3"] [data-navbar] a:hover { color: var(--chrome-accent) !important; }
+/* Navbar links hover to the variant accent — the base markup's #ACD574 is a
+   pale lime picked to lift off a deep green slab, and on cream it is nearly
+   invisible.
+   NOT the category tabs: `.nav-tab` is excluded here and in the two rules like
+   it (V1 below, and the V3 opacity under this one) because COFFEE / SPICES /
+   NUTS hover with their underline alone (Ahmed, 2026-09-01: "the hover state
+   here should be the underline only, don't change the color"). Excluded at
+   each source rather than overridden afterwards — these carry !important, so
+   an override would have had to out-shout three of them from further down the
+   file, and the next person would find four rules arguing about one hover. */
+html[data-btn="v2"] [data-navbar] a:not(.nav-tab):hover,
+html[data-btn="v3"] [data-navbar] a:not(.nav-tab):hover { color: var(--chrome-accent) !important; }
 /* V3's accent IS its ink now (one dark, see the token block), so a colour
    change cannot express hover here. Opacity does, and it stays legible at
    0.62 — 7.6:1 against the cream bar. */
-html[data-btn="v3"] [data-navbar] a:not(.masthead-logo):hover { opacity: 0.62; }
+html[data-btn="v3"] [data-navbar] a:not(.masthead-logo):not(.nav-tab):hover { opacity: 0.62; }
 
 /* --- the PHONE masthead ------------------------------------------------- *
    Same treatment, V3 only (Ahmed, 2026-08-25: "the moss navigation bar is dark
@@ -5667,25 +5709,32 @@ html[data-btn="v3"] [data-navbar] [data-open="cart"] [data-cart-glyph],
 html[data-btn="v3"] [data-open="cart"] svg { color: var(--moss-ink) !important; }
 /* The count badge sits ON that green, so it takes the light tint with dark
    type rather than the reverse. */
-/* ORANGE (Ahmed, 2026-08-25: "the circle of the number of the moss version
-   need to be orange"), and it takes the variant's badge tokens rather than a
-   hex of its own — a count chip is a badge, so it belongs to the same pair as
-   the price tags. That also makes it the one thing on a lime cart button that
-   is not lime: it was a dark chip with lime digits, which read as a hole in the
-   button rather than as a number attached to it. #2A1C0B on #F0A860 is 8.3:1,
-   and the chip clears 3:1 against the lime it sits on, so it stays a separate
-   shape and not a smudge. */
-/* No ring (Ahmed, 2026-08-25: "remove the border around the circle of the
-   number"), and the surface audit's finding about it stands on record rather
-   than in pixels: #F0A860 on the #98CA55 button is 1.04:1 — distinct in hue,
-   near-identical in luminance — so the chip has no measurable edge against the
-   button and disappears in greyscale. The ink ring was the fix; it was seen and
-   declined, which makes this a recorded design decision, not an oversight. The
-   digits themselves stay comfortably legible (8.3:1 on the orange). */
+/* BLACK (Ahmed, 2026-09-01: "in the moss version, make the circle that
+   containes the number black"), matching the same call made on V2 the same
+   day — the count chip is now one colour across every theme, the way the
+   segmented control is.
+
+   It was orange: --badge-fill/--badge-ink, the variant's badge pair, on the
+   reasoning that a count chip is a badge and belongs with the price tags
+   (Ahmed, 2026-08-25). That reasoning is what changes here — the chip is read
+   as a notification dot, not as a price sticker, so it leaves the badge tokens
+   and takes a literal hex. Anything still driven by --badge-fill is unaffected.
+
+   The move also settles a finding this block has carried on record since it was
+   written: #F0A860 on the #98CA55 button measured 1.04:1 — distinct in hue,
+   near-identical in luminance, so the chip had no measurable edge and vanished
+   in greyscale. An ink ring was proposed as the fix and declined ("remove the
+   border around the circle of the number"). Black needs no ring: it separates
+   from the lime at 10.9:1 by fill alone, so the no-ring decision survives
+   intact and the edge problem it left behind is gone.
+
+   Digits go white — 21:1, and the only pairing that works, since the whole
+   point of the chip being black is that it is the one dark thing on the
+   button. */
 html[data-btn="v3"] [data-cart-count],
 html[data-btn="v3"] [data-sticky-actions][data-stuck="true"] [data-cart-count] {
-  background-color: var(--badge-fill) !important;
-  color: var(--badge-ink) !important;
+  background-color: #000 !important;
+  color: #fff !important;
   box-shadow: none !important;
   --tw-ring-shadow: 0 0 #0000 !important;
 }
@@ -5766,10 +5815,11 @@ html[data-btn="v1"] [data-navbar] .text-white,
 html[data-btn="v1"] [data-navbar] a,
 html[data-btn="v1"] [data-navbar] button { color: #2A1C0B !important; }
 html[data-btn="v1"] [data-navbar] svg { color: #2A1C0B; }
-/* COFFEE / SPICES / NUTS hover to #ACD574, drawn to lift off a deep green
-   slab; on orange it vanishes. The nav tabs are also hidden below lg, which is
-   why this only shows up on a wide sweep. */
-html[data-btn="v1"] [data-navbar] a:hover { color: #5A3708 !important; }
+/* Navbar links hover to a darker orange; the base markup's #ACD574 was drawn
+   to lift off a deep green slab and vanishes on this one. `.nav-tab` is
+   excluded — see the matching note in the V2/V3 block above for why the
+   category tabs hover with their underline and nothing else. */
+html[data-btn="v1"] [data-navbar] a:not(.nav-tab):hover { color: #5A3708 !important; }
 
 /* hdr-user.svg and hdr-search.svg carry a hardcoded stroke="white" and are
    external <img>, so CSS colour cannot reach inside them — the same problem
@@ -6122,11 +6172,42 @@ button[data-sticky-step]:active { transform: scale(0.88); }
 /* --- Lazy image fade (tagged by initImgFade — only images still loading
    when the script runs, so cached pictures never blink). */
 .img-fade { opacity: 0; }
-.img-fade.img-in { opacity: 1; transition: opacity 0.5s ease-out; }
+/* THE TRANSFORM LEG IS LOAD-BEARING — do not trim it back to opacity.
+   This is a `transition` SHORTHAND, so it resets transition-property on
+   whatever it touches, and it touches every lazy image on the site. The
+   article card's photograph asks for a 500ms `transition-transform` in its
+   Tailwind classes and pairs it with `group-hover:scale-105`; tailwind.css
+   loads before this file and `.img-fade.img-in` is (0,2,0) against the
+   utility's (0,1,0), so this line was silently winning and leaving the image
+   with transition-property: opacity. The scale then applied in one frame — the
+   hover SNAPPED rather than eased (Ahmed, 2026-09-01: "the articles hover
+   animation in the homepage has a weird jump unlike the smooth one in the blog
+   page").
+
+   Only the homepage showed it, which is worth explaining because it made the
+   bug look like a homepage-layout problem and it is not: initImgFade tags an
+   image only if it is still loading when the script runs (`img.complete` skips
+   the rest). Arriving at the blog from the homepage, those photographs are
+   already in cache, complete, and never tagged — so the blog kept the
+   utility's smooth transition by luck of the cache, not by design. A cold load
+   of the blog jumps in exactly the same way.
+
+   Naming transform here rather than fixing it on the card is deliberate: the
+   clobbering is this rule's, and any other lazy image with a hover scale would
+   have hit it next. Images that never transform pay nothing for the extra
+   leg. */
+.img-fade.img-in {
+  opacity: 1;
+  transition: opacity 0.5s ease-out, transform 0.5s var(--ease-out);
+}
 
 /* --- The whole layer folds at once. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  /* Belt and braces with initWaveDrift's own reduceMotion() bail: if a
+     --wave-x were ever written before the preference was read, this pins the
+     wave back to centre rather than leaving it parked off to one side. */
+  .hero-wave { --wave-x: 0px; }
   .js-reveal .product-widget[data-reveal], .product-widget,
   .product-widget > .relative > a, .nav-tab::after { transition: none; }
   .js-reveal .product-widget[data-reveal]:hover,
