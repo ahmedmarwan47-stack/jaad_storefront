@@ -33,7 +33,7 @@
          styles.css contains rules whose whole purpose is to beat a utility
          ([hidden] !important, the focus ring re-armed over `outline-none`,
          the sticky-nav selector). Reverse these two and they stop working. -->
-    <link rel="stylesheet" href="tailwind.css?v=a7929f0c" />
+    <link rel="stylesheet" href="tailwind.css?v=3b707eba" />
     <link rel="stylesheet" href="styles.css?v=47e77f74" />
     <!-- The client's 3D leaf mark as the tab icon (Ahmed, 2026-08-05) — the
          same spec-leaf.png the mega-panel bullets and product benefits use, so
@@ -45,8 +45,8 @@
          always defined window.JAAD_I18N by the time scripts.js boots and
          merges it. A plain script rather than a fetch, so the language switch
          still works from file://. -->
-    <script defer src="i18n-en.js?v=c4304ea2"></script>
-    <script defer src="scripts.js?v=5ea31c66"></script>
+    <script defer src="i18n-en.js?v=f3fd233b"></script>
+    <script defer src="scripts.js?v=584200c9"></script>
   </head>
   <body data-page="product" data-path="/product" class="antialiased bg-white">
     <!-- First focusable thing on the page. The header is three bands and a
@@ -155,31 +155,41 @@
                  which drops the padding and lets them bleed to the rounded
                  corners. Both states are the same box, so switching between
                  them never resizes the column. -->
-            <!-- SQUARE, because every photograph in it is square (Ahmed,
-                 2026-09-01: "I can see some product photos so enlarged").
+            <!-- FULL COLUMN WIDTH, 520 TALL — the Figma proportions, arrived at
+                 the long way round (Ahmed, 2026-09-01: "I can see some product
+                 photos so enlarged", then "I like the height now but fix the
+                 width too to be inline with the container below it").
 
-                 It was h-[348px] xl:h-[520px] against a `flex-1` width, which
-                 at 1440 measured 577x520 — a 1.11:1 frame. Every styled shot is
-                 640x640 or 720x720, and photographs fill the plate with
-                 object-cover, so cover scaled each one to the plate's WIDTH and
-                 then cut 57px off it vertically: a ~10% top-and-bottom crop on
-                 every product on the site. On a shot already framed tight to
-                 the bag that reads as the photograph being blown up, which is
-                 exactly what it was.
+                 This box briefly became `aspect-square`, and the reasoning is
+                 worth keeping because it explains why square was BOTH right and
+                 wrong. The complaint was that product shots looked blown up,
+                 and there were two causes: this frame is 1.11:1 (577x520 at
+                 1440) while every styled asset is square, so object-cover cut
+                 ~10% off the top and bottom of every photograph on the site —
+                 AND four of the nut shots were framed so tight to the bag that
+                 any crop at all bit into it.
 
-                 `aspect-square` is a fix at the frame rather than at 78 assets,
-                 and it holds at every width instead of at the one the fixed
-                 height happened to suit.
+                 Square removed the crop but made the plate as tall as the
+                 column is wide (577), which pushed "You may also like" down the
+                 page; capping the WIDTH instead kept it square at 520 but left
+                 it narrower than the card below, breaking the column's edge.
+                 There is no geometry that is square, 520 tall, and as wide as
+                 the column — those three are contradictory.
 
-                 The invariant the fixed height existed for SURVIVES: the two
-                 fill modes swap `p-6`/`p-10` on this box, and aspect-ratio
-                 sizes the border box, so a cut-out's padding still comes out of
-                 the inside and the outer box does not move a pixel when a
-                 thumbnail is clicked. What is lost is the strip's static cap
-                 tracking the plate exactly — see the note on the strip. -->
+                 So the frame goes back to the design and the OTHER cause is
+                 what stays fixed: 8/9/10/11 and 8-b were re-framed by
+                 outpainting, so the bag now sits with real margin and the ~5%
+                 trimmed off each edge no longer touches it. The crop is a
+                 deliberate accepted cost again, not an oversight — if a future
+                 shot looks enlarged here, re-frame the SHOT; the frame is the
+                 Figma's and the column depends on it.
+
+                 The height is also what the thumbnail strip is capped to, and
+                 the two fill modes swap `p-6`/`p-10` inside this fixed box, so
+                 the column never resizes when a thumbnail is clicked. -->
             <div data-gallery-plate data-fill="cover"
                  class="gallery-plate relative flex-1 bg-cream rounded-[20px] min-w-0 overflow-hidden
-                        aspect-square">
+                        h-[348px] xl:h-[520px]">
               <img data-gallery-main src="images/jaad/products-styled/24.jpg" alt="بهارات لحمة"
                    data-img-scene="images/jaad/products-styled/24.jpg" data-img-plain="images/jaad/products/spices-meat.png"
                    class="mx-auto w-full h-full" />

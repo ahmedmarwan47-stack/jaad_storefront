@@ -1087,7 +1087,7 @@
            <img src="images/jaad/icons/flash-sale.png" alt="" class="w-[18px] h-[18px] object-contain shrink-0" />
            <span class="font-bold uppercase tracking-[0.5px]">${esc(t("عروض فلاش"))}</span>
            <span class="flex items-center gap-1.5">
-             ${flashUnit("days", "يوم")}${flashSep}${flashUnit("hours", "ساعة")}${flashSep}${flashUnit("mins", "دقيقة")}
+             ${flashUnit("hours", "ساعة")}${flashSep}${flashUnit("mins", "دقيقة")}${flashSep}${flashUnit("secs", "ثواني")}
            </span>
          </a>`;
     /* Phones carry no utility bar, so the promo would disappear with the band
@@ -6484,9 +6484,20 @@
      Products mega-panel (desktop)
      --------------------------------------------------------------- */
   /* Flash-sale countdown (Figma node 9943:16452). No real sale window exists,
-     so this is a rolling 2-day demo deadline — it always shows a live, plausible
-     countdown and resets cleanly. Updates Days/Hours/Mins (no seconds in the
-     design), so a 20s tick keeps the minutes honest without churn. */
+     so this is a rolling demo deadline — it always shows a live, plausible
+     countdown and resets cleanly.
+
+     HOURS : MINUTES : SECONDS (Ahmed, 2026-09-01: "the flash sale should count
+     in hours, minutes and seconds"). It was Days/Hours/Mins on a 2-day cycle,
+     ticking every 20s — enough to keep minutes honest with no seconds to churn
+     for.
+
+     The CYCLE drops to 24h with them, and that is not incidental: with the days
+     column gone, a 2-day window would have printed "34" in an hours field that
+     now has to read as a clock. A one-day cycle keeps hours in 0–23.
+
+     The tick goes to 1s, because a seconds field that updates every 20s is
+     worse than no seconds field at all. */
   function initFlashCountdown() {
     /* querySelectorAll, not querySelector (Ahmed, 2026-08-25). The promo now
        renders TWICE — once in the desktop utility bar, once in the phone's own
@@ -6496,7 +6507,7 @@
     const bars = [...document.querySelectorAll("[data-flash-sale]")];
     if (!bars.length) return;
     bars.forEach((b) => { if (b._flashTimer) clearInterval(b._flashTimer); });
-    const CYCLE = 2 * 24 * 60 * 60 * 1000;
+    const CYCLE = 24 * 60 * 60 * 1000;
     const set = (k, v) => {
       const txt = String(v).padStart(2, "0");
       bars.forEach((b) => {
@@ -6507,17 +6518,17 @@
     const tick = () => {
       const now = Date.now();
       let rem = Math.max(0, Math.ceil(now / CYCLE) * CYCLE - now);
-      const d = Math.floor(rem / 86400000);
-      rem -= d * 86400000;
       const h = Math.floor(rem / 3600000);
       rem -= h * 3600000;
       const m = Math.floor(rem / 60000);
-      set("days", d);
+      rem -= m * 60000;
+      const s = Math.floor(rem / 1000);
       set("hours", h);
       set("mins", m);
+      set("secs", s);
     };
     tick();
-    const timer = setInterval(tick, 20000);
+    const timer = setInterval(tick, 1000);
     bars.forEach((b) => { b._flashTimer = timer; });
   }
 
@@ -7575,15 +7586,28 @@
       + '<span class="text-muted text-xs">' + esc(t("تم الاستخدام")) + ' ' + esc(dateStr) + '</span></div>'
       + '<span class="inline-flex items-center bg-mint px-2.5 py-1 rounded-full font-semibold text-ink-800 text-xs shrink-0">' + esc(t("مستخدمة")) + '</span></div>';
   }
+  /* The used-on date, in the language being read. Rows written before
+     2026-09-01 stored an Arabic-formatted string rather than a date, so a
+     value that does not parse is passed through as-is rather than dropped. */
+  function voucherHistDate(stored) {
+    const d = new Date(stored);
+    if (isNaN(d)) return stored || "";
+    return currentLang() === "en"
+      ? d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
+      : fmtDateAr(d);
+  }
   function renderVoucherHistory() {
     const host = document.querySelector("[data-vouchers-history-dynamic]");
     if (!host) return;
-    host.innerHTML = vouchersHistory().slice().reverse().map((h) => voucherHistRow(h.label, h.date)).join("");
+    host.innerHTML = vouchersHistory().slice().reverse()
+      .map((h) => voucherHistRow(voucherLabel(h), voucherHistDate(h.date))).join("");
   }
   function addVoucherHistory(label, value) {
     try {
       const h = vouchersHistory();
-      h.push({ label: label, value: value, date: fmtDateAr(new Date()) });
+      // ISO, not prose — see voucherCardHTML for why the words are derived at
+      // paint time rather than frozen into storage.
+      h.push({ label: label, value: value, date: new Date().toISOString() });
       localStorage.setItem(V_HIST_KEY, JSON.stringify(h));
     } catch (e) { /* ignore */ }
     renderVoucherHistory();
@@ -7592,12 +7616,48 @@
   // page renders (build/pages/my_account_vouchers.py) so a code-added voucher is
   // indistinguishable from a seeded one — same activate (+) control, same hooks.
   const V_PLUS = '<svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  /* A code-added voucher's words are derived HERE, at paint time, from the two
+     language-neutral facts it stores: its value and its expiry date (Ahmed,
+     2026-09-01: "the voucher appeared in arabic while I am viewing the english
+     version").
+
+     It used to translate at CREATION and persist the result, which was wrong
+     twice over. `t("خصم")`, `t("جنيه")` and `t("صالحة حتى")` were not in the
+     dictionary at all, so the label came back Arabic on the English site; and
+     fmtDateAr writes an Arabic month name unconditionally, so even a
+     translated label carried an Arabic date. Persisting the output also froze
+     whatever language it was made in — a voucher added in Arabic would have
+     stayed Arabic after switching to English, and no dictionary can reach a
+     string sitting in localStorage.
+
+     The wording is picked per language rather than assembled from dictionary
+     parts because the two languages ORDER it differently: Arabic puts the
+     amount in the middle ("خصم 150 جنيه"), English puts it first ("150 EGP
+     off"). Concatenating translated fragments cannot express that, and a
+     per-value key ("خصم 150 جنيه") is the unmatched-string trap that rewards.py
+     and the points line both hit — the value here is arbitrary, read off the
+     code the shopper typed. */
+  function voucherLabel(v) {
+    if (v.value == null) return v.label || ""; // pre-2026-09-01 stored voucher
+    return currentLang() === "en"
+      ? v.value + " EGP off"
+      : "خصم " + v.value + " جنيه";
+  }
+  function voucherValidity(v) {
+    if (!v.exp) return v.validity || ""; // pre-2026-09-01 stored voucher
+    const d = new Date(v.exp);
+    if (isNaN(d)) return v.validity || "";
+    return currentLang() === "en"
+      ? "Valid until " + d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
+      : "صالحة حتى " + fmtDateAr(d);
+  }
   function voucherCardHTML(v) {
+    const label = voucherLabel(v);
     return '<div data-voucher data-voucher-id="' + esc(v.id) + '" class="flex items-center gap-3 bg-white shadow-custom4 p-4 rounded-2xl">'
       + '<img src="images/jaad/icons/discount-tag-3d.png" alt="" class="w-11 h-11 object-contain shrink-0" />'
-      + '<div class="flex flex-col flex-1 min-w-0"><span class="font-bold text-cta text-sm">' + esc(v.label) + '</span>'
-      + '<span class="text-muted text-xs">' + esc(v.validity) + '</span></div>'
-      + '<button type="button" data-voucher-activate data-value="' + esc(String(v.value)) + '" data-label="' + esc(v.label) + '" aria-label="' + esc("تفعيل " + v.label) + '" '
+      + '<div class="flex flex-col flex-1 min-w-0"><span class="font-bold text-cta text-sm">' + esc(label) + '</span>'
+      + '<span class="text-muted text-xs">' + esc(voucherValidity(v)) + '</span></div>'
+      + '<button type="button" data-voucher-activate data-value="' + esc(String(v.value)) + '" data-label="' + esc(label) + '" aria-label="' + esc(t("تفعيل") + " " + label) + '" '
       + 'class="place-items-center grid bg-cream hover:bg-cta hover:text-white border border-divider rounded-full size-10 text-cta shrink-0 transition-colors"><span class="w-4 h-4">' + V_PLUS + '</span></button>'
       + '</div>';
   }
@@ -7633,11 +7693,13 @@
       const m = code.match(/(\d{2,4})/);
       const value = m ? Number(m[1]) : 50;
       const exp = new Date(); exp.setDate(exp.getDate() + 90);
+      /* Stored language-NEUTRAL: a value and an ISO date, no prose. The words
+         are derived at paint time by voucherLabel/voucherValidity, so a
+         voucher added in one language reads correctly in the other. */
       const v = {
         id: "added-" + Date.now(),
-        label: t("خصم") + " " + value + " " + t("جنيه"),
-        validity: t("صالحة حتى") + " " + fmtDateAr(exp),
         value: value,
+        exp: exp.toISOString(),
       };
       try {
         const arr = vouchersAdded(); arr.push(v);
