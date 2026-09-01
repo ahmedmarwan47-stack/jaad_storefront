@@ -7473,9 +7473,25 @@
     document.querySelectorAll("[data-points-balance]").forEach((el) => (el.textContent = nfEn(rem)));
     document.querySelectorAll("[data-points-badge]").forEach((el) => (el.textContent = nfEn(rem)));
     document.querySelectorAll("[data-points-progress]").forEach((el) => (el.style.width = ti.pct + "%"));
+    /* BOTH halves go through t() (Ahmed, 2026-09-01: "there is an arabic text
+       here"). The tier NAME was being interpolated raw, so the line read
+       "1,300 points to reach بلاتينية" — and before the dictionary gained the
+       keys below it stayed Arabic end to end.
+
+       Worth knowing why the page looked translated in the markup and was not on
+       screen: my_account_point.py renders this line at build time as one string
+       ("… نقطة للوصول لعضوية بلاتينية") which the dictionary DOES carry, and
+       then syncPointsUI overwrites it here on load. The served HTML was never
+       the problem; this writer was. Anything rebuilt at runtime has to
+       translate itself — the text-node pass has already been and gone.
+
+       Assembled from parts rather than one key per tier, which is the same
+       lesson rewards.py records above: a string interpolated per tier is a
+       unique string the dictionary can never match. */
     document.querySelectorAll("[data-points-tonext]").forEach((el) => {
       el.innerHTML = ti.nxt
-        ? '<span class="latin">' + nfEn(ti.toNext) + "</span> " + esc(t("نقطة للوصول لعضوية")) + " " + esc(ti.nxt[0])
+        ? '<span class="latin">' + nfEn(ti.toNext) + "</span> " +
+          esc(t("نقطة للوصول لعضوية")) + " " + esc(t(ti.nxt[0]))
         : esc(t("وصلت لأعلى مستوى عضوية")) + " 🎉";
     });
     document.querySelectorAll("[data-tier-cards]").forEach((wrap) => {
