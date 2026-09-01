@@ -1384,8 +1384,18 @@
     const columnsMobile = `
       <div data-accordion data-accordion-multi class="md:hidden flex flex-col">
         ${FOOTER_COLUMNS.map(
-          (col) => `
-        <div class="accordion-item border-white/10 border-b">
+          (col, ci) => `
+        <!-- The last group draws NO rule (Ahmed, 2026-09-01: "remove the last
+             divider in the mobile footer"). A divider belongs BETWEEN two
+             groups; the one under the final group was separating it from the
+             contact row below, which is not a peer of these panels. Three
+             groups, two rules.
+
+             Done by index rather than with Tailwind's last: variant, which
+             looks like the obvious answer and silently does nothing here: the
+             contact block is rendered INSIDE this same accordion container,
+             after the map, so the final .accordion-item is not :last-child. -->
+        <div class="accordion-item border-white/10${ci === FOOTER_COLUMNS.length - 1 ? "" : " border-b"}">
           <button type="button" class="accordion-trigger flex justify-between items-center gap-4 py-4 w-full text-start">
             <span class="font-bold text-white text-base leading-[22px]">${esc(t(col.name))}</span>
             <span class="accordion-chevron text-white shrink-0"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -1698,9 +1708,31 @@
 
     <!-- Mobile menu drawer -->
     <aside data-drawer="menu" class="side-drawer side-drawer--left" aria-label="Menu">
-      <div class="flex justify-between items-center bg-primary px-5 py-4 border-neutral-100 border-b text-white">
+      <!-- NEUTRAL, SHORTER, WITH A RULE UNDER IT (Ahmed, 2026-09-01: "make the
+           header of the side bar not green, make it a neutral color like the
+           rest of the side bar and add a bottom stroke to it", plus "less
+           height" and a smaller X).
+
+           bg-white is the drawer's own ground (.side-drawer is #fff), so the
+           header stops being a separate slab and the border is what divides it
+           — which is why the rule has to be there: without the green there is
+           nothing else marking where the header ends.
+
+           HEIGHT came down 77 -> 60px, and the close button is what governs
+           that, not the padding: the row is max(logo 28, button) + padding, so
+           py-4 -> py-3 alone would have saved 8px while the 44px button held
+           the rest. size-9 (36px) still clears WCAG 2.5.8's 24px floor
+           comfortably.
+
+           The X GLYPH was rendering at the full 44px because it was dropped in
+           bare — every other close button on the site wraps it (see the search
+           modal) and this one did not. Wrapped at 20px it matches them.
+
+           The logo stays: it is 47% real ink and only 19% cream highlight, so
+           it reads on white as well as it did on the green. -->
+      <div class="flex justify-between items-center bg-white px-5 py-3 border-divider border-b text-ink">
         <img src="images/jaad/brand/logo-jaad.svg" alt="جاد" class="w-[29px] h-[28px] object-contain" />
-        <button type="button" data-close class="place-items-center grid size-11 -me-2 text-white">${ICON.close}</button>
+        <button type="button" data-close aria-label="${esc(t("إغلاق"))}" class="place-items-center grid size-9 -me-2 text-ink"><span class="block w-5 h-5">${ICON.close}</span></button>
       </div>
       <!-- Only the category/support links scroll; the account + language row is
            pulled OUT into the sticky footer below so it stays reachable no matter
@@ -1720,8 +1752,23 @@
            same mechanism the header already uses, always within thumb reach. -->
       <div class="flex flex-col gap-3 bg-white shadow-[0_-4px_12px_rgba(0,0,0,0.06)] px-5 pt-4 pb-5 border-divider border-t shrink-0">
         <a href="login.html" data-anon-only class="flex justify-center items-center min-h-11 py-2.5 border border-cta rounded-full font-medium text-cta text-sm text-center">تسجيل الدخول</a>
+        <!-- The glyph is INLINE and draws in currentColor, so it follows the
+             button's ink the way the label does (Ahmed, 2026-09-01: "fix the
+             contrast here in the bar's button").
+
+             It was <img src="hdr-user.svg">, and that file carries a hardcoded
+             stroke="white" — the same trait styles.css already works around in
+             the masthead with an invert() filter. On V1's #00451C the white
+             glyph was right by accident; V2 repaints this button orange and V3
+             lime, and both set a DARK ink, so the label went dark and the icon
+             stayed white on a light fill at roughly 1.9:1. The label was never
+             the problem — measured 11.2 / 9.1 / 6.8:1 across the three — which
+             is why this is an icon fix, not a colour one. -->
         <a href="my-account.html" data-authed-only hidden class="flex justify-center items-center gap-2 min-h-11 py-2.5 bg-cta rounded-full font-medium text-white text-sm text-center">
-          <img src="images/jaad/icons/hdr-user.svg" alt="" class="w-5 h-5" />
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="w-5 h-5 shrink-0">
+            <circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8" />
+            <path d="M5 19.5c0-3.3 3.1-5.5 7-5.5s7 2.2 7 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
           <span>حسابي</span>
         </a>
         <div class="flex justify-center">${countryButton()}</div>
