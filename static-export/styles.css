@@ -1453,21 +1453,22 @@ fieldset {
    box's top can pass the page's own top edge without a pixel of the mark being
    cut. At 128 the ink still starts ~10px inside the viewport. */
 [data-navbar]:not([data-stuck="true"]) .masthead-logo { transform: translateY(-3px); }
-/* DOWN 12px at xl, where the mark is 140px tall (Ahmed, 2026-09-08: make it
-   140, and stop it touching the top of the navbar).
+/* DOWN 9px at xl, where the mark is 134px tall (Ahmed, 2026-09-08: 140, then
+   134; and stop it touching the top of the navbar).
 
    The arithmetic, because the sign flip looks wrong next to the rule above.
-   The navbar row runs 32→88, so its centre is y=60; a 140px mark centred in it
-   would run -10→130, i.e. 10px of it cut off above the page. The old value
-   here was -4px, which at 128px put the top at y=-8 — already clipped, which
-   is the complaint. +12px lands the top at y=2: two pixels of lime above the
-   mark, so it visibly hangs FROM the bar instead of running off the top.
+   The navbar row runs 32→88, so its centre is y=60; a 134px mark centred in it
+   would run -7→127, i.e. 7px of it cut off above the page. The old value here
+   was -4px, which at 128px put the top at y=-8 — already clipped, which is the
+   complaint. +9px lands the top at y=2: two pixels of lime above the mark, so
+   it visibly hangs FROM the bar instead of running off the top.
 
-   The whole of that correction comes out of the bottom, and that is the second
-   half of the same request: the overhang below the bar goes 32px -> 54px, so
-   the mark falls further into the page than it did. */
+   Keep this in step with the height: the offset is (height/2 - 28 + 2), i.e.
+   whatever puts the top at y=2. The rest of the growth comes out of the
+   bottom, which is the second half of the same request — the overhang below
+   the bar goes 32px -> 48px, so the mark falls further into the page. */
 @media (min-width: 1280px) {
-  [data-navbar]:not([data-stuck="true"]) .masthead-logo { transform: translateY(12px); }
+  [data-navbar]:not([data-stuck="true"]) .masthead-logo { transform: translateY(9px); }
 }
 
 [data-navbar][data-stuck="true"] .masthead-logo,
