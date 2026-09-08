@@ -1189,7 +1189,7 @@
             }
             <!-- Logo is much taller than the 56px bar on purpose (Figma): it
                  overflows well above and below. z-10 keeps it above the bands.
-                 96/116 -> 106/128 (Ahmed, 2026-08-25) -> 106/140 at xl (Ahmed,
+                 96/116 -> 106/128 (Ahmed, 2026-08-25) -> 106/134 at xl (Ahmed,
                  2026-09-08).
 
                  The extra height goes DOWN now, which reverses the 2026-08-25
@@ -1199,7 +1199,7 @@
                  so the growth AND the 8px of clipping both come out of the
                  overhang below — see .masthead-logo in styles.css. -->
             <a href="index.html" class="masthead-logo relative z-10 block shrink-0" aria-label="Jaad">
-              <img src="images/jaad/brand/logo-jaad-full.svg" alt="Jaad" class="w-auto h-[106px] xl:h-[140px] object-contain" />
+              <img src="images/jaad/brand/logo-jaad-full.svg" alt="Jaad" class="w-auto h-[106px] xl:h-[134px] object-contain" />
             </a>
             ${
               checkout
