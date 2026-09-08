@@ -6334,8 +6334,14 @@ button[data-sticky-step]:active { transform: scale(0.88); }
 .chat-dock__btn--whatsapp {
   background-color: #25d366;
 }
+/* Flat Meta blue, not the Messenger gradient (Ahmed, 2026-09-08). #1877F2 is
+   the value the site ALREADY uses for its Facebook mark — the sign-in button's
+   ICON_FB in build/pages/_auth.py — so the two Facebook-family glyphs on the
+   site now agree instead of one being a gradient and the other a flat blue.
+   White on it is 3.6:1: fine for a 28px glyph (large-scale/graphical, AA needs
+   3:1), and the glyph is the button's only content. */
 .chat-dock__btn--messenger {
-  background-image: linear-gradient(45deg, #0099ff 0%, #a033ff 55%, #ff5280 100%);
+  background-color: #1877f2;
 }
 @media (prefers-reduced-motion: reduce) {
   .chat-dock__btn,
