@@ -133,6 +133,51 @@
   ];
 
   /* ---------------------------------------------------------------
+     Floating chat dock — WhatsApp + Messenger (Ahmed, 2026-09-08)
+     --------------------------------------------------------------- */
+  /* Two round brand buttons parked in a bottom corner of every page, the
+     pattern Ahmed referenced on abuauf.com.
+
+     PLACEHOLDER hrefs, for exactly the reason SOCIALS above are "#": Jaad has
+     no WhatsApp business number and no Facebook page yet, and a wa.me link
+     built on the placeholder hotline would open a chat with whoever really
+     owns 01200000000. Absence over invention. At launch this is a one-line
+     swap per channel — "https://wa.me/20XXXXXXXXXX" and
+     "https://m.me/<page>" — and nothing else here changes.
+
+     The glyphs are the two services' own marks, drawn as paths rather than
+     asset files so they inherit `fill: currentColor` and stay crisp at any
+     size; the brand colours they sit on live in styles.css (.chat-dock__btn). */
+  const CHAT_CHANNELS = [
+    {
+      key: "whatsapp",
+      title: "واتساب",
+      href: "#",
+      icon:
+        '<svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full" aria-hidden="true">' +
+        '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.86 9.86 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.43.06-.66.31-.22.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.06-.11-.23-.17-.48-.29Z"/></svg>',
+    },
+    {
+      key: "messenger",
+      title: "ماسنجر",
+      href: "#",
+      icon:
+        '<svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full" aria-hidden="true">' +
+        '<path d="M12 2C6.36 2 2 6.13 2 11.7c0 2.91 1.19 5.44 3.14 7.19.16.15.26.35.27.57l.05 1.78c.02.57.6.94 1.12.71l1.99-.88a.8.8 0 0 1 .53-.04c.91.25 1.88.38 2.9.38 5.64 0 10-4.13 10-9.71C22 6.13 17.64 2 12 2Zm6 7.46-2.94 4.66a1.5 1.5 0 0 1-2.17.4l-2.34-1.75a.6.6 0 0 0-.72 0l-3.16 2.4c-.42.32-.97-.18-.69-.63l2.94-4.66a1.5 1.5 0 0 1 2.17-.4l2.34 1.75c.21.16.51.16.72 0l3.16-2.4c.42-.32.97.18.69.63Z"/></svg>',
+    },
+  ];
+
+  /* The checkout cycle, where the dock must NOT appear (Ahmed, 2026-09-08).
+
+     Keyed on data-page, which is also how the rest of the file decides what
+     checkout is: checkout.html AND payment.html both carry data-page
+     "checkout" (see isCheckout), so the one entry covers both steps of the
+     locked flow, and thank-you closes it. The cart is deliberately NOT in
+     here — a shopper reviewing a basket is still shopping, and "how much is
+     shipping to Aswan" is exactly the question this dock is for. */
+  const CHAT_HIDDEN_PAGES = new Set(["checkout", "thank-you"]);
+
+  /* ---------------------------------------------------------------
      Route → static-file mapping
      --------------------------------------------------------------- */
   /* The one category page that was actually built, by slug. */
@@ -1513,6 +1558,35 @@
   }
 
   const YEAR = 2026; // static build stamp (Date.now avoided for determinism)
+
+  /* ---------------------------------------------------------------
+     Floating chat dock
+     --------------------------------------------------------------- */
+  /* Returns "" on the checkout cycle, and boot() then injects nothing at all.
+
+     Not rendered-then-hidden on purpose: a display:none dock is still a
+     document node, still two links in the tab order and still two names a
+     screen reader can reach with rotor navigation. "Never in the checkout
+     cycle" has to mean the layer does not exist there, not that it is
+     painted out. */
+  function chatDockHTML() {
+    const page = document.body.getAttribute("data-page") || "";
+    if (CHAT_HIDDEN_PAGES.has(page)) return "";
+    const links = CHAT_CHANNELS.map(function (c) {
+      const label = esc(t(c.title));
+      /* target=_blank on a real handoff to another app/site; rel guards the
+         opener. Harmless while the href is the "#" placeholder. */
+      return `
+        <a href="${esc(c.href)}" target="_blank" rel="noopener noreferrer"
+           class="chat-dock__btn chat-dock__btn--${c.key}"
+           aria-label="${label}" title="${label}">
+          <span class="chat-dock__glyph">${c.icon}</span>
+        </a>`;
+    }).join("");
+    /* aria-label on the group so the two buttons read as one set of contact
+       channels rather than two loose links floating over the page. */
+    return `<div class="chat-dock" data-chat-dock role="group" aria-label="${esc(t("تواصل معنا"))}">${links}</div>`;
+  }
 
   /* ---------------------------------------------------------------
      Overlays: backdrop, cart drawer, mobile menu, search, location
@@ -5123,6 +5197,17 @@
             // Lets styles.css drop the floating search/cart pill below the bar
             // on desktop, where the two share the top edge (see .buybar-shown).
             document.documentElement.classList.toggle("buybar-shown", past);
+            // ...and lift the chat dock above it on mobile, where the bar is
+            // bottom-docked instead and the two want the same corner.
+            // MEASURED rather than guessed at a constant: the bar is one row
+            // from sm up and two rows on a phone, and its height moves again
+            // with the product title's wrap. A hard-coded clearance would be
+            // wrong on some width, and being wrong here means a chat button
+            // sitting on top of the buy CTA.
+            if (past) {
+              document.documentElement.style.setProperty(
+                "--buybar-h", bar.offsetHeight + "px");
+            }
           });
         },
         { threshold: 0 },
@@ -9862,6 +9947,14 @@
     overlays.id = "site-overlays";
     overlays.innerHTML = overlaysHTML();
     document.body.appendChild(overlays);
+
+    // Floating WhatsApp/Messenger dock. Appended last so it sits above the
+    // page in paint order without needing to out-bid anything on z-index, and
+    // outside #site-overlays because it is not an overlay — it is always-on
+    // chrome. chatDockHTML() returns "" on the checkout cycle, so on those
+    // pages nothing is inserted at all.
+    const chatDock = chatDockHTML();
+    if (chatDock) document.body.insertAdjacentHTML("beforeend", chatDock);
 
     initDelegation();
     initStickyNav();
