@@ -1189,11 +1189,17 @@
             }
             <!-- Logo is much taller than the 56px bar on purpose (Figma): it
                  overflows well above and below. z-10 keeps it above the bands.
-                 96/116 -> 106/128 (Ahmed, 2026-08-25), and the extra height goes
-                 UP, not down — see .masthead-logo in styles.css for the nudge
-                 that holds the overhang below the bar where it was. -->
+                 96/116 -> 106/128 (Ahmed, 2026-08-25) -> 106/140 at xl (Ahmed,
+                 2026-09-08).
+
+                 The extra height goes DOWN now, which reverses the 2026-08-25
+                 note above. It has to: at 128px the mark's top already sat at
+                 y=-8, i.e. clipped off the top of the page ("it touches the
+                 uppermost part of the navbar"). There is no room left upward,
+                 so the growth AND the 8px of clipping both come out of the
+                 overhang below — see .masthead-logo in styles.css. -->
             <a href="index.html" class="masthead-logo relative z-10 block shrink-0" aria-label="Jaad">
-              <img src="images/jaad/brand/logo-jaad-full.svg" alt="Jaad" class="w-auto h-[106px] xl:h-[128px] object-contain" />
+              <img src="images/jaad/brand/logo-jaad-full.svg" alt="Jaad" class="w-auto h-[106px] xl:h-[140px] object-contain" />
             </a>
             ${
               checkout
