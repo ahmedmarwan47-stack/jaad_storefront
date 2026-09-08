@@ -1453,8 +1453,22 @@ fieldset {
    box's top can pass the page's own top edge without a pixel of the mark being
    cut. At 128 the ink still starts ~10px inside the viewport. */
 [data-navbar]:not([data-stuck="true"]) .masthead-logo { transform: translateY(-3px); }
+/* DOWN 9px at xl, where the mark is 134px tall (Ahmed, 2026-09-08: 140, then
+   134; and stop it touching the top of the navbar).
+
+   The arithmetic, because the sign flip looks wrong next to the rule above.
+   The navbar row runs 32→88, so its centre is y=60; a 134px mark centred in it
+   would run -7→127, i.e. 7px of it cut off above the page. The old value here
+   was -4px, which at 128px put the top at y=-8 — already clipped, which is the
+   complaint. +9px lands the top at y=2: two pixels of lime above the mark, so
+   it visibly hangs FROM the bar instead of running off the top.
+
+   Keep this in step with the height: the offset is (height/2 - 28 + 2), i.e.
+   whatever puts the top at y=2. The rest of the growth comes out of the
+   bottom, which is the second half of the same request — the overhang below
+   the bar goes 32px -> 48px, so the mark falls further into the page. */
 @media (min-width: 1280px) {
-  [data-navbar]:not([data-stuck="true"]) .masthead-logo { transform: translateY(-4px); }
+  [data-navbar]:not([data-stuck="true"]) .masthead-logo { transform: translateY(9px); }
 }
 
 [data-navbar][data-stuck="true"] .masthead-logo,
@@ -5174,7 +5188,12 @@ html[data-btn="v3"] .rv { --rv-hi: var(--moss-lime); --rv-hi-ink: var(--moss-ink
 /* Dev/preview UI-toggle panel. Parked bottom-LEFT, compact, and COLLAPSIBLE
    (Ahmed, 2026-08-19) so the review controls never sit over the design. */
 .btnswitch {
-  position: fixed; bottom: 14px; left: 14px;
+  /* inset-inline-start, not `left`: this review panel used to be pinned to the
+     physical left edge, which is the same corner the floating chat dock takes
+     in RTL — the two sat on top of each other on every Arabic page. A logical
+     inset mirrors the panel instead, so the two are always in opposite bottom
+     corners whichever way the document reads. */
+  position: fixed; bottom: 14px; inset-inline-start: 14px;
   z-index: 2000; display: flex; flex-direction: column; gap: 5px;
   background: #fff; border: 1px solid #E7E3D5; border-radius: 12px;
   padding: 7px 9px; box-shadow: 0 8px 24px rgba(0,0,0,.14);
@@ -6231,4 +6250,118 @@ button[data-sticky-step]:active { transform: scale(0.88); }
   button[data-step]:active, button[data-card-step]:active,
   button[data-cart-step]:active, button[data-sticky-step]:active { transform: none; }
   .img-fade { opacity: 1; transition: none; }
+}
+
+/* =====================================================================
+   Floating chat dock — WhatsApp + Messenger (Ahmed, 2026-09-08)
+
+   Two round brand buttons parked in a bottom corner of every page, the
+   pattern Ahmed referenced on abuauf.com. The markup is built at runtime
+   by chatDockHTML() in scripts.js and appended to <body> at boot.
+
+   It is ABSENT on the checkout cycle rather than hidden here: chatDockHTML
+   returns "" for those pages (see CHAT_HIDDEN_PAGES), so there is no node,
+   no tab stop and nothing for a screen reader to reach. A `display: none`
+   rule would have left all three.
+
+   inset-inline-end, not right/left: the document is Arabic-first RTL, so
+   the dock lands in the bottom-LEFT corner here and mirrors to bottom-right
+   when the language switch flips the page to LTR — the same rule every
+   other edge-anchored element on this site follows.
+   ===================================================================== */
+.chat-dock {
+  position: fixed;
+  /* Over ordinary page content and over the product page's sticky buy bar
+     (z-60), but UNDER the drawer/backdrop layer (90) and the toasts (200):
+     a chat button floating on top of an open cart drawer, or over the toast
+     confirming an add, reads as a bug rather than as chrome. */
+  z-index: 70;
+  inset-inline-end: 16px;
+  /* The safe-area term keeps it clear of the iPhone home indicator. */
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* On a phone the buy bar docks to the bottom edge, in this exact corner.
+   --buybar-h is written by initStickyBuyBar from the bar's measured height
+   (it is a two-row bar below sm and one row above), so the dock clears
+   whatever the bar actually is at this width rather than a guessed constant.
+   Scoped to below lg because from lg the bar docks at the TOP instead and
+   there is nothing down here to clear. */
+@media (max-width: 1023px) {
+  html.buybar-shown .chat-dock {
+    bottom: calc(var(--buybar-h, 96px) + 16px + env(safe-area-inset-bottom, 0px));
+  }
+}
+.chat-dock__btn {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 9999px;
+  color: #fff;
+  /* Softer and wider than --lift-shadow: this element floats over
+     photography as often as over cream, and needs to read as detached from
+     whatever happens to be behind it. */
+  box-shadow: 0 6px 20px -6px rgba(6, 42, 28, 0.45);
+  transition:
+    transform 0.18s var(--ease-out),
+    box-shadow 0.18s var(--ease-out);
+}
+@media (max-width: 767px) {
+  .chat-dock__btn {
+    width: 48px;
+    height: 48px;
+  }
+}
+.chat-dock__glyph {
+  display: block;
+  width: 28px;
+  height: 28px;
+}
+@media (max-width: 767px) {
+  .chat-dock__glyph {
+    width: 26px;
+    height: 26px;
+  }
+}
+.chat-dock__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px -6px rgba(6, 42, 28, 0.5);
+}
+.chat-dock__btn:active {
+  transform: translateY(0);
+}
+/* Focus ring is drawn OUTSIDE the circle (offset) so it survives the brand
+   fill underneath it — an inset ring on #25D366 or on the Messenger blue
+   would be nearly invisible. */
+.chat-dock__btn:focus-visible {
+  outline: 3px solid #00451c;
+  outline-offset: 3px;
+}
+/* Each service's own brand colour — these two marks are recognised BY their
+   colour, and a green-washed Messenger button would stop reading as
+   Messenger. Both carry white glyphs: #25D366 is the WhatsApp green, and the
+   Messenger gradient is its published blue ramp. */
+.chat-dock__btn--whatsapp {
+  background-color: #25d366;
+}
+/* Flat Meta blue, not the Messenger gradient (Ahmed, 2026-09-08). #1877F2 is
+   the value the site ALREADY uses for its Facebook mark — the sign-in button's
+   ICON_FB in build/pages/_auth.py — so the two Facebook-family glyphs on the
+   site now agree instead of one being a gradient and the other a flat blue.
+   White on it is 3.6:1: fine for a 28px glyph (large-scale/graphical, AA needs
+   3:1), and the glyph is the button's only content. */
+.chat-dock__btn--messenger {
+  background-color: #1877f2;
+}
+@media (prefers-reduced-motion: reduce) {
+  .chat-dock__btn,
+  .chat-dock__btn:hover,
+  .chat-dock__btn:active {
+    transform: none;
+    transition: none;
+  }
 }

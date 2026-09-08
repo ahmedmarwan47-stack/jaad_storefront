@@ -1230,6 +1230,14 @@ _AUTOCOMPLETE = {
     "line1": "address-line1",
     "line2": "address-line2",
     "postcode": "postal-code",
+    # The browser autofills a date of birth a PART at a time, which is why
+    # these are three tokens and not one: bday-day/-month/-year are the
+    # standard names for exactly this three-control shape (a single `bday`
+    # token only applies to one input holding the whole date).
+    "birthday-day": "bday-day",
+    "birthday-month": "bday-month",
+    "birthday-year": "bday-year",
+    "gender": "sex",
 }
 
 # type=tel already summons a numeric keypad; these are the free-text fields
@@ -1315,6 +1323,106 @@ def select_field(label, name, options, required=False, wrap=""):
                           class="select-control bg-white border border-divider rounded-2xl px-4 h-12 w-full text-ink text-base placeholder:text-muted outline-none focus:border-cta transition-colors">
                     <option value="">اختر</option>{opts}
                   </select>
+                </div>"""
+
+
+# Arabic month names, in calendar order. Shared rather than declared per page
+# so a date of birth reads identically wherever it is collected — the account
+# profile form and the create-account form are the same field, and two lists
+# would eventually disagree.
+MONTHS = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
+          "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]
+
+# The oldest and youngest birth years the picker offers. Newest first, so the
+# list opens on the years a shopper is most likely to pick rather than making
+# them scroll 60 rows to reach them.
+_BIRTH_YEARS = range(2010, 1939, -1)
+
+
+def _dob_select(name, label, options):
+    """One cell of the date-of-birth row.
+
+    Its own <label> is visually hidden rather than absent: the row carries a
+    single visible "تاريخ الميلاد" heading, and without this a screen reader
+    would announce three unnamed comboboxes under it. sr-only is the pattern
+    styles.css already defines for exactly this.
+    """
+    opts = "".join(f'<option value="{e(str(o))}">{e(str(o))}</option>'
+                   for o in options)
+    return f"""
+                    <div>
+                      <label for="{e(name)}" class="sr-only">{e(label)}</label>
+                      <select id="{e(name)}" name="{e(name)}"{_field_hints(name, "select")}
+                              class="select-control bg-white border border-divider rounded-2xl ps-4 h-12 w-full text-ink text-base outline-none focus:border-cta transition-colors">
+                        <option value="" selected>{e(label)}</option>{opts}
+                      </select>
+                    </div>"""
+
+
+def dob_field(label="تاريخ الميلاد", name="birthday", required=False):
+    """Date of birth as day / month / year selects.
+
+    OPTIONAL by default, and that is the whole reason each select opens on an
+    empty option carrying the unit name ("يوم") rather than on a value. Three
+    selects that default to 1 / يناير / 2010 would submit a birthday nobody
+    chose, which is not what an optional field means.
+
+    Three selects rather than <input type="date"> because that is the control
+    this site already uses for a date of birth on the account profile form —
+    and because a native date input renders its own locale's format and its
+    own picker chrome, neither of which this design owns.
+
+    TWO COLUMNS ON A PHONE, three from sm up. At 375px a three-across row
+    leaves each select about 85px, and the site's select chevron alone claims
+    44px of that — "سبتمبر" would be clipped in every month cell. Day and
+    month pair on the first row instead and the year takes the full width
+    beneath them, which is legible at every width without shrinking the type.
+    """
+    star = '<span class="text-error">*</span>' if required else ""
+    return f"""
+                <div class="flex flex-col gap-1.5">
+                  <span class="font-medium text-muted text-sm">{e(label)}{star}</span>
+                  <div class="gap-3 grid grid-cols-2 sm:grid-cols-3">
+{_dob_select(f"{name}-day", "يوم", range(1, 32))}
+{_dob_select(f"{name}-month", "شهر", MONTHS)}
+                    <div class="col-span-2 sm:col-span-1">
+                      <label for="{e(name)}-year" class="sr-only">سنة</label>
+                      <select id="{e(name)}-year" name="{e(name)}-year"{_field_hints(f"{name}-year", "select")}
+                              class="select-control bg-white border border-divider rounded-2xl ps-4 h-12 w-full text-ink text-base outline-none focus:border-cta transition-colors">
+                        <option value="" selected>سنة</option>{"".join(f'<option value="{y}">{y}</option>' for y in _BIRTH_YEARS)}
+                      </select>
+                    </div>
+                  </div>
+                </div>"""
+
+
+def gender_field(label="النوع", name="gender", required=False, checked=None):
+    """Gender as a pair of radio cards.
+
+    Same control the account profile form uses, so the answer given at sign-up
+    and the answer edited later look like the same field.
+
+    Nothing is pre-checked when `checked` is None, which is the state an
+    optional field has to be able to hold: pre-selecting "أنثى" because it is
+    first would record a guess as an answer.
+    """
+    star = '<span class="text-error">*</span>' if required else ""
+    # peer + .radio-dot is the project's radio pattern (styles.css): the input
+    # sits immediately before the card span, so `peer-checked` lights the
+    # border and `input:checked + span .radio-dot` fills the dot.
+    cards = "".join(f"""
+                  <label class="cursor-pointer">
+                    <input type="radio" name="{e(name)}" value="{e(val)}"{' required' if required else ''}{' checked' if checked == val else ''} class="peer sr-only" />
+                    <span class="flex items-center gap-2.5 bg-white px-4 border border-divider peer-checked:border-cta rounded-2xl h-12 transition-colors">
+                      <span class="radio-dot shrink-0"></span>
+                      <span class="font-medium text-ink text-base">{e(text)}</span>
+                    </span>
+                  </label>""" for val, text in (("female", "أنثى"), ("male", "ذكر")))
+    return f"""
+                <div class="flex flex-col gap-1.5">
+                  <span class="font-medium text-muted text-sm">{e(label)}{star}</span>
+                  <div class="gap-3 grid grid-cols-2">{cards}
+                  </div>
                 </div>"""
 
 
