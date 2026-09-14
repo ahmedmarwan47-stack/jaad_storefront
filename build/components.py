@@ -62,6 +62,18 @@ ICON = {
              'stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>',
     "heart_full": '<svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">'
                   '<path d="M12 20.5s-7.5-4.6-7.5-9.6a4.4 4.4 0 0 1 7.5-3.1 4.4 4.4 0 0 1 7.5 3.1c0 5-7.5 9.6-7.5 9.6Z"/></svg>',
+    # Share — the three-node graph, the mark the share sheet opens from. Drawn
+    # here rather than exported because the Figma file this came from
+    # (Orderbase 567:6950) is not reachable from this build; the geometry is
+    # the conventional one and the stroke weight matches `heart` beside it, so
+    # the two read as one pair of controls on the gallery plate. Swap in the
+    # real export if the file is ever wired up.
+    "share": '<svg viewBox="0 0 24 24" fill="none" class="w-5 h-5">'
+             '<circle cx="18" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.7"/>'
+             '<circle cx="6" cy="12" r="2.5" stroke="currentColor" stroke-width="1.7"/>'
+             '<circle cx="18" cy="18.5" r="2.5" stroke="currentColor" stroke-width="1.7"/>'
+             '<path d="m8.2 10.8 7.6-3.6M8.2 13.2l7.6 3.6" stroke="currentColor" '
+             'stroke-width="1.7" stroke-linecap="round"/></svg>',
     # Note glyph — the order-note field's applied state. A clean lined card
     # (rounded rect + three text lines) reads better at 16px than a
     # folded-corner document. Wrapper-driven (w-full h-full + currentColor).
@@ -710,13 +722,13 @@ def product_gallery(images, alt, p=None):
     side. `images` is the product's real `images` list from catalog.json, main
     shot first; `fetch_galleries.py` fills it from the client's own CDN.
 
-    `p` (optional) is the product dict; when given, the favourites heart is
-    drawn on the main plate. It carries its OWN data-product/id/name/price/image
-    because the gallery sits in a separate column from the details host, so
-    productFrom() (which walks to the nearest [data-product]) would otherwise
-    find nothing. The extra host is invisible to every other [data-product]
-    consumer — they all guard on a child (price display, stepper, add button)
-    the heart does not have.
+    `p` (optional) is the product dict; when given, the favourites heart and
+    the share button are drawn on the main plate. The heart carries its OWN
+    data-product/id/name/price/image because the gallery sits in a separate
+    column from the details host, so productFrom() (which walks to the nearest
+    [data-product]) would otherwise find nothing. The extra host is invisible
+    to every other [data-product] consumer — they all guard on a child (price
+    display, stepper, add button) the heart does not have.
 
     The strip is suppressed entirely at one image, because a lone thumbnail
     under a photo reads as a broken carousel rather than a choice. 26 of the 99
@@ -732,20 +744,50 @@ def product_gallery(images, alt, p=None):
         return ""
     main_img = images[0]
 
-    # Favourites heart, overlaid on the main plate. top-4 end-4: inset by its
-    # own padding, and `end` (a logical property) puts it top-left in RTL — the
-    # mirror of the conventional top-right wishlist heart. Same fav-btn contract
-    # as everywhere else; carries its own product data (see docstring).
+    # Favourites heart + share, overlaid on the main plate as ONE stack.
+    # top-4 end-4: inset by its own padding, and `end` (a logical property)
+    # puts the pair top-left in RTL — the mirror of the conventional top-right
+    # wishlist heart. The heart keeps the same fav-btn contract as everywhere
+    # else and carries its own product data (see docstring).
+    #
+    # The wrapper owns the positioning now, not the heart: the two buttons have
+    # to sit on one row at a fixed gap, and absolutely positioning each of them
+    # separately means hard-coding the second one's offset off the first one's
+    # width — which then silently breaks the moment either button is resized.
+    #
+    # Favourites is the primary action of the two and keeps the exact corner
+    # position it had before share existed — share is what arrived, so share is
+    # what moves inboard. That is why the row is `flex-row-reverse` rather than
+    # a plain row with the heart written second: the heart stays FIRST in the
+    # DOM, so it is still the first of the pair to be tabbed to and read out,
+    # while the reversed main axis puts it against the container's corner edge.
+    # Both halves of that hold in RTL and LTR, because `row-reverse` is
+    # writing-mode-relative exactly like the `end-4` that anchors the wrapper.
+    #
+    # Share opens the sheet through the site's ONE overlay system
+    # (`data-open` -> openOverlay in scripts.js), the same route the locale,
+    # address and voucher sheets use — bottom sheet on phones, centred dialog
+    # from xl, with no per-page plumbing of its own.
     fav_btn = ""
     if p:
         fav_price = p.get("sale") or p.get("price") or 0
+        btn_cls = ("btn-elevate place-items-center grid bg-white/90 hover:bg-white "
+                   "shadow-custom4 rounded-full size-11")
         fav_btn = (
+            '<div class="absolute top-4 end-4 z-10 flex flex-row-reverse items-center gap-2">'
             f'<button type="button" data-fav-toggle aria-pressed="false" aria-label="أضف إلى المفضلة" '
             f'data-product data-id="{p.get("id", 0)}" data-name="{e(title(p))}" '
             f'data-price="{fav_price}" data-image="{e(p["image"])}" '
-            f'class="fav-btn btn-elevate absolute top-4 end-4 z-10 place-items-center grid '
-            f'bg-white/90 hover:bg-white shadow-custom4 rounded-full text-cta size-11">'
+            f'class="fav-btn {btn_cls} text-cta">'
             f'{ICON["heart"]}{ICON["heart_full"]}</button>'
+            # data-share-title feeds the WhatsApp/X message; the LINK is always
+            # location.href, read at open time, so it cannot drift from the page
+            # the shopper is actually on (and stays right under `product.html`
+            # as well as the 26 per-product pages).
+            f'<button type="button" data-open="share" data-share-title="{e(title(p))}" '
+            f'aria-label="مشاركة المنتج" aria-haspopup="dialog" '
+            f'class="{btn_cls} text-ink">{ICON["share"]}</button>'
+            '</div>'
         )
 
     # The main shot is a background-isolated cutout and has to sit INSIDE the
