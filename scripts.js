@@ -133,51 +133,6 @@
   ];
 
   /* ---------------------------------------------------------------
-     Floating chat dock — WhatsApp + Messenger (Ahmed, 2026-09-08)
-     --------------------------------------------------------------- */
-  /* Two round brand buttons parked in a bottom corner of every page, the
-     pattern Ahmed referenced on abuauf.com.
-
-     PLACEHOLDER hrefs, for exactly the reason SOCIALS above are "#": Jaad has
-     no WhatsApp business number and no Facebook page yet, and a wa.me link
-     built on the placeholder hotline would open a chat with whoever really
-     owns 01200000000. Absence over invention. At launch this is a one-line
-     swap per channel — "https://wa.me/20XXXXXXXXXX" and
-     "https://m.me/<page>" — and nothing else here changes.
-
-     The glyphs are the two services' own marks, drawn as paths rather than
-     asset files so they inherit `fill: currentColor` and stay crisp at any
-     size; the brand colours they sit on live in styles.css (.chat-dock__btn). */
-  const CHAT_CHANNELS = [
-    {
-      key: "whatsapp",
-      title: "واتساب",
-      href: "#",
-      icon:
-        '<svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full" aria-hidden="true">' +
-        '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.86 9.86 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.43.06-.66.31-.22.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.06-.11-.23-.17-.48-.29Z"/></svg>',
-    },
-    {
-      key: "messenger",
-      title: "ماسنجر",
-      href: "#",
-      icon:
-        '<svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full" aria-hidden="true">' +
-        '<path d="M12 2C6.36 2 2 6.13 2 11.7c0 2.91 1.19 5.44 3.14 7.19.16.15.26.35.27.57l.05 1.78c.02.57.6.94 1.12.71l1.99-.88a.8.8 0 0 1 .53-.04c.91.25 1.88.38 2.9.38 5.64 0 10-4.13 10-9.71C22 6.13 17.64 2 12 2Zm6 7.46-2.94 4.66a1.5 1.5 0 0 1-2.17.4l-2.34-1.75a.6.6 0 0 0-.72 0l-3.16 2.4c-.42.32-.97-.18-.69-.63l2.94-4.66a1.5 1.5 0 0 1 2.17-.4l2.34 1.75c.21.16.51.16.72 0l3.16-2.4c.42-.32.97.18.69.63Z"/></svg>',
-    },
-  ];
-
-  /* The checkout cycle, where the dock must NOT appear (Ahmed, 2026-09-08).
-
-     Keyed on data-page, which is also how the rest of the file decides what
-     checkout is: checkout.html AND payment.html both carry data-page
-     "checkout" (see isCheckout), so the one entry covers both steps of the
-     locked flow, and thank-you closes it. The cart is deliberately NOT in
-     here — a shopper reviewing a basket is still shopping, and "how much is
-     shipping to Aswan" is exactly the question this dock is for. */
-  const CHAT_HIDDEN_PAGES = new Set(["checkout", "thank-you"]);
-
-  /* ---------------------------------------------------------------
      Route → static-file mapping
      --------------------------------------------------------------- */
   /* The one category page that was actually built, by slug. */
@@ -363,6 +318,22 @@
     // arriving rather than the same one changing meaning.
     trash:
       '<svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M4 7h16M10 4h4M9 7v11m6-11v11M6 7l.8 12.1A2 2 0 0 0 8.8 21h6.4a2 2 0 0 0 2-1.9L18 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    /* Share sheet glyphs.
+
+       `link` is ours and stroked like the rest of the set. The other three are
+       THIRD-PARTY BRAND MARKS, and are the official glyph outlines drawn as a
+       solid fill in white on each network's own brand colour — that is what a
+       share row is expected to look like, and redrawing them in the site's
+       stroke style would make them unrecognisable at 24px. They are the one
+       place in this file where the colour is deliberately outside the JAAD
+       palette; see the sheet markup in overlaysHTML(). */
+    link: '<svg viewBox="0 0 24 24" fill="none" class="w-full h-full"><path d="M10.6 13.4a4.2 4.2 0 0 0 6 0l2.1-2.1a4.24 4.24 0 0 0-6-6l-1.2 1.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.4 10.6a4.2 4.2 0 0 0-6 0l-2.1 2.1a4.24 4.24 0 0 0 6 6l1.2-1.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    whatsapp:
+      '<svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.16c-.25.69-1.43 1.32-1.99 1.4-.51.08-1.15.11-1.86-.12-.43-.14-.98-.32-1.68-.62-2.96-1.28-4.89-4.26-5.04-4.46-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.78-.37.2 0 .39 0 .56.01.18.01.42-.07.66.5.25.59.84 2.04.91 2.19.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.39-.45.52-.15.15-.3.31-.13.61.17.3.76 1.25 1.63 2.03 1.12 1 2.06 1.3 2.36 1.45.3.15.47.12.64-.07.17-.2.74-.86.94-1.16.2-.3.39-.25.66-.15.27.1 1.71.81 2.01.96.3.15.5.22.57.35.07.12.07.72-.18 1.42Z"/></svg>',
+    facebook:
+      '<svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.63c-.29-.04-1.27-.13-2.41-.13-2.38 0-4.03 1.45-4.03 4.12V9.9H7.55V13h2.71v8h3.24Z"/></svg>',
+    xMark:
+      '<svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M17.53 3h3.05l-6.66 7.61L21.75 21h-6.13l-4.8-6.28L5.3 21H2.25l7.12-8.14L2 3h6.28l4.34 5.74L17.53 3Zm-1.07 16.17h1.69L7.62 4.74H5.8l10.66 14.43Z"/></svg>',
   };
 
   const isCheckout = () => document.body.getAttribute("data-page") === "checkout";
@@ -450,6 +421,13 @@
     "تعديل": "Edit",
     "لا توجد عناوين محفوظة بعد.": "No saved addresses yet.",
     "تم النسخ ✓": "Copied ✓",
+    // Share sheet (product page). Facebook and X are wordmarks and are not
+    // translated — they are printed as-is in the markup, not through t().
+    "مشاركة": "Share",
+    "نسخ الرابط": "Copy link",
+    "واتساب": "WhatsApp",
+    "تعذر النسخ — انسخ الرابط يدوياً": "Couldn't copy — copy the link manually",
+    "انسخ الرابط يدوياً": "Copy the link manually",
     "عرض السلة": "View cart",
     "اتمام الشراء": "Checkout",
     // Heading has no full stop; the older "سلتك فارغة." entry is kept because
@@ -477,6 +455,10 @@
     "اضف الى السلة": "Add to cart",
     "أضف إلى المفضلة": "Add to favourites",
     "إزالة من المفضلة": "Remove from favourites",
+    // Sits with the heart because it labels the button BESIDE it on the
+    // product gallery plate, and the two are read out one after the other.
+    // aria-label only — the share button draws no text of its own.
+    "مشاركة المنتج": "Share product",
     "تمت الإضافة إلى المفضلة": "Added to favourites",
     "تمت الإزالة من المفضلة": "Removed from favourites",
     "لا توجد منتجات في المفضلة": "No saved products yet",
@@ -1189,17 +1171,11 @@
             }
             <!-- Logo is much taller than the 56px bar on purpose (Figma): it
                  overflows well above and below. z-10 keeps it above the bands.
-                 96/116 -> 106/128 (Ahmed, 2026-08-25) -> 106/134 at xl (Ahmed,
-                 2026-09-08).
-
-                 The extra height goes DOWN now, which reverses the 2026-08-25
-                 note above. It has to: at 128px the mark's top already sat at
-                 y=-8, i.e. clipped off the top of the page ("it touches the
-                 uppermost part of the navbar"). There is no room left upward,
-                 so the growth AND the 8px of clipping both come out of the
-                 overhang below — see .masthead-logo in styles.css. -->
+                 96/116 -> 106/128 (Ahmed, 2026-08-25), and the extra height goes
+                 UP, not down — see .masthead-logo in styles.css for the nudge
+                 that holds the overhang below the bar where it was. -->
             <a href="index.html" class="masthead-logo relative z-10 block shrink-0" aria-label="Jaad">
-              <img src="images/jaad/brand/logo-jaad-full.svg" alt="Jaad" class="w-auto h-[106px] xl:h-[134px] object-contain" />
+              <img src="images/jaad/brand/logo-jaad-full.svg" alt="Jaad" class="w-auto h-[106px] xl:h-[128px] object-contain" />
             </a>
             ${
               checkout
@@ -1564,35 +1540,6 @@
   }
 
   const YEAR = 2026; // static build stamp (Date.now avoided for determinism)
-
-  /* ---------------------------------------------------------------
-     Floating chat dock
-     --------------------------------------------------------------- */
-  /* Returns "" on the checkout cycle, and boot() then injects nothing at all.
-
-     Not rendered-then-hidden on purpose: a display:none dock is still a
-     document node, still two links in the tab order and still two names a
-     screen reader can reach with rotor navigation. "Never in the checkout
-     cycle" has to mean the layer does not exist there, not that it is
-     painted out. */
-  function chatDockHTML() {
-    const page = document.body.getAttribute("data-page") || "";
-    if (CHAT_HIDDEN_PAGES.has(page)) return "";
-    const links = CHAT_CHANNELS.map(function (c) {
-      const label = esc(t(c.title));
-      /* target=_blank on a real handoff to another app/site; rel guards the
-         opener. Harmless while the href is the "#" placeholder. */
-      return `
-        <a href="${esc(c.href)}" target="_blank" rel="noopener noreferrer"
-           class="chat-dock__btn chat-dock__btn--${c.key}"
-           aria-label="${label}" title="${label}">
-          <span class="chat-dock__glyph">${c.icon}</span>
-        </a>`;
-    }).join("");
-    /* aria-label on the group so the two buttons read as one set of contact
-       channels rather than two loose links floating over the page. */
-    return `<div class="chat-dock" data-chat-dock role="group" aria-label="${esc(t("تواصل معنا"))}">${links}</div>`;
-  }
 
   /* ---------------------------------------------------------------
      Overlays: backdrop, cart drawer, mobile menu, search, location
@@ -2154,6 +2101,63 @@
       </div>
     </div>
 
+    <!-- Share sheet (Ahmed, 2026-09-14) — opened from the share button beside
+         the favourites heart on the product page (components.product_gallery).
+
+         Same .bottom-sheet--modal shell as the locale/address/voucher sheets,
+         so it is a bottom sheet under xl and a centred dialog from xl with no
+         extra CSS: the site has ONE sheet system and this does not fork it.
+
+         The four targets are a ROW of circular brand marks with their label
+         underneath, which is the shape a share sheet has everywhere — see the
+         brand-colour note on the glyphs in ICON. Copy link is first and is the
+         only one that is not a network: it is the fallback that works when a
+         shopper's next step is a channel we do not list (Messenger, Telegram,
+         a note to themselves), so it leads rather than trails.
+
+         The three networks are anchors, not buttons with a click handler: a
+         target that opens in a new tab should behave like a link — middle-
+         click, long-press, "open in new window", copy-link-address all work
+         for free, and none of them do on a button. prepareShare() writes the
+         hrefs when the sheet opens (they start as "#"), because the link being
+         shared is the CURRENT page and cannot be known at build time. -->
+    <div data-sheet="share" class="bottom-sheet bottom-sheet--modal" role="dialog" aria-modal="true" aria-labelledby="share-sheet-title">
+      <div class="xl:hidden bg-neutral-200 mx-auto mb-4 rounded-full w-10 h-1"></div>
+      <!-- Three columns, not a justify-between pair: the title is CENTRED over
+           the row, and a centred title next to one 36px button is off by 36px
+           unless the other side is reserved too. -->
+      <div class="items-center grid grid-cols-[36px_1fr_36px] mb-5">
+        <span aria-hidden="true"></span>
+        <h2 id="share-sheet-title" class="font-bold text-ink text-lg text-center">${esc(t("مشاركة"))}</h2>
+        <button type="button" data-close class="place-items-center grid hover:bg-cream rounded-full w-9 h-9 text-ink" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
+      </div>
+      <div class="justify-items-center gap-3 grid grid-cols-4">
+        <!-- data-share-copy, not an href: this one copies instead of
+             navigating, and initShare() swaps its label to the copied state. -->
+        <button type="button" data-share-copy class="group flex flex-col items-center gap-2 rounded-xl w-full">
+          <span class="place-items-center grid bg-cream group-hover:bg-cream-hover rounded-full size-14 text-ink transition-colors"><span class="w-6 h-6">${ICON.link}</span></span>
+          <span data-share-copy-label class="text-ink text-xs text-center leading-tight">${esc(t("نسخ الرابط"))}</span>
+        </button>
+        <a href="#" data-share-net="whatsapp" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center gap-2 rounded-xl w-full">
+          <span class="place-items-center grid bg-[#25D366] rounded-full size-14 text-white transition-transform group-hover:scale-105"><span class="w-7 h-7">${ICON.whatsapp}</span></span>
+          <span class="text-ink text-xs text-center leading-tight">${esc(t("واتساب"))}</span>
+        </a>
+        <a href="#" data-share-net="facebook" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center gap-2 rounded-xl w-full">
+          <span class="place-items-center grid bg-[#1877F2] rounded-full size-14 text-white transition-transform group-hover:scale-105"><span class="w-7 h-7">${ICON.facebook}</span></span>
+          <span class="text-ink text-xs text-center leading-tight latin">Facebook</span>
+        </a>
+        <a href="#" data-share-net="x" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center gap-2 rounded-xl w-full">
+          <span class="place-items-center grid bg-black rounded-full size-14 text-white transition-transform group-hover:scale-105"><span class="w-6 h-6">${ICON.xMark}</span></span>
+          <span class="text-ink text-xs text-center leading-tight latin">X</span>
+        </a>
+      </div>
+      <!-- The link itself, under the row: it answers "what exactly am I about
+           to send" before the tap, and gives a shopper whose clipboard is
+           blocked something to select by hand. dir=ltr so a URL inside an RTL
+           document is not reordered around its slashes. -->
+      <p data-share-url dir="ltr" class="bg-cream mt-5 px-3 py-2.5 rounded-xl overflow-hidden text-muted text-xs text-start text-ellipsis whitespace-nowrap latin"></p>
+    </div>
+
     <div id="toast-container"></div>`;
   }
 
@@ -2174,15 +2178,21 @@
     voucherAdd: '[data-sheet="voucherAdd"]',
     voucherActivate: '[data-sheet="voucherActivate"]',
     pointsRedeem: '[data-sheet="pointsRedeem"]',
+    share: '[data-sheet="share"]',
   };
   let openEl = null;
 
-  function openOverlay(key) {
+  /* `trigger` is the [data-open] element that asked for this, and only the
+     share sheet uses it: its contents depend on WHICH product was shared, and
+     the sheet is a single instance in the overlay layer rather than one per
+     product. Every other overlay ignores the second argument. */
+  function openOverlay(key, trigger) {
     const sel = openMap[key];
     if (!sel) return;
     const el = document.querySelector(sel);
     const backdrop = document.querySelector("[data-backdrop]");
     if (!el) return;
+    if (key === "share") prepareShare(el, trigger);
     openEl = el;
     el.classList.add("is-open");
     if (backdrop) backdrop.classList.add("is-open");
@@ -3495,7 +3505,7 @@
       const opener = e.target.closest("[data-open]");
       if (opener) {
         e.preventDefault();
-        openOverlay(opener.getAttribute("data-open"));
+        openOverlay(opener.getAttribute("data-open"), opener);
         return;
       }
       if (e.target.closest("[data-close]")) {
@@ -5203,17 +5213,6 @@
             // Lets styles.css drop the floating search/cart pill below the bar
             // on desktop, where the two share the top edge (see .buybar-shown).
             document.documentElement.classList.toggle("buybar-shown", past);
-            // ...and lift the chat dock above it on mobile, where the bar is
-            // bottom-docked instead and the two want the same corner.
-            // MEASURED rather than guessed at a constant: the bar is one row
-            // from sm up and two rows on a phone, and its height moves again
-            // with the product title's wrap. A hard-coded clearance would be
-            // wrong on some width, and being wrong here means a chat button
-            // sitting on top of the buy CTA.
-            if (past) {
-              document.documentElement.style.setProperty(
-                "--buybar-h", bar.offsetHeight + "px");
-            }
           });
         },
         { threshold: 0 },
@@ -7541,57 +7540,63 @@
     });
   }
 
-  function initReferralCopy() {
-    /* navigator.clipboard.writeText rejects in more places than you would
-       think (unfocused document, older WebViews), so a hidden-textarea
-       execCommand copy backs it up — and the copied state must only ever
-       paint when one of the two actually took. */
-    function copyText(text) {
-      const legacy = () => {
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        ta.style.cssText = "position:fixed;top:-9999px;opacity:0";
-        document.body.appendChild(ta);
-        ta.select();
-        let ok = false;
-        try {
-          ok = document.execCommand("copy");
-        } catch (err) {
-          ok = false;
-        }
-        ta.remove();
-        return ok;
-      };
-      /* writeText does not merely reject in awkward contexts — with a
-         pending permission decision it can simply never settle, which left
-         the button frozen on neither branch. So it races a short timer:
-         whoever finishes first wins, and the timer path still sits inside
-         the click's transient user activation, which execCommand needs. */
-      return new Promise((resolve, reject) => {
-        let settled = false;
-        const win = () => {
-          if (!settled) {
-            settled = true;
-            resolve();
-          }
-        };
-        const viaLegacy = () => {
-          if (settled) return;
-          if (legacy()) win();
-          else {
-            settled = true;
-            reject(new Error("copy failed"));
-          }
-        };
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText(text).then(win, viaLegacy);
-          setTimeout(viaLegacy, 350);
-        } else {
-          viaLegacy();
-        }
-      });
-    }
+  /* ONE clipboard path for the whole site — the referral card's "copy code"
+     and the share sheet's "copy link" (Ahmed, 2026-09-14). It used to live
+     inside initReferralCopy; the share sheet needs exactly the same fallbacks,
+     and a second copy of this would be a second set of edge cases to keep in
+     step rather than one.
 
+     navigator.clipboard.writeText rejects in more places than you would think
+     (unfocused document, older WebViews), so a hidden-textarea execCommand
+     copy backs it up — and the copied state must only ever paint when one of
+     the two actually took. */
+  function copyText(text) {
+    const legacy = () => {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.cssText = "position:fixed;top:-9999px;opacity:0";
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try {
+        ok = document.execCommand("copy");
+      } catch (err) {
+        ok = false;
+      }
+      ta.remove();
+      return ok;
+    };
+    /* writeText does not merely reject in awkward contexts — with a
+       pending permission decision it can simply never settle, which left
+       the button frozen on neither branch. So it races a short timer:
+       whoever finishes first wins, and the timer path still sits inside
+       the click's transient user activation, which execCommand needs. */
+    return new Promise((resolve, reject) => {
+      let settled = false;
+      const win = () => {
+        if (!settled) {
+          settled = true;
+          resolve();
+        }
+      };
+      const viaLegacy = () => {
+        if (settled) return;
+        if (legacy()) win();
+        else {
+          settled = true;
+          reject(new Error("copy failed"));
+        }
+      };
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(win, viaLegacy);
+        setTimeout(viaLegacy, 350);
+      } else {
+        viaLegacy();
+      }
+    });
+  }
+
+  function initReferralCopy() {
     document.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-copy-ref]");
       if (!btn || btn.dataset.copied) return;
@@ -7614,6 +7619,130 @@
           }, 2600);
         },
         () => toast("تعذر النسخ — انسخ الرابط يدوياً", "error"),
+      );
+    });
+  }
+
+  /* ---------------------------------------------------------------
+     Share sheet (Ahmed, 2026-09-14)
+
+     Opened by the share button beside the favourites heart on the product
+     page; the sheet itself is emitted once in overlaysHTML() and is filled in
+     here at open time, because what is being shared is the CURRENT page and
+     no build-time markup can know it.
+
+     The URL is read from `location`, never assembled from the product id: the
+     shopper may be on product.html or on any of the per-product pages, behind
+     a preview host or a sub-path, and the only link guaranteed to reach what
+     they are looking at is the one in their address bar. The hash is dropped
+     so a link shared after opening an accordion does not carry a fragment
+     nobody meant to send; query strings are kept, since those are how the
+     storefront will carry campaign tags.
+
+     Deliberately NOT navigator.share: the ask is for THIS sheet on both
+     desktop and mobile, and the native sheet cannot be styled, does not exist
+     on most desktop browsers, and would make the two look nothing alike.
+     --------------------------------------------------------------- */
+  /* Filled by prepareShare, read by the copy button's handler — the button is
+     bound once by delegation and has no other route to the current link. */
+  let shareURL = "";
+
+  /* Put the copy button back to rest.
+
+     The idle label is RESTORED from what was on screen when the copied state
+     was entered — deliberately not re-derived with t("نسخ الرابط"). The
+     overlay layer is injected before the stored language is applied, so every
+     sheet on this site renders its chrome in English and the i18n passes leave
+     it there; a label that re-derived itself here would be the one string in
+     the sheet that disagreed with the other three. Whatever the language
+     system put in the element is what goes back into it.
+
+     A no-op unless the button is actually in its copied state, so priming the
+     sheet on open never touches a label the language system owns. */
+  function shareCopyReset(sheet) {
+    const btn = sheet && sheet.querySelector("[data-share-copy]");
+    if (!btn || !btn.dataset.copied) return;
+    const label = sheet.querySelector("[data-share-copy-label]");
+    if (label && btn.dataset.idleLabel != null) label.textContent = btn.dataset.idleLabel;
+    delete btn.dataset.copied;
+    delete btn.dataset.idleLabel;
+    btn.classList.remove("pointer-events-none");
+  }
+
+  function prepareShare(sheet, trigger) {
+    shareURL = window.location.href.split("#")[0];
+    const name = (trigger && trigger.getAttribute("data-share-title")) || document.title;
+    /* WhatsApp and X take a message, Facebook takes the bare URL and reads the
+       title off the page's own og: tags (components._social_meta). So the name
+       is interpolated only where it is actually sent. */
+    const msg = name + " — " + shareURL;
+    const enc = encodeURIComponent;
+    const href = {
+      whatsapp: "https://wa.me/?text=" + enc(msg),
+      facebook: "https://www.facebook.com/sharer/sharer.php?u=" + enc(shareURL),
+      x: "https://twitter.com/intent/tweet?url=" + enc(shareURL) + "&text=" + enc(name),
+    };
+    sheet.querySelectorAll("[data-share-net]").forEach((a) => {
+      const to = href[a.getAttribute("data-share-net")];
+      if (to) a.setAttribute("href", to);
+    });
+    const shown = sheet.querySelector("[data-share-url]");
+    if (shown) shown.textContent = shareURL;
+    /* Reopening the sheet must not show a stale "Copied ✓" from last time. */
+    shareCopyReset(sheet);
+  }
+
+  function initShare() {
+    document.addEventListener("click", (e) => {
+      /* A network tile navigates on its own (target=_blank), so the sheet has
+         served its purpose the moment one is tapped — leaving it open behind
+         the new tab means coming back to a dialog nobody asked to keep. */
+      if (e.target.closest("[data-share-net]")) {
+        closeOverlay();
+        return;
+      }
+      const btn = e.target.closest("[data-share-copy]");
+      if (!btn || btn.dataset.copied) return;
+      const sheet = btn.closest('[data-sheet="share"]');
+      const label = sheet && sheet.querySelector("[data-share-copy-label]");
+      copyText(shareURL || window.location.href).then(
+        () => {
+          /* The confirmation replaces THIS button's own label rather than
+             firing a toast: the sheet is a centred dialog on desktop and a
+             toast in the page corner behind it answers the question in the
+             wrong place. Same pattern as the referral code's copy button.
+
+             The sheet stays open — the shopper's next move is to paste, and
+             a dialog that vanishes on success takes the visible confirmation
+             with it. */
+          if (label) btn.dataset.idleLabel = label.textContent;
+          btn.dataset.copied = "true";
+          btn.classList.add("pointer-events-none");
+          if (label) label.textContent = t("تم النسخ ✓");
+          setTimeout(() => shareCopyReset(sheet), 2400);
+        },
+        () => {
+          /* toast() is a site-wide no-op (see its own note), so a failed copy
+             would otherwise say nothing at all. The fallback that does not
+             depend on it: SELECT the printed link, so the shopper's own
+             copy — the keyboard one, or the phone's selection handles — is
+             one gesture away. The call stays for the day toasts come back. */
+          toast("تعذر النسخ — انسخ الرابط يدوياً", "error");
+          if (label) {
+            btn.dataset.idleLabel = label.textContent;
+            btn.dataset.copied = "true";
+            label.textContent = t("انسخ الرابط يدوياً");
+          }
+          const shown = sheet && sheet.querySelector("[data-share-url]");
+          if (shown && window.getSelection) {
+            const range = document.createRange();
+            range.selectNodeContents(shown);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+          }
+          setTimeout(() => shareCopyReset(sheet), 3200);
+        },
       );
     });
   }
@@ -9954,14 +10083,6 @@
     overlays.innerHTML = overlaysHTML();
     document.body.appendChild(overlays);
 
-    // Floating WhatsApp/Messenger dock. Appended last so it sits above the
-    // page in paint order without needing to out-bid anything on z-index, and
-    // outside #site-overlays because it is not an overlay — it is always-on
-    // chrome. chatDockHTML() returns "" on the checkout cycle, so on those
-    // pages nothing is inserted at all.
-    const chatDock = chatDockHTML();
-    if (chatDock) document.body.insertAdjacentHTML("beforeend", chatDock);
-
     initDelegation();
     initStickyNav();
     initMegaMenu();
@@ -9979,6 +10100,7 @@
     initLeafWind();
     initOrderNotes();
     initReferralCopy();
+    initShare();
     initAddresses();
     initPointsRedeem();
     initVouchers();
