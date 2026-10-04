@@ -4905,11 +4905,15 @@ a.contact-card:hover {
 .pcar__shot.is-on { opacity: 1; transform: scale(1); }
 
 /* A scrim under the glass bar only: the bar is translucent, and two of the four
-   photographs are bright enough at the bottom to swallow the step titles. */
+   photographs are bright enough at the bottom to swallow the step titles.
+   0.55 -> 0.65 with the plates below (contrast pass, 2026-10-04): the roast
+   photograph is nuts on pale linen, and over it the old values put the step
+   titles at 3.3:1. These are sized so every step text clears 4.5:1 on all four
+   photographs, in every state, at phone/tablet/laptop/desktop widths. */
 .pcar__panel::before {
   content: "";
   position: absolute; inset-inline: 0; bottom: 0; top: -40px;
-  background: linear-gradient(to top, rgba(9, 14, 6, 0.55), rgba(9, 14, 6, 0));
+  background: linear-gradient(to top, rgba(9, 14, 6, 0.65), rgba(9, 14, 6, 0));
   pointer-events: none;
 }
 .pcar__panel {
@@ -4932,29 +4936,35 @@ a.contact-card:hover {
   padding: 0.9rem 1rem 1rem;
   text-align: start;
   /* The 1px grid gap shows this through as the hairline between steps. */
-  background: rgba(9, 14, 6, 0.34);
+  background: rgba(9, 14, 6, 0.50);
   color: #fff;
   transition: background-color 0.4s ease-out;
   cursor: pointer;
   overflow: hidden;
 }
 @media (min-width: 768px) { .pcar__btn { padding: 1.1rem 1.25rem 1.25rem; } }
-.pcar__btn:hover { background: rgba(9, 14, 6, 0.18); }
+/* Hover only lifts the plate a little — at 0.18 it was the lightest state in
+   the bar and dropped the titles to 3.3:1 over the bright photographs. */
+.pcar__btn:hover { background: rgba(9, 14, 6, 0.44); }
 /* Was the lightest plate in the bar, which is how the active step used to
    announce itself. The filled rectangle does that now, so this goes back to
    roughly the others' weight — a light base under a 30% lime wash would have
    taken the white type down with it. */
-.pcar__btn.is-on { background: rgba(9, 14, 6, 0.30); cursor: default; }
+.pcar__btn.is-on { background: rgba(9, 14, 6, 0.50); cursor: default; }
 .pcar__btn:focus-visible { outline: 3px solid #98CA55; outline-offset: -3px; }
 
 /* Above the fill — see .pcar__bar. */
 .pcar__num, .pcar__btnTitle, .pcar__btnDesc { position: relative; z-index: 1; }
 .pcar__num {
   font-size: 11px; font-weight: 700; letter-spacing: 2px;
-  color: rgba(253, 248, 241, 0.6);
+  /* 0.6 measured 3.5:1 over the brighter photographs — 11px type needs 4.5. */
+  color: rgba(253, 248, 241, 0.9);
   transition: color 0.4s ease-out;
 }
-.pcar__btn.is-on .pcar__num { color: #98CA55; }
+/* White, not lime: the active step already sits under the lime fill, so a lime
+   number on it was lime-on-lime — brand #98CA55 measured 2.5:1 there and even a
+   pale tint could not clear 4.5. The fill carries the "this one" cue. */
+.pcar__btn.is-on .pcar__num { color: #fff; }
 .pcar__btnTitle {
   font-size: 15px; font-weight: 700; line-height: 1.2;
   overflow-wrap: break-word;
@@ -4966,7 +4976,8 @@ a.contact-card:hover {
   display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
   overflow: hidden;
   font-size: 12.5px; line-height: 1.45;
-  color: rgba(255, 255, 255, 0.78);
+  /* 0.78 fell to 3.3:1 on the active (lime-washed) step over the roast photo. */
+  color: rgba(255, 255, 255, 0.88);
 }
 @media (min-width: 768px) { .pcar__btnDesc { font-size: 13px; } }
 
@@ -5004,7 +5015,9 @@ a.contact-card:hover {
 .pcar__bar {
   position: absolute; inset: 0;
   z-index: 0;
-  background: rgba(152, 202, 85, 0.30);
+  /* 0.30 -> 0.22: the wash lightens the plate under the text, and was the
+     single biggest reason the active step failed. Still reads as lime. */
+  background: rgba(152, 202, 85, 0.22);
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 0.35s ease-out;
