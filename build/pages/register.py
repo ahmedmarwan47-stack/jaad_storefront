@@ -5,9 +5,14 @@ password. Submitting hands off to the shared OTP page (verify.html) to verify
 the MOBILE; once verified the account is created and signed in. The email is
 NOT verified here — that is deferred to a prompt on the dashboard, since it is
 not required to start ordering.
+
+Ahmed, 2026-09-08: birthday and gender join them, both OPTIONAL — no asterisk,
+nothing gates on either, and the account is created whether or not they are
+filled. They are the same two fields the account profile form already carries,
+asked once at sign-up rather than only after the fact.
 """
 from _auth import auth_page
-from components import field, phone_field
+from components import dob_field, field, gender_field, phone_field
 
 SLUG = "register.html"
 
@@ -20,6 +25,17 @@ def build():
               </div>
 {phone_field("رقم الموبايل", "phone")}
 {field("البريد الالكتروني", "email", "email", required=True)}
+              <!-- Birthday and gender are OPTIONAL (Ahmed, 2026-09-08) and
+                   carry no asterisk, which is the only thing marking required
+                   fields on this form — so the absence of one is the signal
+                   that these two can be skipped. Neither control opens on a
+                   value: the date selects start on their unit name and no
+                   gender is pre-checked, or the form would submit answers the
+                   shopper never gave. They sit AFTER the email, i.e. after
+                   everything the account actually needs, so the required path
+                   to "إنشاء حساب" is unbroken by fields nobody has to fill. -->
+{dob_field()}
+{gender_field()}
               <label class="flex items-start gap-2 cursor-pointer">
                 <input type="checkbox" required class="mt-1 accent-ink-800 w-4 h-4" />
                 <span class="text-muted text-sm leading-6">

@@ -8,12 +8,9 @@ inputs (the "very wide inputs" complaint). The password card is gone — auth is
 passwordless now (mobile + OTP), so there is no password to change.
 """
 from _account import CUSTOMER, account_page, account_title, card
-from components import field
+from components import MONTHS, field
 
 SLUG = "my-account-profile.html"
-
-_MONTHS = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
-           "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]
 
 
 def _sel(options, selected=""):
@@ -86,7 +83,7 @@ def build():
                   <span class="font-medium text-muted text-sm">تاريخ الميلاد</span>
                   <div class="gap-3 grid grid-cols-3">
                     {_sel(range(1, 32), dob_day)}
-                    {_sel(_MONTHS, dob_month)}
+                    {_sel(MONTHS, dob_month)}
                     {_sel(range(2010, 1949, -1), dob_year)}
                   </div>
                 </div>

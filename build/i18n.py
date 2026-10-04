@@ -482,6 +482,11 @@ UI = {
         "A question or a suggestion? Write to us and we will reply soon.",
     "الخط الساخن": "Hotline",
     "واتساب": "WhatsApp",
+    # The floating chat dock's two aria-labels (chatDockHTML in scripts.js).
+    "ماسنجر": "Messenger",
+    # Unit placeholders on the date-of-birth selects (components.dob_field).
+    "شهر": "Month",
+    "سنة": "Year",
     "ابعتلنا رسالة": "Send us a message",
     "فريق خدمة العملاء جاهز يساعدك": "Our customer service team is ready to help",
     "لسه عندك سؤال؟": "Still have a question?",
