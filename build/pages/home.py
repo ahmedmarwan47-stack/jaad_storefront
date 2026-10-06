@@ -12,7 +12,7 @@ from components import (
     # already unused before that change and are left alone rather than swept up
     # in an unrelated edit.
     ICON, article_card, button, carousel, category_tile, hero_wave, page,
-    product_card, product_widget, section_heading,
+    product_card, product_widget, reviews_fan, section_heading,
 )
 
 PRODUCTS_BY_ID = {p["id"]: p for p in PRODUCTS}
@@ -85,20 +85,20 @@ CATEGORY_CARDS = [
      "shop.html", "coffee-a.png", "coffee-b.png"),
 ]
 
-# Customer Reviews — Figma node 9950:17989. (quote, name, role). The design's
+# Customer Reviews — Figma node 9950:17989. (quote, name, score out of 5). The design's
 # own copy is bakery placeholder text; these are JAAD-appropriate (coffee /
 # nuts / spices), in-house placeholder pending real testimonials.
 REVIEWS = [
     ("The coffee and nuts are always fresh and consistently good, and every order arrives quickly.",
-     "Mona Abdallah", "Loyal Customer"),
+     "Mona Abdallah", "4.8"),
     ("Their Turkish coffee is one of the best I've tried, and the packaging keeps the aroma locked in.",
-     "Ahmed Fouad", "Coffee Lover"),
+     "Ahmed Fouad", "5.0"),
     ("The spices have a strong, authentic aroma that genuinely changed my cooking — I'll order again.",
-     "Sara Mahmoud", "Home Cook"),
+     "Sara Mahmoud", "4.6"),
     ("Excellent nut selection and fair prices for the quality you get. Highly recommended.",
-     "Karim Samir", "Regular Customer"),
+     "Karim Samir", "4.7"),
     ("From the very first cup I could taste the care — rich flavor, beautiful packaging, fast delivery.",
-     "Omar Abdulrahman", "Celebrating Customer"),
+     "Omar Abdulrahman", "4.9"),
 ]
 
 # Scattered leaves for the reviews band (Figma frames under 9967) — (leaf, top%,
@@ -410,31 +410,8 @@ def build():
     # out either side of a centred, lifted, highlighted one, each neighbour
     # stepped further out and tilted the opposite way, and moving the fan slides
     # every card one place along. Light ground, and the corners are the site's
-    # own 12px rather than the component's.
-    #
-    # The avatar stays the reviewer's INITIALS. The original shows a photograph
-    # per testimonial; we have no photographs of these people, and generating
-    # faces for named customers is inventing evidence, not styling.
-    def _initials(nm):
-        parts = [w for w in nm.split() if w]
-        return (parts[0][:1] + (parts[-1][:1] if len(parts) > 1 else "")).upper()
-
-    review_cards = "".join(
-        f"""
-                <article data-rv-card data-index="{i}" class="rv__card">
-                  <span class="rv__quote" aria-hidden="true">&ldquo;</span>
-                  <p class="rv__text">{e(text)}</p>
-                  <div class="rv__who">
-                    <span class="rv__avatar latin" aria-hidden="true">{e(_initials(name))}</span>
-                    <span class="rv__whoText">
-                      <span class="rv__name">{e(name)}</span>
-                      <span class="rv__role">{e(role)}</span>
-                    </span>
-                  </div>
-                </article>"""
-        for i, (text, name, role) in enumerate(REVIEWS)
-    )
-
+    # own 12px rather than the component's. The markup is components.reviews_fan
+    # now, shared with the product page (2026-10-06).
     body = f"""
       <!-- ============================== HERO ============================== -->
       <!-- Figma node 9943:16468. Full-bleed banner: photographic background
@@ -564,36 +541,11 @@ def build():
       </section>
 
       <!-- ============================== REVIEWS ============================== -->
-      <!-- LIGHT now, and a staggered fan — see review_cards above for what this
+      <!-- LIGHT now, and a staggered fan — see the stagger note above for what this
            is a rebuild of and why it is not an npx install. The band was a dark
            green slab; on cream the cards themselves carry the section and the
            centred one is the only saturated thing in it. -->
-      <section id="reviews" class="rv relative bg-cream overflow-hidden" data-reviews>
-        <div class="relative flex flex-col items-center gap-8 mx-auto px-4 xl:px-[60px] py-16 xl:py-20 max-w-[1512px]">
-          {render_leaves(REVIEW_LEAVES)}
-
-          <div class="z-10 relative flex flex-col items-center gap-3 text-center">
-            <span class="rv__kicker">Customer Reviews</span>
-            <h2 class="font-medium text-heading text-[32px] md:text-[40px] tracking-[-0.2px]">What People Say About JAAD</h2>
-          </div>
-
-          <!-- The fan. Cards are absolutely positioned and placed by --pos,
-               --rise and --tilt (initReviewFan writes them; styles.css does the
-               arithmetic), so the whole arrangement is one transform per card. -->
-          <div class="rv__fan z-10 relative" data-rv-fan tabindex="0" role="group"
-               aria-roledescription="carousel" aria-label="Customer reviews">{review_cards}
-          </div>
-
-          <div class="rv__controls z-10 relative">
-            <button type="button" class="rv__nav" data-rv-prev aria-label="Previous review">
-              <svg viewBox="0 0 24 24" fill="none" class="w-[18px] h-[18px]"><path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="rv__nav" data-rv-next aria-label="Next review">
-              <svg viewBox="0 0 24 24" fill="none" class="w-[18px] h-[18px]"><path d="M10 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-          </div>
-        </div>
-      </section>
+      {reviews_fan(REVIEWS, "Customer Reviews", "What People Say About JAAD", leaves=render_leaves(REVIEW_LEAVES))}
 
       <!-- ============================== OUR STORY ============================== -->
       <!-- Figma node 9943:16606. Cap (heading + copy left, link right) + a

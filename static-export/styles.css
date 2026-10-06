@@ -5161,22 +5161,20 @@ html[data-btn="v3"] .rv { --rv-hi: var(--moss-lime); --rv-hi-ink: var(--moss-ink
   overflow: hidden;
 }
 .rv__card.is-center .rv__text { color: var(--rv-hi-ink); }
-.rv__who { display: flex; align-items: center; gap: 0.75rem; }
-.rv__avatar {
-  display: grid; place-items: center; flex: 0 0 auto;
-  width: 40px; height: 40px; border-radius: 10px;
-  background: rgba(152, 202, 85, 0.24);
-  color: #29612F; font-size: 14px; font-weight: 700; letter-spacing: 0.5px;
-}
-.rv__card.is-center .rv__avatar {
-  background: rgba(253, 248, 241, 0.20);
-  color: var(--rv-hi-ink);
-}
-.rv__whoText { display: flex; flex-direction: column; min-width: 0; }
+/* Name, then the reviewer's own score (Ahmed, 2026-10-06: no avatar, and the
+   "Loyal Customer" line became the rating). The star is the brand orange on
+   the white cards; on the centre card it takes the card's ink, because orange
+   on the green/orange/lime fills is the one combination that disappears. */
+.rv__who { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
 .rv__name { color: #1F4A24; font-size: 15px; font-weight: 700; }
-.rv__role { color: #5A6553; font-size: 13px; }
-.rv__card.is-center .rv__name { color: var(--rv-hi-ink); }
-.rv__card.is-center .rv__role { color: var(--rv-hi-ink); opacity: 0.78; }
+.rv__score {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  color: #5A6553; font-size: 13px; font-weight: 600;
+}
+.rv__star { display: inline-block; width: 14px; height: 14px; color: #EA983E; }
+.rv__card.is-center .rv__name,
+.rv__card.is-center .rv__score,
+.rv__card.is-center .rv__star { color: var(--rv-hi-ink); }
 
 .rv__controls { display: flex; align-items: center; gap: 0.75rem; }
 .rv__nav {
@@ -5197,6 +5195,36 @@ html[data-btn="v3"] .rv { --rv-hi: var(--moss-lime); --rv-hi-ink: var(--moss-ink
 @media (prefers-reduced-motion: reduce) {
   .rv__card { transition: opacity 0.2s linear; }
 }
+
+/* Empty review state (components.reviews_empty) — one card, about the size of
+   a single review card, in place of the fan. */
+.rv__empty {
+  position: relative; z-index: 10;
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  width: 100%; max-width: 420px;
+  padding: 2rem 1.5rem;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(41, 97, 47, 0.14);
+  box-shadow: 0 14px 30px rgba(31, 45, 20, 0.08);
+  text-align: center;
+}
+
+/* Review sheet star picker (scripts.js [data-sheet="review"]). Each star is a
+   radio inside a 44px label; initReviewForm toggles .is-on up to the hovered
+   or picked star. Grey #D2CDC4 at rest, the brand orange when on. */
+.review-star {
+  display: grid; place-items: center;
+  width: 44px; height: 44px; border-radius: 10px;
+  cursor: pointer;
+}
+.review-star__glyph {
+  display: block; width: 30px; height: 30px; color: #D2CDC4;
+  transition: color 0.15s ease-out, transform 0.15s ease-out;
+}
+.review-star.is-on .review-star__glyph { color: #EA983E; }
+.review-star:hover .review-star__glyph { transform: scale(1.1); }
+.review-star:has(input:focus-visible) { outline: 3px solid #98CA55; outline-offset: 1px; }
 
 /* Dev/preview UI-toggle panel. Parked bottom-LEFT, compact, and COLLAPSIBLE
    (Ahmed, 2026-08-19) so the review controls never sit over the design. */
