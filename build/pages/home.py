@@ -85,20 +85,20 @@ CATEGORY_CARDS = [
      "shop.html", "coffee-a.png", "coffee-b.png"),
 ]
 
-# Customer Reviews — Figma node 9950:17989. (quote, name, score out of 5). The design's
+# Customer Reviews — Figma node 9950:17989. (quote, name, whole-star score 1–5). The design's
 # own copy is bakery placeholder text; these are JAAD-appropriate (coffee /
 # nuts / spices), in-house placeholder pending real testimonials.
 REVIEWS = [
     ("The coffee and nuts are always fresh and consistently good, and every order arrives quickly.",
-     "Mona Abdallah", "4.8"),
+     "Mona Abdallah", "5"),
     ("Their Turkish coffee is one of the best I've tried, and the packaging keeps the aroma locked in.",
-     "Ahmed Fouad", "5.0"),
+     "Ahmed Fouad", "5"),
     ("The spices have a strong, authentic aroma that genuinely changed my cooking — I'll order again.",
-     "Sara Mahmoud", "4.6"),
+     "Sara Mahmoud", "4"),
     ("Excellent nut selection and fair prices for the quality you get. Highly recommended.",
-     "Karim Samir", "4.7"),
+     "Karim Samir", "5"),
     ("From the very first cup I could taste the care — rich flavor, beautiful packaging, fast delivery.",
-     "Omar Abdulrahman", "4.9"),
+     "Omar Abdulrahman", "4"),
 ]
 
 # Scattered leaves for the reviews band (Figma frames under 9967) — (leaf, top%,

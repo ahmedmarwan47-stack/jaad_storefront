@@ -2324,7 +2324,7 @@ def reviews_fan(reviews, kicker, heading, *, intro="", leaves="", label="Custome
     the first [data-rv-fan].
 
     `reviews` is [(text, name, score)]. The card is quote, text, then the name
-    with the reviewer's STAR SCORE under it (Ahmed, 2026-10-06: "remove the
+    with the reviewer's STAR SCORE (a whole number, 1–5) under it (Ahmed, 2026-10-06: "remove the
     avatar … replace that description with the rating"). The avatar and the
     "Loyal Customer" role line are gone.
 

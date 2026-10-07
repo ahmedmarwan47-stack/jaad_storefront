@@ -52,18 +52,19 @@ SPECS_POINTS = [
 # to every product page with a "Leave a review" button. (text, name, score).
 # In-house PLACEHOLDER copy like the homepage's, written to fit any product in
 # the range rather than naming one; swap for real reviews when the client has
-# them. The average beside the heading reuses the 4.8 / 126 the buy block shows.
+# them. Each score is WHOLE stars (1–5) — a single review is a star count; only
+# the average beside the heading carries a decimal. The average beside the heading reuses the 4.8 / 126 the buy block shows.
 PRODUCT_REVIEWS = [
     ("Fresh, full of flavour and packed with real care — exactly what I hoped for.",
-     "Mona Abdallah", "5.0"),
+     "Mona Abdallah", "5"),
     ("Great quality for the price. It arrived quickly and the seal kept it perfectly fresh.",
-     "Ahmed Fouad", "4.6"),
+     "Ahmed Fouad", "4"),
     ("I've ordered this three times now and it has been consistently excellent every time.",
-     "Sara Mahmoud", "4.8"),
+     "Sara Mahmoud", "5"),
     ("The aroma when you open the pack says it all. My whole family loves it.",
-     "Karim Samir", "4.7"),
+     "Karim Samir", "4"),
     ("Beautiful packaging, generous portion and a taste you can tell is natural.",
-     "Omar Abdulrahman", "4.9"),
+     "Omar Abdulrahman", "5"),
 ]
 
 
