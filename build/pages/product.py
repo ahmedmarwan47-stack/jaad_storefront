@@ -27,7 +27,7 @@ from catalog import PRODUCTS, e, in_category, money, rail_products, title, weigh
 from components import (
     ICON, accordion, best_seller_badge, button, carousel, page, page_header,
     points_callout, product_card, product_gallery, price_sticker, qty_stepper,
-    rating, size_chips, sold_proof, specs_block, bundle_item, section_heading,
+    rating, reviews_empty, reviews_fan, size_chips, sold_proof, specs_block, bundle_item, section_heading,
     scene_image,
 )
 
@@ -46,6 +46,25 @@ SPECS_POINTS = [
     "مكوّنات مختارة بعناية من مصادر موثوقة لضمان أفضل مذاق.",
     "معايير جودة ثابتة من التحضير حتى التغليف للحفاظ على الطزاجة.",
     "مثالي للتسالي اليومية أو للمشاركة مع العائلة والأصحاب.",
+]
+
+# Product-page reviews (Ahmed, 2026-10-06) — the homepage's review fan, brought
+# to every product page with a "Leave a review" button. (text, name, score).
+# In-house PLACEHOLDER copy like the homepage's, written to fit any product in
+# the range rather than naming one; swap for real reviews when the client has
+# them. Each score is WHOLE stars (1–5) — a single review is a star count; only
+# the average beside the heading carries a decimal. The average beside the heading reuses the 4.8 / 126 the buy block shows.
+PRODUCT_REVIEWS = [
+    ("Fresh, full of flavour and packed with real care — exactly what I hoped for.",
+     "Mona Abdallah", "5"),
+    ("Great quality for the price. It arrived quickly and the seal kept it perfectly fresh.",
+     "Ahmed Fouad", "4"),
+    ("I've ordered this three times now and it has been consistently excellent every time.",
+     "Sara Mahmoud", "5"),
+    ("The aroma when you open the pack says it all. My whole family loves it.",
+     "Karim Samir", "4"),
+    ("Beautiful packaging, generous portion and a taste you can tell is natural.",
+     "Omar Abdulrahman", "5"),
 ]
 
 
@@ -355,6 +374,29 @@ def _render(p):
     # Generic FAQ, same on every page — sits in the scrollable info column
     # beneath the client's benefits accordion. See FAQ_ITEMS for why it is
     # uniform rather than per-product.
+    # `"reviews": []` in catalog.json marks a product nobody has reviewed yet
+    # (Ahmed, 2026-10-06; Cumin, id 23, is the demo). It gets the empty state
+    # here, and the buy block shows no rating at all.
+    # Every other product keeps the placeholder reviews and 4.8 / 126.
+    if p.get("reviews") == []:
+        reviews_html = reviews_empty("آراء العملاء", "قالوا عن المنتج", title(p))
+        rating_html = ""
+    else:
+        reviews_html = reviews_fan(
+            PRODUCT_REVIEWS, "آراء العملاء", "قالوا عن المنتج",
+            label="آراء العملاء",
+            intro=f"""<div class="flex flex-wrap justify-center items-center gap-x-4 gap-y-3">
+                  {rating("4.8", 126)}
+                  <!-- SECONDARY (outline), not the filled CTA (Ahmed, 2026-10-06):
+                       a filled button read as one more highlighted card beside
+                       the fan's filled centre review. -->
+                  <button type="button" data-open="review" aria-haspopup="dialog"
+                          class="btn inline-flex justify-center items-center rounded-full font-semibold transition-colors px-6 py-2.5 text-sm bg-white border border-cta text-cta hover:bg-cream">
+                    اترك تقييمك</button>
+                </div>""",
+        )
+        rating_html = rating("4.8", 126)
+
     faq_html = f"""
             <div class="flex flex-col gap-2">
               <h2 class="mt-1 font-bold text-heading text-lg xl:text-xl">الأسئلة الشائعة</h2>
@@ -455,8 +497,8 @@ def _render(p):
                    not up by the yellow best-seller badge. Wraps on a narrow
                    column instead of colliding. -->
               <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
-                {rating("4.8", 126)}
-                {sold_proof(p)}
+                {rating_html}
+                {sold_proof(p, divider=bool(rating_html))}
                 {points_callout(p)}
               </div>
             </div>
@@ -562,6 +604,13 @@ def _render(p):
       </section>
 
       {story_html}
+
+      <!-- ============================ REVIEWS ============================
+           The homepage's review fan (components.reviews_fan), with the
+           average and a "Leave a review" button under the heading. The button
+           opens the [data-sheet="review"] sheet in scripts.js through the
+           site's one overlay route. -->
+      {reviews_html}
 
       <!-- =========================== MORE FROM US =========================== -->
       <section data-reveal class="py-12 xl:py-16">

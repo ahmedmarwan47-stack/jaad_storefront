@@ -1054,7 +1054,7 @@ def _sold_proof_label(p):
     return f'ضمن أفضل <span class="latin">{bucket}</span> مبيعاً {e(scope)}'
 
 
-def sold_proof(p):
+def sold_proof(p, divider=True):
     """
     The red encouragement line beside the rating.
 
@@ -1070,11 +1070,15 @@ def sold_proof(p):
     item, so they wrapped independently — with a long category name the line
     broke as "ضمن / أفضل" with the numeral stranded. `items-start` keeps the
     flame on the first line rather than centring against a two-line block.
+
+    `divider=False` drops that hairline when nothing precedes it — a product
+    with no reviews shows no rating, so the line leads the row (2026-10-06).
     """
     label = _sold_proof_label(p) or "ضمن الأكثر مبيعاً في جاد"
+    rule = ('<span aria-hidden="true" class="bg-divider mt-0.5 me-0.5 w-px h-4 self-stretch"></span>'
+            if divider else "")
     return ('<span data-sold-proof class="inline-flex items-start gap-1.5 font-semibold text-error text-sm">'
-            '<span aria-hidden="true" class="bg-divider mt-0.5 me-0.5 w-px h-4 self-stretch"></span>'
-            f'<span class="mt-0.5 w-4 h-4 shrink-0">{ICON["flame"]}</span>'
+            f'{rule}<span class="mt-0.5 w-4 h-4 shrink-0">{ICON["flame"]}</span>'
             f'<span>{label}</span></span>')
 
 
@@ -2310,6 +2314,95 @@ def review_card(name, city, text, score="4.8"):
               </span>
             </div>
           </article>"""
+
+
+def reviews_fan(reviews, kicker, heading, *, intro="", leaves="", label="Customer reviews"):
+    """The staggered review fan — the homepage band, and since 2026-10-06 the
+    product page too (Ahmed: "add that section there too"). One markup for
+    both, so the two cannot drift; initReviewFan (scripts.js) and the `.rv`
+    rules (styles.css) drive it. Only one fan per page — the script looks for
+    the first [data-rv-fan].
+
+    `reviews` is [(text, name, score)]. The card is quote, text, then the name
+    with the reviewer's STAR SCORE (a whole number, 1–5) under it (Ahmed, 2026-10-06: "remove the
+    avatar … replace that description with the rating"). The avatar and the
+    "Loyal Customer" role line are gone.
+
+    `intro` is extra markup under the heading (the product page's average and
+    its "Leave a review" button); `leaves` is the homepage's scattered leaves.
+    """
+    cards = "".join(
+        f"""
+                <article data-rv-card data-index="{i}" class="rv__card">
+                  <span class="rv__quote" aria-hidden="true">&ldquo;</span>
+                  <p class="rv__text">{e(text)}</p>
+                  <div class="rv__who">
+                    <span class="rv__name">{e(name)}</span>
+                    <span class="rv__score latin" aria-label="{e(score)} / 5">{e(score)}<span class="rv__star" aria-hidden="true">{ICON['star']}</span></span>
+                  </div>
+                </article>"""
+        for i, (text, name, score) in enumerate(reviews)
+    )
+    return f"""
+      <section id="reviews" class="rv relative bg-cream overflow-hidden" data-reviews>
+        <div class="relative flex flex-col items-center gap-8 mx-auto px-4 xl:px-[60px] py-16 xl:py-20 max-w-[1512px]">
+          {leaves}
+
+          <div class="z-10 relative flex flex-col items-center gap-3 text-center">
+            <span class="rv__kicker">{e(kicker)}</span>
+            <h2 class="font-medium text-heading text-[32px] md:text-[40px] tracking-[-0.2px]">{e(heading)}</h2>
+            {intro}
+          </div>
+
+          <!-- The fan. Cards are absolutely positioned and placed by --pos,
+               --rise and --tilt (initReviewFan writes them; styles.css does the
+               arithmetic), so the whole arrangement is one transform per card. -->
+          <div class="rv__fan z-10 relative" data-rv-fan tabindex="0" role="group"
+               aria-roledescription="carousel" aria-label="{e(label)}">{cards}
+          </div>
+
+          <div class="rv__controls z-10 relative">
+            <button type="button" class="rv__nav" data-rv-prev aria-label="Previous review">
+              <svg viewBox="0 0 24 24" fill="none" class="w-[18px] h-[18px]"><path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button type="button" class="rv__nav" data-rv-next aria-label="Next review">
+              <svg viewBox="0 0 24 24" fill="none" class="w-[18px] h-[18px]"><path d="M10 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>"""
+
+
+def reviews_empty(kicker, heading, product_name):
+    """The review section for a product with NO reviews (Ahmed, 2026-10-06).
+
+    Same id, ground, kicker and heading as reviews_fan, so the page keeps its
+    rhythm from product to product — but no fan, no arrows, and about half the
+    height: one quiet card whose only job is to get the first review, led by
+    its own JAAD 3D icon, review-empty-3d.png: an EMPTY speech bubble with a
+    star, distinct from earn-review-3d's star-filled bubble on the points page.
+    (The grey outline stars it started with were dropped.)
+    The button is the FILLED primary here; the secondary outline is only for
+    when it shares the section with the fan's filled centre card.
+    """
+    return f"""
+      <section id="reviews" class="rv relative bg-cream overflow-hidden" data-reviews data-reviews-empty>
+        <div class="relative flex flex-col items-center gap-8 mx-auto px-4 xl:px-[60px] py-16 xl:py-20 max-w-[1512px]">
+          <div class="z-10 relative flex flex-col items-center gap-3 text-center">
+            <span class="rv__kicker">{e(kicker)}</span>
+            <h2 class="font-medium text-heading text-[32px] md:text-[40px] tracking-[-0.2px]">{e(heading)}</h2>
+          </div>
+
+          <div class="rv__empty">
+            <img src="images/jaad/icons/review-empty-3d.png" alt="" width="96" height="96" class="mb-1 w-24 h-24 object-contain" />
+            <p class="font-bold text-heading text-lg">لا توجد تقييمات بعد</p>
+            <p class="text-muted text-sm leading-6"><span>كن أول من يقول رأيه في</span> <span>{e(product_name)}</span>.</p>
+            <button type="button" data-open="review" aria-haspopup="dialog"
+                    class="btn btn--primary inline-flex justify-center items-center mt-2 rounded-full font-semibold transition-colors px-6 py-3 text-sm bg-cta hover:bg-cta-hover text-white">
+              اترك تقييمك</button>
+          </div>
+        </div>
+      </section>"""
 
 
 def article_card(img, tags, meta, title_, excerpt, href="blog.html", rail=False):

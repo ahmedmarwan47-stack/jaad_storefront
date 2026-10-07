@@ -318,6 +318,8 @@
      `stroke="white"`, so it ignored both.
      --------------------------------------------------------------- */
   const ICON = {
+    // Same star as components.ICON["star"] — the review sheet's rating.
+    star: '<svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.44 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95L12 2.6Z"/></svg>',
     account:
       '<svg viewBox="0 0 29 29" fill="none" class="w-full h-full"><path d="M4.47 22.96C7.43 21.29 10.85 20.33 14.5 20.33s7.07.96 10.03 2.63M18.88 11.58a4.38 4.38 0 1 1-8.75 0 4.38 4.38 0 0 1 8.75 0ZM27.63 14.5A13.13 13.13 0 1 1 1.38 14.5a13.13 13.13 0 0 1 26.25 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     search:
@@ -2238,6 +2240,53 @@
       <p data-share-url dir="ltr" class="bg-cream mt-5 px-3 py-2.5 rounded-xl overflow-hidden text-muted text-xs text-start text-ellipsis whitespace-nowrap latin"></p>
     </div>
 
+    <!-- Review sheet (Ahmed, 2026-10-06) — opened from "Leave a review" in the
+         product page's review section. Same .bottom-sheet--modal shell as
+         every other sheet: a bottom sheet under xl, a centred dialog from xl.
+
+         The stars are five radios, so the rating is one keyboard-reachable
+         group (arrows move it) and a real form value; initReviewForm paints
+         the glyphs up to the hovered/picked one. DEMO like the voucher and
+         points sheets: submitting validates, thanks the shopper and keeps
+         nothing — there is no review backend behind this static build. -->
+    <div data-sheet="review" class="bottom-sheet bottom-sheet--modal" role="dialog" aria-modal="true" aria-labelledby="review-sheet-title">
+      <div class="xl:hidden bg-neutral-200 mx-auto mb-4 rounded-full w-10 h-1"></div>
+      <div class="flex justify-between items-center mb-4">
+        <h2 id="review-sheet-title" class="font-bold text-ink text-lg">${esc(t("اكتب تقييمك"))}</h2>
+        <button type="button" data-close class="place-items-center grid hover:bg-cream rounded-full w-9 h-9 -me-1.5 text-ink" aria-label="إغلاق"><span class="w-5 h-5">${ICON.close}</span></button>
+      </div>
+      <form data-review-form novalidate class="flex flex-col gap-4">
+        <fieldset class="flex flex-col gap-2">
+          <legend class="mb-2 font-semibold text-ink text-sm">${esc(t("تقييمك"))}</legend>
+          <div class="review-stars flex items-center gap-1" data-review-stars>
+            ${[1, 2, 3, 4, 5]
+              .map(
+                (n) => `
+            <label class="review-star" data-review-star="${n}">
+              <input type="radio" name="rating" value="${n}" class="sr-only" />
+              <span class="sr-only">${n} / 5</span>
+              <span class="review-star__glyph" aria-hidden="true">${ICON.star}</span>
+            </label>`,
+              )
+              .join("")}
+          </div>
+          <p data-review-error hidden class="font-semibold text-error text-xs">${esc(t("اختار عدد النجوم الأول"))}</p>
+        </fieldset>
+        <label class="block">
+          <span class="block mb-2 font-semibold text-ink text-sm">${esc(t("رأيك في المنتج"))}</span>
+          <textarea name="comment" rows="4" maxlength="600" placeholder="${esc(t("احكيلنا إيه اللي عجبك في المنتج…"))}"
+                    class="bg-white px-4 py-3 border border-divider focus:border-cta rounded-2xl outline-none w-full text-ink text-sm placeholder:text-muted transition-colors resize-none"></textarea>
+        </label>
+        <button type="submit" class="bg-cta hover:bg-cta-hover mt-1 py-3 rounded-full w-full font-semibold text-white text-sm transition-colors">${esc(t("إرسال التقييم"))}</button>
+      </form>
+      <div data-review-done hidden class="flex flex-col items-center gap-3 py-4 text-center">
+        <span class="w-12 h-12 text-[#EA983E]" aria-hidden="true">${ICON.star}</span>
+        <p class="font-bold text-ink text-base">${esc(t("شكراً على تقييمك!"))}</p>
+        <p class="text-muted text-sm">${esc(t("رأيك بيساعد غيرك يختار صح."))}</p>
+        <button type="button" data-close class="bg-cta hover:bg-cta-hover mt-2 py-3 rounded-full w-full font-semibold text-white text-sm transition-colors">${esc(t("تم"))}</button>
+      </div>
+    </div>
+
     <div id="toast-container"></div>`;
   }
 
@@ -2259,6 +2308,7 @@
     voucherActivate: '[data-sheet="voucherActivate"]',
     pointsRedeem: '[data-sheet="pointsRedeem"]',
     share: '[data-sheet="share"]',
+    review: '[data-sheet="review"]',
   };
   let openEl = null;
 
@@ -2273,6 +2323,7 @@
     const backdrop = document.querySelector("[data-backdrop]");
     if (!el) return;
     if (key === "share") prepareShare(el, trigger);
+    if (key === "review") resetReviewForm(el);
     openEl = el;
     el.classList.add("is-open");
     if (backdrop) backdrop.classList.add("is-open");
@@ -7783,6 +7834,62 @@
     shareCopyReset(sheet);
   }
 
+  /* ---------------------------------------------------------------
+     Review sheet (Ahmed, 2026-10-06) — see the [data-sheet="review"]
+     markup. The stars are radios; this only paints them (hover previews,
+     the checked one sticks) and handles the demo submit.
+     --------------------------------------------------------------- */
+  function paintReviewStars(sheet, upto) {
+    sheet.querySelectorAll("[data-review-star]").forEach((s) => {
+      s.classList.toggle("is-on", Number(s.dataset.reviewStar) <= upto);
+    });
+  }
+
+  function checkedRating(sheet) {
+    const c = sheet.querySelector('input[name="rating"]:checked');
+    return c ? Number(c.value) : 0;
+  }
+
+  function resetReviewForm(sheet) {
+    const form = sheet.querySelector("[data-review-form]");
+    if (!form) return;
+    form.reset();
+    form.hidden = false;
+    sheet.querySelector("[data-review-done]").hidden = true;
+    sheet.querySelector("[data-review-error]").hidden = true;
+    paintReviewStars(sheet, 0);
+  }
+
+  function initReviewForm() {
+    const sheet = document.querySelector('[data-sheet="review"]');
+    if (!sheet) return;
+    const form = sheet.querySelector("[data-review-form]");
+    const stars = sheet.querySelector("[data-review-stars]");
+    const error = sheet.querySelector("[data-review-error]");
+
+    stars.addEventListener("pointerover", (e) => {
+      const s = e.target.closest("[data-review-star]");
+      if (s) paintReviewStars(sheet, Number(s.dataset.reviewStar));
+    });
+    stars.addEventListener("pointerleave", () => paintReviewStars(sheet, checkedRating(sheet)));
+    stars.addEventListener("change", () => {
+      error.hidden = true;
+      paintReviewStars(sheet, checkedRating(sheet));
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!checkedRating(sheet)) {
+        error.hidden = false;
+        const first = stars.querySelector("input");
+        if (first) first.focus();
+        return;
+      }
+      form.hidden = true;
+      sheet.querySelector("[data-review-done]").hidden = false;
+    });
+  }
+
   function initShare() {
     document.addEventListener("click", (e) => {
       /* A network tile navigates on its own (target=_blank), so the sheet has
@@ -10251,6 +10358,7 @@
     // keep watching for icons injected later (drawer, recent rail).
     initStoryCarousel();
     initReviewFan();
+    initReviewForm();
     initIconConcepts();
   }
 
